@@ -7,6 +7,8 @@ using AllInSkateChallenge.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using AllInSkateChallenge.Services;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 namespace AllInSkateChallenge
 {
@@ -23,7 +25,7 @@ namespace AllInSkateChallenge
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer( Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false).AddEntityFrameworkStores<ApplicationDbContext>();
+            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
             services.AddRazorPages();
 
@@ -57,6 +59,9 @@ namespace AllInSkateChallenge
                 options.AccessDeniedPath = "/Identity/Account/AccessDenied";
                 options.SlidingExpiration = true;
             });
+
+            services.Configure<EmailSettings>(options => Configuration.GetSection("EmailSettings").Bind(options));
+            services.AddTransient<IEmailSender, EmailSenderService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
