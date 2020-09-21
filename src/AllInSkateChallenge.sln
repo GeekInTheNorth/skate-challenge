@@ -5,6 +5,10 @@ VisualStudioVersion = 16.0.30413.136
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AllInSkateChallenge", "AllInSkateChallenge\AllInSkateChallenge.csproj", "{AB127882-4938-44FC-B0EB-B3AFF1C1A2CC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AllInSkateChallenge.Features", "AllInSkateChallenge.Features\AllInSkateChallenge.Features.csproj", "{D6BCB95F-DD74-4397-B9AA-E1B6194A3658}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AllInSkateChallenge.Test", "AllInSkateChallenge.Test\AllInSkateChallenge.Test.csproj", "{231868D5-02ED-492E-BA2D-55317BFEF15F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{AB127882-4938-44FC-B0EB-B3AFF1C1A2CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AB127882-4938-44FC-B0EB-B3AFF1C1A2CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AB127882-4938-44FC-B0EB-B3AFF1C1A2CC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D6BCB95F-DD74-4397-B9AA-E1B6194A3658}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D6BCB95F-DD74-4397-B9AA-E1B6194A3658}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D6BCB95F-DD74-4397-B9AA-E1B6194A3658}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D6BCB95F-DD74-4397-B9AA-E1B6194A3658}.Release|Any CPU.Build.0 = Release|Any CPU
+		{231868D5-02ED-492E-BA2D-55317BFEF15F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{231868D5-02ED-492E-BA2D-55317BFEF15F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{231868D5-02ED-492E-BA2D-55317BFEF15F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{231868D5-02ED-492E-BA2D-55317BFEF15F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
