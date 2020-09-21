@@ -69,3 +69,32 @@ body {
   white-space: nowrap;
   line-height: 60px; /* Vertically center the text there */
 }
+
+span.leaderboard-position {
+    border-radius: 50%;
+    width: 3rem;
+    height: 3rem;
+    border: 2px solid black;
+    text-align: center;
+    font-size: 1.5em;
+    display: inline-block;
+    background-color: #CCCCCC;
+}
+
+span.leaderboard-position--first {
+    border: 2px solid #FDD017;
+    background-color: #FEE128;
+}
+
+span.leaderboard-position--second {
+    border: 2px solid #C0C0C0;
+    background-color: #D1D1D1;
+}
+span.leaderboard-position--third {
+    border: 2px solid #CD7F32;
+    background-color: #DE8F43;
+}
+
+img.leaderboard-profile{
+    border-radius: 50%;
+}

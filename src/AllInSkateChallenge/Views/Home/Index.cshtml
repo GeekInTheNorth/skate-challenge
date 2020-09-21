@@ -1,8 +1,49 @@
-﻿@{
+﻿@model AllInSkateChallenge.Features.Home.HomePageViewModel
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
+@functions{
+    string GetPositionClass(int position)
+    {
+        switch(position)
+        {
+            case 1:
+                return "leaderboard-position leaderboard-position--first";
+            case 2:
+                return "leaderboard-position leaderboard-position--second";
+            case 3:
+                return "leaderboard-position leaderboard-position--third";
+            default:
+                return "leaderboard-position";
+        }
+    }
+}
+
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1 class="display-4">Welcome to the All In Skate Challenge</h1>
 </div>
+
+@if (Model.LeaderBoard != null && Model.LeaderBoard.Entries != null && Model.LeaderBoard.Entries.Any())
+{
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Skater</th>
+                <th scope="col">Total Distance</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var entry in Model.LeaderBoard.Entries)
+            {
+                <tr>
+                    <td><span class="@GetPositionClass(entry.Place)">@entry.Place</span></td>
+                    <td><img class="leaderboard-profile" src="@entry.GravatarUrl?s=48" alt="@entry.Name" /> @entry.Name</td>
+                    <td>@entry.TotalMiles.ToString("F2") miles</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

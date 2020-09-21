@@ -9,6 +9,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using AllInSkateChallenge.Services;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using AllInSkateChallenge.Features.Gravatar;
+using AllInSkateChallenge.Features.LeaderBoard;
+using AllInSkateChallenge.Features.Home;
 
 namespace AllInSkateChallenge
 {
@@ -62,6 +65,10 @@ namespace AllInSkateChallenge
 
             services.Configure<EmailSettings>(options => Configuration.GetSection("EmailSettings").Bind(options));
             services.AddTransient<IEmailSender, EmailSenderService>();
+
+            services.AddTransient<IGravatarResolver, GravatarResolver>();
+            services.AddTransient<ILeaderBoardQuery, LeaderBoardQuery>();
+            services.AddTransient<IHomePageViewModelBuilder, HomePageViewModelBuilder>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

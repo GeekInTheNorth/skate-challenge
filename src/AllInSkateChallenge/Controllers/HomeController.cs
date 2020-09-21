@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using AllInSkateChallenge.Models;
+using AllInSkateChallenge.Features.Home;
 
 namespace AllInSkateChallenge.Controllers
 {
@@ -13,14 +10,19 @@ namespace AllInSkateChallenge.Controllers
     {
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        private readonly IHomePageViewModelBuilder viewModelBuilder;
+
+        public HomeController(ILogger<HomeController> logger, IHomePageViewModelBuilder viewModelBuilder)
         {
             _logger = logger;
+            this.viewModelBuilder = viewModelBuilder;
         }
 
         public IActionResult Index()
         {
-            return View();
+            var model = viewModelBuilder.Build();
+
+            return View(model);
         }
 
         public IActionResult Privacy()
