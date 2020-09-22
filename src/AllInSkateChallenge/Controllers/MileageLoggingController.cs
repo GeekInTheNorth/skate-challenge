@@ -1,9 +1,10 @@
 ﻿using AllInSkateChallenge.Features.MileageLogging;
-
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AllInSkateChallenge.Controllers
 {
+    [Authorize]
     public class MileageLoggingController : Controller
     {
         public IActionResult Index()
