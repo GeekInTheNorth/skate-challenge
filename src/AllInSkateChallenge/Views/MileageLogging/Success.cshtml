@@ -1,0 +1,24 @@
+﻿@using AllInSkateChallenge.Features.MileageLogging; 
+@model AllInSkateChallenge.Features.MileageLogging.MileageLoggingEntryModel
+
+@functions { 
+    string GetDistanceString()
+    {
+        switch (Model.DistanceUnit)
+        {
+            case DistanceUnit.Kilometres:
+                return string.Format("{0:F2} kilometres", Model.Distance);
+            case DistanceUnit.Miles:
+                return string.Format("{0:F2} miles", Model.Distance);
+            default:
+                throw new Exception("Invalid Distance Unit");
+        }
+    }
+}
+
+<div class="alert alert-success mt-5" role="alert">
+    <h4 class="alert-heading">Well done!</h4>
+    <p>Congratulations on completing @GetDistanceString().</p>
+    <hr>
+    <p class="mb-0">Why not take a look at your updated profile now?</p>
+</div>
