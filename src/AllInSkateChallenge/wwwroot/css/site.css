@@ -98,3 +98,8 @@ span.leaderboard-position--third {
 img.leaderboard-profile{
     border-radius: 50%;
 }
+
+img.hero-banner{
+    border-radius: 10px;
+    max-width: 100%;
+}
