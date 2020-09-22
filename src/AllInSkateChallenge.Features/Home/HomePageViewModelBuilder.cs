@@ -1,4 +1,5 @@
 ﻿using AllInSkateChallenge.Features.LeaderBoard;
+using AllInSkateChallenge.Features.Updates;
 
 namespace AllInSkateChallenge.Features.Home
 {
@@ -7,16 +8,20 @@ namespace AllInSkateChallenge.Features.Home
     {
         private readonly ILeaderBoardQuery leaderBoardQuery;
 
-        public HomePageViewModelBuilder(ILeaderBoardQuery leaderBoardQuery)
+        private readonly ILatestUpdatesQuery latestUpdatesQuery;
+
+        public HomePageViewModelBuilder(ILeaderBoardQuery leaderBoardQuery, ILatestUpdatesQuery latestUpdatesQuery)
         {
             this.leaderBoardQuery = leaderBoardQuery;
+            this.latestUpdatesQuery = latestUpdatesQuery;
         }
 
         public HomePageViewModel Build()
         {
             return new HomePageViewModel
             {
-                LeaderBoard = leaderBoardQuery.Get()
+                LeaderBoard = leaderBoardQuery.Get(),
+                LatestUpdates = latestUpdatesQuery.Get()
             };
         }
     }

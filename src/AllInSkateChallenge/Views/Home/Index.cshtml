@@ -1,13 +1,13 @@
 ﻿@model AllInSkateChallenge.Features.Home.HomePageViewModel
 
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Home";
 }
 
 @functions{
     string GetPositionClass(int position)
     {
-        switch(position)
+        switch (position)
         {
             case 1:
                 return "leaderboard-position leaderboard-position--first";
@@ -25,25 +25,54 @@
     <h1 class="display-4">Welcome to the All In Skate Challenge</h1>
 </div>
 
-@if (Model.LeaderBoard != null && Model.LeaderBoard.Entries != null && Model.LeaderBoard.Entries.Any())
-{
-    <table class="table">
-        <thead class="thead-dark">
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">Skater</th>
-                <th scope="col">Total Distance</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var entry in Model.LeaderBoard.Entries)
-            {
-                <tr>
-                    <td><span class="@GetPositionClass(entry.Place)">@entry.Place</span></td>
-                    <td><img class="leaderboard-profile" src="@entry.GravatarUrl?s=48" alt="@entry.Name" /> @entry.Name</td>
-                    <td>@entry.TotalMiles.ToString("F2") miles</td>
-                </tr>
-            }
-        </tbody>
-    </table>
-}
+<div class="row">
+    @if (Model.LeaderBoard != null && Model.LeaderBoard.Entries != null && Model.LeaderBoard.Entries.Any())
+    {
+        <div class="col-lg-6">
+            <table class="table">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Skater</th>
+                        <th scope="col">Total Distance</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var entry in Model.LeaderBoard.Entries)
+                    {
+                        <tr>
+                            <td class="align-middle"><span class="@GetPositionClass(entry.Place)">@entry.Place</span></td>
+                            <td class="align-middle"><img class="leaderboard-profile" src="@entry.GravatarUrl?s=48" alt="@entry.Name" /> @entry.Name</td>
+                            <td class="align-middle">@entry.TotalMiles.ToString("F2") miles</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+
+    @if (Model.LatestUpdates != null && Model.LatestUpdates.Entries != null && Model.LatestUpdates.Entries.Any())
+    {
+        <div class="col-lg-6">
+            <table class="table">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Skater</th>
+                        <th scope="col">Logged</th>
+                        <th scope="col">Total Distance</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var entry in Model.LatestUpdates.Entries)
+                    {
+                        <tr>
+                            <td class="align-middle"><img class="leaderboard-profile" src="@entry.GravatarUrl?s=48" alt="@entry.Skater" /> @entry.Skater</td>
+                            <td class="align-middle">@entry.Logged.ToString("dd/MM/yyyy HH:mm")</td>
+                            <td class="align-middle">@entry.Miles.ToString("F2") miles</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>

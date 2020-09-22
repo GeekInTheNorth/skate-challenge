@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using AllInSkateChallenge.Features.Gravatar;
 using AllInSkateChallenge.Features.LeaderBoard;
 using AllInSkateChallenge.Features.Home;
+using AllInSkateChallenge.Features.Updates;
 
 namespace AllInSkateChallenge
 {
@@ -68,6 +69,7 @@ namespace AllInSkateChallenge
 
             services.AddTransient<IGravatarResolver, GravatarResolver>();
             services.AddTransient<ILeaderBoardQuery, LeaderBoardQuery>();
+            services.AddTransient<ILatestUpdatesQuery, LatestUpdatesQuery>();
             services.AddTransient<IHomePageViewModelBuilder, HomePageViewModelBuilder>();
         }
 
