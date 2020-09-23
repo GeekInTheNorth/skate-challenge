@@ -7,7 +7,7 @@ using Microsoft.Extensions.Options;
 
 using MimeKit;
 
-namespace AllInSkateChallenge.Services
+namespace AllInSkateChallenge.Features.Services.Email
 {
     public class EmailSenderService : IEmailSender
     {

@@ -3,16 +3,16 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
-using AllInSkateChallenge.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using AllInSkateChallenge.Services;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using AllInSkateChallenge.Features.Gravatar;
 using AllInSkateChallenge.Features.LeaderBoard;
 using AllInSkateChallenge.Features.Home;
 using AllInSkateChallenge.Features.Updates;
+using AllInSkateChallenge.Features.Services.Email;
+using AllInSkateChallenge.Features.Data;
 
 namespace AllInSkateChallenge
 {
@@ -51,6 +51,8 @@ namespace AllInSkateChallenge
                 // User settings.
                 options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
                 options.User.RequireUniqueEmail = true;
+
+                options.SignIn.RequireConfirmedAccount = true;
             });
 
             services.ConfigureApplicationCookie(options =>

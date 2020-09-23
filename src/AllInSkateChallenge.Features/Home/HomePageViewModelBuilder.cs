@@ -3,7 +3,6 @@ using AllInSkateChallenge.Features.Updates;
 
 namespace AllInSkateChallenge.Features.Home
 {
-
     public class HomePageViewModelBuilder : IHomePageViewModelBuilder
     {
         private readonly ILeaderBoardQuery leaderBoardQuery;

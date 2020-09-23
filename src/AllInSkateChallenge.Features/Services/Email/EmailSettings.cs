@@ -1,4 +1,4 @@
-﻿namespace AllInSkateChallenge.Services
+﻿namespace AllInSkateChallenge.Features.Services.Email
 {
     public class EmailSettings
     {
