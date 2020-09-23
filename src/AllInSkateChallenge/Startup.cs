@@ -13,6 +13,7 @@ using AllInSkateChallenge.Features.Home;
 using AllInSkateChallenge.Features.Updates;
 using AllInSkateChallenge.Features.Services.Email;
 using AllInSkateChallenge.Features.Data;
+using AllInSkateChallenge.Features.MileageLogging;
 
 namespace AllInSkateChallenge
 {
@@ -73,6 +74,9 @@ namespace AllInSkateChallenge
             services.AddTransient<ILeaderBoardQuery, LeaderBoardQuery>();
             services.AddTransient<ILatestUpdatesQuery, LatestUpdatesQuery>();
             services.AddTransient<IHomePageViewModelBuilder, HomePageViewModelBuilder>();
+
+            // Data
+            services.AddTransient<IMileageLoggingRepository, MileageLoggingRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -13,5 +13,31 @@ namespace AllInSkateChallenge.Features.MileageLogging
 
         [DataType(DataType.Url)]
         public string ExerciseUrl { get; set; }
+
+        public decimal DistanceMiles
+        {
+            get
+            {
+                if (DistanceUnit.Equals(DistanceUnit.Miles))
+                {
+                    return Distance;
+                }
+
+                return Distance / 1.60934M;
+            }
+        }
+
+        public decimal DistanceKilometres
+        {
+            get
+            {
+                if (DistanceUnit.Equals(DistanceUnit.Kilometres))
+                {
+                    return Distance;
+                }
+
+                return Distance * 1.60934M;
+            }
+        }
     }
 }
