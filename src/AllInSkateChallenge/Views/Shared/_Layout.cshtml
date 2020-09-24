@@ -6,12 +6,13 @@
     <title>@ViewData["Title"] - ALL IN Skate Challenge</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    <meta name="robots" content="noindex, nofollow" />
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow sticky-top">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">All In Skate Challenge</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">ALL IN Skate Challenge</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -32,11 +33,10 @@
                 </div>
             </div>
         </nav>
+        <img src="~/images/AllInSkateMap.png" alt="All In Community Roller Derby banner." class="hero-banner" />
     </header>
-    <div class="container text-center">
-        <img src="~/images/AllInSmall.png" alt="All In Community Roller Derby banner." class="hero-banner" />
-    </div>
-    <div class="container">
+
+    <div class="container mt-3">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
