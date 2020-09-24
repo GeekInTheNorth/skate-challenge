@@ -7,9 +7,9 @@ namespace AllInSkateChallenge.Features.LeaderBoard
 {
     public class LeaderBoardQuery : ILeaderBoardQuery
     {
-        private readonly IGravatarResolver gravatarResolver;
-
         private readonly ApplicationDbContext context;
+
+        private readonly IGravatarResolver gravatarResolver;
 
         public LeaderBoardQuery(
             ApplicationDbContext context,

@@ -1,38 +1,45 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Linq;
 
+using AllInSkateChallenge.Features.Data;
 using AllInSkateChallenge.Features.Gravatar;
 
 namespace AllInSkateChallenge.Features.Updates
 {
     public class LatestUpdatesQuery : ILatestUpdatesQuery
     {
+        private readonly ApplicationDbContext context;
+
         private readonly IGravatarResolver gravatarResolver;
 
-        public LatestUpdatesQuery(IGravatarResolver gravatarResolver)
+        public LatestUpdatesQuery(ApplicationDbContext context, IGravatarResolver gravatarResolver)
         {
+            this.context = context;
             this.gravatarResolver = gravatarResolver;
         }
 
         public MileageUpdateModel Get(int maximum = 10)
         {
-            var now = DateTime.Now;
+            var userMilageEntries = from mileageEntry in context.MileageEntries
+                                    join user in context.Users on mileageEntry.UserId.ToString() equals user.Id into userJoin
+                                    from nullableUser in userJoin.DefaultIfEmpty()
+                                    orderby mileageEntry.Logged descending
+                                    select new
+                                    {
+                                        MileageEntry = mileageEntry,
+                                        User = nullableUser
+                                    };
+
+            var results = userMilageEntries.Take(maximum).ToList();
 
             return new MileageUpdateModel
             {
-                Entries = new List<MileageUpdateEntryModel> 
+                Entries = results.Select(x => new MileageUpdateEntryModel
                 {
-                    new MileageUpdateEntryModel { Logged = now.AddMinutes(-1), Skater = "Joe Bloggs", GravatarUrl = gravatarResolver.GetGravatarUrl("joe.bloggs@example.com"), Miles = 4.5M },
-                    new MileageUpdateEntryModel { Logged = now.AddHours(-2), Skater = "Joe Bloggs", GravatarUrl = gravatarResolver.GetGravatarUrl("joe.bloggs@example.com"), Miles = 4.5M },
-                    new MileageUpdateEntryModel { Logged = now.AddHours(-3), Skater = "Joe Bloggs", GravatarUrl = gravatarResolver.GetGravatarUrl("joe.bloggs@example.com"), Miles = 4.5M },
-                    new MileageUpdateEntryModel { Logged = now.AddHours(-4), Skater = "Joe Bloggs", GravatarUrl = gravatarResolver.GetGravatarUrl("joe.bloggs@example.com"), Miles = 4.5M },
-                    new MileageUpdateEntryModel { Logged = now.AddHours(-5), Skater = "Joe Bloggs", GravatarUrl = gravatarResolver.GetGravatarUrl("joe.bloggs@example.com"), Miles = 4.5M },
-                    new MileageUpdateEntryModel { Logged = now.AddHours(-6), Skater = "Joe Bloggs", GravatarUrl = gravatarResolver.GetGravatarUrl("joe.bloggs@example.com"), Miles = 4.5M },
-                    new MileageUpdateEntryModel { Logged = now.AddHours(-7), Skater = "Joe Bloggs", GravatarUrl = gravatarResolver.GetGravatarUrl("joe.bloggs@example.com"), Miles = 4.5M },
-                    new MileageUpdateEntryModel { Logged = now.AddHours(-8), Skater = "Joe Bloggs", GravatarUrl = gravatarResolver.GetGravatarUrl("joe.bloggs@example.com"), Miles = 4.5M },
-                    new MileageUpdateEntryModel { Logged = now.AddHours(-9), Skater = "Joe Bloggs", GravatarUrl = gravatarResolver.GetGravatarUrl("joe.bloggs@example.com"), Miles = 4.5M },
-                    new MileageUpdateEntryModel { Logged = now.AddHours(-10), Skater = "Joe Bloggs", GravatarUrl = gravatarResolver.GetGravatarUrl("joe.bloggs@example.com"), Miles = 4.5M }
-                }
+                    Logged = x.MileageEntry.Logged,
+                    Miles = x.MileageEntry.Miles,
+                    GravatarUrl = gravatarResolver.GetGravatarUrl(x.User?.Email),
+                    Skater = x.User?.UserName ?? "Private Skater",
+                }).ToList()
             };
         }
     }
