@@ -1,5 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System.Linq;
 
+using AllInSkateChallenge.Features.Data;
 using AllInSkateChallenge.Features.Gravatar;
 
 namespace AllInSkateChallenge.Features.LeaderBoard
@@ -8,28 +9,48 @@ namespace AllInSkateChallenge.Features.LeaderBoard
     {
         private readonly IGravatarResolver gravatarResolver;
 
-        public LeaderBoardQuery(IGravatarResolver gravatarResolver)
+        private readonly ApplicationDbContext context;
+
+        public LeaderBoardQuery(
+            ApplicationDbContext context,
+            IGravatarResolver gravatarResolver)
         {
+            this.context = context;
             this.gravatarResolver = gravatarResolver;
         }
 
         public LeaderBoardModel Get()
         {
+            var distanceTotals = from entries in context.MileageEntries
+                                 group entries by entries.UserId into userEntries
+                                 select new
+                                 {
+                                     UserId = userEntries.Key,
+                                     TotalMiles = userEntries.Sum(x => x.Miles),
+                                     TotalKilometres = userEntries.Sum(x => x.Kilometres)
+                                 };
+
+            var userMilageEntries = from distanceTotal in distanceTotals
+                                    join user in context.Users on distanceTotal.UserId.ToString() equals user.Id into userJoin
+                                    from nullableUser in userJoin.DefaultIfEmpty()
+                                    orderby distanceTotal.TotalMiles descending
+                                    select new
+                                    {
+                                        Distance = distanceTotal,
+                                        User = nullableUser
+                                    };
+
+            var results = userMilageEntries.Take(10).ToList();
+
             return new LeaderBoardModel
             {
-                Entries = new List<LeaderBoardEntryModel>
+                Entries = results.Select((x, i) => new LeaderBoardEntryModel
                 {
-                    new LeaderBoardEntryModel { Place = 1, GravatarUrl = gravatarResolver.GetGravatarUrl("joebloggs@example.com"), Name = "Joe Bloggs", TotalMiles = 1000 },
-                    new LeaderBoardEntryModel { Place = 2, GravatarUrl = gravatarResolver.GetGravatarUrl("joebloggs@example.com"), Name = "Joe Bloggs", TotalMiles = 900 },
-                    new LeaderBoardEntryModel { Place = 3, GravatarUrl = gravatarResolver.GetGravatarUrl("joebloggs@example.com"), Name = "Joe Bloggs", TotalMiles = 800 },
-                    new LeaderBoardEntryModel { Place = 4, GravatarUrl = gravatarResolver.GetGravatarUrl("joebloggs@example.com"), Name = "Joe Bloggs", TotalMiles = 700 },
-                    new LeaderBoardEntryModel { Place = 5, GravatarUrl = gravatarResolver.GetGravatarUrl("joebloggs@example.com"), Name = "Joe Bloggs", TotalMiles = 600 },
-                    new LeaderBoardEntryModel { Place = 6, GravatarUrl = gravatarResolver.GetGravatarUrl("joebloggs@example.com"), Name = "Joe Bloggs", TotalMiles = 500 },
-                    new LeaderBoardEntryModel { Place = 7, GravatarUrl = gravatarResolver.GetGravatarUrl("joebloggs@example.com"), Name = "Joe Bloggs", TotalMiles = 400 },
-                    new LeaderBoardEntryModel { Place = 8, GravatarUrl = gravatarResolver.GetGravatarUrl("joebloggs@example.com"), Name = "Joe Bloggs", TotalMiles = 300 },
-                    new LeaderBoardEntryModel { Place = 9, GravatarUrl = gravatarResolver.GetGravatarUrl("joebloggs@example.com"), Name = "Joe Bloggs", TotalMiles = 200 },
-                    new LeaderBoardEntryModel { Place = 999, GravatarUrl = gravatarResolver.GetGravatarUrl("joebloggs@example.com"), Name = "Joe Bloggs", TotalMiles = 100 }
-                }
+                    Place = i + 1,
+                    GravatarUrl = gravatarResolver.GetGravatarUrl(x.User?.Email),
+                    Name = x.User?.UserName ?? "Private Skater",
+                    TotalMiles = x.Distance.TotalMiles
+                }).ToList()
             };
         }
     }
