@@ -14,6 +14,7 @@ using AllInSkateChallenge.Features.Updates;
 using AllInSkateChallenge.Features.Services.Email;
 using AllInSkateChallenge.Features.Data;
 using AllInSkateChallenge.Features.MileageLogging;
+using AllInSkateChallenge.Features.Data.Entities;
 
 namespace AllInSkateChallenge
 {
@@ -30,7 +31,7 @@ namespace AllInSkateChallenge
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer( Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ApplicationDbContext>();
+            services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
             services.AddRazorPages();
 

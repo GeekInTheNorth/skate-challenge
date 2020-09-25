@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AllInSkateChallenge.Features.Data
 {
-    public class ApplicationDbContext : IdentityDbContext
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public DbSet<MileageEntry> MileageEntries { get; set; }
 
