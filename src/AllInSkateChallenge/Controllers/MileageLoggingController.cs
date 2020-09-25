@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using AllInSkateChallenge.Features.Data.Entities;
 using AllInSkateChallenge.Features.MileageLogging;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -9,11 +10,11 @@ namespace AllInSkateChallenge.Controllers
     [Authorize]
     public class MileageLoggingController : Controller
     {
-        private readonly UserManager<IdentityUser> userManager;
+        private readonly UserManager<ApplicationUser> userManager;
 
         private readonly IMileageLoggingRepository repository;
 
-        public MileageLoggingController(UserManager<IdentityUser> userManager, IMileageLoggingRepository repository)
+        public MileageLoggingController(UserManager<ApplicationUser> userManager, IMileageLoggingRepository repository)
         {
             this.userManager = userManager;
             this.repository = repository;

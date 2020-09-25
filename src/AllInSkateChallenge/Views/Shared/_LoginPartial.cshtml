@@ -1,12 +1,14 @@
 ﻿@using Microsoft.AspNetCore.Identity
-@inject SignInManager<IdentityUser> SignInManager
-@inject UserManager<IdentityUser> UserManager
+@inject SignInManager<AllInSkateChallenge.Features.Data.Entities.ApplicationUser> SignInManager
+@inject UserManager<AllInSkateChallenge.Features.Data.Entities.ApplicationUser> UserManager
 
 <ul class="navbar-nav">
 @if (SignInManager.IsSignedIn(User))
 {
+    var userDetails = await UserManager.GetUserAsync(User);
+
     <li class="nav-item">
-        <a  class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity.Name!</a>
+        <a  class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @userDetails.SkaterName</a>
     </li>
     <li class="nav-item">
         <a class="nav-link text-dark" asp-controller="MileageLogging" asp-action="Index" title="Log Miles">Log Miles</a>

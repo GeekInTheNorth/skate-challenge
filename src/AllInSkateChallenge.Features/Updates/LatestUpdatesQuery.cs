@@ -38,7 +38,7 @@ namespace AllInSkateChallenge.Features.Updates
                     Logged = x.MileageEntry.Logged,
                     Miles = x.MileageEntry.Miles,
                     GravatarUrl = gravatarResolver.GetGravatarUrl(x.User?.Email),
-                    Skater = x.User?.UserName ?? "Private Skater",
+                    Skater = x.User?.SkaterName ?? "Private Skater",
                 }).ToList()
             };
         }
