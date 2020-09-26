@@ -15,6 +15,7 @@ using AllInSkateChallenge.Features.Services.Email;
 using AllInSkateChallenge.Features.Data;
 using AllInSkateChallenge.Features.MileageLogging;
 using AllInSkateChallenge.Features.Data.Entities;
+using AllInSkateChallenge.Features.Data.Static;
 
 namespace AllInSkateChallenge
 {
@@ -78,6 +79,7 @@ namespace AllInSkateChallenge
 
             // Data
             services.AddTransient<IMileageLoggingRepository, MileageLoggingRepository>();
+            services.AddTransient<ICheckPointRepository, CheckPointRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
