@@ -104,3 +104,118 @@ img.hero-banner{
     margin-left: auto;
     margin-right:auto;
 }
+
+.timeline, .timeline-container, .timeline-content {
+    box-sizing: border-box;
+}
+
+.timeline {
+    position: relative;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.timeline::after {
+    content: '';
+    position: absolute;
+    width: 6px;
+    background-color: cornflowerblue;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    margin-left: -3px;
+}
+
+.timeline-container {
+    padding: 10px 40px;
+    position: relative;
+    background-color: inherit;
+    width: 50%;
+}
+
+.timeline-container::after {
+    content: '';
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    right: -12px;
+    background-color: #F7BC0C;
+    border: 4px solid #F76420;
+    top: 15px;
+    border-radius: 50%;
+    z-index: 1;
+}
+
+.timeline-container--left {
+    left: 0;
+}
+
+.timeline-container--right {
+    left: 50%;
+}
+
+.timeline-container--left::before {
+    content: " ";
+    height: 0;
+    position: absolute;
+    top: 22px;
+    width: 0;
+    z-index: 1;
+    right: 30px;
+    border: medium solid #8ABC2D;
+    border-width: 10px 0 10px 10px;
+    border-color: transparent transparent transparent #8ABC2D;
+}
+
+.timeline-container--right::before {
+    content: " ";
+    height: 0;
+    position: absolute;
+    top: 22px;
+    width: 0;
+    z-index: 1;
+    left: 30px;
+    border: medium solid #8ABC2D;
+    border-width: 10px 10px 10px 0;
+    border-color: transparent #8ABC2D transparent transparent;
+}
+
+.timeline-container--right::after {
+    left: -12px;
+}
+
+.timeline-content {
+    padding: 20px 30px;
+    background-color: #8ABC2D;
+    position: relative;
+    border-radius: 6px;
+}
+
+@media screen and (max-width: 700px) {
+    .timeline::after {
+        left: 31px;
+    }
+
+    .timeline-container {
+        width: 100%;
+        padding-left: 70px;
+        padding-right: 25px;
+    }
+
+    .timeline-container::before {
+        left: 60px;
+        border: medium solid #8ABC2D;
+        border-width: 10px 10px 10px 0;
+        border-color: transparent #8ABC2D transparent transparent;
+    }
+
+    /* Make sure all circles are at the same spot */
+    .timeline-container--left::after, .timeline-container--right::after {
+        left: 15px;
+    }
+
+    /* Make all right containers behave like the left ones */
+    .timeline-container--right {
+        left: 0%;
+    }
+}

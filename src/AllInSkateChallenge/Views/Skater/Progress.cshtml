@@ -1,0 +1,24 @@
+﻿@model AllInSkateChallenge.Features.Skater.Progress.SkaterProgressViewModel
+
+<div class="text-center">
+    <h1>@Model.Title</h1>
+</div>
+
+@if (Model.CheckPointsReached != null && Model.CheckPointsReached.Any())
+{
+    var isLeft = false;
+    <div class="timeline">
+        @foreach (var checkPoint in Model.CheckPointsReached)
+        {
+            isLeft = !isLeft;
+            var alignmentClass = isLeft ? "timeline-container--left" : "timeline-container--right";
+            <div class="timeline-container @alignmentClass">
+                <div class="timeline-content">
+                    <h2>@checkPoint.Title</h2>
+                    <p>@checkPoint.Distance.ToString("F2") miles</p>
+                    <p>@checkPoint.Description</p>
+                </div>
+            </div>
+        }
+    </div>
+}

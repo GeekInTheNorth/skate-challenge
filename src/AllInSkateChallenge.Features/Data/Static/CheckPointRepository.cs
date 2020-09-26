@@ -116,7 +116,7 @@ namespace AllInSkateChallenge.Features.Data.Static
                     Longitude = -2.994955M,
                     Latitude = 53.403282M
                 }
-            }
+            };
         }
     }
 }

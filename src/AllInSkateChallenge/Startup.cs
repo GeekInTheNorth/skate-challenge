@@ -16,6 +16,7 @@ using AllInSkateChallenge.Features.Data;
 using AllInSkateChallenge.Features.MileageLogging;
 using AllInSkateChallenge.Features.Data.Entities;
 using AllInSkateChallenge.Features.Data.Static;
+using AllInSkateChallenge.Features.Skater.Progress;
 
 namespace AllInSkateChallenge
 {
@@ -76,10 +77,12 @@ namespace AllInSkateChallenge
             services.AddTransient<ILeaderBoardQuery, LeaderBoardQuery>();
             services.AddTransient<ILatestUpdatesQuery, LatestUpdatesQuery>();
             services.AddTransient<IHomePageViewModelBuilder, HomePageViewModelBuilder>();
+            services.AddTransient<ISkaterProgressViewModelBuilder, SkaterProgressViewModelBuilder>();
 
             // Data
             services.AddTransient<IMileageLoggingRepository, MileageLoggingRepository>();
             services.AddTransient<ICheckPointRepository, CheckPointRepository>();
+            services.AddTransient<ISkaterSummaryRepository, SkaterSummaryRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
