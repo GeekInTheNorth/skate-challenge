@@ -8,6 +8,13 @@
 {
     var isLeft = false;
     <div class="timeline">
+        <div class="timeline-container-header">
+            <div class="timeline-content-header">
+                <h2>Distance Travelled</h2>
+                <p>You have skated @Model.MilesSkated.ToString("F2") of the required 127.50 miles.</p>
+            </div>
+        </div>
+
         @foreach (var checkPoint in Model.CheckPointsReached)
         {
             isLeft = !isLeft;
@@ -20,5 +27,12 @@
                 </div>
             </div>
         }
+
+        <div class="timeline-container-header">
+            <div class="timeline-content-header">
+                <h2>@Model.NextCheckPoint.Title</h2>
+                <p>@Model.NextCheckPoint.Description</p>
+            </div>
+        </div>
     </div>
 }

@@ -43,7 +43,16 @@ namespace AllInSkateChallenge.Features.Skater.Progress
             if (nextCheckPoint != null)
             {
                 var distanceToNextCheckpoint = nextCheckPoint.Distance - totalDistance;
-                model.NextCheckPointDescription = $"You have to skate a further {distanceToNextCheckpoint:F2} miles to reach {nextCheckPoint.Title}.";
+                model.NextCheckPoint = new CheckPointModel
+                {
+                    Title = "Your Next Checkpoint",
+                    Description = $"You have to skate a further {distanceToNextCheckpoint:F2} miles to reach {nextCheckPoint.Title}."
+                };
+            }
+            else
+            {
+                model.NextCheckPoint = model.CheckPointsReached.Last();
+                model.CheckPointsReached.Remove(model.NextCheckPoint);
             }
 
             return model;

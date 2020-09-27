@@ -2,72 +2,75 @@
 for details on configuring this project to bundle and minify static web assets. */
 
 a.navbar-brand {
-  white-space: normal;
-  text-align: center;
-  word-break: break-all;
+    white-space: normal;
+    text-align: center;
+    word-break: break-all;
 }
 
 /* Provide sufficient contrast against white background */
 a {
-  color: #0366d6;
+    color: #0366d6;
 }
 
 .btn-primary {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
 }
 
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
 }
 
 /* Sticky footer styles
 -------------------------------------------------- */
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
+
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
 
 .border-top {
-  border-top: 1px solid #e5e5e5;
+    border-top: 1px solid #e5e5e5;
 }
+
 .border-bottom {
-  border-bottom: 1px solid #e5e5e5;
+    border-bottom: 1px solid #e5e5e5;
 }
 
 .box-shadow {
-  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+    box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
 }
 
 button.accept-policy {
-  font-size: 1rem;
-  line-height: inherit;
+    font-size: 1rem;
+    line-height: inherit;
 }
 
 /* Sticky footer styles
 -------------------------------------------------- */
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
-  /* Margin bottom by footer height */
-  margin-bottom: 60px;
+    /* Margin bottom by footer height */
+    margin-bottom: 60px;
 }
+
 .footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  white-space: nowrap;
-  line-height: 60px; /* Vertically center the text there */
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    white-space: nowrap;
+    line-height: 60px; /* Vertically center the text there */
 }
 
 span.leaderboard-position {
@@ -90,19 +93,20 @@ span.leaderboard-position--second {
     border: 2px solid #C0C0C0;
     background-color: #D1D1D1;
 }
+
 span.leaderboard-position--third {
     border: 2px solid #CD7F32;
     background-color: #DE8F43;
 }
 
-img.leaderboard-profile{
+img.leaderboard-profile {
     border-radius: 50%;
 }
 
-img.hero-banner{
+img.hero-banner {
     max-width: 100%;
     margin-left: auto;
-    margin-right:auto;
+    margin-right: auto;
 }
 
 .timeline, .timeline-container, .timeline-content {
@@ -120,13 +124,13 @@ img.hero-banner{
     position: absolute;
     width: 6px;
     background-color: cornflowerblue;
-    top: 0;
-    bottom: 0;
+    top: 12px;
+    bottom: 12px;
     left: 50%;
     margin-left: -3px;
 }
 
-.timeline-container {
+.timeline-container, .timeline-container-header {
     padding: 10px 40px;
     position: relative;
     background-color: inherit;
@@ -141,7 +145,7 @@ img.hero-banner{
     right: -12px;
     background-color: #F7BC0C;
     border: 4px solid #F76420;
-    top: 15px;
+    top: 18px;
     border-radius: 50%;
     z-index: 1;
 }
@@ -184,11 +188,16 @@ img.hero-banner{
     left: -12px;
 }
 
-.timeline-content {
+.timeline-content, .timeline-content-header {
     padding: 20px 30px;
     background-color: #8ABC2D;
     position: relative;
     border-radius: 6px;
+}
+
+.timeline-container-header {
+    left: 25%;
+    z-index: 100;
 }
 
 @media screen and (max-width: 700px) {
@@ -196,10 +205,15 @@ img.hero-banner{
         left: 31px;
     }
 
-    .timeline-container {
+    .timeline-container, .timeline-container-header {
         width: 100%;
         padding-left: 70px;
         padding-right: 25px;
+    }
+
+    .timeline-container-header {
+        left: 0;
+        z-index: 100;
     }
 
     .timeline-container::before {
@@ -211,7 +225,7 @@ img.hero-banner{
 
     /* Make sure all circles are at the same spot */
     .timeline-container--left::after, .timeline-container--right::after {
-        left: 15px;
+        left: 18px;
     }
 
     /* Make all right containers behave like the left ones */

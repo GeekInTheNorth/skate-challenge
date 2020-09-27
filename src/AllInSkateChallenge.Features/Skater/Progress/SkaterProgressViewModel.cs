@@ -12,6 +12,6 @@ namespace AllInSkateChallenge.Features.Skater.Progress
         
         public List<CheckPointModel> CheckPointsReached { get; set; }
 
-        public string NextCheckPointDescription { get; set; }
+        public CheckPointModel NextCheckPoint { get; set; }
     }
 }
