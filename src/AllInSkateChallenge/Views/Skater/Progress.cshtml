@@ -24,6 +24,15 @@
                     <h2>@checkPoint.Title</h2>
                     <p>@checkPoint.Distance.ToString("F2") miles</p>
                     <p>@checkPoint.Description</p>
+                    <p>
+                        Links:
+                        <a href="http://www.google.com/maps/place/@checkPoint.Latitude,@checkPoint.Longitude?zoom=1" target="_blank" class="timeline-link">Map</a>
+                        @if (!string.IsNullOrWhiteSpace(checkPoint.Url))
+                        {
+                            <a href="@checkPoint.Url" target="_blank" class="timeline-link">Website</a>
+                        }
+                    </p>
+                    
                 </div>
             </div>
         }
@@ -31,7 +40,19 @@
         <div class="timeline-container-header">
             <div class="timeline-content-header">
                 <h2>@Model.NextCheckPoint.Title</h2>
+                @if (Model.NextCheckPoint.Distance != 0)
+                {
+                    <p>@Model.NextCheckPoint.Distance.ToString("F2") miles</p>
+                }
                 <p>@Model.NextCheckPoint.Description</p>
+                <p>
+                    Links:
+                    <a href="http://www.google.com/maps/place/@Model.NextCheckPoint.Latitude,@Model.NextCheckPoint.Longitude?zoom=1" target="_blank" class="timeline-link">Map</a>
+                    @if (!string.IsNullOrWhiteSpace(Model.NextCheckPoint.Url))
+                    {
+                        <a href="@Model.NextCheckPoint.Url" target="_blank" class="timeline-link">Website</a>
+                    }
+                </p>
             </div>
         </div>
     </div>

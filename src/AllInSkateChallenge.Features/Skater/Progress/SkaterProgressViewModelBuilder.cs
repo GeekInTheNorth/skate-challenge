@@ -46,7 +46,10 @@ namespace AllInSkateChallenge.Features.Skater.Progress
                 model.NextCheckPoint = new CheckPointModel
                 {
                     Title = "Your Next Checkpoint",
-                    Description = $"You have to skate a further {distanceToNextCheckpoint:F2} miles to reach {nextCheckPoint.Title}."
+                    Description = $"You have to skate a further {distanceToNextCheckpoint:F2} miles to reach {nextCheckPoint.Title}.",
+                    Longitude = nextCheckPoint.Longitude,
+                    Latitude = nextCheckPoint.Latitude,
+                    Url = nextCheckPoint.Url
                 };
             }
             else
