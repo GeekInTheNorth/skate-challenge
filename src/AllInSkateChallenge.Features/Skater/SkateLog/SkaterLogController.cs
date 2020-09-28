@@ -1,5 +1,5 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+
 using AllInSkateChallenge.Features.Data.Entities;
 using AllInSkateChallenge.Features.Skater;
 using AllInSkateChallenge.Features.Skater.SkateLog;
@@ -40,27 +40,14 @@ namespace AllInSkateChallenge.Controllers
         }
 
         [HttpPost]
-        [Route("skater/skate-log")]
         [Route("skater/skate-log/delete")]
-        public async Task<IActionResult> Index(int mileageEntryId)
+        public async Task<IActionResult> Delete(int mileageEntryId)
         {
             var user = await userManager.GetUserAsync(User);
-            var deleteState = SkateLogDeleteState.None;
+            
+            await repository.DeleteAsync(user, mileageEntryId);
 
-            try
-            {
-                await repository.DeleteAsync(mileageEntryId);
-                deleteState = SkateLogDeleteState.Success;
-            }
-            catch (Exception)
-            {
-                deleteState = SkateLogDeleteState.Success;
-            }
-
-            var model = viewModelBuilder.WithUser(user).Build();
-            model.DeleteState = deleteState;
-
-            return View("~/Views/Skater/Log.cshtml", model);
+            return Ok();
         }
     }
 }

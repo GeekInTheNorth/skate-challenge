@@ -14,6 +14,6 @@ namespace AllInSkateChallenge.Features.Skater
 
         Task SaveAsync(ApplicationUser skater, MileageLoggingEntryModel entry);
 
-        Task DeleteAsync(int mileageEntryId);
+        Task DeleteAsync(ApplicationUser skater, int mileageEntryId);
     }
 }

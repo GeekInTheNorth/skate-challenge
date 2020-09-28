@@ -47,9 +47,10 @@ namespace AllInSkateChallenge.Features.Skater
             await context.SaveChangesAsync();
         }
 
-        public async Task DeleteAsync(int mileageEntryId)
+        public async Task DeleteAsync(ApplicationUser skater, int mileageEntryId)
         {
-            var itemToDelete = context.MileageEntries.FirstOrDefault(x => x.MileageEntryId.Equals(mileageEntryId));
+            var userId = new Guid(skater.Id);
+            var itemToDelete = context.MileageEntries.FirstOrDefault(x => x.MileageEntryId.Equals(mileageEntryId) && x.UserId.Equals(userId));
 
             if (itemToDelete != null)
             {

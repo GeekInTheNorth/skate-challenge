@@ -9,8 +9,10 @@ $(document).ready(function () {
     });
 
     $(".js-confirm-mileage-entry").click(function (event) {
+        var rowSelector = "tr[data-entry-id='" + $(event.target).data("entry-id") + "']";
         $.post("/skater/skate-log/delete", { "mileageEntryId": $(event.target).data("entry-id") })
-            .done(function () { })
-            .fail(function () { });
+            .done(function () {
+                $(rowSelector).remove();
+            });
     });
 });

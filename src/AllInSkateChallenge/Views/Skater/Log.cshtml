@@ -15,7 +15,7 @@
     <tbody>
         @foreach(var entry in Model.Entries)
         {
-            <tr>
+            <tr class="js-mileage-entry-row" data-entry-id="@entry.MileageEntryId">
                 <td class="align-middle">@entry.Logged.ToString("dd/MM/yyyy HH:mm")</td>
                 <td class="align-middle">@entry.Miles.ToString("F2") miles</td>
                 <td class="align-middle js-action-delete-column">
