@@ -13,10 +13,11 @@ using AllInSkateChallenge.Features.Home;
 using AllInSkateChallenge.Features.Updates;
 using AllInSkateChallenge.Features.Services.Email;
 using AllInSkateChallenge.Features.Data;
-using AllInSkateChallenge.Features.MileageLogging;
 using AllInSkateChallenge.Features.Data.Entities;
 using AllInSkateChallenge.Features.Data.Static;
 using AllInSkateChallenge.Features.Skater.Progress;
+using AllInSkateChallenge.Features.Skater;
+using AllInSkateChallenge.Features.Skater.SkateLog;
 
 namespace AllInSkateChallenge
 {
@@ -63,7 +64,7 @@ namespace AllInSkateChallenge
             {
                 // Cookie settings
                 options.Cookie.HttpOnly = true;
-                options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(15);
 
                 options.LoginPath = "/Identity/Account/Login";
                 options.AccessDeniedPath = "/Identity/Account/AccessDenied";
@@ -78,11 +79,11 @@ namespace AllInSkateChallenge
             services.AddTransient<ILatestUpdatesQuery, LatestUpdatesQuery>();
             services.AddTransient<IHomePageViewModelBuilder, HomePageViewModelBuilder>();
             services.AddTransient<ISkaterProgressViewModelBuilder, SkaterProgressViewModelBuilder>();
+            services.AddTransient<ISkaterLogViewModelBuilder, SkaterLogViewModelBuilder>();
 
             // Data
-            services.AddTransient<IMileageLoggingRepository, MileageLoggingRepository>();
             services.AddTransient<ICheckPointRepository, CheckPointRepository>();
-            services.AddTransient<ISkaterSummaryRepository, SkaterSummaryRepository>();
+            services.AddTransient<ISkaterMileageEntriesRepository, SkaterMileageEntriesRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

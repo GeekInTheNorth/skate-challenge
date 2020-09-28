@@ -1,25 +1,28 @@
 ﻿using System.Threading.Tasks;
+
 using AllInSkateChallenge.Features.Data.Entities;
-using AllInSkateChallenge.Features.MileageLogging;
+using AllInSkateChallenge.Features.Skater;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
-namespace AllInSkateChallenge.Controllers
+namespace AllInSkateChallenge.Features.Skater.MileageLogging
 {
     [Authorize]
     public class MileageLoggingController : Controller
     {
         private readonly UserManager<ApplicationUser> userManager;
 
-        private readonly IMileageLoggingRepository repository;
+        private readonly ISkaterMileageEntriesRepository repository;
 
-        public MileageLoggingController(UserManager<ApplicationUser> userManager, IMileageLoggingRepository repository)
+        public MileageLoggingController(UserManager<ApplicationUser> userManager, ISkaterMileageEntriesRepository repository)
         {
             this.userManager = userManager;
             this.repository = repository;
         }
 
+        [Route("skater/skate-log/add")]
         public IActionResult Index()
         {
             var model = new MileageLoggingEntryModel();
@@ -29,7 +32,8 @@ namespace AllInSkateChallenge.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Index([FromForm]MileageLoggingEntryModel mileageEntry)
+        [Route("skater/skate-log/add")]
+        public async Task<IActionResult> Index([FromForm] MileageLoggingEntryModel mileageEntry)
         {
             if (!TryValidateModel(mileageEntry, nameof(MileageLoggingEntryModel)))
             {

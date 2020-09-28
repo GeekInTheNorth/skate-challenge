@@ -1,4 +1,4 @@
-﻿namespace AllInSkateChallenge.Features.MileageLogging
+﻿namespace AllInSkateChallenge.Features.Skater
 {
     public enum DistanceUnit
     {

@@ -9,26 +9,26 @@ namespace AllInSkateChallenge.Features.Skater.Progress
     {
         private readonly ICheckPointRepository checkPointRepository;
 
-        private readonly ISkaterSummaryRepository skaterSummaryRepository;
+        private readonly ISkaterMileageEntriesRepository skaterSummaryRepository;
 
-        private ApplicationUser applicationUser;
+        private ApplicationUser skater;
 
-        public SkaterProgressViewModelBuilder(ICheckPointRepository checkPointRepository, ISkaterSummaryRepository skaterSummaryRepository)
+        public SkaterProgressViewModelBuilder(ICheckPointRepository checkPointRepository, ISkaterMileageEntriesRepository skaterSummaryRepository)
         {
             this.checkPointRepository = checkPointRepository;
             this.skaterSummaryRepository = skaterSummaryRepository;
         }
 
-        public ISkaterProgressViewModelBuilder WithUser(ApplicationUser applicationUser)
+        public ISkaterProgressViewModelBuilder WithUser(ApplicationUser skater)
         {
-            this.applicationUser = applicationUser;
+            this.skater = skater;
 
             return this;
         }
 
         public SkaterProgressViewModel Build()
         {
-            var totalDistance = skaterSummaryRepository.GetTotalDistance(applicationUser);
+            var totalDistance = skaterSummaryRepository.GetTotalDistance(skater);
             var checkPoints = checkPointRepository.Get();
             var checkPointsReached = checkPoints.Where(x => x.Distance <= totalDistance).OrderBy(x => x.Distance);
             var nextCheckPoint = checkPoints.Where(x => x.Distance > totalDistance).OrderBy(x => x.Distance).FirstOrDefault();

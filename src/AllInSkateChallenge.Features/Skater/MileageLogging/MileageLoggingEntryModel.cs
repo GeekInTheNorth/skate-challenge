@@ -1,6 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace AllInSkateChallenge.Features.MileageLogging
+using AllInSkateChallenge.Features.Skater;
+
+namespace AllInSkateChallenge.Features.Skater.MileageLogging
 {
     public class MileageLoggingEntryModel
     {
