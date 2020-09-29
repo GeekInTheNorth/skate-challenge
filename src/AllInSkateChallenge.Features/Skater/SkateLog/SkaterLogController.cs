@@ -49,5 +49,27 @@ namespace AllInSkateChallenge.Controllers
 
             return Ok();
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Route("skater/skate-log")]
+        public async Task<IActionResult> Index([FromForm] SkaterLogViewModel mileageEntry)
+        {
+            var user = await userManager.GetUserAsync(User);
+
+            if (!TryValidateModel(mileageEntry, nameof(SkaterLogViewModel)))
+            {
+                var model = viewModelBuilder.WithUser(user).WithNewEntry(mileageEntry).Build();
+
+                return View("~/Views/Skater/Log.cshtml", model);
+            }
+            else
+            {
+                await repository.SaveAsync(user, mileageEntry);
+                var model = viewModelBuilder.WithUser(user).Build();
+
+                return View("~/Views/Skater/Log.cshtml", model);
+            }
+        }
     }
 }

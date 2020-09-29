@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 
 using AllInSkateChallenge.Features.Data.Entities;
-using AllInSkateChallenge.Features.Skater.MileageLogging;
 
 namespace AllInSkateChallenge.Features.Skater
 {
@@ -12,7 +11,7 @@ namespace AllInSkateChallenge.Features.Skater
 
         decimal GetTotalDistance(ApplicationUser skater);
 
-        Task SaveAsync(ApplicationUser skater, MileageLoggingEntryModel entry);
+        Task SaveAsync(ApplicationUser skater, INewSkaterLogEntry entry);
 
         Task DeleteAsync(ApplicationUser skater, int mileageEntryId);
     }

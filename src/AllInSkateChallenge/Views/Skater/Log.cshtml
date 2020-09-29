@@ -1,8 +1,11 @@
-﻿@model AllInSkateChallenge.Features.Skater.SkateLog.SkaterLogViewModel
+﻿@using AllInSkateChallenge.Features.Skater;
+@model AllInSkateChallenge.Features.Skater.SkateLog.SkaterLogViewModel
 
 <div class="text-center">
     <h1>Your Skate Log</h1>
 </div>
+
+<button type="button" class="btn btn-primary js-add-mileage-entry mt-3 mb-3">+ Create New Mileage Entry</button>
 
 <table class="table table-striped">
     <thead class="thead-dark">
@@ -40,8 +43,44 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-danger js-confirm-mileage-entry">Delete</button>
+                <button type="button" class="btn btn-danger js-confirm-delete-mileage-entry">Delete</button>
             </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="addEntryModal" tabindex="-1" role="dialog" aria-labelledby="saveEntryLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="saveEntryLabel">Create Mileage Entry</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form method="post" asp-controller="SkaterLog" asp-action="Index" asp-antiforgery="true">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="distanceUnit">Miles or Kilometres?</label>
+                        @Html.DropDownListFor(m => m.DistanceUnit, new SelectList(Enum.GetValues(typeof(DistanceUnit))), null, new { @class = "form-control", aria_describedby = "distanceUnitHelp" })
+                        <small id="distanceUnitHelp" class="form-text text-muted">Distance can be logged in miles or kilometres, but will be converted into miles.</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="distance">Distance this session</label>
+                        @Html.TextBoxFor(m => m.Distance, null, new { @type = "number", @class = "form-control", aria_describedby = "distanceHelp", step = "0.01", min = "0", max = "1000" })
+                        <small id="distanceHelp" class="form-text text-muted">Partial miles or kilometres can be entered by typing a decimal value e.g. 4.5.</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="exerciseUrl">Exercise Tracker Url</label>
+                        @Html.TextBoxFor(m => m.ExerciseUrl, null, new { @type = "url", @class = "form-control", aria_describedby = "exerciseUrlHelp" })
+                        <small id="exerciseUrlHelp" class="form-text text-muted">Some exercise trackers allow you to share a link to your exercise, you can paste that link here.</small>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary js-confirm-create-mileage-entry">Create</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>

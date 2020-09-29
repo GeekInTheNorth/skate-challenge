@@ -1,10 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
-using AllInSkateChallenge.Features.Skater;
-
-namespace AllInSkateChallenge.Features.Skater.MileageLogging
+namespace AllInSkateChallenge.Features.Skater.SkateLog
 {
-    public class MileageLoggingEntryModel
+
+    public partial class SkaterLogViewModel : INewSkaterLogEntry
     {
         [Required]
         public DistanceUnit DistanceUnit { get; set; }

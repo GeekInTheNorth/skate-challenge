@@ -10,9 +10,18 @@ namespace AllInSkateChallenge.Features.Skater.SkateLog
 
         private ApplicationUser skater;
 
+        private INewSkaterLogEntry newEntry;
+
         public SkaterLogViewModelBuilder(ISkaterMileageEntriesRepository repository)
         {
             this.repository = repository;
+        }
+
+        public ISkaterLogViewModelBuilder WithNewEntry(INewSkaterLogEntry newEntry)
+        {
+            this.newEntry = newEntry;
+
+            return this;
         }
 
         public ISkaterLogViewModelBuilder WithUser(ApplicationUser skater)
@@ -30,7 +39,9 @@ namespace AllInSkateChallenge.Features.Skater.SkateLog
             {
                 TotalMiles = entries.Sum(x => x.Miles),
                 Entries = entries,
-                DeleteState = SkateLogDeleteState.None
+                DistanceUnit = newEntry?.DistanceUnit ?? DistanceUnit.Miles,
+                Distance = newEntry?.Distance ?? 0,
+                ExerciseUrl = newEntry?.ExerciseUrl
             };
         }
     }

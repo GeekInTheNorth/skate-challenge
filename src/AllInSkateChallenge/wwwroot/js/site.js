@@ -4,15 +4,20 @@
 // Write your JavaScript code.
 $(document).ready(function () {
     $(".js-delete-mileage-entry").click(function (event) {
-        $(".js-confirm-mileage-entry").data("entry-id", ($(event.target).data("entry-id")));
+        $(".js-confirm-delete-mileage-entry").data("entry-id", ($(event.target).data("entry-id")));
         $("#deleteEntryModal").modal({ keyboard: true, focus: true });
     });
 
-    $(".js-confirm-mileage-entry").click(function (event) {
+    $(".js-confirm-delete-mileage-entry").click(function (event) {
         var rowSelector = "tr[data-entry-id='" + $(event.target).data("entry-id") + "']";
         $.post("/skater/skate-log/delete", { "mileageEntryId": $(event.target).data("entry-id") })
             .done(function () {
                 $(rowSelector).remove();
+                $("#deleteEntryModal").modal('hide');
             });
+    });
+
+    $(".js-add-mileage-entry").click(function () {
+        $("#addEntryModal").modal({ keyboard: true, focus: true });
     });
 });
