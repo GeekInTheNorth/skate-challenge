@@ -1,6 +1,6 @@
 ﻿@{ 
-    var smallImage = Url.Content("~/images/AllInSmall.png");
-    var largeImage = Url.Content("~/images/AllInSkateMap.png");
+    var smallImage = Url.Content("~/images/AllInSkateChallengeBannerSmall.png");
+    var largeImage = Url.Content("~/images/AllInSkateChallengeBanner.png");
 }
 
 <!DOCTYPE html>
@@ -39,7 +39,7 @@
             </div>
         </nav>
         <picture>
-            <source media="(orientation: landscape)" srcset="@smallImage 160w, @largeImage 821w" />
+            <source media="(orientation: landscape)" srcset="@smallImage 100w, @largeImage 800w" />
             <img src="@smallImage" alt="All In Community Roller Derby banner." class="hero-banner" />
         </picture>
     </header>
