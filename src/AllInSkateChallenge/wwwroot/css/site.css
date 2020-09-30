@@ -118,6 +118,10 @@ img.hero-banner {
     background-color: #8ABC2D;
 }
 
+.border-allin-green {
+    border-color: #8ABC2D;
+}
+
 /* Time Line
 -------------------------------------------------- */
 .timeline, .timeline-container, .timeline-content {

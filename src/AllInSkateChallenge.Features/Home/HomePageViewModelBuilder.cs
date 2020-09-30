@@ -1,4 +1,5 @@
-﻿using AllInSkateChallenge.Features.LeaderBoard;
+﻿using AllInSkateChallenge.Features.Data.Entities;
+using AllInSkateChallenge.Features.LeaderBoard;
 using AllInSkateChallenge.Features.Updates;
 
 namespace AllInSkateChallenge.Features.Home
@@ -9,19 +10,34 @@ namespace AllInSkateChallenge.Features.Home
 
         private readonly ILatestUpdatesQuery latestUpdatesQuery;
 
+        private ApplicationUser skater;
+
         public HomePageViewModelBuilder(ILeaderBoardQuery leaderBoardQuery, ILatestUpdatesQuery latestUpdatesQuery)
         {
             this.leaderBoardQuery = leaderBoardQuery;
             this.latestUpdatesQuery = latestUpdatesQuery;
         }
 
+        public IHomePageViewModelBuilder WithUser(ApplicationUser skater)
+        {
+            this.skater = skater;
+
+            return this;
+        }
+
         public HomePageViewModel Build()
         {
-            return new HomePageViewModel
+            var model = new HomePageViewModel();
+
+            model.ShowSignUpPromotion = skater == null;
+
+            if (skater != null)
             {
-                LeaderBoard = leaderBoardQuery.Get(),
-                LatestUpdates = latestUpdatesQuery.Get()
-            };
+                model.LeaderBoard = leaderBoardQuery.Get();
+                model.LatestUpdates = latestUpdatesQuery.Get();
+            }
+
+            return model;
         }
     }
 }

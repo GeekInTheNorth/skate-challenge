@@ -1,26 +1,30 @@
 ﻿using System.Diagnostics;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using AllInSkateChallenge.Models;
-using AllInSkateChallenge.Features.Home;
+using System.Threading.Tasks;
 
-namespace AllInSkateChallenge.Controllers
+using AllInSkateChallenge.Features.Data.Entities;
+
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+
+namespace AllInSkateChallenge.Features.Home
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-
         private readonly IHomePageViewModelBuilder viewModelBuilder;
 
-        public HomeController(ILogger<HomeController> logger, IHomePageViewModelBuilder viewModelBuilder)
+        private readonly UserManager<ApplicationUser> userManager;
+
+        public HomeController(IHomePageViewModelBuilder viewModelBuilder, UserManager<ApplicationUser> userManager)
         {
-            _logger = logger;
             this.viewModelBuilder = viewModelBuilder;
+            this.userManager = userManager;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var model = viewModelBuilder.Build();
+            var skater = await userManager.GetUserAsync(User);
+
+            var model = viewModelBuilder.WithUser(skater).Build();
 
             return View(model);
         }

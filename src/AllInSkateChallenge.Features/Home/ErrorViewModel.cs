@@ -1,6 +1,4 @@
-using System;
-
-namespace AllInSkateChallenge.Models
+namespace AllInSkateChallenge.Features.Home
 {
     public class ErrorViewModel
     {

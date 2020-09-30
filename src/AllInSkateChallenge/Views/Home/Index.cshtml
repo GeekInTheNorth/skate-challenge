@@ -22,9 +22,24 @@
 }
 
 <div class="row">
-    <div class="col-xl-12 text-center">
-        <h1 class="display-4">Welcome to the ALL IN Skate Challenge</h1>
+    <div class="col-xl-12">
+        <div class="text-center">
+            <h1 class="display-4">Welcome to the ALL IN Skate Challenge</h1>
+        </div>
         <p>The ALL IN Skate Challenge is to skate the equivelent of the Leeds Liverpool Canal over the period of one month. 75 skaters have now taken up the challenge and skated a collective 1200 miles.</p>
+
+        @if (Model.ShowSignUpPromotion)
+        {
+            <div class="card mt-3 mb-3 border-allin-green">
+                <h5 class="card-header bg-allin-green">Register for the Skate Challenge</h5>
+                <div class="card-body">
+                    <p class="card-text">Register now to join the ALL IN Skate Challenge and begin your virtual journey along the Leeds Liverpool Canal.</p>
+                    <p class="card-text">We understand that 127.5 miles is a long distance to commit to, we have worked on a number of shorter distances along the Leeds Liverpool Canal if you wish to commit to a short distance.</p>
+                    <a class="btn btn-primary" asp-area="Identity" asp-page="/Account/Register">Register as a new challenger</a>
+                </div>
+            </div>
+        }
+
         <img src="~/images/AllInSkateMapOnly.png" style="max-width: 100%;" />
     </div>
 </div>
