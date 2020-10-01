@@ -1,0 +1,50 @@
+﻿@model AllInSkateChallenge.Features.LeaderBoard.LeaderBoardModel
+
+@functions{
+    string GetPositionClass(int position)
+    {
+        switch (position)
+        {
+            case 1:
+                return "leaderboard-position leaderboard-position--first";
+            case 2:
+                return "leaderboard-position leaderboard-position--second";
+            case 3:
+                return "leaderboard-position leaderboard-position--third";
+            default:
+                return "leaderboard-position";
+        }
+    }
+}
+
+<div class="text-center">
+    <h1>Leader Board</h1>
+</div>
+
+<div class="row mt-3">
+    @if (Model.Entries != null && Model.Entries.Any())
+    {
+        <div class="col-xl-12">
+            <h2>Leaderboard</h2>
+            <table class="table">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Skater</th>
+                        <th scope="col">Total Distance</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var entry in Model.Entries)
+                    {
+                        <tr>
+                            <td class="align-middle"><span class="@GetPositionClass(entry.Place)">@entry.Place</span></td>
+                            <td class="align-middle"><img class="leaderboard-profile" src="@entry.GravatarUrl?s=48" alt="@entry.Name" /> @entry.Name</td>
+                            <td class="align-middle">@entry.TotalMiles.ToString("F2") miles</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>

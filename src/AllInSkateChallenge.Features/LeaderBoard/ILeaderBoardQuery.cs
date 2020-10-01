@@ -2,6 +2,6 @@
 {
     public interface ILeaderBoardQuery
     {
-        LeaderBoardModel Get();
+        LeaderBoardModel Get(int size = 10);
     }
 }

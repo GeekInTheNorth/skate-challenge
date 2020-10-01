@@ -19,7 +19,7 @@ namespace AllInSkateChallenge.Features.LeaderBoard
             this.gravatarResolver = gravatarResolver;
         }
 
-        public LeaderBoardModel Get()
+        public LeaderBoardModel Get(int size = 10)
         {
             var distanceTotals = from entries in context.MileageEntries
                                  group entries by entries.UserId into userEntries
@@ -40,7 +40,7 @@ namespace AllInSkateChallenge.Features.LeaderBoard
                                         User = nullableUser
                                     };
 
-            var results = userMilageEntries.Take(10).ToList();
+            var results = userMilageEntries.Take(size).ToList();
 
             return new LeaderBoardModel
             {
