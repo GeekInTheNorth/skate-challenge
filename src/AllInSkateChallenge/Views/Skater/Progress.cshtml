@@ -22,6 +22,15 @@
             <div class="timeline-container @alignmentClass">
                 <div class="timeline-content">
                     <h2>@checkPoint.Title</h2>
+                    @if (!string.IsNullOrWhiteSpace(checkPoint.Image))
+                    {
+                        <div class="timeline-image" style="background-image: url('@checkPoint.Image');">
+                            @if (!string.IsNullOrWhiteSpace(checkPoint.ImageAlt))
+                            {
+                                <em class="timeline-image-description">@checkPoint.ImageAlt</em>
+                            }
+                        </div>
+                    }
                     <p>@checkPoint.Distance.ToString("F2") miles</p>
                     <p>@checkPoint.Description</p>
                     <p>

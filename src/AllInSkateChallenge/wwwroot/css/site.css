@@ -220,6 +220,22 @@ img.hero-banner {
     font-weight: bold;
 }
 
+.timeline-image {
+    background-size: cover;
+    height: 300px;
+    position: relative;
+}
+
+.timeline-image-description {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    top: auto;
+    background-color: #F7BC0C;
+    padding: 3px;
+    opacity: 0.6;
+}
+
 @media screen and (max-width: 700px) {
     .timeline::after {
         left: 31px;
