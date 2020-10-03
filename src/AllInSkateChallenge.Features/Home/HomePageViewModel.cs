@@ -10,5 +10,7 @@ namespace AllInSkateChallenge.Features.Home
         public LeaderBoardModel LeaderBoard { get; internal set; }
 
         public MileageUpdateModel LatestUpdates { get; internal set; }
+
+        public SummaryStatisticsModel SummaryStatistics { get; internal set; }
     }
 }

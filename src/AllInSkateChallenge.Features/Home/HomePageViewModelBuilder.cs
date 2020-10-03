@@ -10,12 +10,15 @@ namespace AllInSkateChallenge.Features.Home
 
         private readonly ILatestUpdatesQuery latestUpdatesQuery;
 
+        private readonly ISummaryStatisticsRepository summaryStatisticsRepository;
+
         private ApplicationUser skater;
 
-        public HomePageViewModelBuilder(ILeaderBoardQuery leaderBoardQuery, ILatestUpdatesQuery latestUpdatesQuery)
+        public HomePageViewModelBuilder(ILeaderBoardQuery leaderBoardQuery, ILatestUpdatesQuery latestUpdatesQuery, ISummaryStatisticsRepository summaryStatisticsRepository)
         {
             this.leaderBoardQuery = leaderBoardQuery;
             this.latestUpdatesQuery = latestUpdatesQuery;
+            this.summaryStatisticsRepository = summaryStatisticsRepository;
         }
 
         public IHomePageViewModelBuilder WithUser(ApplicationUser skater)
@@ -30,6 +33,7 @@ namespace AllInSkateChallenge.Features.Home
             var model = new HomePageViewModel();
 
             model.ShowSignUpPromotion = skater == null;
+            model.SummaryStatistics = summaryStatisticsRepository.Get();
 
             if (skater != null)
             {

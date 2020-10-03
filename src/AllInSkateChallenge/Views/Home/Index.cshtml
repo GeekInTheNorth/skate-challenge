@@ -26,7 +26,7 @@
         <div class="text-center">
             <h1 class="display-4">Welcome to the ALL IN Skate Challenge</h1>
         </div>
-        <p>The ALL IN Skate Challenge is to skate the equivelent of the Leeds Liverpool Canal over the period of one month. 75 skaters have now taken up the challenge and skated a collective 1200 miles.</p>
+        <p>The ALL IN Skate Challenge is to skate the equivelent of the Leeds Liverpool Canal over the period of one month. @Model.SummaryStatistics.NumberOfSkaters skaters have now taken up the challenge and skated a collective @Model.SummaryStatistics.TotalMiles.ToString("F1") miles.</p>
 
         @if (Model.ShowSignUpPromotion)
         {

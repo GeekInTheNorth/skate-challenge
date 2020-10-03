@@ -84,6 +84,7 @@ namespace AllInSkateChallenge
             // Data
             services.AddTransient<ICheckPointRepository, CheckPointRepository>();
             services.AddTransient<ISkaterMileageEntriesRepository, SkaterMileageEntriesRepository>();
+            services.AddTransient<ISummaryStatisticsRepository, SummaryStatisticsRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
