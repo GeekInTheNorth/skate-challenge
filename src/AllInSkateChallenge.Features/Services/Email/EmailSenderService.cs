@@ -24,7 +24,7 @@ namespace AllInSkateChallenge.Features.Services.Email
             mimeMessage.From.Add(new MailboxAddress("All In Skate Challenge", _emailSettings.SenderEmail));
             mimeMessage.To.Add(new MailboxAddress(email, email));
             mimeMessage.Subject = subject;
-            mimeMessage.Body = new TextPart(MimeKit.Text.TextFormat.Text) { Text = htmlMessage };
+            mimeMessage.Body = new TextPart(MimeKit.Text.TextFormat.Html) { Text = htmlMessage };
 
             using (var smtpClient = new SmtpClient())
             {

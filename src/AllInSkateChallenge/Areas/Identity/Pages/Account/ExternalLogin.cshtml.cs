@@ -47,10 +47,6 @@ namespace AllInSkateChallenge.Areas.Identity.Pages.Account
         public class InputModel
         {
             [Required]
-            [Display(Name = "Display Name")]
-            public string SkaterName { get; set; }
-
-            [Required]
             [EmailAddress]
             public string Email { get; set; }
         }
@@ -127,13 +123,28 @@ namespace AllInSkateChallenge.Areas.Identity.Pages.Account
                 { 
                     UserName = Input.Email, 
                     Email = Input.Email, 
-                    SkaterName = Input.SkaterName,
-                    EmailConfirmed = false
+                    IsStravaAccount = info.LoginProvider.Equals("Strava", System.StringComparison.CurrentCultureIgnoreCase)
                 };
 
                 if (!info.Principal.HasClaim(x => x.Type.Equals(ClaimTypes.Email)) && info.Principal.HasClaim(x => x.Type.Equals(ClaimTypes.NameIdentifier)))
                 {
                     user.UserName = info.Principal.FindFirstValue(ClaimTypes.NameIdentifier);
+                }
+                if (info.Principal.HasClaim(x => x.Type.Equals(ClaimTypes.Name)))
+                {
+                    user.SkaterName = info.Principal.FindFirstValue(ClaimTypes.Name);
+                }
+                else if (info.Principal.HasClaim(x => x.Type.Equals(ClaimTypes.GivenName)) && info.Principal.HasClaim(x => x.Type.Equals(ClaimTypes.Surname)))
+                {
+                    user.SkaterName = string.Format("{0} {1}", info.Principal.FindFirstValue(ClaimTypes.GivenName), info.Principal.FindFirstValue(ClaimTypes.Surname)).Trim();
+                }
+                else if (info.Principal.HasClaim(x => x.Type.Equals(ClaimTypes.GivenName)))
+                {
+                    user.SkaterName = info.Principal.FindFirstValue(ClaimTypes.GivenName);
+                }
+                if (info.Principal.HasClaim(x => x.Type.Equals("urn:strava:profile")))
+                {
+                    user.ExternalProfileImage = info.Principal.FindFirstValue("urn:strava:profile");
                 }
 
                 var result = await _userManager.CreateAsync(user);
