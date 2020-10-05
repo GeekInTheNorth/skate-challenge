@@ -1,7 +1,4 @@
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Text.Encodings.Web;
@@ -49,6 +46,10 @@ namespace AllInSkateChallenge.Areas.Identity.Pages.Account
 
         public class InputModel
         {
+            [Required]
+            [Display(Name = "Display Name")]
+            public string SkaterName { get; set; }
+
             [Required]
             [EmailAddress]
             public string Email { get; set; }
@@ -122,7 +123,18 @@ namespace AllInSkateChallenge.Areas.Identity.Pages.Account
 
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email };
+                var user = new ApplicationUser 
+                { 
+                    UserName = Input.Email, 
+                    Email = Input.Email, 
+                    SkaterName = Input.SkaterName,
+                    EmailConfirmed = false
+                };
+
+                if (!info.Principal.HasClaim(x => x.Type.Equals(ClaimTypes.Email)) && info.Principal.HasClaim(x => x.Type.Equals(ClaimTypes.NameIdentifier)))
+                {
+                    user.UserName = info.Principal.FindFirstValue(ClaimTypes.NameIdentifier);
+                }
 
                 var result = await _userManager.CreateAsync(user);
                 if (result.Succeeded)

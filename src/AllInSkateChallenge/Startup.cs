@@ -35,6 +35,10 @@ namespace AllInSkateChallenge
         {
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer( Configuration.GetConnectionString("DefaultConnection")));
             services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ApplicationDbContext>();
+
+            services.AddAuthentication()
+                    .AddStrava(options => { options.ClientId = Configuration["Strava:ClientId"]; options.ClientSecret = Configuration["Strava:ClientSecret"]; });
+
             services.AddControllersWithViews();
             services.AddRazorPages();
 
@@ -72,6 +76,7 @@ namespace AllInSkateChallenge
             });
 
             services.Configure<EmailSettings>(options => Configuration.GetSection("EmailSettings").Bind(options));
+            // services.Configure<StavaSettings>(options => Configuration.GetSection("Stava").Bind(options));
             services.AddTransient<IEmailSender, EmailSenderService>();
 
             services.AddTransient<IGravatarResolver, GravatarResolver>();
