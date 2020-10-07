@@ -7,6 +7,8 @@ namespace AllInSkateChallenge.Features.Skater
 {
     public interface ISkaterMileageEntriesRepository
     {
+        Task<List<SkateLogEntry>> GetSkateLogEntries(ApplicationUser skater);
+
         List<MileageEntry> GetEntries(ApplicationUser skater);
 
         decimal GetTotalDistance(ApplicationUser skater);

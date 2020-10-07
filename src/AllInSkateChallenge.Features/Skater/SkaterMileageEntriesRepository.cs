@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using AllInSkateChallenge.Features.Data;
 using AllInSkateChallenge.Features.Data.Entities;
 
+using Microsoft.EntityFrameworkCore;
+
 namespace AllInSkateChallenge.Features.Skater
 {
     public class SkaterMileageEntriesRepository : ISkaterMileageEntriesRepository
@@ -56,6 +58,11 @@ namespace AllInSkateChallenge.Features.Skater
                 context.MileageEntries.Remove(itemToDelete);
                 await context.SaveChangesAsync();
             }
+        }
+
+        public async Task<List<SkateLogEntry>> GetSkateLogEntries(ApplicationUser skater)
+        {
+            return await context.SkateLogEntries.Where(x => x.ApplicationUserId == skater.Id).OrderByDescending(x => x.Logged).ToListAsync();
         }
     }
 }

@@ -39,6 +39,7 @@ namespace AllInSkateChallenge.Features.Skater.SkateLog
             {
                 TotalMiles = entries.Sum(x => x.Miles),
                 Entries = entries,
+                IsStravaAccount = skater.IsStravaAccount,
                 DistanceUnit = newEntry?.DistanceUnit ?? DistanceUnit.Miles,
                 Distance = newEntry?.Distance ?? 0,
                 ExerciseUrl = newEntry?.ExerciseUrl

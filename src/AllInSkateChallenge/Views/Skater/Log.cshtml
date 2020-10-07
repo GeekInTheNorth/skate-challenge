@@ -6,6 +6,10 @@
 </div>
 
 <button type="button" class="btn btn-primary js-add-mileage-entry mt-3 mb-3">+ Create New Mileage Entry</button>
+@if (Model.IsStravaAccount)
+{
+    <a asp-controller="StravaImport" asp-action="Index" class="btn btn-secondary">+ Import From Strava</a>
+}
 
 <table class="table table-striped">
     <thead class="thead-dark">

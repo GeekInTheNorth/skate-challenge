@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 
 using AllInSkateChallenge.Features.Data;
 using AllInSkateChallenge.Features.Data.Entities;
@@ -12,6 +11,7 @@ using AllInSkateChallenge.Features.Services.Strava;
 using AllInSkateChallenge.Features.Skater;
 using AllInSkateChallenge.Features.Skater.Progress;
 using AllInSkateChallenge.Features.Skater.SkateLog;
+using AllInSkateChallenge.Features.Skater.StravaImport;
 using AllInSkateChallenge.Features.Updates;
 
 using Microsoft.AspNetCore.Builder;
@@ -97,6 +97,7 @@ namespace AllInSkateChallenge
             services.AddTransient<IHomePageViewModelBuilder, HomePageViewModelBuilder>();
             services.AddTransient<ISkaterProgressViewModelBuilder, SkaterProgressViewModelBuilder>();
             services.AddTransient<ISkaterLogViewModelBuilder, SkaterLogViewModelBuilder>();
+            services.AddTransient<IStravaImportViewModelBuilder, StravaImportViewModelBuilder>();
 
             // Data
             services.AddTransient<ICheckPointRepository, CheckPointRepository>();
