@@ -3,8 +3,10 @@ using System.Security.Claims;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+
 using AllInSkateChallenge.Features.Data.Entities;
+
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -83,6 +85,12 @@ namespace AllInSkateChallenge.Areas.Identity.Pages.Account
             var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false, bypassTwoFactor : true);
             if (result.Succeeded)
             {
+                var applicationUser = await _userManager.FindByLoginAsync(info.LoginProvider, info.ProviderKey);
+                foreach(var authenticationToken in info.AuthenticationTokens)
+                {
+                    await _userManager.SetAuthenticationTokenAsync(applicationUser, info.LoginProvider, authenticationToken.Name, authenticationToken.Value);
+                }
+
                 _logger.LogInformation("{Name} logged in with {LoginProvider} provider.", info.Principal.Identity.Name, info.LoginProvider);
                 return LocalRedirect(returnUrl);
             }
