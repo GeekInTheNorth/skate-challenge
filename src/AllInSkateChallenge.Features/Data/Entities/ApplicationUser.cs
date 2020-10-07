@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using System.Collections.Generic;
+
+using Microsoft.AspNetCore.Identity;
 
 namespace AllInSkateChallenge.Features.Data.Entities
 {
@@ -9,5 +11,7 @@ namespace AllInSkateChallenge.Features.Data.Entities
         public string ExternalProfileImage { get; set; }
 
         public bool IsStravaAccount { get; set; }
+
+        public List<SkateLogEntry> SkateLogEntries { get; set; }
     }
 }
