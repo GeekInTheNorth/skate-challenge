@@ -17,12 +17,12 @@ namespace AllInSkateChallenge.Features.Home
 
         public SummaryStatisticsModel Get()
         {
-            var skaterMiles = (from entries in context.MileageEntries
-                               group entries by entries.UserId into userEntries
+            var skaterMiles = (from entries in context.SkateLogEntries
+                               group entries by entries.ApplicationUserId into userEntries
                                select new
                                {
                                    UserId = userEntries.Key,
-                                   TotalMiles = userEntries.Sum(x => x.Miles),
+                                   TotalMiles = userEntries.Sum(x => x.DistanceInMiles),
                                }).ToList();
 
             return new SummaryStatisticsModel
@@ -35,7 +35,7 @@ namespace AllInSkateChallenge.Features.Home
         public SummaryStatisticsModel Get(ApplicationUser skater)
         {
             var userId = new Guid(skater.Id);
-            var skaterMiles = context.MileageEntries.Where(x => x.UserId.Equals(userId)).Sum(x => x.Miles);
+            var skaterMiles = context.SkateLogEntries.Where(x => x.ApplicationUserId.Equals(skater.Id)).Sum(x => x.DistanceInMiles);
 
             return new SummaryStatisticsModel
             {

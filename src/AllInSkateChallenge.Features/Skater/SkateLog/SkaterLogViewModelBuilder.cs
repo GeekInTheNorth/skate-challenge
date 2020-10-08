@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-
+using System.Threading.Tasks;
 using AllInSkateChallenge.Features.Data.Entities;
 
 namespace AllInSkateChallenge.Features.Skater.SkateLog
@@ -31,14 +31,15 @@ namespace AllInSkateChallenge.Features.Skater.SkateLog
             return this;
         }
 
-        public SkaterLogViewModel Build()
+        public async Task<SkaterLogViewModel> Build()
         {
-            var entries = repository.GetEntries(skater);
+            var entries = await repository.GetSkateLogEntries(skater);
 
             return new SkaterLogViewModel
             {
-                TotalMiles = entries.Sum(x => x.Miles),
+                TotalMiles = entries.Sum(x => x.DistanceInMiles),
                 Entries = entries,
+                IsStravaAccount = skater.IsStravaAccount,
                 DistanceUnit = newEntry?.DistanceUnit ?? DistanceUnit.Miles,
                 Distance = newEntry?.Distance ?? 0,
                 ExerciseUrl = newEntry?.ExerciseUrl

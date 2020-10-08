@@ -21,23 +21,21 @@ namespace AllInSkateChallenge.Features.LeaderBoard
 
         public LeaderBoardModel Get(int size = 10)
         {
-            var distanceTotals = from entries in context.MileageEntries
-                                 group entries by entries.UserId into userEntries
+            var distanceTotals = from entries in context.SkateLogEntries
+                                 group entries by entries.ApplicationUserId into userEntries
                                  select new
                                  {
                                      UserId = userEntries.Key,
-                                     TotalMiles = userEntries.Sum(x => x.Miles),
-                                     TotalKilometres = userEntries.Sum(x => x.Kilometres)
+                                     TotalMiles = userEntries.Sum(x => x.DistanceInMiles)
                                  };
 
             var userMilageEntries = from distanceTotal in distanceTotals
-                                    join user in context.Users on distanceTotal.UserId.ToString() equals user.Id into userJoin
-                                    from nullableUser in userJoin.DefaultIfEmpty()
+                                    join user in context.Users on distanceTotal.UserId equals user.Id
                                     orderby distanceTotal.TotalMiles descending
                                     select new
                                     {
                                         Distance = distanceTotal,
-                                        User = nullableUser
+                                        User = user
                                     };
 
             var results = userMilageEntries.Take(size).ToList();
@@ -48,7 +46,7 @@ namespace AllInSkateChallenge.Features.LeaderBoard
                 {
                     Place = i + 1,
                     GravatarUrl = gravatarResolver.GetGravatarUrl(x.User?.Email),
-                    Name = x.User?.SkaterName ?? "Private Skater",
+                    Name = x.User.SkaterName ?? "Private Skater",
                     TotalMiles = x.Distance.TotalMiles
                 }).ToList()
             };

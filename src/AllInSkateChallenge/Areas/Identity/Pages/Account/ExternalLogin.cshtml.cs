@@ -1,13 +1,12 @@
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+
 using AllInSkateChallenge.Features.Data.Entities;
+
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -86,6 +85,12 @@ namespace AllInSkateChallenge.Areas.Identity.Pages.Account
             var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false, bypassTwoFactor : true);
             if (result.Succeeded)
             {
+                var applicationUser = await _userManager.FindByLoginAsync(info.LoginProvider, info.ProviderKey);
+                foreach(var authenticationToken in info.AuthenticationTokens)
+                {
+                    await _userManager.SetAuthenticationTokenAsync(applicationUser, info.LoginProvider, authenticationToken.Name, authenticationToken.Value);
+                }
+
                 _logger.LogInformation("{Name} logged in with {LoginProvider} provider.", info.Principal.Identity.Name, info.LoginProvider);
                 return LocalRedirect(returnUrl);
             }
@@ -122,7 +127,33 @@ namespace AllInSkateChallenge.Areas.Identity.Pages.Account
 
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email };
+                var user = new ApplicationUser 
+                { 
+                    UserName = Input.Email, 
+                    Email = Input.Email, 
+                    IsStravaAccount = info.LoginProvider.Equals("Strava", System.StringComparison.CurrentCultureIgnoreCase)
+                };
+
+                if (!info.Principal.HasClaim(x => x.Type.Equals(ClaimTypes.Email)) && info.Principal.HasClaim(x => x.Type.Equals(ClaimTypes.NameIdentifier)))
+                {
+                    user.UserName = info.Principal.FindFirstValue(ClaimTypes.NameIdentifier);
+                }
+                if (info.Principal.HasClaim(x => x.Type.Equals(ClaimTypes.Name)))
+                {
+                    user.SkaterName = info.Principal.FindFirstValue(ClaimTypes.Name);
+                }
+                else if (info.Principal.HasClaim(x => x.Type.Equals(ClaimTypes.GivenName)) && info.Principal.HasClaim(x => x.Type.Equals(ClaimTypes.Surname)))
+                {
+                    user.SkaterName = string.Format("{0} {1}", info.Principal.FindFirstValue(ClaimTypes.GivenName), info.Principal.FindFirstValue(ClaimTypes.Surname)).Trim();
+                }
+                else if (info.Principal.HasClaim(x => x.Type.Equals(ClaimTypes.GivenName)))
+                {
+                    user.SkaterName = info.Principal.FindFirstValue(ClaimTypes.GivenName);
+                }
+                if (info.Principal.HasClaim(x => x.Type.Equals("urn:strava:profile")))
+                {
+                    user.ExternalProfileImage = info.Principal.FindFirstValue("urn:strava:profile");
+                }
 
                 var result = await _userManager.CreateAsync(user);
                 if (result.Succeeded)

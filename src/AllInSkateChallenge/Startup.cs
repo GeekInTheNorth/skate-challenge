@@ -1,23 +1,27 @@
 using System;
+
+using AllInSkateChallenge.Features.Data;
+using AllInSkateChallenge.Features.Data.Entities;
+using AllInSkateChallenge.Features.Data.Static;
+using AllInSkateChallenge.Features.Gravatar;
+using AllInSkateChallenge.Features.Home;
+using AllInSkateChallenge.Features.LeaderBoard;
+using AllInSkateChallenge.Features.Services.Email;
+using AllInSkateChallenge.Features.Services.Strava;
+using AllInSkateChallenge.Features.Skater;
+using AllInSkateChallenge.Features.Skater.Progress;
+using AllInSkateChallenge.Features.Skater.SkateLog;
+using AllInSkateChallenge.Features.Skater.StravaImport;
+using AllInSkateChallenge.Features.Updates;
+
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.AspNetCore.Identity.UI.Services;
-using AllInSkateChallenge.Features.Gravatar;
-using AllInSkateChallenge.Features.LeaderBoard;
-using AllInSkateChallenge.Features.Home;
-using AllInSkateChallenge.Features.Updates;
-using AllInSkateChallenge.Features.Services.Email;
-using AllInSkateChallenge.Features.Data;
-using AllInSkateChallenge.Features.Data.Entities;
-using AllInSkateChallenge.Features.Data.Static;
-using AllInSkateChallenge.Features.Skater.Progress;
-using AllInSkateChallenge.Features.Skater;
-using AllInSkateChallenge.Features.Skater.SkateLog;
 
 namespace AllInSkateChallenge
 {
@@ -34,7 +38,17 @@ namespace AllInSkateChallenge
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer( Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ApplicationDbContext>();
+            services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false).AddEntityFrameworkStores<ApplicationDbContext>();
+
+            services.AddAuthentication()
+                    .AddStrava(options => 
+                    { 
+                        options.ClientId = Configuration["Strava:ClientId"]; 
+                        options.ClientSecret = Configuration["Strava:ClientSecret"]; 
+                        options.SaveTokens = true;
+                        options.Scope.Add("activity:read_all");
+                    });
+
             services.AddControllersWithViews();
             services.AddRazorPages();
 
@@ -57,7 +71,7 @@ namespace AllInSkateChallenge
                 options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
                 options.User.RequireUniqueEmail = true;
 
-                options.SignIn.RequireConfirmedAccount = true;
+                options.SignIn.RequireConfirmedAccount = false;
             });
 
             services.ConfigureApplicationCookie(options =>
@@ -71,8 +85,11 @@ namespace AllInSkateChallenge
                 options.SlidingExpiration = true;
             });
 
+            // External Services
             services.Configure<EmailSettings>(options => Configuration.GetSection("EmailSettings").Bind(options));
             services.AddTransient<IEmailSender, EmailSenderService>();
+            services.Configure<StravaSettings>(options => Configuration.GetSection("Strava").Bind(options));
+            services.AddTransient<IStravaService, StravaService>();
 
             services.AddTransient<IGravatarResolver, GravatarResolver>();
             services.AddTransient<ILeaderBoardQuery, LeaderBoardQuery>();
@@ -80,6 +97,7 @@ namespace AllInSkateChallenge
             services.AddTransient<IHomePageViewModelBuilder, HomePageViewModelBuilder>();
             services.AddTransient<ISkaterProgressViewModelBuilder, SkaterProgressViewModelBuilder>();
             services.AddTransient<ISkaterLogViewModelBuilder, SkaterLogViewModelBuilder>();
+            services.AddTransient<IStravaImportViewModelBuilder, StravaImportViewModelBuilder>();
 
             // Data
             services.AddTransient<ICheckPointRepository, CheckPointRepository>();

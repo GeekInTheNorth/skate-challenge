@@ -1,4 +1,4 @@
-﻿
+﻿using System.Threading.Tasks;
 using AllInSkateChallenge.Features.Data.Entities;
 
 namespace AllInSkateChallenge.Features.Skater.SkateLog
@@ -9,6 +9,6 @@ namespace AllInSkateChallenge.Features.Skater.SkateLog
 
         ISkaterLogViewModelBuilder WithUser(ApplicationUser skater);
 
-        SkaterLogViewModel Build();
+        Task<SkaterLogViewModel> Build();
     }
 }

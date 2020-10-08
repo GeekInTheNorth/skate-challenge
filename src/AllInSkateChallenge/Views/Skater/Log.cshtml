@@ -6,23 +6,29 @@
 </div>
 
 <button type="button" class="btn btn-primary js-add-mileage-entry mt-3 mb-3">+ Create New Mileage Entry</button>
+@if (Model.IsStravaAccount)
+{
+    <a asp-controller="StravaImport" asp-action="Index" class="btn btn-secondary">+ Import From Strava</a>
+}
 
 <table class="table table-striped">
     <thead class="thead-dark">
         <tr>
             <th scope="col">Logged</th>
             <th scope="col">Miles</th>
+            <th scope="col">Source</th>
             <th scope="col" class="js-action-delete-column">Actions</th>
         </tr>
     </thead>
     <tbody>
         @foreach(var entry in Model.Entries)
         {
-            <tr class="js-mileage-entry-row" data-entry-id="@entry.MileageEntryId">
+            <tr class="js-mileage-entry-row" data-entry-id="@entry.SkateLogEntryId">
                 <td class="align-middle">@entry.Logged.ToString("dd/MM/yyyy HH:mm")</td>
-                <td class="align-middle">@entry.Miles.ToString("F2") miles</td>
+                <td class="align-middle">@entry.DistanceInMiles.ToString("F2") miles</td>
+                <td class="align-middle">@(string.IsNullOrWhiteSpace(entry.StravaId) ? "Manual" : "Strava")</td>
                 <td class="align-middle js-action-delete-column">
-                    <button type="button" class="btn btn-danger js-delete-mileage-entry" data-entry-id="@entry.MileageEntryId">Delete</button>
+                    <button type="button" class="btn btn-danger js-delete-mileage-entry" data-entry-id="@entry.SkateLogEntryId">Delete</button>
                 </td>
             </tr>
         }

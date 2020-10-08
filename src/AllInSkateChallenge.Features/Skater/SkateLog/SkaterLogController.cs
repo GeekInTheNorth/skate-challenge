@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 
 using AllInSkateChallenge.Features.Data.Entities;
 using AllInSkateChallenge.Features.Skater;
@@ -34,14 +35,14 @@ namespace AllInSkateChallenge.Controllers
         {
             var user = await userManager.GetUserAsync(User);
 
-            var model = viewModelBuilder.WithUser(user).Build();
+            var model = await viewModelBuilder.WithUser(user).Build();
 
             return View("~/Views/Skater/Log.cshtml", model);
         }
 
         [HttpPost]
         [Route("skater/skate-log/delete")]
-        public async Task<IActionResult> Delete(int mileageEntryId)
+        public async Task<IActionResult> Delete(Guid mileageEntryId)
         {
             var user = await userManager.GetUserAsync(User);
             
@@ -59,14 +60,14 @@ namespace AllInSkateChallenge.Controllers
 
             if (!TryValidateModel(mileageEntry, nameof(SkaterLogViewModel)))
             {
-                var model = viewModelBuilder.WithUser(user).WithNewEntry(mileageEntry).Build();
+                var model = await viewModelBuilder.WithUser(user).WithNewEntry(mileageEntry).Build();
 
                 return View("~/Views/Skater/Log.cshtml", model);
             }
             else
             {
-                await repository.SaveAsync(user, mileageEntry);
-                var model = viewModelBuilder.WithUser(user).Build();
+                await repository.Save(user, DateTime.Now, null, mileageEntry.DistanceMiles);
+                var model = await viewModelBuilder.WithUser(user).Build();
 
                 return View("~/Views/Skater/Log.cshtml", model);
             }

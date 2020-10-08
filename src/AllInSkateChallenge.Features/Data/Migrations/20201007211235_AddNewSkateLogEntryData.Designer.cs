@@ -4,14 +4,16 @@ using AllInSkateChallenge.Features.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AllInSkateChallenge.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201007211235_AddNewSkateLogEntryData")]
+    partial class AddNewSkateLogEntryData
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -91,6 +93,36 @@ namespace AllInSkateChallenge.Data.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
+                });
+
+            modelBuilder.Entity("AllInSkateChallenge.Features.Data.Entities.MileageEntry", b =>
+                {
+                    b.Property<int>("MileageEntryId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ExerciseUrl")
+                        .HasColumnType("nvarchar(500)")
+                        .HasMaxLength(500);
+
+                    b.Property<decimal>("Kilometres")
+                        .HasColumnType("decimal(18, 6)");
+
+                    b.Property<DateTime>("Logged")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal>("Miles")
+                        .HasColumnType("decimal(18, 6)");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("MileageEntryId");
+
+                    b.HasIndex("UserId", "MileageEntryId");
+
+                    b.ToTable("MileageEntries");
                 });
 
             modelBuilder.Entity("AllInSkateChallenge.Features.Data.Entities.SkateLogEntry", b =>
