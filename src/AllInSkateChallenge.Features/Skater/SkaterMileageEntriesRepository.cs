@@ -64,5 +64,17 @@ namespace AllInSkateChallenge.Features.Skater
         {
             return await context.SkateLogEntries.Where(x => x.ApplicationUserId == skater.Id).OrderByDescending(x => x.Logged).ToListAsync();
         }
+
+        public async Task Save(ApplicationUser skater, DateTime logged, string stravaId, decimal miles)
+        {
+            var recordExists = context.SkateLogEntries.Any(x => x.StravaId.Equals(stravaId));
+
+            if (!recordExists)
+            {
+                var entry = new SkateLogEntry { ApplicationUserId = skater.Id, StravaId = stravaId, DistanceInMiles = miles, Logged = logged };
+                context.SkateLogEntries.Add(entry);
+                await context.SaveChangesAsync();
+            }
+        }
     }
 }

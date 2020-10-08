@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 
 using AllInSkateChallenge.Features.Data.Entities;
 
@@ -15,10 +16,16 @@ namespace AllInSkateChallenge.Features.Skater.StravaImport
 
         private readonly UserManager<ApplicationUser> userManager;
 
-        public StravaImportController(IStravaImportViewModelBuilder viewModelBuilder, UserManager<ApplicationUser> userManager)
+        private readonly ISkaterMileageEntriesRepository mileageEntriesRepository;
+
+        public StravaImportController(
+            IStravaImportViewModelBuilder viewModelBuilder, 
+            UserManager<ApplicationUser> userManager, 
+            ISkaterMileageEntriesRepository mileageEntriesRepository)
         {
             this.viewModelBuilder = viewModelBuilder;
             this.userManager = userManager;
+            this.mileageEntriesRepository = mileageEntriesRepository;
         }
 
         [Route("skater/skate-log/strava-import")]
@@ -35,6 +42,26 @@ namespace AllInSkateChallenge.Features.Skater.StravaImport
             var model = await viewModelBuilder.WithUser(user).BuildAsync();
 
             return View("~/Views/Skater/StravaImport.cshtml", model);
+        }
+
+        [HttpPost]
+        [Route("skater/skate-log/strava-import/save")]
+        public async Task<IActionResult> Save(string activityId, DateTime logged, decimal miles)
+        {
+            var user = await userManager.GetUserAsync(User);
+            if (user == null || !user.IsStravaAccount)
+            {
+                return Forbid();
+            }
+
+            if (string.IsNullOrWhiteSpace(activityId) || miles <= 0)
+            {
+                return BadRequest();
+            }
+
+            await mileageEntriesRepository.Save(user, logged, activityId, miles);
+
+            return Ok();
         }
     }
 }
