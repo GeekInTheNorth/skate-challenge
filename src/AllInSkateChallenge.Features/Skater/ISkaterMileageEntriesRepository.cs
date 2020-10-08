@@ -12,12 +12,8 @@ namespace AllInSkateChallenge.Features.Skater
 
         Task Save(ApplicationUser skater, DateTime logged, string stravaId, decimal miles);
 
-        List<MileageEntry> GetEntries(ApplicationUser skater);
+        Task DeleteAsync(ApplicationUser skater, Guid mileageEntryId);
 
         decimal GetTotalDistance(ApplicationUser skater);
-
-        Task SaveAsync(ApplicationUser skater, INewSkaterLogEntry entry);
-
-        Task DeleteAsync(ApplicationUser skater, int mileageEntryId);
     }
 }

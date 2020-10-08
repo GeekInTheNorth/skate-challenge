@@ -19,14 +19,13 @@ namespace AllInSkateChallenge.Features.Updates
 
         public MileageUpdateModel Get(int maximum = 10)
         {
-            var userMilageEntries = from mileageEntry in context.MileageEntries
-                                    join user in context.Users on mileageEntry.UserId.ToString() equals user.Id into userJoin
-                                    from nullableUser in userJoin.DefaultIfEmpty()
-                                    orderby mileageEntry.Logged descending
+            var userMilageEntries = from skateLogEntry in context.SkateLogEntries
+                                    join user in context.Users on skateLogEntry.ApplicationUserId equals user.Id
+                                    orderby skateLogEntry.Logged descending
                                     select new
                                     {
-                                        MileageEntry = mileageEntry,
-                                        User = nullableUser
+                                        Entry = skateLogEntry,
+                                        User = user
                                     };
 
             var results = userMilageEntries.Take(maximum).ToList();
@@ -35,10 +34,10 @@ namespace AllInSkateChallenge.Features.Updates
             {
                 Entries = results.Select(x => new MileageUpdateEntryModel
                 {
-                    Logged = x.MileageEntry.Logged,
-                    Miles = x.MileageEntry.Miles,
+                    Logged = x.Entry.Logged,
+                    Miles = x.Entry.DistanceInMiles,
                     GravatarUrl = gravatarResolver.GetGravatarUrl(x.User?.Email),
-                    Skater = x.User?.SkaterName ?? "Private Skater",
+                    Skater = x.User.SkaterName ?? "Private Skater",
                 }).ToList()
             };
         }

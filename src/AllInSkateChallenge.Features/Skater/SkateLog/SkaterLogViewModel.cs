@@ -10,6 +10,6 @@ namespace AllInSkateChallenge.Features.Skater.SkateLog
 
         public decimal TotalMiles { get; set; }
 
-        public List<MileageEntry> Entries { get; set; }
+        public List<SkateLogEntry> Entries { get; set; }
     }
 }

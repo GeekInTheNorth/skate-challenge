@@ -19,47 +19,6 @@ namespace AllInSkateChallenge.Features.Skater
             this.context = context;
         }
 
-        public List<MileageEntry> GetEntries(ApplicationUser skater)
-        {
-            var userId = new Guid(skater.Id);
-
-            return context.MileageEntries.Where(x => x.UserId.Equals(userId)).OrderBy(x => x.Logged).ToList();
-        }
-
-        public decimal GetTotalDistance(ApplicationUser skater)
-        {
-            var userId = new Guid(skater.Id);
-
-            return context.MileageEntries.Where(x => x.UserId.Equals(userId)).Sum(x => x.Miles);
-        }
-
-        public async Task SaveAsync(ApplicationUser skater, INewSkaterLogEntry entry)
-        {
-            var newEntry = new MileageEntry
-            {
-                UserId = new Guid(skater.Id),
-                Logged = DateTime.Now,
-                ExerciseUrl = entry.ExerciseUrl,
-                Miles = entry.DistanceMiles,
-                Kilometres = entry.DistanceKilometres
-            };
-
-            await context.AddAsync(newEntry);
-            await context.SaveChangesAsync();
-        }
-
-        public async Task DeleteAsync(ApplicationUser skater, int mileageEntryId)
-        {
-            var userId = new Guid(skater.Id);
-            var itemToDelete = context.MileageEntries.FirstOrDefault(x => x.MileageEntryId.Equals(mileageEntryId) && x.UserId.Equals(userId));
-
-            if (itemToDelete != null)
-            {
-                context.MileageEntries.Remove(itemToDelete);
-                await context.SaveChangesAsync();
-            }
-        }
-
         public async Task<List<SkateLogEntry>> GetSkateLogEntries(ApplicationUser skater)
         {
             return await context.SkateLogEntries.Where(x => x.ApplicationUserId == skater.Id).OrderByDescending(x => x.Logged).ToListAsync();
@@ -75,6 +34,24 @@ namespace AllInSkateChallenge.Features.Skater
                 context.SkateLogEntries.Add(entry);
                 await context.SaveChangesAsync();
             }
+        }
+
+        public async Task DeleteAsync(ApplicationUser skater, Guid mileageEntryId)
+        {
+            var itemToDelete = context.SkateLogEntries.FirstOrDefault(x => x.SkateLogEntryId.Equals(mileageEntryId) && x.ApplicationUserId.Equals(skater.Id));
+
+            if (itemToDelete != null)
+            {
+                context.SkateLogEntries.Remove(itemToDelete);
+                await context.SaveChangesAsync();
+            }
+        }
+
+        public decimal GetTotalDistance(ApplicationUser skater)
+        {
+            var userId = new Guid(skater.Id);
+
+            return context.SkateLogEntries.Where(x => x.ApplicationUserId.Equals(skater.Id)).Sum(x => x.DistanceInMiles);
         }
     }
 }

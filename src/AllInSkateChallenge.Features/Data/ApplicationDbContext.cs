@@ -7,8 +7,6 @@ namespace AllInSkateChallenge.Features.Data
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
-        public DbSet<MileageEntry> MileageEntries { get; set; }
-
         public DbSet<SkateLogEntry> SkateLogEntries { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
@@ -20,7 +18,6 @@ namespace AllInSkateChallenge.Features.Data
         {
             base.OnModelCreating(builder);
 
-            builder.Entity<MileageEntry>().HasIndex(x => new { x.UserId, x.MileageEntryId });
             builder.Entity<SkateLogEntry>().HasOne(x => x.ApplicationUser).WithMany(x => x.SkateLogEntries).HasForeignKey(x => x.ApplicationUserId).OnDelete(DeleteBehavior.Cascade);
             builder.Entity<SkateLogEntry>().HasIndex(x => new { x.ApplicationUserId, x.Logged });
         }
