@@ -4,6 +4,7 @@ using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
 using AllInSkateChallenge.Features.Data.Entities;
+using AllInSkateChallenge.Features.Services.Strava.Models;
 
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
@@ -27,11 +28,11 @@ namespace AllInSkateChallenge.Features.Services.Strava
             this.userManager = userManager;
         }
 
-        public async Task<List<StravaActivity>> List(ApplicationUser applicationUser)
+        public async Task<StravaActivityListResponse> List(ApplicationUser applicationUser)
         {
             var url = "https://www.strava.com/api/v3/athlete/activities?page=1&per_page=30";
-
             var authToken = await userManager.GetAuthenticationTokenAsync(applicationUser, StravaConstants.ProviderName, StravaConstants.AccessTokenName);
+            var responseModel = new StravaActivityListResponse();
 
             using (var httpClient = new HttpClient())
             {
@@ -40,9 +41,17 @@ namespace AllInSkateChallenge.Features.Services.Strava
                 {
                     var apiResponse = await response.Content.ReadAsStringAsync();
 
-                    return JsonConvert.DeserializeObject<List<StravaActivity>>(apiResponse);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        responseModel.Activities = JsonConvert.DeserializeObject<List<StravaActivity>>(apiResponse);
+                    }
+                    else
+                    {
+                        responseModel.Faults = JsonConvert.DeserializeObject<StravaFault>(apiResponse);
+                    }
                 }
             }
+            return responseModel;
         }
     }
 }

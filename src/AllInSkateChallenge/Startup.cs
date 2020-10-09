@@ -46,6 +46,8 @@ namespace AllInSkateChallenge
                         options.ClientId = Configuration["Strava:ClientId"]; 
                         options.ClientSecret = Configuration["Strava:ClientSecret"]; 
                         options.SaveTokens = true;
+                        options.Scope.Add("read");
+                        options.Scope.Add("activity:read");
                         options.Scope.Add("activity:read_all");
                     });
 

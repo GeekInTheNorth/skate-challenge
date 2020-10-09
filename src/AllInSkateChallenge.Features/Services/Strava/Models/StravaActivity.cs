@@ -2,7 +2,7 @@
 
 using Newtonsoft.Json;
 
-namespace AllInSkateChallenge.Features.Services.Strava
+namespace AllInSkateChallenge.Features.Services.Strava.Models
 {
     public class StravaActivity
     {
