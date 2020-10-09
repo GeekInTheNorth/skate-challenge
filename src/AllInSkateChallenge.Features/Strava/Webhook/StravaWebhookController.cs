@@ -7,8 +7,11 @@ using Newtonsoft.Json;
 
 namespace AllInSkateChallenge.Features.Strava.Webhook
 {
-    public class StravaWebhookController : Controller
+    [ApiController]
+    public class StravaWebhookController : ControllerBase
     {
+        [HttpPost]
+        [Route("api/strava/process-event")]
         public IActionResult ProcessEvent(WebHookEvent webHookEvent)
         {
             return Ok();
@@ -21,7 +24,7 @@ namespace AllInSkateChallenge.Features.Strava.Webhook
         public string AspectType { get; set; }
 
         [JsonProperty("event_time")]
-        public DateTime EventTime { get; set; }
+        public long EventTime { get; set; }
 
         [JsonProperty("object_id")]
         public string ObjectId { get; set; }

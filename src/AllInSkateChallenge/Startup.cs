@@ -51,7 +51,7 @@ namespace AllInSkateChallenge
                         options.Scope.Add("activity:read_all");
                     });
 
-            services.AddControllersWithViews();
+            services.AddControllersWithViews().AddNewtonsoftJson();
             services.AddRazorPages();
 
             services.Configure<IdentityOptions>(options =>
