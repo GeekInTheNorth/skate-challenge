@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-using AllInSkateChallenge.Features.Services.Strava.Models;
+using AllInSkateChallenge.Features.Strava.Models;
 
 namespace AllInSkateChallenge.Features.Skater.StravaImport
 {

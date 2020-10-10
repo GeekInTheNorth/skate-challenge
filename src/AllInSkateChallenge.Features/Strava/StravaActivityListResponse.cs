@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 
-using AllInSkateChallenge.Features.Services.Strava.Models;
+using AllInSkateChallenge.Features.Strava.Models;
 
-namespace AllInSkateChallenge.Features.Services.Strava
+namespace AllInSkateChallenge.Features.Strava
 {
     public class StravaActivityListResponse
     {

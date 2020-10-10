@@ -1,7 +1,5 @@
 ﻿using System;
 
-using AllInSkateChallenge.Features.Services.Strava;
-
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 

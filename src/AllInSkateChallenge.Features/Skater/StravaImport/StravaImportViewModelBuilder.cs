@@ -4,8 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 using AllInSkateChallenge.Features.Data.Entities;
-using AllInSkateChallenge.Features.Services.Strava;
-using AllInSkateChallenge.Features.Services.Strava.Models;
+using AllInSkateChallenge.Features.Strava;
 
 namespace AllInSkateChallenge.Features.Skater.StravaImport
 {

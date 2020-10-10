@@ -7,11 +7,11 @@ using AllInSkateChallenge.Features.Gravatar;
 using AllInSkateChallenge.Features.Home;
 using AllInSkateChallenge.Features.LeaderBoard;
 using AllInSkateChallenge.Features.Services.Email;
-using AllInSkateChallenge.Features.Services.Strava;
 using AllInSkateChallenge.Features.Skater;
 using AllInSkateChallenge.Features.Skater.Progress;
 using AllInSkateChallenge.Features.Skater.SkateLog;
 using AllInSkateChallenge.Features.Skater.StravaImport;
+using AllInSkateChallenge.Features.Strava;
 using AllInSkateChallenge.Features.Updates;
 
 using Microsoft.AspNetCore.Builder;
