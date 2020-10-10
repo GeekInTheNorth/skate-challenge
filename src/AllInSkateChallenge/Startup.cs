@@ -12,6 +12,7 @@ using AllInSkateChallenge.Features.Skater.Progress;
 using AllInSkateChallenge.Features.Skater.SkateLog;
 using AllInSkateChallenge.Features.Skater.StravaImport;
 using AllInSkateChallenge.Features.Strava;
+using AllInSkateChallenge.Features.Strava.Webhook;
 using AllInSkateChallenge.Features.Updates;
 
 using Microsoft.AspNetCore.Builder;
@@ -105,6 +106,7 @@ namespace AllInSkateChallenge
             services.AddTransient<ICheckPointRepository, CheckPointRepository>();
             services.AddTransient<ISkaterMileageEntriesRepository, SkaterMileageEntriesRepository>();
             services.AddTransient<ISummaryStatisticsRepository, SummaryStatisticsRepository>();
+            services.AddTransient<IStravaIntegrationLogRepository, StravaIntegrationLogRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

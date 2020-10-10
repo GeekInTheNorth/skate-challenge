@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -8,11 +9,14 @@ namespace AllInSkateChallenge.Features.Strava.Webhook
     [ApiController]
     public class StravaWebhookController : ControllerBase
     {
-        private StravaSettings stravaSettings;
+        private readonly StravaSettings stravaSettings;
 
-        public StravaWebhookController(IOptions<StravaSettings> stravaSettings)
+        private readonly IStravaIntegrationLogRepository logRepository;
+
+        public StravaWebhookController(IOptions<StravaSettings> stravaSettings, IStravaIntegrationLogRepository logRepository)
         {
             this.stravaSettings = stravaSettings.Value;
+            this.logRepository = logRepository;
         }
 
         [HttpGet]
@@ -34,10 +38,10 @@ namespace AllInSkateChallenge.Features.Strava.Webhook
 
         [HttpPost]
         [Route("api/strava/event")]
-        public IActionResult AthleteEvents(WebHookEvent webHookEvent)
+        public async Task<IActionResult> AthleteEvents(WebHookEvent webHookEvent)
         {
             // https://developers.strava.com/docs/webhooks/
-            // Aim for asyncronous activity which may be fragmented across subscriptions
+            await logRepository.Log(Request.QueryString.Value, webHookEvent);
 
             return Ok();
         }
