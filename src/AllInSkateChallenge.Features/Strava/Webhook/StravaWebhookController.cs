@@ -1,44 +1,47 @@
 ﻿using System;
-using System.Collections.Generic;
+
+using AllInSkateChallenge.Features.Services.Strava;
 
 using Microsoft.AspNetCore.Mvc;
-
-using Newtonsoft.Json;
+using Microsoft.Extensions.Options;
 
 namespace AllInSkateChallenge.Features.Strava.Webhook
 {
     [ApiController]
     public class StravaWebhookController : ControllerBase
     {
-        [HttpPost]
-        [Route("api/strava/process-event")]
-        public IActionResult ProcessEvent(WebHookEvent webHookEvent)
+        private StravaSettings stravaSettings;
+
+        public StravaWebhookController(IOptions<StravaSettings> stravaSettings)
         {
+            this.stravaSettings = stravaSettings.Value;
+        }
+
+        [HttpGet]
+        [Route("api/strava/event")]
+        public IActionResult SubscriptionEvents(
+            [FromQuery(Name = "hub.challenge")] string hubChallenge, 
+            [FromQuery(Name = "hub.verify_token")] string hubVerificationToken,
+            [FromQuery(Name = "hub.mode")] string hubMode)
+        {
+            if (!hubVerificationToken.Equals(stravaSettings.WebhookSecret, StringComparison.OrdinalIgnoreCase))
+            {
+                return StatusCode(401, "hub.verify_token does not match the expected valye");
+            }
+
+            var responseObject = new SubscriptionResponse { HubChallenge = hubChallenge };
+
+            return new JsonResult(responseObject);
+        }
+
+        [HttpPost]
+        [Route("api/strava/event")]
+        public IActionResult AthleteEvents(WebHookEvent webHookEvent)
+        {
+            // https://developers.strava.com/docs/webhooks/
+            // Aim for asyncronous activity which may be fragmented across subscriptions
+
             return Ok();
         }
-    }
-
-    public class WebHookEvent 
-    { 
-        [JsonProperty("aspect_type")]
-        public string AspectType { get; set; }
-
-        [JsonProperty("event_time")]
-        public long EventTime { get; set; }
-
-        [JsonProperty("object_id")]
-        public string ObjectId { get; set; }
-
-        [JsonProperty("object_type")]
-        public string ObjectType { get; set; }
-
-        [JsonProperty("owner_id")]
-        public string OwnerId { get; set; }
-
-        [JsonProperty("subscription_id")]
-        public string SubscriptionId { get; set; }
-
-        [JsonProperty("updates")]
-        public Dictionary<string, string> Updates { get; set; }
     }
 }
