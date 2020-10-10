@@ -9,6 +9,8 @@ namespace AllInSkateChallenge.Features.Data
     {
         public DbSet<SkateLogEntry> SkateLogEntries { get; set; }
 
+        public DbSet<StravaIntegrationLog> StravaIntegrationLogs { get; set; }
+
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {

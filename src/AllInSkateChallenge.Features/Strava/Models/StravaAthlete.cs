@@ -1,4 +1,4 @@
-﻿namespace AllInSkateChallenge.Features.Services.Strava.Models
+﻿namespace AllInSkateChallenge.Features.Strava.Models
 {
     public class StravaAthlete
     {

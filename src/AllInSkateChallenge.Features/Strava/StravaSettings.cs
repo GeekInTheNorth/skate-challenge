@@ -1,4 +1,4 @@
-﻿namespace AllInSkateChallenge.Features.Services.Strava
+﻿namespace AllInSkateChallenge.Features.Strava
 {
     public class StravaSettings
     {

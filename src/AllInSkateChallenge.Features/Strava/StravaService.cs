@@ -4,27 +4,20 @@ using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
 using AllInSkateChallenge.Features.Data.Entities;
-using AllInSkateChallenge.Features.Services.Strava.Models;
+using AllInSkateChallenge.Features.Strava.Models;
 
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Options;
 
 using Newtonsoft.Json;
 
-namespace AllInSkateChallenge.Features.Services.Strava
+namespace AllInSkateChallenge.Features.Strava
 {
-
     public class StravaService : IStravaService
     {
-        private readonly StravaSettings stravaSettings;
-
         private readonly UserManager<ApplicationUser> userManager;
 
-        public StravaService(
-            IOptions<StravaSettings> stravaSettings, 
-            UserManager<ApplicationUser> userManager)
+        public StravaService(UserManager<ApplicationUser> userManager)
         {
-            this.stravaSettings = stravaSettings.Value;
             this.userManager = userManager;
         }
 

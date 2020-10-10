@@ -2,7 +2,7 @@
 
 using AllInSkateChallenge.Features.Data.Entities;
 
-namespace AllInSkateChallenge.Features.Services.Strava
+namespace AllInSkateChallenge.Features.Strava
 {
     public interface IStravaService
     {

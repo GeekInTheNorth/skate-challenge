@@ -7,11 +7,12 @@ using AllInSkateChallenge.Features.Gravatar;
 using AllInSkateChallenge.Features.Home;
 using AllInSkateChallenge.Features.LeaderBoard;
 using AllInSkateChallenge.Features.Services.Email;
-using AllInSkateChallenge.Features.Services.Strava;
 using AllInSkateChallenge.Features.Skater;
 using AllInSkateChallenge.Features.Skater.Progress;
 using AllInSkateChallenge.Features.Skater.SkateLog;
 using AllInSkateChallenge.Features.Skater.StravaImport;
+using AllInSkateChallenge.Features.Strava;
+using AllInSkateChallenge.Features.Strava.Webhook;
 using AllInSkateChallenge.Features.Updates;
 
 using Microsoft.AspNetCore.Builder;
@@ -51,7 +52,7 @@ namespace AllInSkateChallenge
                         options.Scope.Add("activity:read_all");
                     });
 
-            services.AddControllersWithViews();
+            services.AddControllersWithViews().AddNewtonsoftJson();
             services.AddRazorPages();
 
             services.Configure<IdentityOptions>(options =>
@@ -105,6 +106,7 @@ namespace AllInSkateChallenge
             services.AddTransient<ICheckPointRepository, CheckPointRepository>();
             services.AddTransient<ISkaterMileageEntriesRepository, SkaterMileageEntriesRepository>();
             services.AddTransient<ISummaryStatisticsRepository, SummaryStatisticsRepository>();
+            services.AddTransient<IStravaIntegrationLogRepository, StravaIntegrationLogRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
