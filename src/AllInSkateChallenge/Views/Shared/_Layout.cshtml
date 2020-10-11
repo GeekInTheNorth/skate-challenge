@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="~/css/site.css" />
     <meta name="robots" content="noindex, nofollow" />
 </head>
-<body>
+<body class="mb-0">
     <header>
         <nav class="navbar navbar-expand-lg navbar-light bg-allin-green border-bottom box-shadow sticky-top font-weight-bold">
             <div class="container">
@@ -27,9 +27,6 @@
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" href="https://www.allincrd.uk/" target="_blank">About</a>
@@ -50,9 +47,13 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2020 - <a href="https://www.allincrd.uk/" target="_blank">ALL IN Community Roller Derby</a> - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+    <footer class="border-top bg-allin-green">
+        <div class="container text-center pt-3 pb-3">
+            &copy; 2020 - <a class="text-dark font-weight-bold" href="https://www.allincrd.uk/" target="_blank">ALL IN Community Roller Derby</a>
+            <nav class="nav justify-content-center">
+                <a class="nav-link text-dark font-weight-bold" asp-area="" asp-controller="Home" asp-action="FAQ">FAQ</a>
+                <a class="nav-link text-dark font-weight-bold" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            </nav>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
