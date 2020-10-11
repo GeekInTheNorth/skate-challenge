@@ -1,0 +1,21 @@
+﻿@model List<AllInSkateChallenge.Features.Data.Entities.StravaIntegrationLog>
+
+<div class="text-center">
+    <h1>Strava Integration Logs</h1>
+</div>
+
+<table class="table table-striped">
+    <thead class="bg-allin-green">
+        <tr>
+            <th scope="col">Recieved</th>
+            <th scope="col">Body</th>
+        </tr>
+    </thead>
+    @foreach (var log in Model)
+    {
+        <tr>
+            <td class="align-items-center">@log.Recieved.ToString("dd/MM/yyyy HH:mm:ss")</td>
+            <td class="align-items-center">@log.Body</td>
+        </tr>
+    }
+</table>
