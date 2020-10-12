@@ -36,6 +36,7 @@ namespace AllInSkateChallenge.Features.Activities
             }
             catch(Exception)
             {
+                // TODO: Log this
                 return new CommandResult() { IsSuccess = false };
             }
         }
