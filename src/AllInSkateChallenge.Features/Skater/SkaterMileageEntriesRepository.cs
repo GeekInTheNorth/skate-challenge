@@ -26,7 +26,7 @@ namespace AllInSkateChallenge.Features.Skater
 
         public async Task Save(ApplicationUser skater, DateTime logged, string stravaId, decimal miles)
         {
-            var recordExists = context.SkateLogEntries.Any(x => x.StravaId.Equals(stravaId));
+            var recordExists = !string.IsNullOrWhiteSpace(stravaId) && context.SkateLogEntries.Any(x => x.StravaId.Equals(stravaId));
 
             if (!recordExists)
             {

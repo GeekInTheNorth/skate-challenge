@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
 
+using AllInSkateChallenge.Features.Activities;
 using AllInSkateChallenge.Features.Data.Entities;
-using AllInSkateChallenge.Features.Skater;
+using AllInSkateChallenge.Features.Framework.Command;
 using AllInSkateChallenge.Features.Skater.SkateLog;
 
 using Microsoft.AspNetCore.Authorization;
@@ -16,18 +17,18 @@ namespace AllInSkateChallenge.Controllers
     {
         private readonly UserManager<ApplicationUser> userManager;
 
-        private readonly ISkaterMileageEntriesRepository repository;
-
         private readonly ISkaterLogViewModelBuilder viewModelBuilder;
 
+        private readonly ICommandDispatcher commandDispatcher;
+
         public SkaterLogController(
-            UserManager<ApplicationUser> userManager, 
-            ISkaterMileageEntriesRepository repository, 
-            ISkaterLogViewModelBuilder viewModelBuilder)
+            UserManager<ApplicationUser> userManager,
+            ISkaterLogViewModelBuilder viewModelBuilder, 
+            ICommandDispatcher commandDispatcher)
         {
             this.userManager = userManager;
-            this.repository = repository;
             this.viewModelBuilder = viewModelBuilder;
+            this.commandDispatcher = commandDispatcher;
         }
 
         [Route("skater/skate-log")]
@@ -45,8 +46,9 @@ namespace AllInSkateChallenge.Controllers
         public async Task<IActionResult> Delete(Guid mileageEntryId)
         {
             var user = await userManager.GetUserAsync(User);
-            
-            await repository.DeleteAsync(user, mileageEntryId);
+
+            var command = new DeleteActivityCommand { Skater = user, MileageEntryId = mileageEntryId };
+            await commandDispatcher.DispatchAsync(command);
 
             return Ok();
         }
@@ -66,7 +68,9 @@ namespace AllInSkateChallenge.Controllers
             }
             else
             {
-                await repository.Save(user, DateTime.Now, null, mileageEntry.DistanceMiles);
+                var command = new SaveActivityCommand { Skater = user, Distance = mileageEntry.Distance, DistanceUnit = mileageEntry.DistanceUnit, StartDate = DateTime.Now };
+                await commandDispatcher.DispatchAsync(command);
+                
                 var model = await viewModelBuilder.WithUser(user).Build();
 
                 return View("~/Views/Skater/Log.cshtml", model);

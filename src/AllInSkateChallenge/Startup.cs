@@ -3,6 +3,7 @@ using System;
 using AllInSkateChallenge.Features.Data;
 using AllInSkateChallenge.Features.Data.Entities;
 using AllInSkateChallenge.Features.Data.Static;
+using AllInSkateChallenge.Features.Framework.Command;
 using AllInSkateChallenge.Features.Gravatar;
 using AllInSkateChallenge.Features.Home;
 using AllInSkateChallenge.Features.LeaderBoard;
@@ -107,6 +108,8 @@ namespace AllInSkateChallenge
             services.AddTransient<ISkaterMileageEntriesRepository, SkaterMileageEntriesRepository>();
             services.AddTransient<ISummaryStatisticsRepository, SummaryStatisticsRepository>();
             services.AddTransient<IStravaIntegrationLogRepository, StravaIntegrationLogRepository>();
+
+            services.AddTransient<ICommandDispatcher, CommandDispatcher>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

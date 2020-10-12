@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
 
+using AllInSkateChallenge.Features.Activities;
 using AllInSkateChallenge.Features.Data.Entities;
+using AllInSkateChallenge.Features.Framework.Command;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -16,16 +18,16 @@ namespace AllInSkateChallenge.Features.Skater.StravaImport
 
         private readonly UserManager<ApplicationUser> userManager;
 
-        private readonly ISkaterMileageEntriesRepository mileageEntriesRepository;
+        private readonly ICommandDispatcher commandDispatcher;
 
         public StravaImportController(
-            IStravaImportViewModelBuilder viewModelBuilder, 
-            UserManager<ApplicationUser> userManager, 
-            ISkaterMileageEntriesRepository mileageEntriesRepository)
+            IStravaImportViewModelBuilder viewModelBuilder,
+            UserManager<ApplicationUser> userManager,
+            ICommandDispatcher commandDispatcher)
         {
             this.viewModelBuilder = viewModelBuilder;
             this.userManager = userManager;
-            this.mileageEntriesRepository = mileageEntriesRepository;
+            this.commandDispatcher = commandDispatcher;
         }
 
         [Route("skater/skate-log/strava-import")]
@@ -59,7 +61,8 @@ namespace AllInSkateChallenge.Features.Skater.StravaImport
                 return BadRequest();
             }
 
-            await mileageEntriesRepository.Save(user, logged, activityId, miles);
+            var saveCommand = new SaveActivityCommand { Skater = user, Distance = miles, DistanceUnit = DistanceUnit.Miles, StartDate = logged, StavaActivityId = activityId };
+            await commandDispatcher.DispatchAsync(saveCommand);
 
             return Ok();
         }
