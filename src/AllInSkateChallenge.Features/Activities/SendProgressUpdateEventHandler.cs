@@ -4,7 +4,11 @@ using System.Threading.Tasks;
 
 using AllInSkateChallenge.Features.Data.Static;
 using AllInSkateChallenge.Features.Framework.Command;
+using AllInSkateChallenge.Features.Framework.Routing;
+using AllInSkateChallenge.Features.Services.Email;
 using AllInSkateChallenge.Features.Skater;
+
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 namespace AllInSkateChallenge.Features.Activities
 {
@@ -14,10 +18,24 @@ namespace AllInSkateChallenge.Features.Activities
 
         private readonly ICheckPointRepository checkPointRepository;
 
-        public SendProgressUpdateEventHandler(ISkaterMileageEntriesRepository repository, ICheckPointRepository checkPointRepository)
+        private readonly IViewToStringRenderer viewToStringRenderer;
+
+        private readonly IAbsoluteUrlHelper absoluteUrlHelper;
+
+        private readonly IEmailSender emailSender;
+
+        public SendProgressUpdateEventHandler(
+            ISkaterMileageEntriesRepository repository,
+            ICheckPointRepository checkPointRepository,
+            IViewToStringRenderer viewToStringRenderer,
+            IAbsoluteUrlHelper absoluteUrlHelper, 
+            IEmailSender emailSender)
         {
             this.repository = repository;
             this.checkPointRepository = checkPointRepository;
+            this.viewToStringRenderer = viewToStringRenderer;
+            this.absoluteUrlHelper = absoluteUrlHelper;
+            this.emailSender = emailSender;
         }
 
         public async Task HandleAsync(SaveActivityCommand command, CommandResult result)
@@ -41,12 +59,21 @@ namespace AllInSkateChallenge.Features.Activities
                 var previousMiles = totalMiles - milesThisSkate;
                 var checkPointReached = checkPointRepository.Get().Where(x => x.Distance >= previousMiles && x.Distance <= totalMiles).OrderByDescending(x => x.Distance).FirstOrDefault();
 
-                if (checkPointReached != null)
+                if (checkPointReached != null && command.Skater.EmailConfirmed)
                 {
-                    // TODO: Send Email
+                    var emailModel = new SkaterProgressEmailViewModel 
+                    { 
+                        LogoUrl = absoluteUrlHelper.Get("/images/AllInSkateChallengeBanner2.png"),
+                        Skater = command.Skater, 
+                        CheckPoint = checkPointReached,
+                        TotalMiles = totalMiles
+                    };
+                    var emailBody = await viewToStringRenderer.RenderPartialToStringAsync("~/Views/Email/SkaterProgressEmail.cshtml", emailModel);
+
+                    await emailSender.SendEmailAsync(command.Skater.Email, "ALL IN Skate Challenge Progress", emailBody);
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 // TODO: Log this
             }

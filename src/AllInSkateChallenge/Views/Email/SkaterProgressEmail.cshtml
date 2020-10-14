@@ -1,0 +1,75 @@
+﻿@model AllInSkateChallenge.Features.Activities.SkaterProgressEmailViewModel
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Your Progress</title>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            margin: 0;
+        }
+
+        .container {
+            width: 90%;
+            padding-right: 5%;
+            padding-left: 5%;
+            margin-right: auto;
+            margin-left: auto;
+        }
+
+        .email-logo {
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .bg-allin-green {
+            background-color: #8ABC2D;
+        }
+
+        .progress-card {
+            width: 80%;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            padding-right: 5%;
+            padding-left: 5%;
+            margin-left: 5%;
+            margin-right: 5%;
+            border-radius: 10px;
+        }
+
+        img {
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <img src="@Model.LogoUrl" alt="ALL IN Logo" />
+    <div class="container text-center">
+        <h1>Congratulations @Model.Skater.SkaterName! you reached a new milestone on your Leeds Liverpool canal Skate Challenge!</h1>
+    </div>
+    <div class="progress-card bg-allin-green">
+        <h2>@Model.CheckPoint.Title</h2>
+        <p>@Model.CheckPoint.Description</p>
+        @if (!string.IsNullOrWhiteSpace(Model.CheckPoint.Image))
+        {
+            <img src="@Model.CheckPoint.Image" alt="@Model.CheckPoint.ImageAlt" />
+        }
+        <p>Milestone Distance: @Model.CheckPoint.Distance.ToString("F1") miles</p>
+        <p>Miles Skated So Far: @Model.TotalMiles.ToString("F1") miles</p>
+        <p>
+            Links:
+            <a href="http://www.google.com/maps/place/@Model.CheckPoint.Latitude,@Model.CheckPoint.Longitude?zoom=1" target="_blank">Milestone in Google Maps</a>
+            @if (!string.IsNullOrWhiteSpace(Model.CheckPoint.Url))
+            {
+                <a href="@Model.CheckPoint.Url" target="_blank">Milestone Website</a>
+            }
+        </p>
+    </div>
+</body>
+</html>

@@ -1,9 +1,19 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+
+using AllInSkateChallenge.Features.Framework.Routing;
 
 namespace AllInSkateChallenge.Features.Data.Static
 {
     public class CheckPointRepository : ICheckPointRepository
     {
+        private readonly IAbsoluteUrlHelper absoluteUrlHelper;
+
+        public CheckPointRepository(IAbsoluteUrlHelper absoluteUrlHelper)
+        {
+            this.absoluteUrlHelper = absoluteUrlHelper;
+        }
+
         public List<CheckPointModel> Get()
         {
             return new List<CheckPointModel>
@@ -40,7 +50,7 @@ namespace AllInSkateChallenge.Features.Data.Static
                     Longitude = -1.838214M,
                     Latitude = 53.856368M,
                     Url = "https://en.wikipedia.org/wiki/Bingley_Five_Rise_Locks",
-                    Image = "/images/BingleyFiveRiseLock.jpg",
+                    Image = absoluteUrlHelper.Get("/images/BingleyFiveRiseLock.jpg"),
                     ImageAlt = "Bingley 5 Rise Lock by Maree Coates"
                 },
                 new CheckPointModel
@@ -59,7 +69,7 @@ namespace AllInSkateChallenge.Features.Data.Static
                     Description = "Congratulations, thanks to the wibbly wobbly nature of the canal, it's taken you 8 miles to traverse 5 to reach this bridge made of two separate arches stacked atop of each other.",
                     Longitude = -2.1398083M,
                     Latitude = 53.953686M,
-                    Image = "/images/EastMartonDoubleArch.jpg",
+                    Image = absoluteUrlHelper.Get("/images/EastMartonDoubleArch.jpg"),
                     ImageAlt = "The Double Arch, East Marton, Leeds Liverpool Canal by Phil Moon"
                 },
                 new CheckPointModel
@@ -119,7 +129,7 @@ namespace AllInSkateChallenge.Features.Data.Static
                     Description = "Congratulations, You have reached the finish line! This is where the Leeds Liverpool Canal terminates.",
                     Longitude = -2.994955M,
                     Latitude = 53.403282M,
-                    Image = "/images/CanningDock.jpg",
+                    Image = absoluteUrlHelper.Get("/images/CanningDock.jpg"),
                     ImageAlt = "Canning Dock, Liverpool by Roger Ellis"
                 }
             };

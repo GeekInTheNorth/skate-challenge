@@ -4,6 +4,7 @@ using AllInSkateChallenge.Features.Data;
 using AllInSkateChallenge.Features.Data.Entities;
 using AllInSkateChallenge.Features.Data.Static;
 using AllInSkateChallenge.Features.Framework.Command;
+using AllInSkateChallenge.Features.Framework.Routing;
 using AllInSkateChallenge.Features.Gravatar;
 using AllInSkateChallenge.Features.Home;
 using AllInSkateChallenge.Features.LeaderBoard;
@@ -20,6 +21,8 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -89,10 +92,14 @@ namespace AllInSkateChallenge
                 options.SlidingExpiration = true;
             });
 
+            // Route Helping
+            services.Configure<RouteSettings>(options => Configuration.GetSection("RouteSettings").Bind(options));
+            services.AddSingleton<IAbsoluteUrlHelper, AbsoluteUrlHelper>();
+
             // External Services
             services.Configure<EmailSettings>(options => Configuration.GetSection("EmailSettings").Bind(options));
-            services.AddTransient<IEmailSender, EmailSenderService>();
             services.Configure<StravaSettings>(options => Configuration.GetSection("Strava").Bind(options));
+            services.AddTransient<IEmailSender, EmailSenderService>();
             services.AddTransient<IStravaService, StravaService>();
 
             services.AddTransient<IGravatarResolver, GravatarResolver>();
@@ -110,6 +117,7 @@ namespace AllInSkateChallenge
             services.AddTransient<IStravaIntegrationLogRepository, StravaIntegrationLogRepository>();
 
             services.AddTransient<ICommandDispatcher, CommandDispatcher>();
+            services.AddTransient<IViewToStringRenderer, ViewToStringRenderer>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
