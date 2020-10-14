@@ -64,6 +64,9 @@ namespace AllInSkateChallenge.Areas.Identity.Pages.Account
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
+
+            [Display(Name = "Send me emails about my progress in the ALL IN Skate Challenge.")]
+            public bool AcceptProgressNotifications { get; set; }
         }
 
         public async Task OnGetAsync(string returnUrl = null)
@@ -78,7 +81,13 @@ namespace AllInSkateChallenge.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email, SkaterName = Input.SkaterName };
+                var user = new ApplicationUser 
+                { 
+                    UserName = Input.Email, 
+                    Email = Input.Email, 
+                    SkaterName = Input.SkaterName, 
+                    AcceptProgressNotifications = Input.AcceptProgressNotifications
+                };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {

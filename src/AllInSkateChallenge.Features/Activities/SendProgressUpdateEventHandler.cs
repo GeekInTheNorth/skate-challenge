@@ -40,7 +40,7 @@ namespace AllInSkateChallenge.Features.Activities
 
         public async Task HandleAsync(SaveActivityCommand command, CommandResult result)
         {
-            if (!result.IsSuccess) return;
+            if (!result.IsSuccess || !command.Skater.AcceptProgressNotifications) return;
 
             try
             {

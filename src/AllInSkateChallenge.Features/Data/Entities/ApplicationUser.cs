@@ -12,6 +12,8 @@ namespace AllInSkateChallenge.Features.Data.Entities
 
         public bool IsStravaAccount { get; set; }
 
+        public bool AcceptProgressNotifications { get; set; }
+
         public List<SkateLogEntry> SkateLogEntries { get; set; }
     }
 }

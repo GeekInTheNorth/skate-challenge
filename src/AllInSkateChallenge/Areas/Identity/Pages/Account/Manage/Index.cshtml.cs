@@ -39,6 +39,9 @@ namespace AllInSkateChallenge.Areas.Identity.Pages.Account.Manage
             [Phone]
             [Display(Name = "Phone number")]
             public string PhoneNumber { get; set; }
+
+            [Display(Name = "Send me emails about my progress in the ALL IN Skate Challenge.")]
+            public bool AcceptProgressNotifications { get; set; }
         }
 
         private async Task LoadAsync(ApplicationUser user)
@@ -51,7 +54,8 @@ namespace AllInSkateChallenge.Areas.Identity.Pages.Account.Manage
             Input = new InputModel
             {
                 PhoneNumber = phoneNumber,
-                SkaterName = user.SkaterName
+                SkaterName = user.SkaterName,
+                AcceptProgressNotifications = user.AcceptProgressNotifications
             };
         }
 
@@ -81,10 +85,14 @@ namespace AllInSkateChallenge.Areas.Identity.Pages.Account.Manage
                 return Page();
             }
 
-            if (!Input.PhoneNumber.Equals(user.PhoneNumber) || !Input.SkaterName.Equals(user.SkaterName))
+            var phoneNumberChanged = !string.Equals(Input.PhoneNumber, user.PhoneNumber);
+            var skaterNameChanged = !string.Equals(Input.SkaterName, user.SkaterName);
+            var acceptProgressChanged = !Input.AcceptProgressNotifications.Equals(user.AcceptProgressNotifications);
+            if (phoneNumberChanged || skaterNameChanged || acceptProgressChanged)
             {
                 user.PhoneNumber = Input.PhoneNumber;
                 user.SkaterName = Input.SkaterName;
+                user.AcceptProgressNotifications = Input.AcceptProgressNotifications;
 
                 var saveResult = await _userManager.UpdateAsync(user);
                 if (!saveResult.Succeeded)

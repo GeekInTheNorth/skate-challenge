@@ -50,7 +50,11 @@ namespace AllInSkateChallenge.Areas.Identity.Pages.Account
         {
             [Required]
             [EmailAddress]
+            [Display(Name = "Email Address (Some third parties such as Strava do not share this data)")]
             public string Email { get; set; }
+
+            [Display(Name = "Send me emails about my progress in the ALL IN Skate Challenge.")]
+            public bool AcceptProgressNotifications { get; set; }
         }
 
         public IActionResult OnGetAsync()
@@ -131,7 +135,8 @@ namespace AllInSkateChallenge.Areas.Identity.Pages.Account
                 { 
                     UserName = Input.Email, 
                     Email = Input.Email, 
-                    IsStravaAccount = info.LoginProvider.Equals("Strava", System.StringComparison.CurrentCultureIgnoreCase)
+                    IsStravaAccount = info.LoginProvider.Equals("Strava", System.StringComparison.CurrentCultureIgnoreCase),
+                    AcceptProgressNotifications = Input.AcceptProgressNotifications
                 };
 
                 if (!info.Principal.HasClaim(x => x.Type.Equals(ClaimTypes.Email)) && info.Principal.HasClaim(x => x.Type.Equals(ClaimTypes.NameIdentifier)))
@@ -149,10 +154,6 @@ namespace AllInSkateChallenge.Areas.Identity.Pages.Account
                 else if (info.Principal.HasClaim(x => x.Type.Equals(ClaimTypes.GivenName)))
                 {
                     user.SkaterName = info.Principal.FindFirstValue(ClaimTypes.GivenName);
-                }
-                if (info.Principal.HasClaim(x => x.Type.Equals("urn:strava:profile")))
-                {
-                    user.ExternalProfileImage = info.Principal.FindFirstValue("urn:strava:profile");
                 }
 
                 var result = await _userManager.CreateAsync(user);
