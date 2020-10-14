@@ -57,16 +57,20 @@ namespace AllInSkateChallenge.Features.Activities
 
                 var totalMiles = repository.GetTotalDistance(command.Skater);
                 var previousMiles = totalMiles - milesThisSkate;
-                var checkPointReached = checkPointRepository.Get().Where(x => x.Distance >= previousMiles && x.Distance <= totalMiles).OrderByDescending(x => x.Distance).FirstOrDefault();
+                var checkPoints = checkPointRepository.Get();
+                var checkPointReached = checkPoints.Where(x => x.Distance >= previousMiles && x.Distance <= totalMiles).OrderByDescending(x => x.Distance).FirstOrDefault();
 
                 if (checkPointReached != null && command.Skater.EmailConfirmed)
                 {
+                    var nextCheckPoint = checkPoints.Where(x => x.Distance > checkPointReached.Distance).OrderBy(x => x.Distance).FirstOrDefault();
+                    
                     var emailModel = new SkaterProgressEmailViewModel 
                     { 
                         LogoUrl = absoluteUrlHelper.Get("/images/AllInSkateChallengeBanner2.png"),
                         Skater = command.Skater, 
                         CheckPoint = checkPointReached,
-                        TotalMiles = totalMiles
+                        TotalMiles = totalMiles,
+                        NextCheckPoint = nextCheckPoint
                     };
                     var emailBody = await viewToStringRenderer.RenderPartialToStringAsync("~/Views/Email/SkaterProgressEmail.cshtml", emailModel);
 

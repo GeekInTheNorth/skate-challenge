@@ -40,6 +40,7 @@
             padding-left: 5%;
             margin-left: 5%;
             margin-right: 5%;
+            margin-bottom: 10px;
             border-radius: 10px;
         }
 
@@ -61,7 +62,6 @@
             <img src="@Model.CheckPoint.Image" alt="@Model.CheckPoint.ImageAlt" />
         }
         <p>Milestone Distance: @Model.CheckPoint.Distance.ToString("F1") miles</p>
-        <p>Miles Skated So Far: @Model.TotalMiles.ToString("F1") miles</p>
         <p>
             Links:
             <a href="http://www.google.com/maps/place/@Model.CheckPoint.Latitude,@Model.CheckPoint.Longitude?zoom=1" target="_blank">Milestone in Google Maps</a>
@@ -71,5 +71,24 @@
             }
         </p>
     </div>
+    <div class="progress-card bg-allin-green">
+        <h2>Your Journey to Date</h2>
+        <p>You have skated a total distance of @Model.TotalMiles.ToString("F1") of the required 127.5 miles required to skate the entire length of the Leeds Liverpool canal.</p>
+        @if (Model.TotalMilesRemaining > 0)
+        {
+            <p>This means that there is total of @Model.TotalMilesRemaining.ToString("F1") miles remaining on your journey from Leeds to Liverpool. If this distance feels too great, perhaps you could think about the distance remaining to your next milestone instead?</p>
+        }
+        else
+        {
+            <p>This means you have totally smashed your journey! Well Done!</p>
+        }
+    </div>
+    @if (Model.NextCheckPoint != null)
+    {
+        <div class="progress-card bg-allin-green">
+            <h2>Your Next Milestone</h2>
+            <p>Your next milestone is at @Model.NextCheckPoint.Title, you need to skate a further @Model.NextCheckPointMilesRemaining.ToString("F1") miles to reach this milestone.  You can do this!</p>
+        </div>
+    }
 </body>
 </html>
