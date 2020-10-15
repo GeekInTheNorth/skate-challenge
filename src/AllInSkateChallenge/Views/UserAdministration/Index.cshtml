@@ -1,0 +1,122 @@
+﻿@model AllInSkateChallenge.Features.Administration.UserAdministrationViewModel
+
+<div class="text-center">
+    <h1>User Administration</h1>
+</div>
+<p>This page allows the administrator to either mark a skater as having page ALL IN or to delete the Skater.</p>
+
+<div class="alert alert-success fade show" role="alert" style="display:none;">
+    User <strong class="js-delete-user-success--name"></strong> has been deleted.
+</div>
+
+<div class="alert alert-danger fade show" role="alert" style="display:none;">
+    We were unable to delete user <strong class="js-delete-user-failure--name"></strong>.
+</div>
+
+<table class="table table-striped">
+    <thead>
+        <tr class="thead-dark">
+            <th scope="col">Skater Name</th>
+            <th scope="col">Email Address</th>
+            <th scope="col">Email Verified</th>
+            <th scope="col">Date Joined</th>
+            <th scope="col">Paid?</th>
+            <th scope="col">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model.Users)
+        {
+            <tr data-user-id="@user.Id">
+                <td>@user.SkaterName</td>
+                <td>@user.Email</td>
+                <td>@(user.EmailConfirmed ? "Yes" : "No")</td>
+                <td>01/01/2000</td>
+                <td>No</td>
+                <td>
+                    <button type="button" class="btn btn-primary js-toggle-user-paid-status" data-user-id="@user.Id" data-user-name="@user.SkaterName">Set As Paid</button>
+                    <button type="button" class="btn btn-danger js-delete-user" data-user-id="@user.Id" data-user-name="@user.SkaterName">Delete</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<nav aria-label="Page Navigation">
+    <ul class="pagination">
+        @if (Model.CurrentPage > 1)
+        {
+            <li class="page-item">
+                <a class="page-link" asp-controller="UserAdministration" asp-action="Index" asp-route-page="@(Model.CurrentPage - 1)">
+                    <span aria-hidden="true">&laquo;</span>
+                    <span class="sr-only">Previous</span>
+                </a>
+            </li>
+        }
+        @for (var pageNo = 1; pageNo <= Model.MaxPages; pageNo++)
+        {
+            <li class="page-item @(pageNo.Equals(Model.CurrentPage) ? "active" : "")">
+                <a class="page-link" asp-controller="UserAdministration" asp-action="Index" asp-route-page="@pageNo">@pageNo</a>
+            </li>
+        }
+        @if (Model.CurrentPage < Model.MaxPages)
+        {
+            <li class="page-item">
+                <a class="page-link" asp-controller="UserAdministration" asp-action="Index" asp-route-page="@(Model.CurrentPage + 1)">
+                    <span aria-hidden="true">&raquo;</span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </li>
+        }
+    </ul>
+</nav>
+
+<div class="modal fade" id="deleteUserModal" tabindex="-1" role="dialog" aria-labelledby="deleteUserLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteUserLabel">Delete User</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete this user: <span class="js-delete-user--name"></span>?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger js-confirm-delete-user">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(".js-delete-user").click(function (event) {
+                $(".js-confirm-delete-user").data("user-id", ($(event.target).data("user-id")));
+                $(".js-delete-user--name").html($(event.target).data("user-name"))
+                $("#deleteUserModal").modal({ keyboard: true, focus: true });
+            });
+
+            $(".js-confirm-delete-user").click(function (event) {
+                var rowSelector = "tr[data-user-id='" + $(event.target).data("user-id") + "']";
+                $.post("/UserAdministration/delete", { "userId": $(event.target).data("user-id") })
+                    .done(function () {
+                        $(".js-delete-user-success--name").html($(".js-delete-user--name").html())
+                        $(rowSelector).remove();
+                        $("#deleteUserModal").modal('hide');
+                        $(".alert.alert-danger").hide();
+                        $(".alert.alert-success").show();
+                    })
+                    .fail(function () {
+                        $(".js-delete-user-failure--name").html($(".js-delete-user--name").html())
+                        $("#deleteUserModal").modal('hide');
+                        $(".alert.alert-success").hide();
+                        $(".alert.alert-danger").show();
+                    });
+            });
+        });
+    </script>
+}
