@@ -1,4 +1,19 @@
-﻿@{ 
+﻿@using AllInSkateChallenge.Features.Data.Entities
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@{
+    var isSignedIn = false;
+    var isAdmin = false;
+    ApplicationUser userDetails = null;
+    if (SignInManager.IsSignedIn(User))
+    {
+        isSignedIn = true;
+        userDetails = await UserManager.GetUserAsync(User);
+        isAdmin = await UserManager.IsInRoleAsync(userDetails, "Administrator");
+    }
+
     var smallImage = Url.Content("~/images/AllInSkateChallengeBannerSmall.png");
     var largeImage = Url.Content("~/images/AllInSkateChallengeBanner2.png");
 }
@@ -23,7 +38,36 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-lg-inline-flex flex-lg-row-reverse">
-                    <partial name="_LoginPartial" />
+
+                    <ul class="navbar-nav">
+                        @if (isSignedIn)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @userDetails.SkaterName</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="SkaterProgress" asp-action="Progress" title="Your Progress">Your Progress</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="SkaterLog" asp-action="Index" title="Log Miles">Your Log</a>
+                            </li>
+                            <li class="nav-item">
+                                <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                                    <button type="submit" class="nav-link btn btn-link text-dark font-weight-bold">Logout</button>
+                                </form>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Login</a>
+                            </li>
+                        }
+                    </ul>
+
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
@@ -53,6 +97,10 @@
             <nav class="nav justify-content-center">
                 <a class="nav-link text-dark font-weight-bold" asp-area="" asp-controller="Home" asp-action="FAQ">FAQ</a>
                 <a class="nav-link text-dark font-weight-bold" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                @if (isAdmin)
+                {
+                    <a class="nav-link text-dark font-weight-bold" asp-controller="UserAdministration" asp-action="Index" title="Admin">Admin</a>
+                }
             </nav>
         </div>
     </footer>
