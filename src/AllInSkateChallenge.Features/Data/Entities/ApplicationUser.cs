@@ -14,6 +14,8 @@ namespace AllInSkateChallenge.Features.Data.Entities
 
         public bool AcceptProgressNotifications { get; set; }
 
+        public bool HasPaid { get; set; }
+
         public List<SkateLogEntry> SkateLogEntries { get; set; }
     }
 }

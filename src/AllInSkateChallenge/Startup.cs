@@ -1,5 +1,6 @@
 using System;
 
+using AllInSkateChallenge.Features.Administration.UserDelete;
 using AllInSkateChallenge.Features.Data;
 using AllInSkateChallenge.Features.Data.Entities;
 using AllInSkateChallenge.Features.Data.Static;
@@ -17,12 +18,12 @@ using AllInSkateChallenge.Features.Strava;
 using AllInSkateChallenge.Features.Strava.Webhook;
 using AllInSkateChallenge.Features.Updates;
 
+using MediatR;
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
-using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -120,6 +121,8 @@ namespace AllInSkateChallenge
 
             services.AddTransient<ICommandDispatcher, CommandDispatcher>();
             services.AddTransient<IViewToStringRenderer, ViewToStringRenderer>();
+
+            services.AddMediatR(typeof(AdminDeleteUserCommand).Assembly);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

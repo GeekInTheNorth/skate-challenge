@@ -32,9 +32,9 @@
                 <td>@user.Email</td>
                 <td>@(user.EmailConfirmed ? "Yes" : "No")</td>
                 <td>01/01/2000</td>
-                <td>No</td>
+                <td>@(user.HasPaid ? "Yes" : "No")</td>
                 <td>
-                    <button type="button" class="btn btn-primary js-toggle-user-paid-status" data-user-id="@user.Id" data-user-name="@user.SkaterName">Set As Paid</button>
+                    <button type="button" class="btn btn-primary js-toggle-user-paid-status" data-user-id="@user.Id" data-user-name="@user.SkaterName" data-has-paid="@user.HasPaid">Set As Paid</button>
                     <button type="button" class="btn btn-danger js-delete-user" data-user-id="@user.Id" data-user-name="@user.SkaterName">Delete</button>
                 </td>
             </tr>
@@ -104,15 +104,36 @@
                 var rowSelector = "tr[data-user-id='" + $(event.target).data("user-id") + "']";
                 $.post("/UserAdministration/delete", { "userId": $(event.target).data("user-id") })
                     .done(function () {
-                        $(".js-delete-user-success--name").html($(".js-delete-user--name").html())
+                        $(".alert.alert-success").html("<strong>" + $(".js-delete-user--name").html() + "</strong> has been deleted.");
                         $(rowSelector).remove();
                         $("#deleteUserModal").modal('hide');
                         $(".alert.alert-danger").hide();
                         $(".alert.alert-success").show();
                     })
                     .fail(function () {
+                        $(".alert.alert-danger").html("Failed to delete <strong>" + $(".js-delete-user--name").html() + "</strong>.");
                         $(".js-delete-user-failure--name").html($(".js-delete-user--name").html())
                         $("#deleteUserModal").modal('hide');
+                        $(".alert.alert-success").hide();
+                        $(".alert.alert-danger").show();
+                    });
+            });
+
+            $(".js-toggle-user-paid-status").click(function (event) {
+                var rowSelector = "tr[data-user-id='" + $(event.target).data("user-id") + "']";
+                var hasPaid = $.parseJSON($(event.target).data("has-paid").toLowerCase());
+                var toggled = !hasPaid;
+
+                $.post("/UserAdministration/update", { "userId": $(event.target).data("user-id"), "hasPaid": toggled })
+                    .done(function () {
+                        $(".alert.alert-success").html("<strong>" + $(event.target).data("user-name") + "</strong> has been updated.");
+                        $(".alert.alert-danger").hide();
+                        $(".alert.alert-success").show();
+                        $(event.target).data("has-paid", toggled.toString());
+                        $(rowSelector).children().eq(4).html((toggled ? "Yes" : "No"));
+                    })
+                    .fail(function () {
+                        $(".alert.alert-danger").html("Failed to update <strong>" + $(event.target).data("user-name") + "</strong>.");
                         $(".alert.alert-success").hide();
                         $(".alert.alert-danger").show();
                     });
