@@ -2,9 +2,9 @@
 
 using AllInSkateChallenge.Features.Data.Entities;
 
-namespace AllInSkateChallenge.Features.Administration
+namespace AllInSkateChallenge.Features.Administration.UserList
 {
-    public class UserAdministrationViewModel
+    public class AdminUserListQueryResponse
     {
         public List<ApplicationUser> Users { get; set; }
 
