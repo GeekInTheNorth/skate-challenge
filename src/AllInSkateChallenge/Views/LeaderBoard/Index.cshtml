@@ -1,4 +1,4 @@
-﻿@model AllInSkateChallenge.Features.LeaderBoard.LeaderBoardModel
+﻿@model AllInSkateChallenge.Features.LeaderBoard.LeaderBoardQueryResponse
 
 @functions{
     string GetPositionClass(int position)
@@ -25,7 +25,6 @@
     @if (Model.Entries != null && Model.Entries.Any())
     {
         <div class="col-xl-12">
-            <h2>Leaderboard</h2>
             <table class="table">
                 <thead class="thead-dark">
                     <tr>

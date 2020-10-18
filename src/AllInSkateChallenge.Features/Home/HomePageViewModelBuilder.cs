@@ -10,17 +10,14 @@ namespace AllInSkateChallenge.Features.Home
 {
     public class HomePageViewModelBuilder : IHomePageViewModelBuilder
     {
-        private readonly ILeaderBoardQuery leaderBoardQuery;
-
         private readonly ISummaryStatisticsRepository summaryStatisticsRepository;
 
         private readonly IMediator mediator;
 
         private ApplicationUser skater;
 
-        public HomePageViewModelBuilder(ILeaderBoardQuery leaderBoardQuery, ISummaryStatisticsRepository summaryStatisticsRepository, IMediator mediator)
+        public HomePageViewModelBuilder(ISummaryStatisticsRepository summaryStatisticsRepository, IMediator mediator)
         {
-            this.leaderBoardQuery = leaderBoardQuery;
             this.summaryStatisticsRepository = summaryStatisticsRepository;
             this.mediator = mediator;
         }
@@ -39,11 +36,12 @@ namespace AllInSkateChallenge.Features.Home
             model.ShowSignUpPromotion = skater == null;
             model.SummaryStatistics = summaryStatisticsRepository.Get();
 
-            var latestUpdates = await mediator.Send(new LatestUpdatesQuery { Limit = 10 });
-
             if (skater != null)
             {
-                model.LeaderBoard = leaderBoardQuery.Get();
+                var latestUpdates = await mediator.Send(new LatestUpdatesQuery { Limit = 10 });
+                var leaderBoard = await mediator.Send(new LeaderBoardQuery { Limit = 10 });
+
+                model.LeaderBoard = leaderBoard.Entries;
                 model.LatestUpdates = latestUpdates.Entries;
             }
 

@@ -2,7 +2,7 @@
 
 namespace AllInSkateChallenge.Features.LeaderBoard
 {
-    public class LeaderBoardModel
+    public class LeaderBoardQueryResponse
     {
         public List<LeaderBoardEntryModel> Entries { get; set; }
     }

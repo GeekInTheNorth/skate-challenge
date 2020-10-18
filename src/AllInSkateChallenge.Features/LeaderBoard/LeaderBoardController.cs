@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System.Threading.Tasks;
+using MediatR;
+
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AllInSkateChallenge.Features.LeaderBoard
@@ -6,16 +9,16 @@ namespace AllInSkateChallenge.Features.LeaderBoard
     [Authorize]
     public class LeaderBoardController : Controller
     {
-        private readonly ILeaderBoardQuery leaderBoardQuery;
+        private readonly IMediator mediator;
 
-        public LeaderBoardController(ILeaderBoardQuery leaderBoardQuery)
+        public LeaderBoardController(IMediator mediator)
         {
-            this.leaderBoardQuery = leaderBoardQuery;
+            this.mediator = mediator;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var model = leaderBoardQuery.Get(10000);
+            var model = await mediator.Send(new LeaderBoardQuery());
 
             return View(model);
         }
