@@ -1,6 +1,10 @@
-﻿using AllInSkateChallenge.Features.Data.Entities;
+﻿using System.Threading.Tasks;
+
+using AllInSkateChallenge.Features.Data.Entities;
 using AllInSkateChallenge.Features.LeaderBoard;
 using AllInSkateChallenge.Features.Updates;
+
+using MediatR;
 
 namespace AllInSkateChallenge.Features.Home
 {
@@ -8,17 +12,17 @@ namespace AllInSkateChallenge.Features.Home
     {
         private readonly ILeaderBoardQuery leaderBoardQuery;
 
-        private readonly ILatestUpdatesQuery latestUpdatesQuery;
-
         private readonly ISummaryStatisticsRepository summaryStatisticsRepository;
+
+        private readonly IMediator mediator;
 
         private ApplicationUser skater;
 
-        public HomePageViewModelBuilder(ILeaderBoardQuery leaderBoardQuery, ILatestUpdatesQuery latestUpdatesQuery, ISummaryStatisticsRepository summaryStatisticsRepository)
+        public HomePageViewModelBuilder(ILeaderBoardQuery leaderBoardQuery, ISummaryStatisticsRepository summaryStatisticsRepository, IMediator mediator)
         {
             this.leaderBoardQuery = leaderBoardQuery;
-            this.latestUpdatesQuery = latestUpdatesQuery;
             this.summaryStatisticsRepository = summaryStatisticsRepository;
+            this.mediator = mediator;
         }
 
         public IHomePageViewModelBuilder WithUser(ApplicationUser skater)
@@ -28,17 +32,19 @@ namespace AllInSkateChallenge.Features.Home
             return this;
         }
 
-        public HomePageViewModel Build()
+        public async Task<HomePageViewModel> Build()
         {
             var model = new HomePageViewModel();
 
             model.ShowSignUpPromotion = skater == null;
             model.SummaryStatistics = summaryStatisticsRepository.Get();
 
+            var latestUpdates = await mediator.Send(new LatestUpdatesQuery { Limit = 10 });
+
             if (skater != null)
             {
                 model.LeaderBoard = leaderBoardQuery.Get();
-                model.LatestUpdates = latestUpdatesQuery.Get();
+                model.LatestUpdates = latestUpdates.Entries;
             }
 
             return model;

@@ -24,7 +24,7 @@ namespace AllInSkateChallenge.Features.Home
         {
             var skater = await userManager.GetUserAsync(User);
 
-            var model = viewModelBuilder.WithUser(skater).Build();
+            var model = await viewModelBuilder.WithUser(skater).Build();
 
             return View(model);
         }

@@ -16,7 +16,6 @@ using AllInSkateChallenge.Features.Skater.SkateLog;
 using AllInSkateChallenge.Features.Skater.StravaImport;
 using AllInSkateChallenge.Features.Strava;
 using AllInSkateChallenge.Features.Strava.Webhook;
-using AllInSkateChallenge.Features.Updates;
 
 using MediatR;
 
@@ -107,7 +106,6 @@ namespace AllInSkateChallenge
 
             services.AddTransient<IGravatarResolver, GravatarResolver>();
             services.AddTransient<ILeaderBoardQuery, LeaderBoardQuery>();
-            services.AddTransient<ILatestUpdatesQuery, LatestUpdatesQuery>();
             services.AddTransient<IHomePageViewModelBuilder, HomePageViewModelBuilder>();
             services.AddTransient<ISkaterProgressViewModelBuilder, SkaterProgressViewModelBuilder>();
             services.AddTransient<ISkaterLogViewModelBuilder, SkaterLogViewModelBuilder>();

@@ -1,4 +1,5 @@
-﻿using AllInSkateChallenge.Features.Data.Entities;
+﻿using System.Threading.Tasks;
+using AllInSkateChallenge.Features.Data.Entities;
 
 namespace AllInSkateChallenge.Features.Home
 {
@@ -6,6 +7,6 @@ namespace AllInSkateChallenge.Features.Home
     {
         IHomePageViewModelBuilder WithUser(ApplicationUser skater);
 
-        HomePageViewModel Build();
+        Task<HomePageViewModel> Build();
     }
 }

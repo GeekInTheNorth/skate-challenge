@@ -72,7 +72,7 @@
         </div>
     }
 
-    @if (Model.LatestUpdates != null && Model.LatestUpdates.Entries != null && Model.LatestUpdates.Entries.Any())
+    @if (Model.LatestUpdates != null && Model.LatestUpdates.Any())
     {
         <div class="col-xl-6">
             <h2>Latest Journeys</h2>
@@ -85,7 +85,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var entry in Model.LatestUpdates.Entries)
+                    @foreach (var entry in Model.LatestUpdates)
                     {
                         <tr>
                             <td class="align-middle"><img class="leaderboard-profile" src="@entry.GravatarUrl?s=48" alt="@entry.Skater" /> @entry.Skater</td>

@@ -2,7 +2,7 @@
 
 namespace AllInSkateChallenge.Features.Updates
 {
-    public class MileageUpdateEntryModel
+    public class MileageEntryModel
     {
         public DateTime Logged { get; set; }
 
