@@ -3,8 +3,9 @@ using System.Threading.Tasks;
 
 using AllInSkateChallenge.Features.Activities;
 using AllInSkateChallenge.Features.Data.Entities;
-using AllInSkateChallenge.Features.Framework.Command;
 using AllInSkateChallenge.Features.Skater.SkateLog;
+
+using MediatR;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -19,16 +20,16 @@ namespace AllInSkateChallenge.Controllers
 
         private readonly ISkaterLogViewModelBuilder viewModelBuilder;
 
-        private readonly ICommandDispatcher commandDispatcher;
+        private readonly IMediator mediator;
 
         public SkaterLogController(
             UserManager<ApplicationUser> userManager,
-            ISkaterLogViewModelBuilder viewModelBuilder, 
-            ICommandDispatcher commandDispatcher)
+            ISkaterLogViewModelBuilder viewModelBuilder,
+            IMediator mediator)
         {
             this.userManager = userManager;
             this.viewModelBuilder = viewModelBuilder;
-            this.commandDispatcher = commandDispatcher;
+            this.mediator = mediator;
         }
 
         [Route("skater/skate-log")]
@@ -48,7 +49,7 @@ namespace AllInSkateChallenge.Controllers
             var user = await userManager.GetUserAsync(User);
 
             var command = new DeleteActivityCommand { Skater = user, MileageEntryId = mileageEntryId };
-            await commandDispatcher.DispatchAsync(command);
+            await mediator.Send(command);
 
             return Ok();
         }
@@ -69,8 +70,8 @@ namespace AllInSkateChallenge.Controllers
             else
             {
                 var command = new SaveActivityCommand { Skater = user, Distance = mileageEntry.Distance, DistanceUnit = mileageEntry.DistanceUnit, StartDate = DateTime.Now };
-                await commandDispatcher.DispatchAsync(command);
-                
+                await mediator.Send(command);
+
                 var model = await viewModelBuilder.WithUser(user).Build();
 
                 return View("~/Views/Skater/Log.cshtml", model);

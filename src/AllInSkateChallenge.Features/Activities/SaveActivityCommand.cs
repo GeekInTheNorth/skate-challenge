@@ -3,9 +3,11 @@
 using AllInSkateChallenge.Features.Data.Entities;
 using AllInSkateChallenge.Features.Skater;
 
+using MediatR;
+
 namespace AllInSkateChallenge.Features.Activities
 {
-    public class SaveActivityCommand
+    public class SaveActivityCommand : IRequest<SaveActivityCommandResult>
     {
         public ApplicationUser Skater { get; set; }
 

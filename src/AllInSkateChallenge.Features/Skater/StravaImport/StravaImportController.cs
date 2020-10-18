@@ -3,7 +3,8 @@ using System.Threading.Tasks;
 
 using AllInSkateChallenge.Features.Activities;
 using AllInSkateChallenge.Features.Data.Entities;
-using AllInSkateChallenge.Features.Framework.Command;
+
+using MediatR;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -18,16 +19,16 @@ namespace AllInSkateChallenge.Features.Skater.StravaImport
 
         private readonly UserManager<ApplicationUser> userManager;
 
-        private readonly ICommandDispatcher commandDispatcher;
+        private readonly IMediator mediator;
 
         public StravaImportController(
             IStravaImportViewModelBuilder viewModelBuilder,
             UserManager<ApplicationUser> userManager,
-            ICommandDispatcher commandDispatcher)
+            IMediator mediator)
         {
             this.viewModelBuilder = viewModelBuilder;
             this.userManager = userManager;
-            this.commandDispatcher = commandDispatcher;
+            this.mediator = mediator;
         }
 
         [Route("skater/skate-log/strava-import")]
@@ -62,7 +63,7 @@ namespace AllInSkateChallenge.Features.Skater.StravaImport
             }
 
             var saveCommand = new SaveActivityCommand { Skater = user, Distance = miles, DistanceUnit = DistanceUnit.Miles, StartDate = logged, StavaActivityId = activityId };
-            await commandDispatcher.DispatchAsync(saveCommand);
+            await mediator.Send(saveCommand);
 
             return Ok();
         }

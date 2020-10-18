@@ -2,9 +2,11 @@
 
 using AllInSkateChallenge.Features.Data.Entities;
 
+using MediatR;
+
 namespace AllInSkateChallenge.Features.Activities
 {
-    public class DeleteActivityCommand
+    public class DeleteActivityCommand : IRequest
     {
         public ApplicationUser Skater { get; set; }
 

@@ -1,32 +1,36 @@
-﻿using System;
+﻿using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
-using AllInSkateChallenge.Features.Framework.Command;
-using AllInSkateChallenge.Features.Skater;
+using AllInSkateChallenge.Features.Data;
+using AllInSkateChallenge.Features.Data.Entities;
+
+using MediatR;
 
 namespace AllInSkateChallenge.Features.Activities
 {
-    public class DeleteActivityCommandHandler : ICommandHandler<DeleteActivityCommand>
+    public class DeleteActivityCommandHandler : IRequestHandler<DeleteActivityCommand>
     {
-        private readonly ISkaterMileageEntriesRepository repository;
+        private readonly ApplicationDbContext context;
 
-        public DeleteActivityCommandHandler(ISkaterMileageEntriesRepository repository)
+        public DeleteActivityCommandHandler(ApplicationDbContext context)
         {
-            this.repository = repository;
+            this.context = context;
         }
 
-        public async Task<CommandResult> HandleAsync(DeleteActivityCommand command)
+        public async Task<Unit> Handle(DeleteActivityCommand request, CancellationToken cancellationToken)
         {
-            try
-            {
-                await repository.DeleteAsync(command.Skater, command.MileageEntryId);
+            var itemToDelete = context.SkateLogEntries.FirstOrDefault(x => x.SkateLogEntryId.Equals(request.MileageEntryId) && x.ApplicationUserId.Equals(request.Skater.Id));
 
-                return new CommandResult() { IsSuccess = true };
-            }
-            catch (Exception)
+            if (itemToDelete == null)
             {
-                return new CommandResult() { IsSuccess = false };
+                throw new EntityNotFoundException(typeof(SkateLogEntry), request.MileageEntryId);
             }
+
+            context.SkateLogEntries.Remove(itemToDelete);
+            await context.SaveChangesAsync();
+
+            return Unit.Value;
         }
     }
 }

@@ -24,29 +24,6 @@ namespace AllInSkateChallenge.Features.Skater
             return await context.SkateLogEntries.Where(x => x.ApplicationUserId == skater.Id).OrderByDescending(x => x.Logged).ToListAsync();
         }
 
-        public async Task Save(ApplicationUser skater, DateTime logged, string stravaId, decimal miles)
-        {
-            var recordExists = !string.IsNullOrWhiteSpace(stravaId) && context.SkateLogEntries.Any(x => x.StravaId.Equals(stravaId));
-
-            if (!recordExists)
-            {
-                var entry = new SkateLogEntry { ApplicationUserId = skater.Id, StravaId = stravaId, DistanceInMiles = miles, Logged = logged };
-                context.SkateLogEntries.Add(entry);
-                await context.SaveChangesAsync();
-            }
-        }
-
-        public async Task DeleteAsync(ApplicationUser skater, Guid mileageEntryId)
-        {
-            var itemToDelete = context.SkateLogEntries.FirstOrDefault(x => x.SkateLogEntryId.Equals(mileageEntryId) && x.ApplicationUserId.Equals(skater.Id));
-
-            if (itemToDelete != null)
-            {
-                context.SkateLogEntries.Remove(itemToDelete);
-                await context.SaveChangesAsync();
-            }
-        }
-
         public decimal GetTotalDistance(ApplicationUser skater)
         {
             var userId = new Guid(skater.Id);

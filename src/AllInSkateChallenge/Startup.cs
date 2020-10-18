@@ -4,7 +4,6 @@ using AllInSkateChallenge.Features.Administration.UserDelete;
 using AllInSkateChallenge.Features.Data;
 using AllInSkateChallenge.Features.Data.Entities;
 using AllInSkateChallenge.Features.Data.Static;
-using AllInSkateChallenge.Features.Framework.Command;
 using AllInSkateChallenge.Features.Framework.Routing;
 using AllInSkateChallenge.Features.Gravatar;
 using AllInSkateChallenge.Features.Home;
@@ -115,9 +114,7 @@ namespace AllInSkateChallenge
             services.AddTransient<ISummaryStatisticsRepository, SummaryStatisticsRepository>();
             services.AddTransient<IStravaIntegrationLogRepository, StravaIntegrationLogRepository>();
 
-            services.AddTransient<ICommandDispatcher, CommandDispatcher>();
             services.AddTransient<IViewToStringRenderer, ViewToStringRenderer>();
-
             services.AddMediatR(typeof(AdminDeleteUserCommand).Assembly);
         }
 
