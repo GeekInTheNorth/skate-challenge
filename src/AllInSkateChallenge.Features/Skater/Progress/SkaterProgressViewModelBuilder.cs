@@ -1,7 +1,12 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 using AllInSkateChallenge.Features.Data.Entities;
 using AllInSkateChallenge.Features.Data.Static;
+using AllInSkateChallenge.Features.Skater.SkateLog;
+
+using MediatR;
 
 namespace AllInSkateChallenge.Features.Skater.Progress
 {
@@ -9,14 +14,14 @@ namespace AllInSkateChallenge.Features.Skater.Progress
     {
         private readonly ICheckPointRepository checkPointRepository;
 
-        private readonly ISkaterMileageEntriesRepository skaterSummaryRepository;
+        private readonly IMediator mediator;
 
         private ApplicationUser skater;
 
-        public SkaterProgressViewModelBuilder(ICheckPointRepository checkPointRepository, ISkaterMileageEntriesRepository skaterSummaryRepository)
+        public SkaterProgressViewModelBuilder(ICheckPointRepository checkPointRepository, IMediator mediator)
         {
             this.checkPointRepository = checkPointRepository;
-            this.skaterSummaryRepository = skaterSummaryRepository;
+            this.mediator = mediator;
         }
 
         public ISkaterProgressViewModelBuilder WithUser(ApplicationUser skater)
@@ -26,9 +31,12 @@ namespace AllInSkateChallenge.Features.Skater.Progress
             return this;
         }
 
-        public SkaterProgressViewModel Build()
+        public async Task<SkaterProgressViewModel> Build()
         {
-            var totalDistance = skaterSummaryRepository.GetTotalDistance(skater);
+            var command = new SkaterLogQuery { Skater = skater };
+            var commandResponse = await mediator.Send(command);
+            var mileageEntries = commandResponse.Entries ?? new List<SkateLogEntry>();
+            var totalDistance = mileageEntries.Sum(x => x.DistanceInMiles);
             var checkPoints = checkPointRepository.Get();
             var checkPointsReached = checkPoints.Where(x => x.Distance <= totalDistance).OrderBy(x => x.Distance);
             var nextCheckPoint = checkPoints.Where(x => x.Distance > totalDistance).OrderBy(x => x.Distance).FirstOrDefault();

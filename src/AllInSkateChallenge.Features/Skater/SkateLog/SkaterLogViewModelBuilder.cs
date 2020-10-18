@@ -1,20 +1,23 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AllInSkateChallenge.Features.Data.Entities;
+
+using MediatR;
 
 namespace AllInSkateChallenge.Features.Skater.SkateLog
 {
     public class SkaterLogViewModelBuilder : ISkaterLogViewModelBuilder
     {
-        private readonly ISkaterMileageEntriesRepository repository;
+        private readonly IMediator mediator;
 
         private ApplicationUser skater;
 
         private INewSkaterLogEntry newEntry;
 
-        public SkaterLogViewModelBuilder(ISkaterMileageEntriesRepository repository)
+        public SkaterLogViewModelBuilder(IMediator mediator)
         {
-            this.repository = repository;
+            this.mediator = mediator;
         }
 
         public ISkaterLogViewModelBuilder WithNewEntry(INewSkaterLogEntry newEntry)
@@ -33,7 +36,9 @@ namespace AllInSkateChallenge.Features.Skater.SkateLog
 
         public async Task<SkaterLogViewModel> Build()
         {
-            var entries = await repository.GetSkateLogEntries(skater);
+            var command = new SkaterLogQuery { Skater = skater };
+            var commandResponse = await mediator.Send(command);
+            var entries = commandResponse.Entries ?? new List<SkateLogEntry>();
 
             return new SkaterLogViewModel
             {

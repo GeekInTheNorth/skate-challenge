@@ -4,7 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;
 
 using AllInSkateChallenge.Features.Data.Entities;
+using AllInSkateChallenge.Features.Skater.SkateLog;
 using AllInSkateChallenge.Features.Strava;
+
+using MediatR;
 
 namespace AllInSkateChallenge.Features.Skater.StravaImport
 {
@@ -12,14 +15,14 @@ namespace AllInSkateChallenge.Features.Skater.StravaImport
     {
         private readonly IStravaService stravaService;
 
-        private readonly ISkaterMileageEntriesRepository entriesRepository;
+        private readonly IMediator mediator;
 
         private ApplicationUser skater;
 
-        public StravaImportViewModelBuilder(IStravaService stravaService, ISkaterMileageEntriesRepository entriesRepository)
+        public StravaImportViewModelBuilder(IStravaService stravaService, IMediator mediator)
         {
             this.stravaService = stravaService;
-            this.entriesRepository = entriesRepository;
+            this.mediator = mediator;
         }
 
         public IStravaImportViewModelBuilder WithUser(ApplicationUser skater)
@@ -32,7 +35,9 @@ namespace AllInSkateChallenge.Features.Skater.StravaImport
         public async Task<StravaImportViewModel> BuildAsync()
         {
             var stravaActivityListResponse = await stravaService.List(skater);
-            var logEntries = await entriesRepository.GetSkateLogEntries(skater);
+            var command = new SkaterLogQuery { Skater = skater };
+            var commandResponse = await mediator.Send(command);
+            var logEntries = commandResponse.Entries ?? new List<SkateLogEntry>();
             
             return new StravaImportViewModel
             {

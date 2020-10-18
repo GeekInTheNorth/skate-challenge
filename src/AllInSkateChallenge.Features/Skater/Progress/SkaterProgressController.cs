@@ -26,7 +26,7 @@ namespace AllInSkateChallenge.Features.Skater.Progress
         {
             var user = await userManager.GetUserAsync(User);
 
-            var model = viewModelBuilder.WithUser(user).Build();
+            var model = await viewModelBuilder.WithUser(user).Build();
 
             return View("~/Views/Skater/Progress.cshtml", model);
         }

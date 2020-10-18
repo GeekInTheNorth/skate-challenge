@@ -110,7 +110,6 @@ namespace AllInSkateChallenge
 
             // Data
             services.AddTransient<ICheckPointRepository, CheckPointRepository>();
-            services.AddTransient<ISkaterMileageEntriesRepository, SkaterMileageEntriesRepository>();
             services.AddTransient<ISummaryStatisticsRepository, SummaryStatisticsRepository>();
             services.AddTransient<IStravaIntegrationLogRepository, StravaIntegrationLogRepository>();
 
