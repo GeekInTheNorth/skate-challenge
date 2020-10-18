@@ -8,12 +8,10 @@ using AllInSkateChallenge.Features.Framework.Routing;
 using AllInSkateChallenge.Features.Gravatar;
 using AllInSkateChallenge.Features.Home;
 using AllInSkateChallenge.Features.Services.Email;
-using AllInSkateChallenge.Features.Skater;
 using AllInSkateChallenge.Features.Skater.Progress;
 using AllInSkateChallenge.Features.Skater.SkateLog;
 using AllInSkateChallenge.Features.Skater.StravaImport;
 using AllInSkateChallenge.Features.Strava;
-using AllInSkateChallenge.Features.Strava.Webhook;
 
 using MediatR;
 
@@ -111,7 +109,6 @@ namespace AllInSkateChallenge
             // Data
             services.AddTransient<ICheckPointRepository, CheckPointRepository>();
             services.AddTransient<ISummaryStatisticsRepository, SummaryStatisticsRepository>();
-            services.AddTransient<IStravaIntegrationLogRepository, StravaIntegrationLogRepository>();
 
             services.AddTransient<IViewToStringRenderer, ViewToStringRenderer>();
             services.AddMediatR(typeof(AdminDeleteUserCommand).Assembly);

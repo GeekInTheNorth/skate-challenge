@@ -1,35 +1,31 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+
+using AllInSkateChallenge.Features.Strava.Webhook.LogStravaIntegration;
+
+using MediatR;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
 
 namespace AllInSkateChallenge.Features.Strava.Webhook
 {
-    [Authorize]
+    [Authorize(Roles = "Administrator")]
     public class StravaWebhookAdminController : Controller
     {
-        private readonly StravaSettings stravaSettings;
+        private readonly IMediator mediator;
 
-        private readonly IStravaIntegrationLogRepository logRepository;
-
-        public StravaWebhookAdminController(IOptions<StravaSettings> stravaSettings, IStravaIntegrationLogRepository logRepository)
+        public StravaWebhookAdminController(IMediator mediator)
         {
-            this.stravaSettings = stravaSettings.Value;
-            this.logRepository = logRepository;
+            this.mediator = mediator;
         }
 
-        [Route("strava/webhook/admin/{secret}")]
-        public async Task<IActionResult> Index(string secret)
+        [Route("strava/webhook/admin")]
+        public async Task<IActionResult> Index()
         {
-            if (!secret.Equals(stravaSettings.WebhookSecret, StringComparison.CurrentCultureIgnoreCase))
-            {
-                return NotFound();
-            }
+            var query = new StravaLogQuery { NumberOfDays = 14 };
+            var response = await mediator.Send(query);
 
-            var logs = await logRepository.Get(14);
-
-            return View(logs);
+            return View(response.Logs);
         }
     }
 }

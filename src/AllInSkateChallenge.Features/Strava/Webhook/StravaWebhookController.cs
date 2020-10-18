@@ -1,6 +1,11 @@
 ﻿using System;
 using System.Threading.Tasks;
 
+using AllInSkateChallenge.Features.Strava.Webhook.CreateActivity;
+using AllInSkateChallenge.Features.Strava.Webhook.LogStravaIntegration;
+
+using MediatR;
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 
@@ -11,12 +16,12 @@ namespace AllInSkateChallenge.Features.Strava.Webhook
     {
         private readonly StravaSettings stravaSettings;
 
-        private readonly IStravaIntegrationLogRepository logRepository;
+        private readonly IMediator mediator;
 
-        public StravaWebhookController(IOptions<StravaSettings> stravaSettings, IStravaIntegrationLogRepository logRepository)
+        public StravaWebhookController(IOptions<StravaSettings> stravaSettings, IMediator mediator)
         {
             this.stravaSettings = stravaSettings.Value;
-            this.logRepository = logRepository;
+            this.mediator = mediator;
         }
 
         [HttpGet]
@@ -41,8 +46,18 @@ namespace AllInSkateChallenge.Features.Strava.Webhook
         public async Task<IActionResult> AthleteEvents(WebHookEvent webHookEvent)
         {
             // https://developers.strava.com/docs/webhooks/
-            await logRepository.Log(Request.QueryString.Value, webHookEvent);
 
+            // Log the unprocessed event to assist with understanding data.
+            var logCommand = new LogStravaIntegrationCommand { Event = webHookEvent };
+            await mediator.Send(logCommand);
+
+            // Assign activity based events to their respective owners
+            if (webHookEvent.ObjectType.Equals("activity", StringComparison.CurrentCultureIgnoreCase))
+            {
+                var newEventCommand = new CreateActivityEventCommand { StravaUserId = webHookEvent.OwnerId, ActivityId = webHookEvent.ObjectId };
+                await mediator.Send(newEventCommand);
+            }
+            
             return Ok();
         }
     }

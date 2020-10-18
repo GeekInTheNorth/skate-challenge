@@ -17,5 +17,7 @@ namespace AllInSkateChallenge.Features.Data.Entities
         public bool HasPaid { get; set; }
 
         public List<SkateLogEntry> SkateLogEntries { get; set; }
+
+        public List<StravaEvent> StravaEvents { get; set; }
     }
 }
