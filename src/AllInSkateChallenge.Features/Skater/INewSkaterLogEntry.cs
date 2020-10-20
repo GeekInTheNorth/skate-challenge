@@ -9,7 +9,5 @@
         decimal DistanceMiles { get; }
 
         decimal DistanceKilometres { get; }
-
-        string ExerciseUrl { get; }
     }
 }

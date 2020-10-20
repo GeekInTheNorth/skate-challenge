@@ -29,6 +29,7 @@ namespace AllInSkateChallenge.Features.Skater.Progress
         public override async Task<PageViewModel<SkaterProgressViewModel>> Build()
         {
             var model = await base.Build();
+            model.PageTitle = "Your Progress";
             model.DisplayPageTitle = "Your Progress";
 
             var command = new SkaterLogQuery { Skater = User };

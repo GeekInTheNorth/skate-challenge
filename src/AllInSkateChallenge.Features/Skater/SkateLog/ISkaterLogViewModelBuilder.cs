@@ -1,14 +1,9 @@
-﻿using System.Threading.Tasks;
-using AllInSkateChallenge.Features.Data.Entities;
+﻿using AllInSkateChallenge.Features.Framework.Models;
 
 namespace AllInSkateChallenge.Features.Skater.SkateLog
 {
-    public interface ISkaterLogViewModelBuilder
+    public interface ISkaterLogViewModelBuilder : IPageViewModelBuilder<SkaterLogViewModel>
     {
-        ISkaterLogViewModelBuilder WithNewEntry(INewSkaterLogEntry newEntry);
-
-        ISkaterLogViewModelBuilder WithUser(ApplicationUser skater);
-
-        Task<SkaterLogViewModel> Build();
+        IPageViewModelBuilder<SkaterLogViewModel> WithNewEntry(INewSkaterLogEntry newEntry);
     }
 }

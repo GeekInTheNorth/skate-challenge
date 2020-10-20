@@ -1,54 +1,58 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AllInSkateChallenge.Features.Data;
 using AllInSkateChallenge.Features.Data.Entities;
-
+using AllInSkateChallenge.Features.Framework.Models;
 using MediatR;
+using Microsoft.AspNetCore.Identity;
 
 namespace AllInSkateChallenge.Features.Skater.SkateLog
 {
-    public class SkaterLogViewModelBuilder : ISkaterLogViewModelBuilder
+    public class SkaterLogViewModelBuilder : PageViewModelBuilder<SkaterLogViewModel>, ISkaterLogViewModelBuilder
     {
         private readonly IMediator mediator;
 
-        private ApplicationUser skater;
-
         private INewSkaterLogEntry newEntry;
 
-        public SkaterLogViewModelBuilder(IMediator mediator)
+        public SkaterLogViewModelBuilder(IMediator mediator, ApplicationDbContext context, UserManager<ApplicationUser> userManager) : base(context, userManager)
         {
             this.mediator = mediator;
         }
 
-        public ISkaterLogViewModelBuilder WithNewEntry(INewSkaterLogEntry newEntry)
+        public IPageViewModelBuilder<SkaterLogViewModel> WithNewEntry(INewSkaterLogEntry newEntry)
         {
             this.newEntry = newEntry;
 
             return this;
         }
 
-        public ISkaterLogViewModelBuilder WithUser(ApplicationUser skater)
+        public override async Task<PageViewModel<SkaterLogViewModel>> Build()
         {
-            this.skater = skater;
+            var model = await base.Build();
+            model.PageTitle = "Your Skate Log";
+            model.DisplayPageTitle = "Your Skate Log";
+            model.DisplayStravaNotification = false;
 
-            return this;
-        }
+            if (model.IsStravaUser)
+            {
+                model.IntroductoryText = "This screen allows you to create, view and delete your skate log entries. When Strava sends us notifications about your new or updated activities, you will be able to import those activities by clicking on 'Connect with STRAVA'.";
+            }
+            else
+            {
+                model.IntroductoryText = "This screen allows you to create, view and delete your skate log entries.";
+            }
 
-        public async Task<SkaterLogViewModel> Build()
-        {
-            var command = new SkaterLogQuery { Skater = skater };
+            var command = new SkaterLogQuery { Skater = User };
             var commandResponse = await mediator.Send(command);
             var entries = commandResponse.Entries ?? new List<SkateLogEntry>();
 
-            return new SkaterLogViewModel
-            {
-                TotalMiles = entries.Sum(x => x.DistanceInMiles),
-                Entries = entries,
-                IsStravaAccount = skater.IsStravaAccount,
-                DistanceUnit = newEntry?.DistanceUnit ?? DistanceUnit.Miles,
-                Distance = newEntry?.Distance ?? 0,
-                ExerciseUrl = newEntry?.ExerciseUrl
-            };
+            model.Content.TotalMiles = entries.Sum(x => x.DistanceInMiles);
+            model.Content.Entries = entries;
+            model.Content.DistanceUnit = newEntry?.DistanceUnit ?? DistanceUnit.Miles;
+            model.Content.Distance = newEntry?.Distance ?? 0;
+
+            return model;
         }
     }
 }

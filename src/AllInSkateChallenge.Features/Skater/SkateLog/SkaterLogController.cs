@@ -63,7 +63,7 @@ namespace AllInSkateChallenge.Controllers
 
             if (!TryValidateModel(mileageEntry, nameof(SkaterLogViewModel)))
             {
-                var model = await viewModelBuilder.WithUser(user).WithNewEntry(mileageEntry).Build();
+                var model = await viewModelBuilder.WithNewEntry(mileageEntry).WithUser(user).Build();
 
                 return View("~/Views/Skater/Log.cshtml", model);
             }

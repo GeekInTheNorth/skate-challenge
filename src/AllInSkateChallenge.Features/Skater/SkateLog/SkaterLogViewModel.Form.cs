@@ -13,9 +13,6 @@ namespace AllInSkateChallenge.Features.Skater.SkateLog
         [Range(0, 1000)]
         public decimal Distance { get; set; }
 
-        [DataType(DataType.Url)]
-        public string ExerciseUrl { get; set; }
-
         public decimal DistanceMiles
         {
             get
