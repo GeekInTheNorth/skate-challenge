@@ -1,48 +1,45 @@
 ﻿using System.Threading.Tasks;
 
+using AllInSkateChallenge.Features.Data;
 using AllInSkateChallenge.Features.Data.Entities;
+using AllInSkateChallenge.Features.Framework.Models;
 using AllInSkateChallenge.Features.LeaderBoard;
 using AllInSkateChallenge.Features.Updates;
 
 using MediatR;
 
+using Microsoft.AspNetCore.Identity;
+
 namespace AllInSkateChallenge.Features.Home
 {
-    public class HomePageViewModelBuilder : IHomePageViewModelBuilder
+    public class HomePageViewModelBuilder : PageViewModelBuilder<HomePageViewModel>, IHomePageViewModelBuilder
     {
         private readonly ISummaryStatisticsRepository summaryStatisticsRepository;
 
         private readonly IMediator mediator;
 
-        private ApplicationUser skater;
-
-        public HomePageViewModelBuilder(ISummaryStatisticsRepository summaryStatisticsRepository, IMediator mediator)
+        public HomePageViewModelBuilder(ISummaryStatisticsRepository summaryStatisticsRepository, IMediator mediator, ApplicationDbContext context, UserManager<ApplicationUser> userManager) : base(context, userManager)
         {
             this.summaryStatisticsRepository = summaryStatisticsRepository;
             this.mediator = mediator;
         }
 
-        public IHomePageViewModelBuilder WithUser(ApplicationUser skater)
+        public override async Task<PageViewModel<HomePageViewModel>> Build()
         {
-            this.skater = skater;
+            var model = await base.Build();
+            model.PageTitle = "Home";
+            model.DisplayPageTitle = "Welcome to the ALL IN Skate Challenge";
+            
+            var summary = summaryStatisticsRepository.Get();
+            model.IntroductoryText = $"The ALL IN Skate Challenge is to skate the equivelent of the Leeds Liverpool Canal over the period of one month. {summary.NumberOfSkaters} skaters have now taken up the challenge and skated a collective {summary.TotalMiles:F1} miles.";
 
-            return this;
-        }
-
-        public async Task<HomePageViewModel> Build()
-        {
-            var model = new HomePageViewModel();
-
-            model.ShowSignUpPromotion = skater == null;
-            model.SummaryStatistics = summaryStatisticsRepository.Get();
-
-            if (skater != null)
+            if (model.IsLoggedIn)
             {
                 var latestUpdates = await mediator.Send(new LatestUpdatesQuery { Limit = 10 });
                 var leaderBoard = await mediator.Send(new LeaderBoardQuery { Limit = 10 });
 
-                model.LeaderBoard = leaderBoard.Entries;
-                model.LatestUpdates = latestUpdates.Entries;
+                model.Content.LeaderBoard = leaderBoard.Entries;
+                model.Content.LatestUpdates = latestUpdates.Entries;
             }
 
             return model;

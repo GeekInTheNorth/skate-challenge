@@ -1,0 +1,125 @@
+﻿@model AllInSkateChallenge.Features.Framework.Models.IPageViewModel
+
+@{
+    var smallImage = Url.Content("~/images/AllInSkateChallengeBannerSmall.png");
+    var largeImage = Url.Content("~/images/AllInSkateChallengeBanner2.png");
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@Model.PageTitle - ALL IN Skate Challenge</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <meta name="robots" content="noindex, nofollow" />
+</head>
+<body class="mb-0">
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-allin-green border-bottom box-shadow sticky-top font-weight-bold">
+            <div class="container">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">ALL IN Skate Challenge</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-lg-inline-flex flex-lg-row-reverse">
+
+                    <ul class="navbar-nav">
+                        @if (Model.IsLoggedIn)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @Model.DisplayUserName</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="SkaterProgress" asp-action="Progress" title="Your Progress">Your Progress</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="SkaterLog" asp-action="Index" title="Log Miles">Your Log</a>
+                            </li>
+                            <li class="nav-item">
+                                <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                                    <button type="submit" class="nav-link btn btn-link text-dark font-weight-bold">Logout</button>
+                                </form>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Login</a>
+                            </li>
+                        }
+                    </ul>
+
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" href="https://www.allincrd.uk/" target="_blank">About</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <picture>
+            <source media="(orientation: landscape)" srcset="@smallImage 100w, @largeImage 800w" />
+            <img src="@smallImage" alt="All In Community Roller Derby banner." class="hero-banner" />
+        </picture>
+    </header>
+
+    <div class="container mt-3">
+        <main role="main" class="pb-3">
+            @if (!string.IsNullOrWhiteSpace(Model.DisplayPageTitle))
+            {
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="text-center">
+                            <h1 class="display-4">@Model.DisplayPageTitle</h1>
+                        </div>
+                        @if (!string.IsNullOrWhiteSpace(Model.IntroductoryText))
+                        {
+                            <p>@Model.IntroductoryText</p>
+                        }
+                    </div>
+                </div>
+            }
+
+            @if (Model.HasStravaImports && Model.DisplayStravaNotification)
+            {
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="alert alert-primary" role="alert">
+                            Strava has notified us that you have a new activity, check out the <a asp-controller="StravaImport" asp-action="Index" class="alert-link">Strava Import</a> page now.
+                        </div>
+                    </div>
+                </div>
+            }
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top bg-allin-green">
+        <div class="container text-center pt-3 pb-3">
+            &copy; 2020 - <a class="text-dark font-weight-bold" href="https://www.allincrd.uk/" target="_blank">ALL IN Community Roller Derby</a>
+            <nav class="nav justify-content-center">
+                <a class="nav-link text-dark font-weight-bold" asp-area="" asp-controller="Home" asp-action="FAQ">FAQ</a>
+                <a class="nav-link text-dark font-weight-bold" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                @if (Model.IsAdmin)
+                {
+                    <a class="nav-link text-dark font-weight-bold" asp-controller="UserAdministration" asp-action="Index" title="Admin">Admin</a>
+                    <a class="nav-link text-dark font-weight-bold" asp-controller="StravaWebhookAdmin" asp-action="Index" title="Strava">Strava</a>
+                }
+            </nav>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

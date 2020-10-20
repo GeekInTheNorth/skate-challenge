@@ -1,7 +1,7 @@
-﻿@model AllInSkateChallenge.Features.Home.HomePageViewModel
+﻿@model AllInSkateChallenge.Features.Framework.Models.PageViewModel<AllInSkateChallenge.Features.Home.HomePageViewModel>
 
 @{
-    ViewData["Title"] = "Home";
+    Layout = "_PageViewModelLayout";
 }
 
 @functions{
@@ -23,12 +23,7 @@
 
 <div class="row">
     <div class="col-xl-12">
-        <div class="text-center">
-            <h1 class="display-4">Welcome to the ALL IN Skate Challenge</h1>
-        </div>
-        <p>The ALL IN Skate Challenge is to skate the equivelent of the Leeds Liverpool Canal over the period of one month. @Model.SummaryStatistics.NumberOfSkaters skaters have now taken up the challenge and skated a collective @Model.SummaryStatistics.TotalMiles.ToString("F1") miles.</p>
-
-        @if (Model.ShowSignUpPromotion)
+        @if (!Model.IsLoggedIn)
         {
             <div class="card mt-3 mb-3 border-allin-green">
                 <h5 class="card-header bg-allin-green">Register for the Skate Challenge</h5>
@@ -45,7 +40,7 @@
 </div>
 
 <div class="row mt-3">
-    @if (Model.LeaderBoard != null && Model.LeaderBoard.Any())
+    @if (Model.Content.LeaderBoard != null && Model.Content.LeaderBoard.Any())
     {
         <div class="col-xl-6">
             <h2>Leader Board</h2>
@@ -58,7 +53,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var entry in Model.LeaderBoard)
+                    @foreach (var entry in Model.Content.LeaderBoard)
                     {
                         <tr>
                             <td class="align-middle"><span class="@GetPositionClass(entry.Place)">@entry.Place</span></td>
@@ -72,7 +67,7 @@
         </div>
     }
 
-    @if (Model.LatestUpdates != null && Model.LatestUpdates.Any())
+    @if (Model.Content.LatestUpdates != null && Model.Content.LatestUpdates.Any())
     {
         <div class="col-xl-6">
             <h2>Latest Journeys</h2>
@@ -85,7 +80,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var entry in Model.LatestUpdates)
+                    @foreach (var entry in Model.Content.LatestUpdates)
                     {
                         <tr>
                             <td class="align-middle"><img class="leaderboard-profile" src="@entry.GravatarUrl?s=48" alt="@entry.Skater" /> @entry.Skater</td>

@@ -1,12 +1,8 @@
-﻿using System.Threading.Tasks;
-using AllInSkateChallenge.Features.Data.Entities;
+﻿using AllInSkateChallenge.Features.Framework.Models;
 
 namespace AllInSkateChallenge.Features.Home
 {
-    public interface IHomePageViewModelBuilder
+    public interface IHomePageViewModelBuilder : IPageViewModelBuilder<HomePageViewModel>
     {
-        IHomePageViewModelBuilder WithUser(ApplicationUser skater);
-
-        Task<HomePageViewModel> Build();
     }
 }
