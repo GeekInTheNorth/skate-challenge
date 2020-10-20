@@ -107,8 +107,8 @@
         <div class="container text-center pt-3 pb-3">
             &copy; 2020 - <a class="text-dark font-weight-bold" href="https://www.allincrd.uk/" target="_blank">ALL IN Community Roller Derby</a>
             <nav class="nav justify-content-center">
-                <a class="nav-link text-dark font-weight-bold" asp-area="" asp-controller="Home" asp-action="FAQ">FAQ</a>
-                <a class="nav-link text-dark font-weight-bold" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                <a class="nav-link text-dark font-weight-bold" asp-controller="Home" asp-action="FAQ">FAQ</a>
+                <a class="nav-link text-dark font-weight-bold" asp-controller="Privacy" asp-action="Index">Privacy</a>
                 @if (Model.IsAdmin)
                 {
                     <a class="nav-link text-dark font-weight-bold" asp-controller="UserAdministration" asp-action="Index" title="Admin">Admin</a>

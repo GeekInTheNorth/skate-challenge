@@ -29,11 +29,6 @@ namespace AllInSkateChallenge.Features.Home
             return View(model);
         }
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-
         public IActionResult FAQ()
         {
             return View();
