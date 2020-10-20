@@ -22,5 +22,7 @@
         public bool HasStravaImports { get; set; }
 
         public bool DisplayStravaNotification { get; set; }
+        
+        public bool HasPaid { get; set; }
     }
 }

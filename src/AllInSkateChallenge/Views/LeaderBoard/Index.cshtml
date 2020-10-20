@@ -1,4 +1,8 @@
-﻿@model AllInSkateChallenge.Features.LeaderBoard.LeaderBoardQueryResponse
+﻿@model AllInSkateChallenge.Features.Framework.Models.PageViewModel<AllInSkateChallenge.Features.LeaderBoard.LeaderBoardModel>
+
+@{
+    Layout = "_PageViewModelLayout";
+}
 
 @functions{
     string GetPositionClass(int position)
@@ -17,12 +21,19 @@
     }
 }
 
-<div class="text-center">
-    <h1>Leader Board</h1>
-</div>
+@if (!Model.HasPaid)
+{
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="alert alert-warning" role="alert">
+                Please note that ALL IN has either not yet recieved or not yet processed your Skate Challenge entry fee. Your progress will not be visible in the leader board until then.
+            </div>
+        </div>
+    </div>
+}
 
 <div class="row mt-3">
-    @if (Model.Entries != null && Model.Entries.Any())
+    @if (Model.Content.Entries != null && Model.Content.Entries.Any())
     {
         <div class="col-xl-12">
             <table class="table">
@@ -34,7 +45,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var entry in Model.Entries)
+                    @foreach (var entry in Model.Content.Entries)
                     {
                         <tr>
                             <td class="align-middle"><span class="@GetPositionClass(entry.Place)">@entry.Place</span></td>

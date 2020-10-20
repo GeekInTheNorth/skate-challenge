@@ -33,10 +33,11 @@ namespace AllInSkateChallenge.Features.Framework.Models
 
         public virtual async Task<PageViewModel<T>> Build()
         {
-            var model = new PageViewModel<T> 
-            { 
-                IsLoggedIn = User != null, 
-                IsStravaUser = User?.IsStravaAccount ?? false, 
+            var model = new PageViewModel<T>
+            {
+                IsLoggedIn = User != null,
+                IsStravaUser = User?.IsStravaAccount ?? false,
+                HasPaid = User?.HasPaid ?? false,
                 DisplayUserName = User?.SkaterName,
                 Content = Activator.CreateInstance<T>()
             };

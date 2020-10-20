@@ -8,6 +8,7 @@ using AllInSkateChallenge.Features.FAQs;
 using AllInSkateChallenge.Features.Framework.Routing;
 using AllInSkateChallenge.Features.Gravatar;
 using AllInSkateChallenge.Features.Home;
+using AllInSkateChallenge.Features.LeaderBoard;
 using AllInSkateChallenge.Features.Privacy;
 using AllInSkateChallenge.Features.Services.Email;
 using AllInSkateChallenge.Features.Skater.Progress;
@@ -109,6 +110,7 @@ namespace AllInSkateChallenge
             services.AddTransient<IStravaImportViewModelBuilder, StravaImportViewModelBuilder>();
             services.AddTransient<IPrivacyViewModelBuilder, PrivacyViewModelBuilder>();
             services.AddTransient<IFaqViewModelBuilder, FaqViewModelBuilder>();
+            services.AddTransient<ILeaderBoardViewModelBuilder, LeaderBoardViewModelBuilder>();
 
             // Data
             services.AddTransient<ICheckPointRepository, CheckPointRepository>();
