@@ -2,38 +2,36 @@
 using System.Linq;
 using System.Threading.Tasks;
 
+using AllInSkateChallenge.Features.Data;
 using AllInSkateChallenge.Features.Data.Entities;
 using AllInSkateChallenge.Features.Data.Static;
+using AllInSkateChallenge.Features.Framework.Models;
 using AllInSkateChallenge.Features.Skater.SkateLog;
 
 using MediatR;
 
+using Microsoft.AspNetCore.Identity;
+
 namespace AllInSkateChallenge.Features.Skater.Progress
 {
-    public class SkaterProgressViewModelBuilder : ISkaterProgressViewModelBuilder
+    public class SkaterProgressViewModelBuilder : PageViewModelBuilder<SkaterProgressViewModel>, ISkaterProgressViewModelBuilder
     {
         private readonly ICheckPointRepository checkPointRepository;
 
         private readonly IMediator mediator;
 
-        private ApplicationUser skater;
-
-        public SkaterProgressViewModelBuilder(ICheckPointRepository checkPointRepository, IMediator mediator)
+        public SkaterProgressViewModelBuilder(ICheckPointRepository checkPointRepository, IMediator mediator, ApplicationDbContext context, UserManager<ApplicationUser> userManager) : base(context, userManager)
         {
             this.checkPointRepository = checkPointRepository;
             this.mediator = mediator;
         }
 
-        public ISkaterProgressViewModelBuilder WithUser(ApplicationUser skater)
+        public override async Task<PageViewModel<SkaterProgressViewModel>> Build()
         {
-            this.skater = skater;
+            var model = await base.Build();
+            model.DisplayPageTitle = "Your Progress";
 
-            return this;
-        }
-
-        public async Task<SkaterProgressViewModel> Build()
-        {
-            var command = new SkaterLogQuery { Skater = skater };
+            var command = new SkaterLogQuery { Skater = User };
             var commandResponse = await mediator.Send(command);
             var mileageEntries = commandResponse.Entries ?? new List<SkateLogEntry>();
             var totalDistance = mileageEntries.Sum(x => x.DistanceInMiles);
@@ -41,17 +39,13 @@ namespace AllInSkateChallenge.Features.Skater.Progress
             var checkPointsReached = checkPoints.Where(x => x.Distance <= totalDistance).OrderBy(x => x.Distance);
             var nextCheckPoint = checkPoints.Where(x => x.Distance > totalDistance).OrderBy(x => x.Distance).FirstOrDefault();
 
-            var model = new SkaterProgressViewModel
-            {
-                Title = "Your Progress",
-                CheckPointsReached = checkPointsReached.ToList(),
-                MilesSkated = totalDistance
-            };
+            model.Content.CheckPointsReached = checkPointsReached.ToList();
+            model.Content.MilesSkated = totalDistance;
 
             if (nextCheckPoint != null)
             {
                 var distanceToNextCheckpoint = nextCheckPoint.Distance - totalDistance;
-                model.NextCheckPoint = new CheckPointModel
+                model.Content.NextCheckPoint = new CheckPointModel
                 {
                     Title = "Your Next Checkpoint",
                     Description = $"You have to skate a further {distanceToNextCheckpoint:F2} miles to reach {nextCheckPoint.Title}.",
@@ -62,8 +56,8 @@ namespace AllInSkateChallenge.Features.Skater.Progress
             }
             else
             {
-                model.NextCheckPoint = model.CheckPointsReached.Last();
-                model.CheckPointsReached.Remove(model.NextCheckPoint);
+                model.Content.NextCheckPoint = model.Content.CheckPointsReached.Last();
+                model.Content.CheckPointsReached.Remove(model.Content.NextCheckPoint);
             }
 
             return model;

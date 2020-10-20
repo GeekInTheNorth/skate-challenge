@@ -1,13 +1,8 @@
-﻿using System.Threading.Tasks;
-
-using AllInSkateChallenge.Features.Data.Entities;
+﻿using AllInSkateChallenge.Features.Framework.Models;
 
 namespace AllInSkateChallenge.Features.Skater.Progress
 {
-    public interface ISkaterProgressViewModelBuilder
+    public interface ISkaterProgressViewModelBuilder : IPageViewModelBuilder<SkaterProgressViewModel>
     {
-        ISkaterProgressViewModelBuilder WithUser(ApplicationUser applicationUser);
-
-        Task<SkaterProgressViewModel> Build();
     }
 }

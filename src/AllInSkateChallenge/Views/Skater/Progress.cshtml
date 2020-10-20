@@ -1,21 +1,21 @@
-﻿@model AllInSkateChallenge.Features.Skater.Progress.SkaterProgressViewModel
+﻿@model AllInSkateChallenge.Features.Framework.Models.PageViewModel<AllInSkateChallenge.Features.Skater.Progress.SkaterProgressViewModel>
 
-<div class="text-center">
-    <h1>@Model.Title</h1>
-</div>
+@{
+    Layout = "_PageViewModelLayout";
+}
 
-@if (Model.CheckPointsReached != null && Model.CheckPointsReached.Any())
+@if (Model.Content.CheckPointsReached != null && Model.Content.CheckPointsReached.Any())
 {
     var isLeft = false;
     <div class="timeline">
         <div class="timeline-container-header">
             <div class="timeline-content-header">
                 <h2>Distance Travelled</h2>
-                <p>You have skated @Model.MilesSkated.ToString("F2") of the required 127.50 miles.</p>
+                <p>You have skated @Model.Content.MilesSkated.ToString("F2") of the required 127.50 miles.</p>
             </div>
         </div>
 
-        @foreach (var checkPoint in Model.CheckPointsReached)
+        @foreach (var checkPoint in Model.Content.CheckPointsReached)
         {
             isLeft = !isLeft;
             var alignmentClass = isLeft ? "timeline-container--left" : "timeline-container--right";
@@ -41,25 +41,25 @@
                             <a href="@checkPoint.Url" target="_blank" class="timeline-link">Website</a>
                         }
                     </p>
-                    
+
                 </div>
             </div>
         }
 
         <div class="timeline-container-header">
             <div class="timeline-content-header">
-                <h2>@Model.NextCheckPoint.Title</h2>
-                @if (Model.NextCheckPoint.Distance != 0)
+                <h2>@Model.Content.NextCheckPoint.Title</h2>
+                @if (Model.Content.NextCheckPoint.Distance != 0)
                 {
-                    <p>@Model.NextCheckPoint.Distance.ToString("F2") miles</p>
+                    <p>@Model.Content.NextCheckPoint.Distance.ToString("F2") miles</p>
                 }
-                <p>@Model.NextCheckPoint.Description</p>
+                <p>@Model.Content.NextCheckPoint.Description</p>
                 <p>
                     Links:
-                    <a href="http://www.google.com/maps/place/@Model.NextCheckPoint.Latitude,@Model.NextCheckPoint.Longitude?zoom=1" target="_blank" class="timeline-link">Map</a>
-                    @if (!string.IsNullOrWhiteSpace(Model.NextCheckPoint.Url))
+                    <a href="http://www.google.com/maps/place/@Model.Content.NextCheckPoint.Latitude,@Model.Content.NextCheckPoint.Longitude?zoom=1" target="_blank" class="timeline-link">Map</a>
+                    @if (!string.IsNullOrWhiteSpace(Model.Content.NextCheckPoint.Url))
                     {
-                        <a href="@Model.NextCheckPoint.Url" target="_blank" class="timeline-link">Website</a>
+                        <a href="@Model.Content.NextCheckPoint.Url" target="_blank" class="timeline-link">Website</a>
                     }
                 </p>
             </div>
