@@ -42,7 +42,7 @@ namespace AllInSkateChallenge.Features.Skater.StravaImport
                 return Redirect("/");
             }
 
-            var model = await viewModelBuilder.WithUser(user).BuildAsync();
+            var model = await viewModelBuilder.WithUser(user).Build();
 
             return View("~/Views/Skater/StravaImport.cshtml", model);
         }

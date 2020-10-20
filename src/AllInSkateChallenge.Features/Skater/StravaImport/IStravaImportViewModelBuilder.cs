@@ -1,13 +1,8 @@
-﻿using System.Threading.Tasks;
-
-using AllInSkateChallenge.Features.Data.Entities;
+﻿using AllInSkateChallenge.Features.Framework.Models;
 
 namespace AllInSkateChallenge.Features.Skater.StravaImport
 {
-    public interface IStravaImportViewModelBuilder
+    public interface IStravaImportViewModelBuilder : IPageViewModelBuilder<StravaImportViewModel>
     {
-        IStravaImportViewModelBuilder WithUser(ApplicationUser skater);
-
-        Task<StravaImportViewModel> BuildAsync();
     }
 }

@@ -20,20 +20,4 @@ $(document).ready(function () {
     $(".js-add-mileage-entry").click(function () {
         $("#addEntryModal").modal({ keyboard: true, focus: true });
     });
-
-    $(".js-import-strava").click(function (event) {
-        var activityId = $(event.target).data("activity-id");
-        var startDate = $(event.target).data("start-date");
-        var miles = $(event.target).data("miles");
-
-        $.post("/skater/skate-log/strava-import/save", { "activityId": activityId, "logged": startDate, "miles": miles })
-            .done(function () {
-                $("button[data-activity-id='" + activityId + "']").hide();
-                $("span[data-activity-id='" + activityId + "']").html("Yes");
-                $(".alert-success").show();
-            })
-            .fail(function () {
-                $(".alert-danger").show();
-            });
-    });
 });

@@ -1,19 +1,19 @@
-﻿@model AllInSkateChallenge.Features.Skater.StravaImport.StravaImportViewModel
+﻿@model AllInSkateChallenge.Features.Framework.Models.PageViewModel<AllInSkateChallenge.Features.Skater.StravaImport.StravaImportViewModel>
 
-<div class="text-center">
-    <h1>Your Strava Activities</h1>
-</div>
+@{
+    Layout = "_PageViewModelLayout";
+}
 
-@if (Model.Fault != null)
+@if (Model.Content.Fault != null)
 {
     <div class="alert alert-danger" role="alert">
         <h4 class="alert-heading">Oh Dear! we could not retrieve your Strava Activities!</h4>
-        <p>Strava raised the following message: @Model.Fault.Message</p>
-        @if (Model.Fault.Errors != null && Model.Fault.Errors.Any())
+        <p>Strava raised the following message: @Model.Content.Fault.Message</p>
+        @if (Model.Content.Fault.Errors != null && Model.Content.Fault.Errors.Any())
         {
             <hr>
             <ul>
-                @foreach (var error in Model.Fault.Errors)
+                @foreach (var error in Model.Content.Fault.Errors)
                 {
                     <li><strong>@error.Resource</strong> of <strong>@error.Field</strong> is <strong>@error.Code</strong></li>
                 }
@@ -22,7 +22,7 @@
     </div>
 }
 
-@if (Model.Activities != null)
+@if (Model.Content.Activities != null)
 {
     <div class="alert alert-success alert-dismissible fade show" role="alert" style="display:none;">
         <strong>Awesome!</strong> Your strava activity has been imported. Why not check out <a asp-controller="SkaterProgress" asp-action="Progress" class="alert-link">Your Progress</a> now?
@@ -38,7 +38,12 @@
         </button>
     </div>
 
-    <table class="table table-striped">
+    <div class="form-check">
+        <input type="checkbox" class="form-check-input js-toggle-ineligible-imports" id="ineligibleImportToggle">
+        <label class="form-check-label" for="ineligibleImportToggle">Show activities which are not eligible for importing.</label>
+    </div>
+
+    <table class="table table-hover mt-3">
         <thead class="thead-dark">
             <tr>
                 <th scope="col">Activity Type</th>
@@ -49,15 +54,15 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var activity in Model.Activities)
+            @foreach (var activity in Model.Content.Activities)
             {
-                <tr data-activity-id="@activity.ActivityId">
+                <tr data-activity-id="@activity.ActivityId" data-activity-eligible="@activity.IsEligableActivity" style="@(activity.IsEligableActivity ? "" : "display: none;")">
                     <td class="align-middle">@activity.ActivityType</td>
                     <td class="align-middle">@activity.StartDate.ToString("dd/MM/yyyy HH:mm")</td>
                     <td class="align-middle">@activity.Miles.ToString("F2") miles</td>
                     <td class="align-middle"><span class="js-import-strava-state" data-activity-id="@activity.ActivityId">@(activity.IsImported ? "Yes" : "No")</span></td>
                     <td class="align-middle js-action-delete-column">
-                        @if (!activity.IsImported)
+                        @if (!activity.IsImported && activity.IsEligableActivity)
                         {
                             <button type="button" class="btn btn-primary js-import-strava" data-activity-id="@activity.ActivityId" data-start-date="@activity.StartDate.ToString("O")" data-miles="@activity.Miles">Import</button>
                         }
@@ -66,4 +71,30 @@
             }
         </tbody>
     </table>
+}
+
+@section Scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(".js-toggle-ineligible-imports").click(function () {
+                $("tr[data-activity-eligible='False']").toggle(this.checked);
+            });
+
+            $(".js-import-strava").click(function (event) {
+                var activityId = $(event.target).data("activity-id");
+                var startDate = $(event.target).data("start-date");
+                var miles = $(event.target).data("miles");
+
+                $.post("/skater/skate-log/strava-import/save", { "activityId": activityId, "logged": startDate, "miles": miles })
+                    .done(function () {
+                        $("button[data-activity-id='" + activityId + "']").hide();
+                        $("span[data-activity-id='" + activityId + "']").html("Yes");
+                        $(".alert-success").show();
+                    })
+                    .fail(function () {
+                        $(".alert-danger").show();
+                    });
+            });
+        });
+    </script>
 }
