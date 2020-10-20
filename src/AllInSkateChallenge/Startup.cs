@@ -4,6 +4,7 @@ using AllInSkateChallenge.Features.Administration.UserDelete;
 using AllInSkateChallenge.Features.Data;
 using AllInSkateChallenge.Features.Data.Entities;
 using AllInSkateChallenge.Features.Data.Static;
+using AllInSkateChallenge.Features.FAQs;
 using AllInSkateChallenge.Features.Framework.Routing;
 using AllInSkateChallenge.Features.Gravatar;
 using AllInSkateChallenge.Features.Home;
@@ -107,6 +108,7 @@ namespace AllInSkateChallenge
             services.AddTransient<ISkaterLogViewModelBuilder, SkaterLogViewModelBuilder>();
             services.AddTransient<IStravaImportViewModelBuilder, StravaImportViewModelBuilder>();
             services.AddTransient<IPrivacyViewModelBuilder, PrivacyViewModelBuilder>();
+            services.AddTransient<IFaqViewModelBuilder, FaqViewModelBuilder>();
 
             // Data
             services.AddTransient<ICheckPointRepository, CheckPointRepository>();
