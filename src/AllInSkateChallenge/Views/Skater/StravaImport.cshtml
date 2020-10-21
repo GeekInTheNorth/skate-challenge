@@ -24,18 +24,8 @@
 
 @if (Model.Content.Activities != null)
 {
-    <div class="alert alert-success alert-dismissible fade show" role="alert" style="display:none;">
+    <div id="activityAlert" class="alert alert-success fade show" role="alert" style="display:none;">
         <strong>Awesome!</strong> Your strava activity has been imported. Why not check out <a asp-controller="SkaterProgress" asp-action="Progress" class="alert-link">Your Progress</a> now?
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-
-    <div class="alert alert-danger alert-dismissible fade show" role="alert" style="display:none;">
-        <strong>Oh No!</strong> We were unable to import this activity. If the import continues to fail, please let us know.
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
     </div>
 
     <div class="form-check">
@@ -89,12 +79,42 @@
                     .done(function () {
                         $("button[data-activity-id='" + activityId + "']").hide();
                         $("span[data-activity-id='" + activityId + "']").html("Yes");
-                        $(".alert-success").show();
+                        CreateNotification("success", "<strong>Awesome!</strong> Your strava activity has been imported. Why not check out <a href='/skater/progress/' class='alert-link'>Your Progress</a> now?");
                     })
                     .fail(function () {
-                        $(".alert-danger").show();
+                        CreateNotification("danger", "<strong>Oh No!</strong>, something went wrong importing your activity. Please try again in a minute.");
                     });
             });
+
+            IgnoreIneligibleActivities();
         });
+
+        function IgnoreIneligibleActivities() {
+            var stravaActivityIds = $("tr[data-activity-eligible='False']").map(function () { return $(this).data("activity-id"); }).get();
+
+            $.post("/skater/skate-log/strava-import/ignore", { "StravaActivityIds": stravaActivityIds })
+                .done(function (data) {
+                    if (data.activitiesIgnored == 1) {
+                        CreateNotification("success", "We have identified 1 new activity that is not eligible for this challenge, you will no longer recieve a notification about this activity.");
+                    }
+                    else if (data.activitiesIgnored > 1) {
+                        CreateNotification("success", "We have identified " + data.activitiesIgnored + " new activities that are not eligible for this challenge, you will no longer recieve notifications about these activities.");
+                    }
+                });
+        }
+
+        function CreateNotification(type, message) {
+            $("#activityAlert").html(message);
+
+            if (type === "success") {
+                $("#activityAlert").removeClass("alert-danger");
+                $("#activityAlert").addClass("alert-success");
+            } else {
+                $("#activityAlert").removeClass("alert-success");
+                $("#activityAlert").addClass("alert-danger");
+            }
+
+            $("#activityAlert").show();
+        }
     </script>
 }

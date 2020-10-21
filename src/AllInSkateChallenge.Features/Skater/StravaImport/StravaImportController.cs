@@ -67,5 +67,20 @@ namespace AllInSkateChallenge.Features.Skater.StravaImport
 
             return Ok();
         }
+
+        [HttpPost]
+        [Route("skater/skate-log/strava-import/ignore")]
+        public async Task<ActionResult<IgnoreActivitiesCommandResponse>> Ignore(IgnoreActivitiesCommand command)
+        {
+            var user = await userManager.GetUserAsync(User);
+            if (user == null || !user.IsStravaAccount)
+            {
+                return Forbid();
+            }
+
+            command.Skater = user;
+
+            return await mediator.Send(command);
+        }
     }
 }
