@@ -3,3 +3,71 @@
 @{
     Layout = "_PageViewModelLayout";
 }
+
+<h2>Event FAQ</h2>
+
+<h2 class="mt-3">Strava FAQ</h2>
+<div class="card mt-3">
+    <div class="card-header">
+        What kind of activities can be imported from Strava?
+    </div>
+    <div class="card-body">
+        <p class="card-text">As this is a Skate Challenge, only skating based activities can be imported from Strava.  This is specifically limited to Inline Skating, Ice Skating or Skateboarding activities.</p>
+        <p class="card-text">As Strava does not currently have a work out for Quad Roller Skates, we suggest that you use an Inline Skating activity in Strava.</p>
+    </div>
+</div>
+<div class="card mt-3">
+    <div class="card-header">
+        Why is there is no option to synchronise my workouts on the "My Log" screen?
+    </div>
+    <div class="card-body">
+        <p class="card-text">Strava limits the number of times we can pull data from their servers within a given period of time.  This limit is 100 requests per 15 minute window, or 1000 requests per day.</p>
+        <p class="card-text">Strava does send us automatic notifications us when you complete or update an activity, but does not provide us with details about the activity. The full details of the activity can only be retrieved once you have logged into this site.</p>
+        <p class="card-text">Once we have recieved a notification, the option to import the data will be made available.</p>
+    </div>
+</div>
+<div class="card mt-3">
+    <div class="card-header">
+        What happens if I de-authroise this site in my Strava Preferences?
+    </div>
+    <div class="card-body">
+        <p class="card-text">Strava will automatically notify us that you have revoked permission for this site to use your Strava data. When we recieve this notification, your account on this site will be automatically deleted.</p>
+        <p class="card-text">If you wish to proceed with the ALL IN Skate Challenge, you will either have to sign in again with Strava to create a new account or register a new account manually.</p>
+    </div>
+</div>
+<div class="card mt-3">
+    <div class="card-header">
+        Why do I have to provide an email address when registering with Strava?
+    </div>
+    <div class="card-body">
+        <p class="card-text">Strava does not send us your email address when authenticating with Strava. So you need to provided us with an email address so that we can process any notifications.</p>
+    </div>
+</div>
+
+<h2 class="mt-3">GDPR FAQ</h2>
+<p>Under GDPR regulations, you have several rights as individual in respect to your data.  You can read more on the <a href="https://ico.org.uk/for-organisations/guide-to-data-protection/guide-to-the-general-data-protection-regulation-gdpr/individual-rights/" rel="nofollow" target="_blank">Information Commissioner's Office</a> website and view our <a asp-controller="Privacy" asp-action="Index">Privacy Policy</a>.</p>
+<div class="card mt-3">
+    <div class="card-header">
+        Can I correct my user data?
+    </div>
+    <div class="card-body">
+        <p class="card-text">As a user of the website, you have the ability to update your account details at any time. Visit the <a href="/Identity/Account/Manage/">Account Management</a> screen to update your data.</p>
+    </div>
+</div>
+<div class="card mt-3">
+    <div class="card-header">
+        Can I delete my data?
+    </div>
+    <div class="card-body">
+        <p class="card-text">As a user of the website, you have the ability to delete your account at any time. Visit the <a href="/Identity/Account/Manage/PersonalData">Personal Data</a> screen to delete your data and account.</p>
+        <p class="card-text">If you only need to delete individual Skate Log Entries, you can remove entries by visiting the <a asp-controller="SkateLog" asp-action="Index">Skate Log</a> screen.</p>
+    </div>
+</div>
+<div class="card mt-3">
+    <div class="card-header">
+        Can I download my data?
+    </div>
+    <div class="card-body">
+        <p class="card-text">As a user of the website, you have complete access to download your data. When you are logged into the site, you can visit the <a href="/Identity/Account/Manage/PersonalData">Personal Data</a> screen to export your data.</p>
+    </div>
+</div>

@@ -28,10 +28,10 @@ namespace AllInSkateChallenge.Features.Home
         {
             var model = await base.Build();
             model.PageTitle = "Home";
-            model.DisplayPageTitle = "Welcome to the ALL IN Skate Challenge";
+            model.DisplayPageTitle = "Welcome to the ALL IN Leeds-Liverpool Skate Challenge";
             
             var summary = summaryStatisticsRepository.Get();
-            model.IntroductoryText = $"The ALL IN Skate Challenge is to skate the equivelent of the Leeds Liverpool Canal over the period of one month. {summary.NumberOfSkaters} skaters have now taken up the challenge and skated a collective {summary.TotalMiles:F1} miles.";
+            model.IntroductoryText = $"ALL IN challenges you to join our virtual skate along the Leeds-Liverpool canal (127.5 miles)! The Leeds Liverpool canal is the longest canal in Britain built as a single waterway and snakes through the northern heartlands of the Industrial Revolution, including right through our very own Bradford! Skate whenever, wherever, and take however long you need. Track your miles here and share your succeses in our Facebook Group! Disclaimer: the actual Leeds-Liverpool canal isn't skateable... you'll need a boat! {summary.NumberOfSkaters} skaters have now taken up the challenge and skated a collective {summary.TotalMiles:F1} miles.";
 
             if (model.IsLoggedIn)
             {
