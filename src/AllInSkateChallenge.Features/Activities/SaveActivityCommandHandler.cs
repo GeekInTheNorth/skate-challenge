@@ -40,15 +40,25 @@ namespace AllInSkateChallenge.Features.Activities
                         break;
                 }
 
+                // Create the new entry if it does not exist
                 var recordExists = !string.IsNullOrWhiteSpace(request.StavaActivityId) && context.SkateLogEntries.Any(x => x.StravaId.Equals(request.StavaActivityId));
                 if (!recordExists)
                 {
                     var entry = new SkateLogEntry { ApplicationUserId = request.Skater.Id, StravaId = request.StavaActivityId, DistanceInMiles = distance, Logged = request.StartDate ?? DateTime.Now };
                     context.SkateLogEntries.Add(entry);
-                    await context.SaveChangesAsync();
-
-                    return new SaveActivityCommandResult { WasSuccessful = true };
                 }
+
+                // mark any strava import event as imported
+                var stravaEvent = context.StravaEvents.FirstOrDefault(x => x.StravaActivityId.Equals(request.StavaActivityId) && x.ApplicationUserId.Equals(request.Skater.Id) && !x.Imported);
+                if (stravaEvent != null)
+                {
+                    stravaEvent.Imported = true;
+                    context.StravaEvents.Update(stravaEvent);
+                }
+
+                await context.SaveChangesAsync();
+
+                return new SaveActivityCommandResult { WasSuccessful = true };
             }
             catch (Exception exception)
             {
