@@ -10,7 +10,11 @@
         <button type="button" class="btn btn-primary js-add-mileage-entry mt-3 mb-3">+ Create New Mileage Entry</button>
         @if (Model.IsStravaUser && Model.HasStravaImports)
         {
-            <a asp-controller="StravaImport" asp-action="Index" class="btn btn-strava"></a>
+            <a asp-controller="StravaImport" asp-action="Index" class="btn btn-strava" title="Import Activities from Strava"></a>
+        }
+        else if(Model.IsStravaUser && !Model.HasStravaImports)
+        {
+            <button type="button" class="btn btn-strava btn-strava-disabled" name="provider" title="You have no new activities to import from Strava" disabled></button>
         }
     </div>
 </div>

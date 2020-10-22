@@ -272,11 +272,18 @@ img.hero-banner {
 
 /* Leaderboard Icons
 -------------------------------------------------- */
-.btn-strava {
-    background-image: url('/images/btn_strava_connectwith_orange.png');
+.btn-strava, .btn-strava-disabled {
     background-repeat: no-repeat;
     width: 193px;
     height: 48px;
     padding: 0;
     border: none;
+}
+
+.btn-strava {
+    background-image: url('/images/btn_strava_connectwith_orange.png');
+}
+
+.btn-strava-disabled {
+    background-image: url('/images/btn_strava_connectwith_disabled.png');
 }
