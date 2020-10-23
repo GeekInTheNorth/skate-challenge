@@ -1,13 +1,16 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+
+using AllInSkateChallenge.Features.Data;
 using AllInSkateChallenge.Features.Data.Entities;
+
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace AllInSkateChallenge.Areas.Identity.Pages.Account.Manage
@@ -16,13 +19,16 @@ namespace AllInSkateChallenge.Areas.Identity.Pages.Account.Manage
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ILogger<DownloadPersonalDataModel> _logger;
+        private readonly ApplicationDbContext _dbContext;
 
         public DownloadPersonalDataModel(
             UserManager<ApplicationUser> userManager,
-            ILogger<DownloadPersonalDataModel> logger)
+            ILogger<DownloadPersonalDataModel> logger, 
+            ApplicationDbContext dbContext)
         {
             _userManager = userManager;
             _logger = logger;
+            _dbContext = dbContext;
         }
 
         public async Task<IActionResult> OnPostAsync()
@@ -50,8 +56,18 @@ namespace AllInSkateChallenge.Areas.Identity.Pages.Account.Manage
                 personalData.Add($"{l.LoginProvider} external login provider key", l.ProviderKey);
             }
 
+            var skateLogs = await _dbContext.SkateLogEntries.Where(x => x.ApplicationUserId.Equals(user.Id)).ToListAsync();
+            var stravaEvents = await _dbContext.StravaEvents.Where(x => x.ApplicationUserId.Equals(user.Id)).ToListAsync();
+
+            var model = new 
+            {
+                PersonalDetails = personalData, 
+                SkateLogs = skateLogs?.Select(x => new { x.Logged, x.StravaId, x.DistanceInMiles }).ToList(), 
+                StravaNotifications = stravaEvents?.Select(x => new { x.StravaActivityId, x.Imported }).ToList()
+            };
+            
             Response.Headers.Add("Content-Disposition", "attachment; filename=PersonalData.json");
-            return new FileContentResult(JsonSerializer.SerializeToUtf8Bytes(personalData), "application/json");
+            return new FileContentResult(JsonSerializer.SerializeToUtf8Bytes(model), "application/json");
         }
     }
 }
