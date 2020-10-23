@@ -1,0 +1,40 @@
+﻿@model AllInSkateChallenge.Features.Strava.Webhook.Deauthorise.DeauthoriseStravaUserCommandResponse
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Your Progress</title>
+</head>
+<body>
+    <img src="@Model.LogoUrl" alt="ALL IN Logo" style="width: 100%;" />
+    <div class="container text-center">
+        <h1>Strava Deauthorisation!</h1>
+        <p>You originally registered with the ALL IN Skate Challenge with your Strava account, as you have deauthorised our website in Strava, we are required to delete your data from our database.</p>
+        <p>If you wish to continue your ALL IN Skate Challenge, you will need to re-register as a user on the site.</p>
+        @if (Model.SkateLogs != null && Model.SkateLogs.Any())
+        {
+            <h2>Your journey </h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Logged</th>
+                        <th>Miles</th>
+                        <th>Source</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var entry in Model.SkateLogs)
+                    {
+                        <tr>
+                            <td>@entry.Logged.ToString("f")</td>
+                            <td>@entry.DistanceInMiles.ToString("F1")</td>
+                            <td>@(entry.SkateLogEntryId == null ? "Manual" : "Strava")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+</body>
+</html>

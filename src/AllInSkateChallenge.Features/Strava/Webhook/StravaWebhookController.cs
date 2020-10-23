@@ -1,12 +1,15 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 using AllInSkateChallenge.Features.Strava.Webhook.CreateActivity;
+using AllInSkateChallenge.Features.Strava.Webhook.Deauthorise;
 using AllInSkateChallenge.Features.Strava.Webhook.LogStravaIntegration;
 
 using MediatR;
 
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.Extensions.Options;
 
 namespace AllInSkateChallenge.Features.Strava.Webhook
@@ -27,7 +30,7 @@ namespace AllInSkateChallenge.Features.Strava.Webhook
         [HttpGet]
         [Route("api/strava/event")]
         public IActionResult SubscriptionEvents(
-            [FromQuery(Name = "hub.challenge")] string hubChallenge, 
+            [FromQuery(Name = "hub.challenge")] string hubChallenge,
             [FromQuery(Name = "hub.verify_token")] string hubVerificationToken,
             [FromQuery(Name = "hub.mode")] string hubMode)
         {
@@ -52,12 +55,19 @@ namespace AllInSkateChallenge.Features.Strava.Webhook
             await mediator.Send(logCommand);
 
             // Assign activity based events to their respective owners
-            if (webHookEvent.ObjectType.Equals("activity", StringComparison.CurrentCultureIgnoreCase))
+            if (string.Equals("activity", webHookEvent?.ObjectType, StringComparison.CurrentCultureIgnoreCase))
             {
                 var newEventCommand = new CreateActivityEventCommand { StravaUserId = webHookEvent.OwnerId, ActivityId = webHookEvent.ObjectId };
                 await mediator.Send(newEventCommand);
             }
-            
+
+            var hasDeauthentication = webHookEvent.Updates.Any(x => x.Key.Equals("authorized", StringComparison.CurrentCultureIgnoreCase) && x.Value.Equals("false", StringComparison.CurrentCultureIgnoreCase));
+            if (string.Equals("athlete", webHookEvent?.ObjectType, StringComparison.CurrentCultureIgnoreCase) && hasDeauthentication)
+            {
+                var deAuthCommand = new DeauthoriseStravaUserCommand { StravaUserId = webHookEvent.OwnerId };
+                await mediator.Send(deAuthCommand);
+            }
+
             return Ok();
         }
     }
