@@ -19,7 +19,6 @@
             <th scope="col">Skater Name</th>
             <th scope="col">Email Address</th>
             <th scope="col">Email Verified</th>
-            <th scope="col">Date Joined</th>
             <th scope="col">Paid?</th>
             <th scope="col">Actions</th>
         </tr>
@@ -28,14 +27,16 @@
         @foreach (var user in Model.Users)
         {
             <tr data-user-id="@user.Id">
-                <td>@user.SkaterName</td>
+                <td>@user.SkaterName @(user.IsAdmin ? " (Admin)" : "")</td>
                 <td>@user.Email</td>
                 <td>@(user.EmailConfirmed ? "Yes" : "No")</td>
-                <td>01/01/2000</td>
                 <td>@(user.HasPaid ? "Yes" : "No")</td>
                 <td>
                     <button type="button" class="btn btn-primary js-toggle-user-paid-status" data-user-id="@user.Id" data-user-name="@user.SkaterName" data-has-paid="@user.HasPaid">Set As Paid</button>
-                    <button type="button" class="btn btn-danger js-delete-user" data-user-id="@user.Id" data-user-name="@user.SkaterName">Delete</button>
+                    @if (!user.IsAdmin)
+                    {
+                        <button type="button" class="btn btn-danger js-delete-user" data-user-id="@user.Id" data-user-name="@user.SkaterName">Delete</button>
+                    }
                 </td>
             </tr>
         }
@@ -130,7 +131,7 @@
                         $(".alert.alert-danger").hide();
                         $(".alert.alert-success").show();
                         $(event.target).data("has-paid", toggled.toString());
-                        $(rowSelector).children().eq(4).html((toggled ? "Yes" : "No"));
+                        $(rowSelector).children().eq(3).html((toggled ? "Yes" : "No"));
                     })
                     .fail(function () {
                         $(".alert.alert-danger").html("Failed to update <strong>" + $(event.target).data("user-name") + "</strong>.");

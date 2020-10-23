@@ -1,12 +1,10 @@
 ﻿using System.Collections.Generic;
 
-using AllInSkateChallenge.Features.Data.Entities;
-
 namespace AllInSkateChallenge.Features.Administration.UserList
 {
     public class AdminUserListQueryResponse
     {
-        public List<ApplicationUser> Users { get; set; }
+        public List<AdminUserModel> Users { get; set; }
 
         public int TotalUsers { get; set; }
 

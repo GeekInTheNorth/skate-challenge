@@ -28,7 +28,11 @@ namespace AllInSkateChallenge.Features.Administration.UserDelete
                 throw new EntityNotFoundException(typeof(ApplicationUser), request.UserId);
             }
 
-            await userManager.DeleteAsync(user);
+            var isAdmin = await userManager.IsInRoleAsync(user, "Administrator");
+            if (isAdmin)
+            {
+                throw new EntityProtectedException(typeof(ApplicationUser), user.Id);
+            }
 
             return Unit.Value;
         }
