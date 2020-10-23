@@ -5,61 +5,18 @@
 <head>
     <meta charset="utf-8" />
     <title>Your Progress</title>
-    <style>
-        body {
-            font-family: Arial, Helvetica, sans-serif;
-            margin: 0;
-        }
-
-        .container {
-            width: 90%;
-            padding-right: 5%;
-            padding-left: 5%;
-            margin-right: auto;
-            margin-left: auto;
-        }
-
-        .email-logo {
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .text-center {
-            text-align: center;
-        }
-
-        .bg-allin-green {
-            background-color: #8ABC2D;
-        }
-
-        .progress-card {
-            width: 80%;
-            padding-top: 10px;
-            padding-bottom: 10px;
-            padding-right: 5%;
-            padding-left: 5%;
-            margin-left: 5%;
-            margin-right: 5%;
-            margin-bottom: 10px;
-            border-radius: 10px;
-        }
-
-        img {
-            width: 100%;
-        }
-    </style>
 </head>
-<body>
-    <img src="@Model.LogoUrl" alt="ALL IN Logo" />
-    <div class="container text-center">
+<body style="font-family: Arial, Helvetica, sans-serif; margin: 0;">
+    <img src="@Model.LogoUrl" alt="ALL IN Logo" style="width: 100%;" />
+    <div style="width: 90%; padding-right: 5%; padding-left: 5%; margin-right: auto; margin-left: auto; text-align: center;">
         <h1>Congratulations @Model.Skater.SkaterName! you reached a new milestone on your Leeds Liverpool canal Skate Challenge!</h1>
     </div>
-    <div class="progress-card bg-allin-green">
+    <div style="width: 80%; padding-top: 10px; padding-bottom: 10px; padding-right: 5%; padding-left: 5%; margin-left: 5%; margin-right: 5%; margin-bottom: 10px; border-radius: 10px; background-color: #8ABC2D;">
         <h2>@Model.CheckPoint.Title</h2>
         <p>@Model.CheckPoint.Description</p>
         @if (!string.IsNullOrWhiteSpace(Model.CheckPoint.Image))
         {
-            <img src="@Model.CheckPoint.Image" alt="@Model.CheckPoint.ImageAlt" />
+            <img src="@Model.CheckPoint.Image" alt="@Model.CheckPoint.ImageAlt" style="width: 100%;" />
         }
         <p>Milestone Distance: @Model.CheckPoint.Distance.ToString("F1") miles</p>
         <p>
@@ -71,7 +28,7 @@
             }
         </p>
     </div>
-    <div class="progress-card bg-allin-green">
+    <div style="width: 80%; padding-top: 10px; padding-bottom: 10px; padding-right: 5%; padding-left: 5%; margin-left: 5%; margin-right: 5%; margin-bottom: 10px; border-radius: 10px; background-color: #8ABC2D;">
         <h2>Your Journey to Date</h2>
         <p>You have skated a total distance of @Model.TotalMiles.ToString("F1") of the required 127.5 miles required to skate the entire length of the Leeds Liverpool canal.</p>
         @if (Model.TotalMilesRemaining > 0)
@@ -85,7 +42,7 @@
     </div>
     @if (Model.NextCheckPoint != null)
     {
-        <div class="progress-card bg-allin-green">
+        <div style="width: 80%; padding-top: 10px; padding-bottom: 10px; padding-right: 5%; padding-left: 5%; margin-left: 5%; margin-right: 5%; margin-bottom: 10px; border-radius: 10px; background-color: #8ABC2D;">
             <h2>Your Next Milestone</h2>
             <p>Your next milestone is at @Model.NextCheckPoint.Title, you need to skate a further @Model.NextCheckPointMilesRemaining.ToString("F1") miles to reach this milestone.  You can do this!</p>
         </div>
