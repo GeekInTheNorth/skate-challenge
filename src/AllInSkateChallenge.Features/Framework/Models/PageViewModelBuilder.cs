@@ -1,31 +1,22 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-using AllInSkateChallenge.Features.Data;
 using AllInSkateChallenge.Features.Data.Entities;
 
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
+using MediatR;
 
 namespace AllInSkateChallenge.Features.Framework.Models
 {
     public class PageViewModelBuilder<T> : IPageViewModelBuilder<T>
         where T : class
     {
-        private readonly ApplicationDbContext context;
-
-        private readonly UserManager<ApplicationUser> userManager;
-
-        private readonly HttpContext httpContext;
+        private readonly IMediator mediator;
 
         protected ApplicationUser User;
 
-        public PageViewModelBuilder(ApplicationDbContext context, UserManager<ApplicationUser> userManager, IHttpContextAccessor httpContextAccessor)
+        public PageViewModelBuilder(IMediator mediator)
         {
-            this.context = context;
-            this.userManager = userManager;
-            httpContext = httpContextAccessor.HttpContext;
+            this.mediator = mediator;
         }
 
         public IPageViewModelBuilder<T> WithUser(ApplicationUser user)
@@ -37,25 +28,21 @@ namespace AllInSkateChallenge.Features.Framework.Models
 
         public virtual async Task<PageViewModel<T>> Build()
         {
-            var hasDismissedCookieBanner = httpContext.Request.Cookies.ContainsKey("cookieWarningDismissed");
+            var query = new UserStateQuery { User = this.User };
+            var response = await mediator.Send(query);
 
             var model = new PageViewModel<T>
             {
-                IsLoggedIn = User != null,
-                IsStravaUser = User?.IsStravaAccount ?? false,
-                HasPaid = User?.HasPaid ?? false,
-                DisplayUserName = User?.SkaterName,
+                IsLoggedIn = response.IsLoggedIn,
+                IsStravaUser = response.IsStravaUser,
+                IsAdmin = response.IsAdmin,
+                HasPaid = response.HasPaid,
+                HasStravaImports = response.HasStravaImports,
+                DisplayStravaNotification = response.HasStravaImports,
+                DisplayUserName = response.SkaterName,
                 Content = Activator.CreateInstance<T>(),
-                ShowCookieBanner = User == null && !hasDismissedCookieBanner
+                ShowCookieBanner = User == null && !response.HasDismissedCookieBanner
             };
-
-            if (User != null)
-            {
-                model.HasStravaImports = await context.StravaEvents.AnyAsync(x => x.ApplicationUserId.Equals(User.Id) && !x.Imported);
-                model.IsAdmin = await userManager.IsInRoleAsync(User, "Administrator");
-            }
-
-            model.DisplayStravaNotification = model.HasStravaImports;
 
             return model;
         }

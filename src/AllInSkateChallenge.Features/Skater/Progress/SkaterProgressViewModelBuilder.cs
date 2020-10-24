@@ -2,15 +2,12 @@
 using System.Linq;
 using System.Threading.Tasks;
 
-using AllInSkateChallenge.Features.Data;
 using AllInSkateChallenge.Features.Data.Entities;
 using AllInSkateChallenge.Features.Data.Static;
 using AllInSkateChallenge.Features.Framework.Models;
 using AllInSkateChallenge.Features.Skater.SkateLog;
 
 using MediatR;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 
 namespace AllInSkateChallenge.Features.Skater.Progress
 {
@@ -20,7 +17,7 @@ namespace AllInSkateChallenge.Features.Skater.Progress
 
         private readonly IMediator mediator;
 
-        public SkaterProgressViewModelBuilder(ICheckPointRepository checkPointRepository, IMediator mediator, ApplicationDbContext context, UserManager<ApplicationUser> userManager, IHttpContextAccessor httpContextAccessor) : base(context, userManager, httpContextAccessor)
+        public SkaterProgressViewModelBuilder(ICheckPointRepository checkPointRepository, IMediator mediator) : base(mediator)
         {
             this.checkPointRepository = checkPointRepository;
             this.mediator = mediator;

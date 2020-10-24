@@ -1,13 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
-using AllInSkateChallenge.Features.Data;
-using AllInSkateChallenge.Features.Data.Entities;
 using AllInSkateChallenge.Features.Framework.Models;
 
 using MediatR;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 
 namespace AllInSkateChallenge.Features.LeaderBoard
 {
@@ -15,7 +11,7 @@ namespace AllInSkateChallenge.Features.LeaderBoard
     {
         private readonly IMediator mediator;
 
-        public LeaderBoardViewModelBuilder(IMediator mediator, ApplicationDbContext context, UserManager<ApplicationUser> userManager, IHttpContextAccessor httpContextAccessor) : base(context, userManager, httpContextAccessor)
+        public LeaderBoardViewModelBuilder(IMediator mediator) : base(mediator)
         {
             this.mediator = mediator;
         }

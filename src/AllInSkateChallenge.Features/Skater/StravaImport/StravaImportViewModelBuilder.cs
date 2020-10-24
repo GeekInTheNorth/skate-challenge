@@ -2,15 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AllInSkateChallenge.Features.Data;
+
 using AllInSkateChallenge.Features.Data.Entities;
 using AllInSkateChallenge.Features.Framework.Models;
 using AllInSkateChallenge.Features.Skater.SkateLog;
 using AllInSkateChallenge.Features.Strava;
 
 using MediatR;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 
 namespace AllInSkateChallenge.Features.Skater.StravaImport
 {
@@ -20,7 +18,7 @@ namespace AllInSkateChallenge.Features.Skater.StravaImport
 
         private readonly IMediator mediator;
 
-        public StravaImportViewModelBuilder(IStravaService stravaService, IMediator mediator, ApplicationDbContext context, UserManager<ApplicationUser> userManager, IHttpContextAccessor httpContextAccessor) : base(context, userManager, httpContextAccessor)
+        public StravaImportViewModelBuilder(IStravaService stravaService, IMediator mediator) : base(mediator)
         {
             this.stravaService = stravaService;
             this.mediator = mediator;
