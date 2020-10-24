@@ -7,7 +7,7 @@ using AllInSkateChallenge.Features.LeaderBoard;
 using AllInSkateChallenge.Features.Updates;
 
 using MediatR;
-
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 
 namespace AllInSkateChallenge.Features.Home
@@ -18,7 +18,7 @@ namespace AllInSkateChallenge.Features.Home
 
         private readonly IMediator mediator;
 
-        public HomePageViewModelBuilder(ISummaryStatisticsRepository summaryStatisticsRepository, IMediator mediator, ApplicationDbContext context, UserManager<ApplicationUser> userManager) : base(context, userManager)
+        public HomePageViewModelBuilder(ISummaryStatisticsRepository summaryStatisticsRepository, IMediator mediator, ApplicationDbContext context, UserManager<ApplicationUser> userManager, IHttpContextAccessor httpContextAccessor) : base(context, userManager, httpContextAccessor)
         {
             this.summaryStatisticsRepository = summaryStatisticsRepository;
             this.mediator = mediator;

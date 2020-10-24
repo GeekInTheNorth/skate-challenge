@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using AllInSkateChallenge.Features.Data;
 using AllInSkateChallenge.Features.Data.Entities;
 
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,12 +17,15 @@ namespace AllInSkateChallenge.Features.Framework.Models
 
         private readonly UserManager<ApplicationUser> userManager;
 
+        private readonly HttpContext httpContext;
+
         protected ApplicationUser User;
 
-        public PageViewModelBuilder(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
+        public PageViewModelBuilder(ApplicationDbContext context, UserManager<ApplicationUser> userManager, IHttpContextAccessor httpContextAccessor)
         {
             this.context = context;
             this.userManager = userManager;
+            httpContext = httpContextAccessor.HttpContext;
         }
 
         public IPageViewModelBuilder<T> WithUser(ApplicationUser user)
@@ -33,13 +37,16 @@ namespace AllInSkateChallenge.Features.Framework.Models
 
         public virtual async Task<PageViewModel<T>> Build()
         {
+            var hasDismissedCookieBanner = httpContext.Request.Cookies.ContainsKey("cookieWarningDismissed");
+
             var model = new PageViewModel<T>
             {
                 IsLoggedIn = User != null,
                 IsStravaUser = User?.IsStravaAccount ?? false,
                 HasPaid = User?.HasPaid ?? false,
                 DisplayUserName = User?.SkaterName,
-                Content = Activator.CreateInstance<T>()
+                Content = Activator.CreateInstance<T>(),
+                ShowCookieBanner = User == null && !hasDismissedCookieBanner
             };
 
             if (User != null)

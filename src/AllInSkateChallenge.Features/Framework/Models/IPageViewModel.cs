@@ -21,5 +21,7 @@
         public bool DisplayStravaNotification { get; }
 
         bool HasPaid { get; }
+
+        bool ShowCookieBanner { get; }
     }
 }

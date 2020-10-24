@@ -5,6 +5,7 @@ using AllInSkateChallenge.Features.Data;
 using AllInSkateChallenge.Features.Data.Entities;
 using AllInSkateChallenge.Features.Framework.Models;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 
 namespace AllInSkateChallenge.Features.Skater.SkateLog
@@ -15,7 +16,7 @@ namespace AllInSkateChallenge.Features.Skater.SkateLog
 
         private INewSkaterLogEntry newEntry;
 
-        public SkaterLogViewModelBuilder(IMediator mediator, ApplicationDbContext context, UserManager<ApplicationUser> userManager) : base(context, userManager)
+        public SkaterLogViewModelBuilder(IMediator mediator, ApplicationDbContext context, UserManager<ApplicationUser> userManager, IHttpContextAccessor httpContextAccessor) : base(context, userManager, httpContextAccessor)
         {
             this.mediator = mediator;
         }

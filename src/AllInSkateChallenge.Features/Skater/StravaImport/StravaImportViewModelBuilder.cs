@@ -9,6 +9,7 @@ using AllInSkateChallenge.Features.Skater.SkateLog;
 using AllInSkateChallenge.Features.Strava;
 
 using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 
 namespace AllInSkateChallenge.Features.Skater.StravaImport
@@ -19,7 +20,7 @@ namespace AllInSkateChallenge.Features.Skater.StravaImport
 
         private readonly IMediator mediator;
 
-        public StravaImportViewModelBuilder(IStravaService stravaService, IMediator mediator, ApplicationDbContext context, UserManager<ApplicationUser> userManager) : base(context, userManager)
+        public StravaImportViewModelBuilder(IStravaService stravaService, IMediator mediator, ApplicationDbContext context, UserManager<ApplicationUser> userManager, IHttpContextAccessor httpContextAccessor) : base(context, userManager, httpContextAccessor)
         {
             this.stravaService = stravaService;
             this.mediator = mediator;

@@ -20,4 +20,9 @@ $(document).ready(function () {
     $(".js-add-mileage-entry").click(function () {
         $("#addEntryModal").modal({ keyboard: true, focus: true });
     });
+
+    $(".js-cookie-banner--banner").click(function () {
+        document.cookie = "cookieWarningDismissed=true;path=/;";
+        $(".js-cookie-banner").remove();
+    });
 });

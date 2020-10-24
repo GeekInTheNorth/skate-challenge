@@ -1,7 +1,9 @@
 ﻿@using AllInSkateChallenge.Features.Data.Entities
+@using Microsoft.AspNetCore.Http; 
 @using Microsoft.AspNetCore.Identity
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
+@inject IHttpContextAccessor contextAccessor
 
 @{
     var isSignedIn = false;
@@ -16,6 +18,8 @@
 
     var smallImage = Url.Content("~/images/AllInSkateChallengeBannerSmall.png");
     var largeImage = Url.Content("~/images/AllInSkateChallengeBanner2.png");
+    var hasDismissedCookie = contextAccessor.HttpContext.Request.Cookies.ContainsKey("cookieWarningDismissed");
+    var showCookieBanner = !isSignedIn && !hasDismissedCookie;
 }
 
 <!DOCTYPE html>
@@ -30,6 +34,13 @@
 </head>
 <body class="mb-0">
     <header>
+        @if (showCookieBanner)
+        {
+            <nav class="navbar navbar-light bg-light js-cookie-banner">
+                <span class="navbar-text">This site uses essential cookies to manage user sessions and logins. See our <a class="text-dark font-weight-bold" asp-controller="Privacy" asp-action="Index">Privacy Policy</a> for further information.</span>
+                <button class="btn btn-danger js-cookie-banner--banner">Dismiss</button>
+            </nav>
+        }
         <nav class="navbar navbar-expand-lg navbar-light bg-allin-green border-bottom box-shadow sticky-top font-weight-bold">
             <div class="container">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">ALL IN Skate Challenge</a>
