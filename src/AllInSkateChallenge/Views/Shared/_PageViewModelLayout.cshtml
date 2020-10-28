@@ -20,7 +20,7 @@
         @if (Model.ShowCookieBanner)
         {
             <nav class="navbar navbar-light bg-light js-cookie-banner">
-                <span class="navbar-text">This site uses essential cookies to manage user sessions and logins. See our <a class="text-dark font-weight-bold" asp-controller="Privacy" asp-action="Index">Privacy Policy</a> for further information.</span>
+                <span class="navbar-text">This site uses essential cookies to manage user sessions and logins. See our <a class="text-dark font-weight-bold" href="https://www.allincrd.uk/s/Data-Privacy-Notice-v11-Oct-20.pdf" target="_blank">Privacy Policy</a> for further information.</span>
                 <button class="btn btn-danger js-cookie-banner--banner">Dismiss</button>
             </nav>
         }
@@ -115,7 +115,7 @@
             &copy; 2020 - <a class="text-dark font-weight-bold" href="https://www.allincrd.uk/" target="_blank">ALL IN Community Roller Derby</a>
             <nav class="nav justify-content-center">
                 <a class="nav-link text-dark font-weight-bold" asp-controller="Faq" asp-action="Index">FAQ</a>
-                <a class="nav-link text-dark font-weight-bold" asp-controller="Privacy" asp-action="Index">Privacy</a>
+                <a class="nav-link text-dark font-weight-bold" href="https://www.allincrd.uk/s/Data-Privacy-Notice-v11-Oct-20.pdf" target="_blank">Privacy</a>
                 @if (Model.IsAdmin)
                 {
                     <a class="nav-link text-dark font-weight-bold" asp-controller="UserAdministration" asp-action="Index" title="Admin">Admin</a>
