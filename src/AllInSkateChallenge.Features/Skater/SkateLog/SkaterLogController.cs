@@ -69,7 +69,14 @@ namespace AllInSkateChallenge.Controllers
             }
             else
             {
-                var command = new SaveActivityCommand { Skater = user, Distance = mileageEntry.Distance, DistanceUnit = mileageEntry.DistanceUnit, StartDate = DateTime.Now };
+                var command = new SaveActivityCommand 
+                { 
+                    Skater = user, 
+                    Distance = mileageEntry.Distance, 
+                    DistanceUnit = mileageEntry.DistanceUnit, 
+                    StartDate = mileageEntry.DateSkated ?? DateTime.Now 
+                };
+
                 await mediator.Send(command);
 
                 var model = await viewModelBuilder.WithUser(user).Build();

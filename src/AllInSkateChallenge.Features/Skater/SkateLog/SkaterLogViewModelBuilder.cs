@@ -51,6 +51,7 @@ namespace AllInSkateChallenge.Features.Skater.SkateLog
             model.Content.Entries = entries;
             model.Content.DistanceUnit = newEntry?.DistanceUnit ?? DistanceUnit.Miles;
             model.Content.Distance = newEntry?.Distance ?? 0;
+            model.Content.DateSkated = newEntry?.DateSkated;
 
             return model;
         }

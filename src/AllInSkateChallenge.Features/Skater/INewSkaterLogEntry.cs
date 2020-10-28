@@ -1,4 +1,6 @@
-﻿namespace AllInSkateChallenge.Features.Skater
+﻿using System;
+
+namespace AllInSkateChallenge.Features.Skater
 {
     public interface INewSkaterLogEntry
     {
@@ -9,5 +11,7 @@
         decimal DistanceMiles { get; }
 
         decimal DistanceKilometres { get; }
+
+        DateTime? DateSkated { get; }
     }
 }

@@ -13,6 +13,8 @@ namespace AllInSkateChallenge.Features.Skater.SkateLog
         [Range(0, 1000)]
         public decimal Distance { get; set; }
 
+        public DateTime? DateSkated { get; set; }
+
         public decimal DistanceMiles
         {
             get

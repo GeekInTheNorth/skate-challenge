@@ -12,7 +12,7 @@
         {
             <a asp-controller="StravaImport" asp-action="Index" class="btn btn-strava" title="Import Activities from Strava"></a>
         }
-        else if(Model.IsStravaUser && !Model.HasStravaImports)
+        else if (Model.IsStravaUser && !Model.HasStravaImports)
         {
             <button type="button" class="btn btn-strava btn-strava-disabled" name="provider" title="You have no new activities to import from Strava" disabled></button>
         }
@@ -90,6 +90,11 @@
                         @Html.TextBox(nameof(INewSkaterLogEntry.Distance), Model.Content.Distance, new { @type = "number", @class = "form-control", aria_describedby = "distanceHelp", step = "0.01", min = "0", max = "1000" })
                         <small id="distanceHelp" class="form-text text-muted">Partial miles or kilometres can be entered by typing a decimal value e.g. 4.5.</small>
                     </div>
+                    <div class="form-group">
+                        <label>Date Skated</label>
+                        @Html.TextBox(nameof(INewSkaterLogEntry.DateSkated), Model.Content.DateSkated, new { @class = "form-control", aria_describedby = "dateSkatedHelp" })
+                        <small id="dateSkatedHelp" class="form-text text-muted">Today's date will be used if this field is left blank.</small>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -99,3 +104,35 @@
         </div>
     </div>
 </div>
+
+@section DocumentHeader{ 
+    <link rel="stylesheet" href="~/lib/jqueryui/jquery-ui.min.css" />
+}
+
+@section Scripts{
+    <script src="~/lib/jqueryui/jquery-ui.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(".js-delete-mileage-entry").click(function (event) {
+                $(".js-confirm-delete-mileage-entry").data("entry-id", ($(event.target).data("entry-id")));
+                $("#deleteEntryModal").modal({ keyboard: true, focus: true });
+            });
+
+            $(".js-confirm-delete-mileage-entry").click(function (event) {
+                var rowSelector = "tr[data-entry-id='" + $(event.target).data("entry-id") + "']";
+                $.post("/skater/skate-log/delete", { "mileageEntryId": $(event.target).data("entry-id") })
+                    .done(function () {
+                        $(rowSelector).remove();
+                        $("#deleteEntryModal").modal('hide');
+                    });
+            });
+
+            $(".js-add-mileage-entry").click(function () {
+                $("#addEntryModal").modal({ keyboard: true, focus: true });
+            });
+
+            $("#DateSkated").datepicker();
+            $("#DateSkated").datepicker("option", "dateFormat", "DD, d MM, yy");
+        });
+    </script>
+}
