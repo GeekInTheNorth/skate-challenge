@@ -105,12 +105,7 @@
     </div>
 </div>
 
-@section DocumentHeader{ 
-    <link rel="stylesheet" href="~/lib/jqueryui/jquery-ui.min.css" />
-}
-
 @section Scripts{
-    <script src="~/lib/jqueryui/jquery-ui.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
             $(".js-delete-mileage-entry").click(function (event) {
@@ -130,9 +125,6 @@
             $(".js-add-mileage-entry").click(function () {
                 $("#addEntryModal").modal({ keyboard: true, focus: true });
             });
-
-            //$("#DateSkated").datepicker();
-            //$("#DateSkated").datepicker("option", "dateFormat", "DD, d MM, yy");
         });
     </script>
 }
