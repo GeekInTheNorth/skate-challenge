@@ -92,7 +92,7 @@
                     </div>
                     <div class="form-group">
                         <label>Date Skated</label>
-                        @Html.TextBox(nameof(INewSkaterLogEntry.DateSkated), Model.Content.DateSkated, new { @class = "form-control", aria_describedby = "dateSkatedHelp" })
+                        @Html.TextBox(nameof(INewSkaterLogEntry.DateSkated), Model.Content.DateSkated, new { @type = "date", @class = "form-control", aria_describedby = "dateSkatedHelp" })
                         <small id="dateSkatedHelp" class="form-text text-muted">Today's date will be used if this field is left blank.</small>
                     </div>
                 </div>
@@ -131,8 +131,8 @@
                 $("#addEntryModal").modal({ keyboard: true, focus: true });
             });
 
-            $("#DateSkated").datepicker();
-            $("#DateSkated").datepicker("option", "dateFormat", "DD, d MM, yy");
+            //$("#DateSkated").datepicker();
+            //$("#DateSkated").datepicker("option", "dateFormat", "DD, d MM, yy");
         });
     </script>
 }
