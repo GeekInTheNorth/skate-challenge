@@ -1,0 +1,42 @@
+﻿@model AllInSkateChallenge.Features.Skater.Registration.RegistrationEmailModel
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Skater Registration</title>
+</head>
+<body style="font-family: Arial, Helvetica, sans-serif; margin: 0; background-color: #8ABC2D; padding: 10px;">
+    <img src="@Model.LogoUrl" alt="ALL IN Logo" style="width: 100%;" />
+    <div style="padding: 20px 5% 20px 5%; margin-bottom: 10px; border-radius: 10px; background-color: #FFFFFF;">
+        <h1>Welcome to the Leeds Basin, the starting point of the Leeds-Liverpool Canal ALL IN Skate Challenge!</h1>
+    </div>
+    <div style="padding: 20px 5% 20px 5%; margin-bottom: 10px; border-radius: 10px; background-color: #FFFFFF;">
+        <p>Here's some info to get you started!</p>
+        <ol>
+            <li>
+                <span>Make sure you have confirmed your email address by visiting this <a href="@Model.EmailConfirmationUrl">Confirmation Page</a></span>
+            </li>
+            <li>
+                <span>Make sure you've joined our <a href="https://www.facebook.com/groups/3257681721008087/">Facebook Group</a>! This is a great place to share your progress and help celebrate others' successes. You can even add our Facebook frame to let folks know you've taken on the <a href="@Model.SiteUrl">challenge</a>.</span>
+            </li>
+            <li>
+                <span>Choose your contribution!  ALL IN is a not-for-profit, breaking down barriers to participation in sport in our local community.  Every little helps!</span>
+                <ul>
+                    <li>£3 - support an ALL IN outdoor skate session in Bradford, plus get a virtual finisher's badge when you complete the challenge!</li>
+                    <li>£10 - support an ALL IN derby session in Bradford, plus get a sticker delivered to your door, PLUS get a virtual finisher's badge when you complete the challenge!</li>
+                    <li>£25 - support ALL IN programmes, plus get your choice of a Leeds-Liverpool Challenge t-shirt, plus get a sticker delivered to your door, PLUS get a virtual finisher's badge when you complete the challenge!</li>
+                </ul>
+                <p>Every finisher gets a shout out on our social media!</p>
+            </li>
+            <li>Log your <a href="@Model.LogMilesUrl">first miles</a>. Make sure you skate safe! Carry a skate tool with you, let folks know you're out and about, and follow your local COVID guidelines.</li>
+        </ol>
+    </div>
+    <div style="padding: 20px 5% 20px 5%; margin-bottom: 10px; border-radius: 10px; background-color: #FFFFFF;">
+        <p>
+            Make sure you visit our sponsors at <a href="https://skateeverywhereproject.com/">Skate Everywhere Challenge</a> - they've got a lot of really cool challenges for folks on wheels.
+        </p>
+        <img src="https://skateeverywhereproject.com/wp-content/uploads/2020/04/7691ABF6-39F4-4391-A76F-F70044427B43-2048x2042.png" alt="Skate Everywhere Logo" style="max-width: 400px; width: 100%;" />
+    </div>
+</body>
+</html>
