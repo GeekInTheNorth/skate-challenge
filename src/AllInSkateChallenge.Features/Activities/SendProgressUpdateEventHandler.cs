@@ -82,7 +82,7 @@ namespace AllInSkateChallenge.Features.Activities
                     };
                     var emailBody = await viewToStringRenderer.RenderPartialToStringAsync("~/Views/Email/SkaterProgressEmail.cshtml", emailModel);
 
-                    await emailSender.SendEmailAsync(request.Skater.Email, "ALL IN Skate Challenge Progress", emailBody);
+                    await emailSender.SendEmailAsync(request.Skater.Email, "ALL IN Skate Challenge Registration", emailBody);
                 }
             }
             catch (Exception exception)

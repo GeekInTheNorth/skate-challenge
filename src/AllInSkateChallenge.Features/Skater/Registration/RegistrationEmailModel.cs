@@ -9,5 +9,7 @@
         public string LogoUrl { get; set; }
 
         public string EmailConfirmationUrl { get; set; }
+
+        public string SponsorLogoUrl { get; set; }
     }
 }
