@@ -129,9 +129,21 @@ namespace AllInSkateChallenge
             else
             {
                 app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
             }
+
+            // Registered before static files to always set header
+            app.UseHsts(hsts => hsts.MaxAge(365));
+            app.UseXContentTypeOptions();
+            app.UseXXssProtection(opt => opt.EnabledWithBlockMode());
+            app.UseXfo(opt => opt.SameOrigin());
+            app.UseReferrerPolicy(opt => opt.NoReferrerWhenDowngrade());
+            app.UseCsp(opt => opt.DefaultSources(s => s.Self())
+                                 .ScriptSources(s => s.Self().UnsafeInline().CustomSources("https://ajax.aspnetcdn.com"))
+                                 .StyleSources(s => s.Self())
+                                 .FrameSources(s => s.None())
+                                 .FrameAncestors(s => s.None())
+                                 .ImageSources(s => s.Self().CustomSources("https://www.gravatar.com")));
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
