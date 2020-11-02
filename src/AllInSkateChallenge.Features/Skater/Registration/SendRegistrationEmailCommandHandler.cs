@@ -49,7 +49,7 @@ namespace AllInSkateChallenge.Features.Skater.Registration
 
                 var emailBody = await viewToStringRenderer.RenderPartialToStringAsync("~/Views/Email/RegistrationEmail.cshtml", emailModel);
 
-                await emailSender.SendEmailAsync(request.Email, "ALL IN Skate Challenge Progress", emailBody);
+                await emailSender.SendEmailAsync(request.Email, "ALL IN Skate Challenge Registration", emailBody);
             }
             catch (Exception exception)
             {
