@@ -139,10 +139,10 @@ namespace AllInSkateChallenge
             app.UseReferrerPolicy(opt => opt.NoReferrerWhenDowngrade());
             app.UseCsp(opt => opt.DefaultSources(s => s.Self())
                                  .ScriptSources(s => s.Self().UnsafeInline().CustomSources("https://ajax.aspnetcdn.com"))
-                                 .StyleSources(s => s.Self())
+                                 .StyleSources(s => s.Self().UnsafeInline())
                                  .FrameSources(s => s.None())
                                  .FrameAncestors(s => s.None())
-                                 .ImageSources(s => s.Self().CustomSources("https://www.gravatar.com")));
+                                 .ImageSources(s => s.Self().CustomSources("data:", "https:", "https://www.gravatar.com")));
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
