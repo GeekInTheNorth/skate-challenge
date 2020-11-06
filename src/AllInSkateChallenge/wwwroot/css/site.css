@@ -244,15 +244,12 @@ img.hero-banner {
     opacity: 0.6;
 }
 
-@media screen and (max-width: 700px) {
-    .timeline::after {
-        left: 31px;
-    }
-
+@media screen and (max-width: 800px) {
     .timeline-container, .timeline-container-header {
         width: 100%;
-        padding-left: 70px;
-        padding-right: 25px;
+        padding-left: 5px;
+        padding-right: 5px;
+        z-index: 100;
     }
 
     .timeline-container-header {
@@ -265,11 +262,12 @@ img.hero-banner {
         border: medium solid #8ABC2D;
         border-width: 10px 10px 10px 0;
         border-color: transparent #8ABC2D transparent transparent;
+        display:none;
     }
 
     /* Make sure all circles are at the same spot */
     .timeline-container--left::after, .timeline-container--right::after {
-        left: 18px;
+        display: none;
     }
 
     /* Make all right containers behave like the left ones */

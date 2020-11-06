@@ -16,7 +16,7 @@
         <p>@Model.CheckPoint.Description</p>
         @if (!string.IsNullOrWhiteSpace(Model.CheckPoint.Image))
         {
-            <img src="@Model.CheckPoint.Image" alt="@Model.CheckPoint.ImageAlt" style="width: 100%;" />
+            <img src="@Model.CheckPoint.Image" alt="@Model.CheckPoint.Title" style="width: 100%;" />
         }
         <p>Milestone Distance: @Model.CheckPoint.Distance.ToString("F1") miles</p>
         <p>

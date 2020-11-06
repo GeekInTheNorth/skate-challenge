@@ -24,12 +24,7 @@
                     <h2>@checkPoint.Title</h2>
                     @if (!string.IsNullOrWhiteSpace(checkPoint.Image))
                     {
-                        <div class="timeline-image" style="background-image: url('@checkPoint.Image');">
-                            @if (!string.IsNullOrWhiteSpace(checkPoint.ImageAlt))
-                            {
-                                <em class="timeline-image-description">@checkPoint.ImageAlt</em>
-                            }
-                        </div>
+                        <img src="@checkPoint.Image" class="img-fluid" alt="@checkPoint.Title" />
                     }
                     <p>@checkPoint.Distance.ToString("F2") miles</p>
                     <p>@checkPoint.Description</p>
@@ -49,6 +44,10 @@
         <div class="timeline-container-header">
             <div class="timeline-content-header">
                 <h2>@Model.Content.NextCheckPoint.Title</h2>
+                @if (!string.IsNullOrWhiteSpace(Model.Content.NextCheckPoint.Image))
+                {
+                    <img src="@Model.Content.NextCheckPoint.Image" class="img-fluid" alt="@Model.Content.NextCheckPoint.Title" />
+                }
                 @if (Model.Content.NextCheckPoint.Distance != 0)
                 {
                     <p>@Model.Content.NextCheckPoint.Distance.ToString("F2") miles</p>

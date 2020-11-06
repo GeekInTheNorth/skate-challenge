@@ -20,10 +20,11 @@ namespace AllInSkateChallenge.Features.Data.Static
                 new CheckPointModel
                 {
                     Distance = 0,
-                    Title = "Leeds Basin",
+                    Title = "Leeds Canal Basin",
                     Description = "Start your Skate Challenge at the very start of the Leeds Liverpool Canal",
                     Longitude = -1.551093M,
-                    Latitude = 53.793155M
+                    Latitude = 53.793155M,
+                    Image = absoluteUrlHelper.Get("/images/GreetingsFromLeedsCanalBasin.png")
                 },
                 new CheckPointModel
                 {
@@ -31,7 +32,8 @@ namespace AllInSkateChallenge.Features.Data.Static
                     Title = "Aire Valley Marina",
                     Description = "Congratulations, you've made it to the Aire Valley Marina. The Marina has two canal entrances with pedestrian bridges which must be navigated to proceed.",
                     Longitude = -1.594375M,
-                    Latitude = 53.803769M
+                    Latitude = 53.803769M,
+                    Image = absoluteUrlHelper.Get("/images/GreetingsFromAireValleyMarina.png")
                 },
                 new CheckPointModel
                 {
@@ -39,7 +41,8 @@ namespace AllInSkateChallenge.Features.Data.Static
                     Title = "Saltaire",
                     Description = "Flippin eck, you have skated a half marathon! There's an Ice Cream Boat on the side of the canal for a quick snack on the move!",
                     Longitude = -1.789923M,
-                    Latitude = 53.839548M
+                    Latitude = 53.839548M,
+                    Image = absoluteUrlHelper.Get("/images/GreetingsFromSaltaire.png")
                 },
                 new CheckPointModel
                 {
@@ -49,8 +52,7 @@ namespace AllInSkateChallenge.Features.Data.Static
                     Longitude = -1.838214M,
                     Latitude = 53.856368M,
                     Url = "https://en.wikipedia.org/wiki/Bingley_Five_Rise_Locks",
-                    Image = absoluteUrlHelper.Get("/images/BingleyFiveRiseLock.jpg"),
-                    ImageAlt = "Bingley 5 Rise Lock by Maree Coates"
+                    Image = absoluteUrlHelper.Get("/images/GreetingsFromBingleyFiveRiseLocks.png")
                 },
                 new CheckPointModel
                 {
@@ -59,7 +61,8 @@ namespace AllInSkateChallenge.Features.Data.Static
                     Description = "Awesome! You have smashed a marathon and then some to reach Skipton Castle. Over 900 years old, Skipton Castle is one of the most complete and best preserved medieval castles.",
                     Longitude = -2.015390M,
                     Latitude = 53.963992M,
-                    Url = "https://www.skiptoncastle.co.uk/"
+                    Url = "https://www.skiptoncastle.co.uk/",
+                    Image = absoluteUrlHelper.Get("/images/GreetingsFromSkiptonCastle.png")
                 },
                 new CheckPointModel
                 {
@@ -68,8 +71,7 @@ namespace AllInSkateChallenge.Features.Data.Static
                     Description = "Nice work! Thanks to the wibbly wobbly nature of the canal, it's taken you 8 miles to actually go 5 miles to reach this bridge made of two separate arches stacked atop of each other.",
                     Longitude = -2.1398083M,
                     Latitude = 53.953686M,
-                    Image = absoluteUrlHelper.Get("/images/EastMartonDoubleArch.jpg"),
-                    ImageAlt = "The Double Arch, East Marton, Leeds Liverpool Canal by Phil Moon"
+                    Image = absoluteUrlHelper.Get("/images/GreetingsFromEastMarton.png")
                 },
                 new CheckPointModel
                 {
@@ -77,7 +79,8 @@ namespace AllInSkateChallenge.Features.Data.Static
                     Title = "Foulridge Summit",
                     Description = "Hooray! You have reached Foulridge, the highest point on the Leeds-Liverpool Canal.  This is also where the canal goes underground into the Foulridge tunnel which stretches for 1.49km, can you swim in skates?",
                     Longitude = -2.172585M,
-                    Latitude = 53.878122M
+                    Latitude = 53.878122M,
+                    Image = absoluteUrlHelper.Get("/images/GreetingsFromFoulridgeSummit.png")
                 },
                 new CheckPointModel
                 {
@@ -85,7 +88,8 @@ namespace AllInSkateChallenge.Features.Data.Static
                     Title = "Burnley",
                     Description = "Pat on the back! You have reached Burnley. Once again the canal goes underground, this time through Gannow Tunnel for 511m, Skaters can follow alternate footpaths to rejoin the canal.",
                     Longitude = -2.2679828M,
-                    Latitude = 53.7890336M
+                    Latitude = 53.7890336M,
+                    Image = absoluteUrlHelper.Get("/images/GreetingsFromBurnley.png")
                 },
                 new CheckPointModel
                 {
@@ -93,7 +97,8 @@ namespace AllInSkateChallenge.Features.Data.Static
                     Title = "Halfway There!",
                     Description = "Whooooaaaa! You've reached the halfway point! Did you know that the halfway marker was added to the Leeds Liverpool Canal to mark its 200th birthday?",
                     Longitude = -2.3955425M,
-                    Latitude = 53.7576887M
+                    Latitude = 53.7576887M,
+                    Image = absoluteUrlHelper.Get("/images/GreetingsFromHalfway.png")
                 },
                 new CheckPointModel
                 {
@@ -101,7 +106,8 @@ namespace AllInSkateChallenge.Features.Data.Static
                     Title = "Blackburn Flight",
                     Description = "Good on you! You've reached the Blackburn flightwhere there are 7 locks in quick succession...  stop and watch the boats work their way through or skate on past at speed!",
                     Longitude = -2.477020M,
-                    Latitude = 53.745922M
+                    Latitude = 53.745922M,
+                    Image = absoluteUrlHelper.Get("/images/GreetingsFromBlackburn.png")
                 },
                 new CheckPointModel
                 {
@@ -110,7 +116,8 @@ namespace AllInSkateChallenge.Features.Data.Static
                     Description = "Top effort! You've reached Wigan Pier. The name has humorous or ironic connotations since it conjures an image of a seaside pleasure pier, whereas Wigan is in fact an inland and traditionally industrial town.",
                     Longitude = -2.6385824M,
                     Latitude = 53.5422293M,
-                    Url = "https://en.wikipedia.org/wiki/Wigan_Pier"
+                    Url = "https://en.wikipedia.org/wiki/Wigan_Pier",
+                    Image = absoluteUrlHelper.Get("/images/GreetingsFromWiganPier.png")
                 },
                 new CheckPointModel
                 {
@@ -119,7 +126,8 @@ namespace AllInSkateChallenge.Features.Data.Static
                     Description = "Hats off! You're now a stones throw from the Scotch Piper Inn, a thatched pub reputed to be the oldest inn in Lancashire and dates back to the 14th century. Originally the inn was built around an oak tree which can be seen in the tap room.  Do you want a pint before that last stretch to the finish line?",
                     Longitude = -2.957032M,
                     Latitude = 53.533165M,
-                    Url = "https://en.wikipedia.org/wiki/Scotch_Piper_Inn"
+                    Url = "https://en.wikipedia.org/wiki/Scotch_Piper_Inn",
+                    Image = absoluteUrlHelper.Get("/images/GreetingsFromTheScotchPiperInn.png")
                 },
                 new CheckPointModel
                 {
@@ -128,8 +136,7 @@ namespace AllInSkateChallenge.Features.Data.Static
                     Description = "YOU ARE AMAZING! You have reached the finish line and found yourself in Liverpool Docks! Time for a pint or a cuppa!",
                     Longitude = -2.994955M,
                     Latitude = 53.403282M,
-                    Image = absoluteUrlHelper.Get("/images/CanningDock.jpg"),
-                    ImageAlt = "Canning Dock, Liverpool by Roger Ellis"
+                    Image = absoluteUrlHelper.Get("/images/GreetingsFromLiverpool.png")
                 }
             };
         }
