@@ -3,13 +3,13 @@
 
 @{
     ViewData["Title"] = "Log in";
-    var hasExternalLogins = (Model.ExternalLogins?.Count ?? 0) == 0;
+    var hasExternalLogins = (Model.ExternalLogins?.Count ?? 0) > 0;
 }
 
 <div class="row">
     <div class="col-xl-12">
         <div class="text-center">
-            <h1 class="display-4">@ViewData["Title"]</h1>
+            <h1 class="display-4">Log In</h1>
         </div>
     </div>
 </div>
@@ -54,26 +54,30 @@
             </div>
         </div>
 
-        @foreach (var provider in Model.ExternalLogins)
+        @if (hasExternalLogins)
         {
-            <div class="card">
-                <div class="card-header">Log in with @provider.Name</div>
-                <div class="card-body">
-                    <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
-                        @if (provider.Name.Equals("strava", System.StringComparison.CurrentCultureIgnoreCase))
-                        {
-                            <p class="card-text">If you are prompted to give the application access to Strava, then ensure that you tick options to allow the application to read activity data if you want to import your activities.</p>
-                            <p class="card-text">If you are using third party authentication to access Strava, then strava will pass this authentication request onto that third party provider.</p>
-                            <button type="submit" class="btn-strava" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account"></button>
-                        }
-                        else
-                        {
-                            <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
-                        }
-                    </form>
+            foreach (var provider in Model.ExternalLogins)
+            {
+                <div class="card">
+                    <div class="card-header">Log in with @provider.Name</div>
+                    <div class="card-body">
+                        <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
+                            @if (provider.Name.Equals("strava", System.StringComparison.CurrentCultureIgnoreCase))
+                            {
+                                <p class="card-text">If you are prompted to give the application access to Strava, then ensure that you tick options to allow the application to read activity data if you want to import your activities.</p>
+                                <p class="card-text">If you are using third party authentication to access Strava, then strava will pass this authentication request onto that third party provider.</p>
+                                <button type="submit" class="btn-strava" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account"></button>
+                            }
+                            else
+                            {
+                                <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
+                            }
+                        </form>
+                    </div>
                 </div>
-            </div>
+            }
         }
+
     </div>
 </div>
 
