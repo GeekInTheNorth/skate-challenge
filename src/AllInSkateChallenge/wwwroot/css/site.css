@@ -120,6 +120,7 @@ img.leaderboard-profile {
 img.hero-banner {
     width: 100%;
     height: auto;
+    border-bottom: #8ABC2D 2px solid;
 }
 
 .bg-allin-green {
