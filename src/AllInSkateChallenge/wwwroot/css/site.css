@@ -131,6 +131,10 @@ img.hero-banner {
     border-color: #8ABC2D;
 }
 
+.nav-link.text-dark {
+    color: black !important;
+}
+
 /* Time Line
 -------------------------------------------------- */
 .timeline, .timeline-container, .timeline-content {
