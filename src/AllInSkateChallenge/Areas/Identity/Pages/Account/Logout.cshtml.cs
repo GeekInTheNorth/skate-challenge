@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using AllInSkateChallenge.Features.Data.Entities;
@@ -12,6 +9,7 @@ using Microsoft.Extensions.Logging;
 namespace AllInSkateChallenge.Areas.Identity.Pages.Account
 {
     [AllowAnonymous]
+    [IgnoreAntiforgeryToken]
     public class LogoutModel : PageModel
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
