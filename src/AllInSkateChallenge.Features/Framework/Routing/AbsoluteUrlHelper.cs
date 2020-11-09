@@ -16,6 +16,11 @@ namespace AllInSkateChallenge.Features.Framework.Routing
 
         public string Get(string relativePath)
         {
+            if (string.IsNullOrWhiteSpace(relativePath))
+            {
+                return null;
+            }
+
             var absolutePath = new Uri(new Uri(routeSettings.SiteUrl), relativePath);
 
             return absolutePath.ToString();

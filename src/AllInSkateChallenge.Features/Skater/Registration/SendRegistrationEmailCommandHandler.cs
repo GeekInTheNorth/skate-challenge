@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
+using AllInSkateChallenge.Features.Data.Static;
 using AllInSkateChallenge.Features.Framework.Routing;
 using AllInSkateChallenge.Features.Services.Email;
 
@@ -20,17 +22,21 @@ namespace AllInSkateChallenge.Features.Skater.Registration
 
         private readonly IEmailSender emailSender;
 
+        private readonly ICheckPointRepository checkPointRepository;
+
         private readonly ILogger<SendRegistrationEmailCommandHandler> logger;
 
         public SendRegistrationEmailCommandHandler(
             IViewToStringRenderer viewToStringRenderer, 
             IAbsoluteUrlHelper absoluteUrlHelper, 
-            IEmailSender emailSender, 
+            IEmailSender emailSender,
+            ICheckPointRepository checkPointRepository,
             ILogger<SendRegistrationEmailCommandHandler> logger)
         {
             this.viewToStringRenderer = viewToStringRenderer;
             this.absoluteUrlHelper = absoluteUrlHelper;
             this.emailSender = emailSender;
+            this.checkPointRepository = checkPointRepository;
             this.logger = logger;
         }
 
@@ -38,6 +44,8 @@ namespace AllInSkateChallenge.Features.Skater.Registration
         {
             try
             {
+                var startPoint = checkPointRepository.Get().OrderBy(x => x.Distance).FirstOrDefault();
+
                 var emailModel = new RegistrationEmailModel
                 {
                     LogoUrl = absoluteUrlHelper.Get("/images/AllInSkateChallengeBanner2.png"),
@@ -45,6 +53,7 @@ namespace AllInSkateChallenge.Features.Skater.Registration
                     SiteUrl = absoluteUrlHelper.Get("/"),
                     LogMilesUrl = absoluteUrlHelper.Get("/skater/skate-log"),
                     SponsorLogoUrl = absoluteUrlHelper.Get("/images/SkateEverywhereLogo.png"),
+                    StartingPostCard = absoluteUrlHelper.Get(startPoint?.Image)
                 };
 
                 var emailBody = await viewToStringRenderer.RenderPartialToStringAsync("~/Views/Email/RegistrationEmail.cshtml", emailModel);

@@ -7,9 +7,13 @@
     <title>Skater Registration</title>
 </head>
 <body style="font-family: Arial, Helvetica, sans-serif; margin: 0; background-color: #8ABC2D; padding: 10px;">
-    <img src="@Model.LogoUrl" alt="ALL IN Logo" style="width: 100%;" />
+    <img src="@Model.LogoUrl" alt="ALL IN Logo" style="width: 100%; height: auto;" />
     <div style="padding: 20px 5% 20px 5%; margin-bottom: 10px; border-radius: 10px; background-color: #FFFFFF;">
         <h1>Welcome to the Leeds Basin, the starting point of the Leeds-Liverpool Canal ALL IN Skate Challenge!</h1>
+        @if (!string.IsNullOrWhiteSpace(Model.StartingPostCard))
+        {
+            <img src="@Model.StartingPostCard" style="width: 100%; height: auto;" />
+        }
     </div>
     <div style="padding: 20px 5% 20px 5%; margin-bottom: 10px; border-radius: 10px; background-color: #FFFFFF;">
         <p>Here's some info to get you started!</p>
@@ -23,9 +27,9 @@
             <li>
                 <span>Choose your contribution!  ALL IN is a not-for-profit, breaking down barriers to participation in sport in our local community.  Every little helps!</span>
                 <ul>
-                    <li>£3 - support an ALL IN outdoor skate session in Bradford, plus get a virtual finisher's badge when you complete the challenge!</li>
-                    <li>£10 - support an ALL IN derby session in Bradford, plus get a sticker delivered to your door, PLUS get a virtual finisher's badge when you complete the challenge!</li>
-                    <li>£25 - support ALL IN programmes, plus get your choice of a Leeds-Liverpool Challenge t-shirt, plus get a sticker delivered to your door, PLUS get a virtual finisher's badge when you complete the challenge!</li>
+                    <li><a href="https://skateeverywhereproject.com/product/all-in-leeds-to-liverpool-challenge-3-donation/">£3</a> - support an ALL IN outdoor skate session in Bradford, plus get a virtual finisher's badge when you complete the challenge!</li>
+                    <li><a href="https://skateeverywhereproject.com/product/all-in-leeds-to-liverpool-challenge-10-donation/">£10</a> - support an ALL IN derby session in Bradford, plus get a sticker delivered to your door, PLUS get a virtual finisher's badge when you complete the challenge!</li>
+                    <li><a href="https://skateeverywhereproject.com/product/all-in-leeds-to-liverpool-t-shirt/">£25</a> - support ALL IN programmes, plus get your choice of a Leeds-Liverpool Challenge t-shirt, plus get a sticker delivered to your door, PLUS get a virtual finisher's badge when you complete the challenge!</li>
                 </ul>
                 <p>Every finisher gets a shout out on our social media!</p>
             </li>
