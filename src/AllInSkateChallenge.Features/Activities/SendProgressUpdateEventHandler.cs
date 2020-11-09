@@ -75,14 +75,17 @@ namespace AllInSkateChallenge.Features.Activities
                     var emailModel = new SkaterProgressEmailViewModel
                     {
                         LogoUrl = absoluteUrlHelper.Get("/images/AllInSkateChallengeBanner2.png"),
+                        SponsorLogoUrl = absoluteUrlHelper.Get("/images/SkateEverywhereLogo.png"),
                         Skater = request.Skater,
                         CheckPoint = checkPointReached,
                         TotalMiles = totalMiles,
                         NextCheckPoint = nextCheckPoint
                     };
-                    var emailBody = await viewToStringRenderer.RenderPartialToStringAsync("~/Views/Email/SkaterProgressEmail.cshtml", emailModel);
 
-                    await emailSender.SendEmailAsync(request.Skater.Email, "ALL IN Skate Challenge Registration", emailBody);
+                    var emailTemplate = checkPointReached.IsFinalCheckpoint ? "~/Views/Email/ChallengeCompleteEmail.cshtml" : "~/Views/Email/SkaterProgressEmail.cshtml";
+                    var emailBody = await viewToStringRenderer.RenderPartialToStringAsync(emailTemplate, emailModel);
+
+                    await emailSender.SendEmailAsync(request.Skater.Email, "ALL IN Skate Challenge - Your Progress", emailBody);
                 }
             }
             catch (Exception exception)

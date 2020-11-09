@@ -136,7 +136,8 @@ namespace AllInSkateChallenge.Features.Data.Static
                     Description = "YOU ARE AMAZING! You have reached the finish line and found yourself in Liverpool Docks! Time for a pint or a cuppa!",
                     Longitude = -2.994955M,
                     Latitude = 53.403282M,
-                    Image = absoluteUrlHelper.Get("/images/GreetingsFromLiverpool.png")
+                    Image = absoluteUrlHelper.Get("/images/GreetingsFromLiverpool.png"),
+                    IsFinalCheckpoint = true
                 }
             };
         }

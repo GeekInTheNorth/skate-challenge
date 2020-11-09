@@ -6,12 +6,12 @@
     <meta charset="utf-8" />
     <title>Your Progress</title>
 </head>
-<body style="font-family: Arial, Helvetica, sans-serif; margin: 0; padding: 0 0 10px 0;">
-    <img src="@Model.LogoUrl" alt="ALL IN Logo" style="width: 100%;" />
-    <div style="width: 90%; padding-right: 5%; padding-left: 5%; margin-right: auto; margin-left: auto; text-align: center;">
-        <h1>Congratulations @Model.Skater.SkaterName! you reached a new milestone on your Leeds Liverpool canal Skate Challenge!</h1>
+<body style="font-family: Arial, Helvetica, sans-serif; margin: 0; background-color: #8ABC2D; padding: 10px;">
+    <img src="@Model.LogoUrl" alt="ALL IN Logo" style="width: 100%; height: auto; margin-right:auto; margin-left:auto;" />
+    <div style="padding: 20px 5% 20px 5%; margin-bottom: 10px; border-radius: 10px; background-color: #FFFFFF;">
+        <h1>Congratulations @Model.Skater.SkaterName!<br />You've just hit another milestone!!!</h1>
     </div>
-    <div style="width: 80%; padding-top: 10px; padding-bottom: 10px; padding-right: 5%; padding-left: 5%; margin-left: 5%; margin-right: 5%; margin-bottom: 10px; border-radius: 10px; background-color: #8ABC2D;">
+    <div style="padding: 20px 5% 20px 5%; margin-bottom: 10px; border-radius: 10px; background-color: #FFFFFF;">
         <h2>@Model.CheckPoint.Title</h2>
         <p>@Model.CheckPoint.Description</p>
         @if (!string.IsNullOrWhiteSpace(Model.CheckPoint.Image))
@@ -28,24 +28,23 @@
             }
         </p>
     </div>
-    <div style="width: 80%; padding-top: 10px; padding-bottom: 10px; padding-right: 5%; padding-left: 5%; margin-left: 5%; margin-right: 5%; margin-bottom: 10px; border-radius: 10px; background-color: #8ABC2D;">
+    <div style="padding: 20px 5% 20px 5%; margin-bottom: 10px; border-radius: 10px; background-color: #FFFFFF;">
         <h2>Your Journey to Date</h2>
         <p>You have skated a total distance of @Model.TotalMiles.ToString("F1") of the required 127.5 miles required to skate the entire length of the Leeds Liverpool canal.</p>
-        @if (Model.TotalMilesRemaining > 0)
-        {
-            <p>This means that there is total of @Model.TotalMilesRemaining.ToString("F1") miles remaining on your journey from Leeds to Liverpool. If this distance feels too great, perhaps you could think about the distance remaining to your next milestone instead?</p>
-        }
-        else
-        {
-            <p>This means you have totally smashed your journey! Well Done!</p>
-        }
+        <p>This means that there is total of @Model.TotalMilesRemaining.ToString("F1") miles remaining on your journey from Leeds to Liverpool. If this distance feels too great, perhaps you could think about the distance remaining to your next milestone instead?</p>
     </div>
     @if (Model.NextCheckPoint != null)
     {
-        <div style="width: 80%; padding-top: 10px; padding-bottom: 10px; padding-right: 5%; padding-left: 5%; margin-left: 5%; margin-right: 5%; margin-bottom: 10px; border-radius: 10px; background-color: #8ABC2D;">
+        <div style="padding: 20px 5% 20px 5%; margin-bottom: 10px; border-radius: 10px; background-color: #FFFFFF;">
             <h2>Your Next Milestone</h2>
             <p>Your next milestone is at @Model.NextCheckPoint.Title, you need to skate a further @Model.NextCheckPointMilesRemaining.ToString("F1") miles to reach this milestone.  You can do this!</p>
         </div>
     }
+    <div style="padding: 20px 5% 20px 5%; margin-bottom: 10px; border-radius: 10px; background-color: #FFFFFF;">
+        <p>
+            Don't forget to visit our sponsors at <a href="https://skateeverywhereproject.com/">Skate Everywhere Project</a> for more fun challenges and merch!
+        </p>
+        <img src="@Model.SponsorLogoUrl" alt="Skate Everywhere Logo" style="max-width: 400px; width: 100%;" />
+    </div>
 </body>
 </html>
