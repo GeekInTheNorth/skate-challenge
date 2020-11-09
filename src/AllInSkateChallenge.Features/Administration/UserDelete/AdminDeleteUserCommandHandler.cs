@@ -34,6 +34,8 @@ namespace AllInSkateChallenge.Features.Administration.UserDelete
                 throw new EntityProtectedException(typeof(ApplicationUser), user.Id);
             }
 
+            await userManager.DeleteAsync(user);
+
             return Unit.Value;
         }
     }
