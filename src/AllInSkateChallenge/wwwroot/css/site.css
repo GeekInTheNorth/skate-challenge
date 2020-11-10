@@ -298,3 +298,8 @@ img.hero-banner {
 .btn-strava-disabled {
     background-image: url('/images/btn_strava_connectwith_disabled.png');
 }
+
+/* Forms */
+.form-group--reason {
+    display: none;
+}
