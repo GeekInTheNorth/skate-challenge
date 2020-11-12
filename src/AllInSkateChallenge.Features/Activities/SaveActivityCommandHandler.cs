@@ -8,7 +8,7 @@ using AllInSkateChallenge.Features.Data.Entities;
 using AllInSkateChallenge.Features.Skater;
 
 using MediatR;
-
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace AllInSkateChallenge.Features.Activities
@@ -55,6 +55,10 @@ namespace AllInSkateChallenge.Features.Activities
                     stravaEvent.Imported = true;
                     context.StravaEvents.Update(stravaEvent);
                 }
+
+                // Clear event statistics
+                var statistics = await context.EventStatistics.ToListAsync();
+                context.EventStatistics.RemoveRange(statistics);
 
                 await context.SaveChangesAsync();
 
