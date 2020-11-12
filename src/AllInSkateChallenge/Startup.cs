@@ -112,8 +112,7 @@ namespace AllInSkateChallenge
 
             // Data
             services.AddTransient<ICheckPointRepository, CheckPointRepository>();
-            services.AddTransient<ISummaryStatisticsRepository, SummaryStatisticsRepository>();
-
+            
             services.AddTransient<IViewToStringRenderer, ViewToStringRenderer>();
             services.AddMediatR(typeof(AdminDeleteUserCommand).Assembly);
         }

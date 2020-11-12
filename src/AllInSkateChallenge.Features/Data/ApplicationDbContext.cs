@@ -13,6 +13,8 @@ namespace AllInSkateChallenge.Features.Data
 
         public DbSet<StravaEvent> StravaEvents { get; set; }
 
+        public DbSet<EventStatistic> EventStatistics { get; set; }
+
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {

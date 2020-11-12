@@ -11,8 +11,8 @@ namespace AllInSkateChallenge.Features.Home
 
         public List<MileageEntryModel> LatestUpdates { get; set; }
 
-        public SummaryStatisticsModel SummaryStatistics { get; set; }
-
-        public SummaryStatisticsModel Summary { get; set; }
+        public int NumberOfSkaters { get; set; }
+        
+        public decimal CumulativeMiles { get; set; }
     }
 }
