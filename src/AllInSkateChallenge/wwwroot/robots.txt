@@ -1,2 +1,7 @@
 ﻿User-agent: *
-Disallow: /
+Disallow: /Error/
+Disallow: /Identity/
+Disallow: /skater/
+Disallow: /*.php
+Disallow: /*.jpg
+Disallow: /*.png

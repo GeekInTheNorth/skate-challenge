@@ -41,7 +41,8 @@ namespace AllInSkateChallenge.Features.Framework.Models
                 DisplayStravaNotification = response.HasStravaImports,
                 DisplayUserName = response.SkaterName,
                 Content = Activator.CreateInstance<T>(),
-                ShowCookieBanner = User == null && !response.HasDismissedCookieBanner
+                ShowCookieBanner = User == null && !response.HasDismissedCookieBanner,
+                IsNoIndexPage = false
             };
 
             return model;

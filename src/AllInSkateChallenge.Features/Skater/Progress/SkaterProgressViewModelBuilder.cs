@@ -28,6 +28,7 @@ namespace AllInSkateChallenge.Features.Skater.Progress
             var model = await base.Build();
             model.PageTitle = "Your Progress";
             model.DisplayPageTitle = "Your Progress";
+            model.IsNoIndexPage = true;
 
             var command = new SkaterLogQuery { Skater = User };
             var commandResponse = await mediator.Send(command);

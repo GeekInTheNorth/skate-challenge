@@ -23,5 +23,7 @@
         bool HasPaid { get; }
 
         bool ShowCookieBanner { get; }
+
+        bool IsNoIndexPage { get; }
     }
 }

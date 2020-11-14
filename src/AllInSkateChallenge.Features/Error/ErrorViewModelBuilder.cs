@@ -27,6 +27,7 @@ namespace AllInSkateChallenge.Features.Error
 
             model.Content.StatusCode = statusCode;
             model.PageTitle = statusCode.Equals(404) ? "Not Found" : $"Error {statusCode}";
+            model.IsNoIndexPage = true;
 
             return model;
         }

@@ -17,6 +17,7 @@ namespace AllInSkateChallenge.Features.FAQs
             var model = await base.Build();
             model.PageTitle = "FAQs";
             model.DisplayPageTitle = "Frequency Asked Questions";
+            model.IsNoIndexPage = true;
 
             return model;
         }

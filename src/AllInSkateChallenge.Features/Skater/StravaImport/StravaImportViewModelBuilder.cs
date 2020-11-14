@@ -30,6 +30,7 @@ namespace AllInSkateChallenge.Features.Skater.StravaImport
             model.PageTitle = "Strava Import";
             model.DisplayPageTitle = "Your Strava Activities";
             model.IntroductoryText = "Please note that the only Strava activity types which are eligible for the ALL IN Skate Challenge are Inline Skating, Ice Skating and Skateboarding.";
+            model.IsNoIndexPage = true;
             model.DisplayStravaNotification = false;
 
             var stravaActivityListResponse = await stravaService.List(User);

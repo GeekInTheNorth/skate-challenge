@@ -21,7 +21,8 @@ namespace AllInSkateChallenge.Features.LeaderBoard
             var model = await base.Build();
             model.PageTitle = "Leader Board";
             model.DisplayPageTitle = "Leader Board";
-            
+            model.IsNoIndexPage = true;
+
             var leaderBoardResponse = await mediator.Send(new LeaderBoardQuery());
             model.Content.Entries = leaderBoardResponse?.Entries ?? new List<LeaderBoardEntryModel>();
 

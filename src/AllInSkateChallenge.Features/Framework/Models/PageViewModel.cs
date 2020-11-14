@@ -26,5 +26,7 @@
         public bool HasPaid { get; set; }
 
         public bool ShowCookieBanner { get; set; }
+
+        public bool IsNoIndexPage { get; set; }
     }
 }

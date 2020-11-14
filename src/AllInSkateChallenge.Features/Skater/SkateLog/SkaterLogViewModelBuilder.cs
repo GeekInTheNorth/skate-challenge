@@ -32,6 +32,7 @@ namespace AllInSkateChallenge.Features.Skater.SkateLog
             var model = await base.Build();
             model.PageTitle = "Your Skate Log";
             model.DisplayPageTitle = "Your Skate Log";
+            model.IsNoIndexPage = true;
             model.DisplayStravaNotification = false;
 
             if (model.IsStravaUser)

@@ -18,6 +18,7 @@
 
     var smallImage = Url.Content("~/images/AllInSkateChallengeBannerSmall.png");
     var largeImage = Url.Content("~/images/AllInSkateChallengeBanner.png");
+    var twitterSite = "@allincrd";
     var hasDismissedCookie = contextAccessor.HttpContext.Request.Cookies.ContainsKey("cookieWarningDismissed");
     var showCookieBanner = !isSignedIn && !hasDismissedCookie;
 }
@@ -28,9 +29,18 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - ALL IN Skate Challenge</title>
+    <meta name="description" content="ALL IN challenges you to join our virtual skate along the Leeds-Liverpool canal (127.5 miles)!">
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <meta name="robots" content="noindex, nofollow" />
+
+    <!-- FaceBook & Twitter Sharing Tags -->
+    <meta property="og:title" content="ALL IN Leeds-Liverpool Skate Challenge">
+    <meta property="og:description" content="ALL IN challenges you to join our virtual skate along the Leeds-Liverpool canal (127.5 miles)!">
+    <meta property="og:image" content="https://allinskatechallenge.azurewebsites.net/images/AllInSkateChallengeBanner2.png">
+    <meta property="og:url" content="https://allinskatechallenge.azurewebsites.net/">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@twitterSite">
 </head>
 <body class="mb-0">
     <header>

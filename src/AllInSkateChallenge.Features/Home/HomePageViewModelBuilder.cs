@@ -23,6 +23,7 @@ namespace AllInSkateChallenge.Features.Home
             var model = await base.Build();
             model.PageTitle = "Home";
             model.DisplayPageTitle = "Welcome to the ALL IN Leeds-Liverpool Skate Challenge";
+            model.IsNoIndexPage = false;
             model.Content.NumberOfSkaters = eventStatistics.NumberOfSkaters;
             model.Content.CumulativeMiles = eventStatistics.CumulativeMiles;
 
