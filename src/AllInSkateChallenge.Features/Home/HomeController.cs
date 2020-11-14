@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 using AllInSkateChallenge.Features.Data.Entities;
 
@@ -27,17 +26,6 @@ namespace AllInSkateChallenge.Features.Home
             var model = await viewModelBuilder.WithUser(skater).Build();
 
             return View(model);
-        }
-
-        public IActionResult FAQ()
-        {
-            return View();
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
 }

@@ -4,6 +4,7 @@ using AllInSkateChallenge.Features.Administration.UserDelete;
 using AllInSkateChallenge.Features.Data;
 using AllInSkateChallenge.Features.Data.Entities;
 using AllInSkateChallenge.Features.Data.Static;
+using AllInSkateChallenge.Features.Error;
 using AllInSkateChallenge.Features.FAQs;
 using AllInSkateChallenge.Features.Framework.Routing;
 using AllInSkateChallenge.Features.Gravatar;
@@ -109,6 +110,7 @@ namespace AllInSkateChallenge
             services.AddTransient<IStravaImportViewModelBuilder, StravaImportViewModelBuilder>();
             services.AddTransient<IFaqViewModelBuilder, FaqViewModelBuilder>();
             services.AddTransient<ILeaderBoardViewModelBuilder, LeaderBoardViewModelBuilder>();
+            services.AddTransient<IErrorViewModelBuilder, ErrorViewModelBuilder>();
 
             // Data
             services.AddTransient<ICheckPointRepository, CheckPointRepository>();
@@ -127,8 +129,10 @@ namespace AllInSkateChallenge
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseExceptionHandler("/500.html");
             }
+
+            app.UseStatusCodePagesWithRedirects("/Error/{0}");
 
             // Registered before static files to always set header
             app.UseHsts(hsts => hsts.MaxAge(365));

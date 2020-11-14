@@ -1,0 +1,36 @@
+﻿@model AllInSkateChallenge.Features.Framework.Models.PageViewModel<AllInSkateChallenge.Features.Error.ErrorViewModel>
+
+@{
+    Layout = "_PageViewModelLayout";
+}
+
+@if (Model.Content.StatusCode.Equals(404))
+{
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="card mt-3 mb-3">
+                <h5 class="card-header text-white bg-danger">Not Found</h5>
+                <div class="card-body">
+                    <p class="card-text">Oh Dear, it looks like we could not find what you're looking for.  Why don't you check out our homepage or faq?</p>
+                    <a asp-controller="Home" asp-action="Index" class="btn btn-primary">Home</a>
+                    <a asp-controller="Faq" asp-action="Index" class="btn btn-secondary">FAQ</a>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="card mt-3 mb-3">
+                <h5 class="card-header text-white bg-danger">Error @Model.Content.StatusCode</h5>
+                <div class="card-body">
+                    <p class="card-text">Oh no! an error has been encountered with your request. Why don't you check out our homepage or faq?</p>
+                    <a asp-controller="Home" asp-action="Index" class="btn btn-primary">Home</a>
+                    <a asp-controller="Faq" asp-action="Index" class="btn btn-secondary">FAQ</a>
+                </div>
+            </div>
+        </div>
+    </div>
+}

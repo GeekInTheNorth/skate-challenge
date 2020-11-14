@@ -1,0 +1,67 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Unexpected Error</title>
+    <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/css/site.css" asp-append-version="true" />
+    <meta name="robots" content="noindex, nofollow" />
+</head>
+<body class="mb-0">
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-allin-green border-bottom box-shadow sticky-top font-weight-bold">
+            <div class="container">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">ALL IN Skate Challenge</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-lg-inline-flex flex-lg-row-reverse">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" href="/">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" href="https://www.allincrd.uk/" target="_blank">About ALL IN</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <picture>
+            <source media="(orientation: landscape)" srcset="/images/AllInSkateChallengeBannerSmall.png 100w, /images/AllInSkateChallengeBanner.png 800w" />
+            <img src="/images/AllInSkateChallengeBannerSmall.png" alt="All In Community Roller Derby banner." class="hero-banner" />
+        </picture>
+    </header>
+
+    <div class="container mt-3">
+        <main role="main" class="pb-3">
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="card mt-3 mb-3">
+                        <h5 class="card-header text-white bg-danger">Error Encountered</h5>
+                        <div class="card-body">
+                            <p class="card-text">An error has been encountered processing your request. Please try again shortly or click on the home page button below.</p>
+                            <a href="/" class="btn btn-primary">Home</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <footer class="border-top bg-allin-green">
+        <div class="container text-center pt-3 pb-3">
+            <span class="text-dark font-weight-bold">&copy; 2020 - </span><a class="text-dark font-weight-bold" href="https://www.allincrd.uk/" target="_blank">ALL IN Community Roller Derby</a>
+            <nav class="nav justify-content-center">
+                <a class="nav-link text-dark font-weight-bold" href="/Faq/">FAQ</a>
+                <a class="nav-link text-dark font-weight-bold" href="https://www.allincrd.uk/s/Data-Privacy-Notice-v11-Oct-20.pdf" target="_blank">Privacy</a>
+                <a class="nav-link text-dark font-weight-bold" href="https://www.allincrd.uk/contact" target="_blank">Contact Us</a>
+            </nav>
+        </div>
+    </footer>
+    <script src="/lib/jquery/dist/jquery.min.js"></script>
+    <script src="/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/site.js" asp-append-version="true"></script>
+</body>
+</html>
