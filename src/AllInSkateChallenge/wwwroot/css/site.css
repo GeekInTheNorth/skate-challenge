@@ -298,3 +298,45 @@ img.hero-banner {
 .btn-strava-disabled {
     background-image: url('/images/btn_strava_connectwith_disabled.png');
 }
+
+.side-social-panel {
+    position: fixed;
+    border: 1px solid #8ABC2D;
+    background-color: white;
+    top: calc(50vh - 72px);
+    margin: 0;
+    padding: 0px;
+}
+
+.side-social-panel--icon{
+    border: none;
+    width: auto;
+    height: 36px;
+    margin: 9px;
+    display: block;
+}
+
+.social-panel--icon {
+    border: none;
+    width: auto;
+    height: 36px;
+    margin: 9px;
+    display: inline-block;
+}
+
+.social-panel--link{
+    display: inline-block;
+}
+
+@media screen and (max-width: 1044px){
+    .side-social-panel{
+        display: none;
+    }
+}
+
+@media screen and (max-width: 450px) {
+    .social-panel--link {
+        display: block;
+    }
+}
+
