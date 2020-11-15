@@ -22,9 +22,9 @@
             <div class="timeline-container @alignmentClass">
                 <div class="timeline-content">
                     <h2>@checkPoint.Title</h2>
-                    @if (!string.IsNullOrWhiteSpace(checkPoint.Image))
+                    @if (!string.IsNullOrWhiteSpace(checkPoint.DigitalBadge))
                     {
-                        <img src="@checkPoint.Image" class="img-fluid" alt="@checkPoint.Title" />
+                        <img src="@checkPoint.DigitalBadge" class="img-fluid" alt="@checkPoint.Title" />
                     }
                     <p>@checkPoint.Distance.ToString("F2") miles</p>
                     <p>@checkPoint.Description</p>
