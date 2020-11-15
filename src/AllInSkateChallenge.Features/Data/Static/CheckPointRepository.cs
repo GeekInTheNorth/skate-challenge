@@ -33,7 +33,8 @@ namespace AllInSkateChallenge.Features.Data.Static
                     Description = "Congratulations, you've made it to the Aire Valley Marina. The Marina has two canal entrances with pedestrian bridges which must be navigated to proceed.",
                     Longitude = -1.594375M,
                     Latitude = 53.803769M,
-                    Image = absoluteUrlHelper.Get("/images/GreetingsFromAireValleyMarina.png")
+                    Image = absoluteUrlHelper.Get("/images/GreetingsFromAireValleyMarina.png"),
+                    DigitalBadge = absoluteUrlHelper.Get("/images/badges/AireValleyMarina.png")
                 },
                 new CheckPointModel
                 {
@@ -42,7 +43,8 @@ namespace AllInSkateChallenge.Features.Data.Static
                     Description = "Flippin eck, you have skated a half marathon! There's an Ice Cream Boat on the side of the canal for a quick snack on the move!",
                     Longitude = -1.789923M,
                     Latitude = 53.839548M,
-                    Image = absoluteUrlHelper.Get("/images/GreetingsFromSaltaire.png")
+                    Image = absoluteUrlHelper.Get("/images/GreetingsFromSaltaire.png"),
+                    DigitalBadge = absoluteUrlHelper.Get("/images/badges/Saltaire.png")
                 },
                 new CheckPointModel
                 {
@@ -52,7 +54,8 @@ namespace AllInSkateChallenge.Features.Data.Static
                     Longitude = -1.838214M,
                     Latitude = 53.856368M,
                     Url = "https://en.wikipedia.org/wiki/Bingley_Five_Rise_Locks",
-                    Image = absoluteUrlHelper.Get("/images/GreetingsFromBingleyFiveRiseLocks.png")
+                    Image = absoluteUrlHelper.Get("/images/GreetingsFromBingleyFiveRiseLocks.png"),
+                    DigitalBadge = absoluteUrlHelper.Get("/images/badges/BingleyFiveRise.png")
                 },
                 new CheckPointModel
                 {
@@ -62,7 +65,8 @@ namespace AllInSkateChallenge.Features.Data.Static
                     Longitude = -2.015390M,
                     Latitude = 53.963992M,
                     Url = "https://www.skiptoncastle.co.uk/",
-                    Image = absoluteUrlHelper.Get("/images/GreetingsFromSkiptonCastle.png")
+                    Image = absoluteUrlHelper.Get("/images/GreetingsFromSkiptonCastle.png"),
+                    DigitalBadge = absoluteUrlHelper.Get("/images/badges/SkiptonCastle.png")
                 },
                 new CheckPointModel
                 {
@@ -71,7 +75,8 @@ namespace AllInSkateChallenge.Features.Data.Static
                     Description = "Nice work! Thanks to the wibbly wobbly nature of the canal, it's taken you 8 miles to actually go 5 miles to reach this bridge made of two separate arches stacked atop of each other.",
                     Longitude = -2.1398083M,
                     Latitude = 53.953686M,
-                    Image = absoluteUrlHelper.Get("/images/GreetingsFromEastMarton.png")
+                    Image = absoluteUrlHelper.Get("/images/GreetingsFromEastMarton.png"),
+                    DigitalBadge = absoluteUrlHelper.Get("/images/badges/EastMarton.png")
                 },
                 new CheckPointModel
                 {
@@ -80,7 +85,8 @@ namespace AllInSkateChallenge.Features.Data.Static
                     Description = "Hooray! You have reached Foulridge, the highest point on the Leeds-Liverpool Canal.  This is also where the canal goes underground into the Foulridge tunnel which stretches for 1.49km, can you swim in skates?",
                     Longitude = -2.172585M,
                     Latitude = 53.878122M,
-                    Image = absoluteUrlHelper.Get("/images/GreetingsFromFoulridgeSummit.png")
+                    Image = absoluteUrlHelper.Get("/images/GreetingsFromFoulridgeSummit.png"),
+                    DigitalBadge = absoluteUrlHelper.Get("/images/badges/FoulridgeSummit.png")
                 },
                 new CheckPointModel
                 {
@@ -89,7 +95,8 @@ namespace AllInSkateChallenge.Features.Data.Static
                     Description = "Pat on the back! You have reached Burnley. Once again the canal goes underground, this time through Gannow Tunnel for 511m, Skaters can follow alternate footpaths to rejoin the canal.",
                     Longitude = -2.2679828M,
                     Latitude = 53.7890336M,
-                    Image = absoluteUrlHelper.Get("/images/GreetingsFromBurnley.png")
+                    Image = absoluteUrlHelper.Get("/images/GreetingsFromBurnley.png"),
+                    DigitalBadge = absoluteUrlHelper.Get("/images/badges/Burnley.png")
                 },
                 new CheckPointModel
                 {
@@ -98,7 +105,8 @@ namespace AllInSkateChallenge.Features.Data.Static
                     Description = "Whooooaaaa! You've reached the halfway point! Did you know that the halfway marker was added to the Leeds Liverpool Canal to mark its 200th birthday?",
                     Longitude = -2.3955425M,
                     Latitude = 53.7576887M,
-                    Image = absoluteUrlHelper.Get("/images/GreetingsFromHalfway.png")
+                    Image = absoluteUrlHelper.Get("/images/GreetingsFromHalfway.png"),
+                    DigitalBadge = absoluteUrlHelper.Get("/images/badges/Halfway.png")
                 },
                 new CheckPointModel
                 {
@@ -107,7 +115,8 @@ namespace AllInSkateChallenge.Features.Data.Static
                     Description = "Good on you! You've reached the Blackburn flightwhere there are 7 locks in quick succession...  stop and watch the boats work their way through or skate on past at speed!",
                     Longitude = -2.477020M,
                     Latitude = 53.745922M,
-                    Image = absoluteUrlHelper.Get("/images/GreetingsFromBlackburn.png")
+                    Image = absoluteUrlHelper.Get("/images/GreetingsFromBlackburn.png"),
+                    DigitalBadge = absoluteUrlHelper.Get("/images/badges/BlackburnFlight.png")
                 },
                 new CheckPointModel
                 {
@@ -117,7 +126,8 @@ namespace AllInSkateChallenge.Features.Data.Static
                     Longitude = -2.6385824M,
                     Latitude = 53.5422293M,
                     Url = "https://en.wikipedia.org/wiki/Wigan_Pier",
-                    Image = absoluteUrlHelper.Get("/images/GreetingsFromWiganPier.png")
+                    Image = absoluteUrlHelper.Get("/images/GreetingsFromWiganPier.png"),
+                    DigitalBadge = absoluteUrlHelper.Get("/images/badges/WiganPier.png")
                 },
                 new CheckPointModel
                 {
@@ -127,7 +137,8 @@ namespace AllInSkateChallenge.Features.Data.Static
                     Longitude = -2.957032M,
                     Latitude = 53.533165M,
                     Url = "https://en.wikipedia.org/wiki/Scotch_Piper_Inn",
-                    Image = absoluteUrlHelper.Get("/images/GreetingsFromTheScotchPiperInn.png")
+                    Image = absoluteUrlHelper.Get("/images/GreetingsFromTheScotchPiperInn.png"),
+                    DigitalBadge = absoluteUrlHelper.Get("/images/badges/ScotchPiper.png")
                 },
                 new CheckPointModel
                 {
@@ -137,7 +148,9 @@ namespace AllInSkateChallenge.Features.Data.Static
                     Longitude = -2.994955M,
                     Latitude = 53.403282M,
                     Image = absoluteUrlHelper.Get("/images/GreetingsFromLiverpool.png"),
-                    IsFinalCheckpoint = true
+                    IsFinalCheckpoint = true,
+                    DigitalBadge = absoluteUrlHelper.Get("/images/badges/Liverpool.png"),
+                    FinisherDigitalBadge = absoluteUrlHelper.Get("/images/badges/Finisher.png")
                 }
             };
         }

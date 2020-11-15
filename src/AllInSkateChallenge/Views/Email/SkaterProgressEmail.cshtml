@@ -16,7 +16,7 @@
         <p>@Model.CheckPoint.Description</p>
         @if (!string.IsNullOrWhiteSpace(Model.CheckPoint.Image))
         {
-            <img src="@Model.CheckPoint.Image" alt="@Model.CheckPoint.Title" style="width: 100%;" />
+            <img src="@Model.CheckPoint.Image" alt="@Model.CheckPoint.Title" style="width: 100%; max-width: 600px; height: auto;" />
         }
         <p>Milestone Distance: @Model.CheckPoint.Distance.ToString("F1") miles</p>
         <p>
@@ -28,6 +28,15 @@
             }
         </p>
     </div>
+    @if (!string.IsNullOrWhiteSpace(Model.CheckPoint.DigitalBadge))
+    {
+        <div style="padding: 20px 5% 20px 5%; margin-bottom: 10px; border-radius: 10px; background-color: #FFFFFF;">
+            <h2>Collect your digital badge!</h2>
+            <img src="@Model.CheckPoint.DigitalBadge" alt="@Model.CheckPoint.Title" style="width: 100%; max-width: 600px; height: auto;" />
+            <p>You can click <a href="@Model.CheckPoint.DigitalBadge" download="@Model.CheckPoint.DigitalBadgeName">here</a> to download your badge.</p>
+            <p>Fancy having something IRL to show off your achievement? Get the patch by visiting the <a href="https://skateeverywhereproject.com/product-category/all-in/" target="_blank">Skate Everywhere Project Store</a>!</p>
+        </div>
+    }
     <div style="padding: 20px 5% 20px 5%; margin-bottom: 10px; border-radius: 10px; background-color: #FFFFFF;">
         <h2>Your Journey to Date</h2>
         <p>You have skated a total distance of @Model.TotalMiles.ToString("F1") of the required 127.5 miles required to skate the entire length of the Leeds Liverpool canal.</p>

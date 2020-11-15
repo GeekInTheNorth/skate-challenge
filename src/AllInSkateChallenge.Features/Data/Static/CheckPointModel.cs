@@ -1,4 +1,6 @@
-﻿namespace AllInSkateChallenge.Features.Data.Static
+﻿using System.Linq;
+
+namespace AllInSkateChallenge.Features.Data.Static
 {
     public class CheckPointModel
     {
@@ -17,5 +19,13 @@
         public string Image { get; set; }
 
         public bool IsFinalCheckpoint { get; set; }
+
+        public string DigitalBadge { get; set; }
+
+        public string DigitalBadgeName => DigitalBadge?.Split('/').Last();
+
+        public string FinisherDigitalBadge { get; set; }
+
+        public string FinisherDigitalBadgeName => FinisherDigitalBadge?.Split('/').Last();
     }
 }
