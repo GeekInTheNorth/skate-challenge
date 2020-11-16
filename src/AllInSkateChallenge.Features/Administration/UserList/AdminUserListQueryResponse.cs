@@ -6,6 +6,8 @@ namespace AllInSkateChallenge.Features.Administration.UserList
     {
         public List<AdminUserModel> Users { get; set; }
 
+        public string SearchText { get; set; }
+
         public int TotalUsers { get; set; }
 
         public int CurrentPage { get; set; }

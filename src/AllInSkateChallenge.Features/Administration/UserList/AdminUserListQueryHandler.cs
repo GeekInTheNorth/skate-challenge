@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -24,18 +25,26 @@ namespace AllInSkateChallenge.Features.Administration.UserList
 
         public async Task<AdminUserListQueryResponse> Handle(AdminUserListQuery request, CancellationToken cancellationToken)
         {
-            var totalUsers = userManager.Users.Count();
+            var admins = await userManager.GetUsersInRoleAsync("Administrator");
+
+            var query = userManager.Users;
+            if (!string.IsNullOrWhiteSpace(request.SearchText))
+            {
+                query = query.Where(x => x.SkaterName.Contains(request.SearchText) || x.Email.Contains(request.SearchText));
+            }
+
+            var totalUsers = query.Count();
             var pageSize = 10;
             var skip = (request.Page - 1) * pageSize;
-            var admins = await userManager.GetUsersInRoleAsync("Administrator");
-            var users = await userManager.Users.Skip(skip).Take(pageSize).ToListAsync();
+            var users = await query.Skip(skip).Take(pageSize).ToListAsync();
 
             return new AdminUserListQueryResponse
             {
                 TotalUsers = totalUsers,
                 CurrentPage = request.Page,
-                MaxPages = (totalUsers / pageSize) + 1,
-                Users = ConvertUsers(users, admins)
+                MaxPages = (int)Math.Ceiling((decimal)totalUsers / pageSize),
+                Users = ConvertUsers(users, admins),
+                SearchText = request.SearchText
             };
         }
 

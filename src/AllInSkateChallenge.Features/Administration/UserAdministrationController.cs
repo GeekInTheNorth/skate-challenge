@@ -23,9 +23,9 @@ namespace AllInSkateChallenge.Features.Administration
             this.mediator = mediator;
         }
 
-        public async Task<IActionResult> Index(int page = 1)
+        public async Task<IActionResult> Index(string searchText, int page = 1)
         {
-            var query = new AdminUserListQuery { Page = page };
+            var query = new AdminUserListQuery { SearchText = searchText, Page = page };
             var result = await mediator.Send(query);
 
             return View(result);
