@@ -3,9 +3,10 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using AllInSkateChallenge.Features.Data;
-using AllInSkateChallenge.Features.Data.Entities;
 
 using MediatR;
+
+using Microsoft.EntityFrameworkCore;
 
 namespace AllInSkateChallenge.Features.Activities
 {
@@ -20,14 +21,14 @@ namespace AllInSkateChallenge.Features.Activities
 
         public async Task<Unit> Handle(DeleteActivityCommand request, CancellationToken cancellationToken)
         {
-            var itemToDelete = context.SkateLogEntries.FirstOrDefault(x => x.SkateLogEntryId.Equals(request.MileageEntryId) && x.ApplicationUserId.Equals(request.Skater.Id));
+            // Clear matching logs
+            var logsToDelete = await context.SkateLogEntries.Where(x => x.SkateLogEntryId.Equals(request.MileageEntryId) && x.ApplicationUserId.Equals(request.Skater.Id)).ToListAsync();
+            context.SkateLogEntries.RemoveRange(logsToDelete);
 
-            if (itemToDelete == null)
-            {
-                throw new EntityNotFoundException(typeof(SkateLogEntry), request.MileageEntryId);
-            }
+            // Clear event statistics
+            var statistics = await context.EventStatistics.ToListAsync();
+            context.EventStatistics.RemoveRange(statistics);
 
-            context.SkateLogEntries.Remove(itemToDelete);
             await context.SaveChangesAsync();
 
             return Unit.Value;
