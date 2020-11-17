@@ -5,7 +5,7 @@ using AllInSkateChallenge.Features.Data;
 using AllInSkateChallenge.Features.Data.Entities;
 using AllInSkateChallenge.Features.Data.Static;
 using AllInSkateChallenge.Features.Error;
-using AllInSkateChallenge.Features.FAQs;
+using AllInSkateChallenge.Features.EventDetails;
 using AllInSkateChallenge.Features.Framework.Routing;
 using AllInSkateChallenge.Features.Gravatar;
 using AllInSkateChallenge.Features.Home;
@@ -108,7 +108,7 @@ namespace AllInSkateChallenge
             services.AddTransient<ISkaterProgressViewModelBuilder, SkaterProgressViewModelBuilder>();
             services.AddTransient<ISkaterLogViewModelBuilder, SkaterLogViewModelBuilder>();
             services.AddTransient<IStravaImportViewModelBuilder, StravaImportViewModelBuilder>();
-            services.AddTransient<IFaqViewModelBuilder, FaqViewModelBuilder>();
+            services.AddTransient<IEventDetailsViewModelBuilder, EventDetailsViewModelBuilder>();
             services.AddTransient<ILeaderBoardViewModelBuilder, LeaderBoardViewModelBuilder>();
             services.AddTransient<IErrorViewModelBuilder, ErrorViewModelBuilder>();
 
