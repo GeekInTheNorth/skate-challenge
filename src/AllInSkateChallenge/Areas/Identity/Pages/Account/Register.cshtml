@@ -19,7 +19,6 @@
             <div class="card-header">Create a new account</div>
             <div class="card-body">
                 <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
-                    <div asp-validation-summary="All" class="text-danger"></div>
                     <div class="form-group">
                         <label asp-for="Input.SkaterName"></label>
                         <input asp-for="Input.SkaterName" class="form-control" />
@@ -44,6 +43,12 @@
                         <label class="align-middle">
                             <input asp-for="Input.AcceptProgressNotifications" style="margin-right: 0.5em;" />Send me emails about my progress in the ALL IN Skate Challenge.
                         </label>
+                    </div>
+                    <div class="form-group">
+                        <label class="align-middle">
+                            <input asp-for="Input.AcceptTermsAndConditions" style="margin-right: 0.5em;" /> I agree to the <a asp-controller="EventDetails" asp-action="TermsAndConditions" target="_blank">Terms & Conditions</a> of this event.
+                        </label>
+                        <span asp-validation-for="Input.AcceptTermsAndConditions" class="text-danger" style="display:block;"></span>
                     </div>
                     <button type="submit" class="btn btn-primary">Register</button>
                 </form>

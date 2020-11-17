@@ -43,7 +43,7 @@ namespace AllInSkateChallenge.Areas.Identity.Pages.Account
 
         public IList<AuthenticationScheme> ExternalLogins { get; set; }
 
-        public class InputModel
+        public class InputModel : IValidatableObject
         {
             [Required]
             [Display(Name = "Display Name")]
@@ -67,6 +67,17 @@ namespace AllInSkateChallenge.Areas.Identity.Pages.Account
 
             [Display(Name = "Send me emails about my progress in the ALL IN Skate Challenge.")]
             public bool AcceptProgressNotifications { get; set; }
+
+            [Display(Name = "I agree to the Terms & Conditions of this event.")]
+            public bool AcceptTermsAndConditions { get; set; }
+
+            public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+            {
+                if (!AcceptTermsAndConditions)
+                {
+                    yield return new ValidationResult("You must accept the terms and conditions to partake in this event.", new[] { nameof(AcceptTermsAndConditions) });
+                }
+            }
         }
 
         public async Task OnGetAsync(string returnUrl = null)
