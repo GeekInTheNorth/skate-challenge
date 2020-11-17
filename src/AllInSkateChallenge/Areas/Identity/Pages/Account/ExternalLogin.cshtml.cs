@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
 using System.Text;
@@ -46,7 +47,7 @@ namespace AllInSkateChallenge.Areas.Identity.Pages.Account
         [TempData]
         public string ErrorMessage { get; set; }
 
-        public class InputModel
+        public class InputModel : IValidatableObject
         {
             [Required]
             [EmailAddress]
@@ -55,6 +56,17 @@ namespace AllInSkateChallenge.Areas.Identity.Pages.Account
 
             [Display(Name = "Send me emails about my progress in the ALL IN Skate Challenge.")]
             public bool AcceptProgressNotifications { get; set; }
+
+            [Display(Name = "I agree to the Terms & Conditions of this event.")]
+            public bool AcceptTermsAndConditions { get; set; }
+
+            public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+            {
+                if (!AcceptTermsAndConditions)
+                {
+                    yield return new ValidationResult("You must accept the terms and conditions to partake in this event.", new[] { nameof(AcceptTermsAndConditions) });
+                }
+            }
         }
 
         public IActionResult OnGetAsync()
