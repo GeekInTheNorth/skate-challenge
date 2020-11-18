@@ -21,20 +21,27 @@
             var alignmentClass = isLeft ? "timeline-container--left" : "timeline-container--right";
             <div class="timeline-container @alignmentClass">
                 <div class="timeline-content">
-                    <h2>@checkPoint.Title</h2>
+                    <h2 class="text-dark">@checkPoint.Title</h2>
                     @if (!string.IsNullOrWhiteSpace(checkPoint.DigitalBadge))
                     {
-                        <img src="@checkPoint.DigitalBadge" class="img-fluid" alt="@checkPoint.Title" />
+                        <img src="@checkPoint.DigitalBadge" class="img-fluid timeline-badge" alt="@checkPoint.Title" />
                     }
-                    <p>@checkPoint.Distance.ToString("F2") miles</p>
-                    <p>@checkPoint.Description</p>
-                    <p>
+                    <p class="text-dark">@checkPoint.Distance.ToString("F2") miles</p>
+                    <p class="text-dark">@checkPoint.Description</p>
+                    <p class="text-dark">
                         Links:
-                        <a href="http://www.google.com/maps/place/@checkPoint.Latitude,@checkPoint.Longitude?zoom=1" target="_blank" class="timeline-link">Map</a>
-                        @if (!string.IsNullOrWhiteSpace(checkPoint.Url))
-                        {
-                            <a href="@checkPoint.Url" target="_blank" class="timeline-link">Website</a>
-                        }
+                        <ul>
+                            @if (!string.IsNullOrWhiteSpace(checkPoint.DigitalBadge))
+                            {
+                                <li><a href="@checkPoint.DigitalBadge" download="@checkPoint.DigitalBadgeName" class="timeline-link">Download the Checkpoint Badge</a></li>
+                            }
+                            <li><a href="https://skateeverywhereproject.com/product/leeds-to-liverpool-all-in-challenge-personalised-mileage-patch/" target="_blank" class="timeline-link">Get the Patch</a></li>
+                            <li><a href="http://www.google.com/maps/place/@checkPoint.Latitude,@checkPoint.Longitude?zoom=1" target="_blank" class="timeline-link">See it on the Map</a></li>
+                            @if (!string.IsNullOrWhiteSpace(checkPoint.Url))
+                            {
+                                <li><a href="@checkPoint.Url" target="_blank" class="timeline-link">Find out more</a></li>
+                            }
+                        </ul>
                     </p>
 
                 </div>
@@ -44,10 +51,28 @@
         <div class="timeline-container-header">
             <div class="timeline-content-header">
                 <h2>@Model.Content.NextCheckPoint.Title</h2>
-                @if (!string.IsNullOrWhiteSpace(Model.Content.NextCheckPoint.Image))
+                @if (!string.IsNullOrWhiteSpace(Model.Content.NextCheckPoint.DigitalBadge) && string.IsNullOrWhiteSpace(Model.Content.NextCheckPoint.FinisherDigitalBadge))
                 {
-                    <img src="@Model.Content.NextCheckPoint.Image" class="img-fluid" alt="@Model.Content.NextCheckPoint.Title" />
+                    <img src="@Model.Content.NextCheckPoint.DigitalBadge" class="img-fluid timeline-badge" alt="@Model.Content.NextCheckPoint.Title" />
                 }
+                @if (!string.IsNullOrWhiteSpace(Model.Content.NextCheckPoint.DigitalBadge) && !string.IsNullOrWhiteSpace(Model.Content.NextCheckPoint.FinisherDigitalBadge))
+                {
+                    <div id="digitalBadgeCarousel" class="carousel slide" data-ride="carousel">
+                        <ol class="carousel-indicators">
+                            <li data-target="#digitalBadgeCarousel" data-slide-to="0" class="active"></li>
+                            <li data-target="#digitalBadgeCarousel" data-slide-to="1"></li>
+                        </ol>
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <img src="@Model.Content.NextCheckPoint.DigitalBadge" class="d-block w-100 timeline-badge" alt="@Model.Content.NextCheckPoint.Title">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="@Model.Content.NextCheckPoint.FinisherDigitalBadge" class="d-block w-100 timeline-badge" alt="Finisher's Badge">
+                            </div>
+                        </div>
+                    </div>
+                }
+
                 @if (Model.Content.NextCheckPoint.Distance != 0)
                 {
                     <p>@Model.Content.NextCheckPoint.Distance.ToString("F2") miles</p>
@@ -55,11 +80,22 @@
                 <p>@Model.Content.NextCheckPoint.Description</p>
                 <p>
                     Links:
-                    <a href="http://www.google.com/maps/place/@Model.Content.NextCheckPoint.Latitude,@Model.Content.NextCheckPoint.Longitude?zoom=1" target="_blank" class="timeline-link">Map</a>
-                    @if (!string.IsNullOrWhiteSpace(Model.Content.NextCheckPoint.Url))
-                    {
-                        <a href="@Model.Content.NextCheckPoint.Url" target="_blank" class="timeline-link">Website</a>
-                    }
+                    <ul>
+                        @if (!string.IsNullOrWhiteSpace(Model.Content.NextCheckPoint.DigitalBadge))
+                        {
+                            <li><a href="@Model.Content.NextCheckPoint.DigitalBadge" download="@Model.Content.NextCheckPoint.DigitalBadgeName" class="timeline-link">Download the Checkpoint Badge</a></li>
+                        }
+                        @if (!string.IsNullOrWhiteSpace(Model.Content.NextCheckPoint.FinisherDigitalBadge))
+                        {
+                            <li><a href="@Model.Content.NextCheckPoint.FinisherDigitalBadge" download="@Model.Content.NextCheckPoint.FinisherDigitalBadgeName" class="timeline-link">Download the Finisher Badge</a></li>
+                        }
+                        <li><a href="https://skateeverywhereproject.com/product/leeds-to-liverpool-all-in-challenge-personalised-mileage-patch/" target="_blank" class="timeline-link">Get the Patch</a></li>
+                        <li><a href="http://www.google.com/maps/place/@Model.Content.NextCheckPoint.Latitude,@Model.Content.NextCheckPoint.Longitude?zoom=1" target="_blank" class="timeline-link">See it on the Map</a></li>
+                        @if (!string.IsNullOrWhiteSpace(Model.Content.NextCheckPoint.Url))
+                        {
+                            <li><a href="@Model.Content.NextCheckPoint.Url" target="_blank" class="timeline-link">Find out more</a></li>
+                        }
+                    </ul>
                 </p>
             </div>
         </div>

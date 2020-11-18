@@ -249,6 +249,18 @@ img.hero-banner {
     opacity: 0.6;
 }
 
+.timeline-badge {
+    background-color: white;
+}
+
+.carousel-indicators li {
+    background-color: #555;
+}
+
+.carousel-indicators .active {
+    background-color: #000;
+}
+
 @media screen and (max-width: 800px) {
     .timeline-container, .timeline-container-header {
         width: 100%;
