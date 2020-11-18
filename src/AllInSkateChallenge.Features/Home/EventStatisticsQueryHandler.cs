@@ -28,6 +28,8 @@ namespace AllInSkateChallenge.Features.Home
             }
 
             var skaterMiles = (from entries in context.SkateLogEntries
+                               join users in context.Users on entries.ApplicationUserId equals users.Id
+                               where users.HasPaid
                                group entries by entries.ApplicationUserId into userEntries
                                select new
                                {
