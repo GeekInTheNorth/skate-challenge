@@ -28,6 +28,7 @@ namespace AllInSkateChallenge.Features.Updates
         {
             var userMilageEntries = from skateLogEntry in context.SkateLogEntries
                                     join user in context.Users on skateLogEntry.ApplicationUserId equals user.Id
+                                    where user.HasPaid
                                     orderby skateLogEntry.Logged descending
                                     select new
                                     {
