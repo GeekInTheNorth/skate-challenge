@@ -15,8 +15,8 @@
 
 <div class="row mt-3">
     <div class="card-deck col-xl-12">
-        <div class="card">
-            <div class="card-header">Create a new account</div>
+        <div class="card border-allin-green">
+            <div class="card-header bg-allin-green text-dark">Create a new account</div>
             <div class="card-body">
                 <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
                     <div asp-validation-summary="All" class="text-danger"></div>
@@ -57,8 +57,8 @@
         </div>
         @foreach (var provider in Model.ExternalLogins)
         {
-            <div class="card">
-                <div class="card-header">Register with @provider.Name</div>
+            <div class="card border-allin-green">
+                <div class="card-header bg-allin-green text-dark">Register with @provider.Name</div>
                 <div class="card-body">
                     <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
                         @if (provider.Name.Equals("strava", System.StringComparison.CurrentCultureIgnoreCase))
