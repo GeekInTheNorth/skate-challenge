@@ -97,7 +97,13 @@ namespace AllInSkateChallenge.Areas.Identity.Pages.Account
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    var userAccount = await _userManager.FindByEmailAsync(Input.Email);
+                    var isStravaAccount = userAccount?.IsStravaAccount ?? false;
+                    var error = isStravaAccount ? "As you signed up with Strava, you must log in with the 'Log in with Strava' panel on this page." : "Invalid login attempt.";
+
+                    ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+
+                    ModelState.AddModelError(string.Empty, error);
                     return Page();
                 }
             }

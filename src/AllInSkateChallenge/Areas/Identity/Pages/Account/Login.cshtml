@@ -16,8 +16,8 @@
 
 <div class="row">
     <div class="card-deck col-12">
-        <div class="card">
-            <div class="card-header">Log in with your email address</div>
+        <div class="card border-allin-green">
+            <div class="card-header bg-allin-green text-dark">Log in with your email address</div>
             <div class="card-body">
                 <form id="account" method="post">
                     <div asp-validation-summary="All" class="text-danger"></div>
@@ -58,8 +58,8 @@
         {
             foreach (var provider in Model.ExternalLogins)
             {
-                <div class="card">
-                    <div class="card-header">Log in with @provider.Name</div>
+                <div class="card border-allin-green">
+                    <div class="card-header bg-allin-green text-dark">Log in with @provider.Name</div>
                     <div class="card-body">
                         <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
                             @if (provider.Name.Equals("strava", System.StringComparison.CurrentCultureIgnoreCase))
