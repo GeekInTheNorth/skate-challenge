@@ -9,9 +9,9 @@
     var isLeft = false;
     <div class="timeline">
         <div class="timeline-container-header">
-            <div class="timeline-content-header">
-                <h2>Distance Travelled</h2>
-                <p>You have skated @Model.Content.MilesSkated.ToString("F2") of the required 127.50 miles.</p>
+            <div class="timeline-content-header card border-allin-green">
+                <h2 class="card-header bg-allin-green text-dark">Distance Travelled</h2>
+                <p class="card-body">You have skated @Model.Content.MilesSkated.ToString("F2") of the required 127.50 miles.</p>
             </div>
         </div>
 
@@ -20,21 +20,22 @@
             isLeft = !isLeft;
             var alignmentClass = isLeft ? "timeline-container--left" : "timeline-container--right";
             <div class="timeline-container @alignmentClass">
-                <div class="timeline-content">
-                    <h2 class="text-dark">@checkPoint.Title</h2>
+                <div class="timeline-content card border-allin-green">
+                    <h3 class="card-header text-dark bg-allin-green">@checkPoint.Title</h3>
                     @if (!string.IsNullOrWhiteSpace(checkPoint.DigitalBadge))
                     {
                         <img src="@checkPoint.DigitalBadge" class="img-fluid timeline-badge" alt="@checkPoint.Title" />
                     }
-                    <p class="text-dark">@checkPoint.Distance.ToString("F2") miles</p>
-                    <p class="text-dark">@checkPoint.Description</p>
-                    <p class="text-dark">
-                        Links:
+                    <div class="card-body">
+                        <p>@checkPoint.Distance.ToString("F2") miles</p>
+                        <p>@checkPoint.Description</p>
+                    </div>
+                    <div class="card-footer text-dark bg-allin-green">
+                        <p>Links:</p>
                         <ul>
                             @if (!string.IsNullOrWhiteSpace(checkPoint.DigitalBadge))
                             {
                                 <li><a href="@checkPoint.DigitalBadge" download="@checkPoint.DigitalBadgeName" class="timeline-link">Download the Checkpoint Badge</a></li>
-                                <li><a href="https://skateeverywhereproject.com/product/leeds-to-liverpool-all-in-challenge-personalised-mileage-patch/" target="_blank" class="timeline-link">Get the Patch</a></li>
                             }
                             <li><a href="http://www.google.com/maps/place/@checkPoint.Latitude,@checkPoint.Longitude?zoom=1" target="_blank" class="timeline-link">See it on the Map</a></li>
                             @if (!string.IsNullOrWhiteSpace(checkPoint.Url))
@@ -42,15 +43,14 @@
                                 <li><a href="@checkPoint.Url" target="_blank" class="timeline-link">Find out more</a></li>
                             }
                         </ul>
-                    </p>
-
+                    </div>
                 </div>
             </div>
         }
 
         <div class="timeline-container-header">
-            <div class="timeline-content-header">
-                <h2>@Model.Content.NextCheckPoint.Title</h2>
+            <div class="timeline-content-header card border-allin-green">
+                <h3 class="card-header text-dark bg-allin-green">@Model.Content.NextCheckPoint.Title</h3>
                 @if (!string.IsNullOrWhiteSpace(Model.Content.NextCheckPoint.DigitalBadge) && string.IsNullOrWhiteSpace(Model.Content.NextCheckPoint.FinisherDigitalBadge))
                 {
                     <img src="@Model.Content.NextCheckPoint.DigitalBadge" class="img-fluid timeline-badge" alt="@Model.Content.NextCheckPoint.Title" />
@@ -72,14 +72,15 @@
                         </div>
                     </div>
                 }
-
-                @if (Model.Content.NextCheckPoint.Distance != 0)
-                {
-                    <p>@Model.Content.NextCheckPoint.Distance.ToString("F2") miles</p>
-                }
-                <p>@Model.Content.NextCheckPoint.Description</p>
-                <p>
-                    Links:
+                <div class="card-body">
+                    @if (Model.Content.NextCheckPoint.Distance != 0)
+                    {
+                        <p>@Model.Content.NextCheckPoint.Distance.ToString("F2") miles</p>
+                    }
+                    <p>@Model.Content.NextCheckPoint.Description</p>
+                </div>
+                <div class="card-footer text-dark bg-allin-green">
+                    <p>Links:</p>
                     <ul>
                         @if (!string.IsNullOrWhiteSpace(Model.Content.NextCheckPoint.DigitalBadge))
                         {
@@ -89,14 +90,13 @@
                         {
                             <li><a href="@Model.Content.NextCheckPoint.FinisherDigitalBadge" download="@Model.Content.NextCheckPoint.FinisherDigitalBadgeName" class="timeline-link">Download the Finisher Badge</a></li>
                         }
-                        <li><a href="https://skateeverywhereproject.com/product/leeds-to-liverpool-all-in-challenge-personalised-mileage-patch/" target="_blank" class="timeline-link">Get the Patch</a></li>
                         <li><a href="http://www.google.com/maps/place/@Model.Content.NextCheckPoint.Latitude,@Model.Content.NextCheckPoint.Longitude?zoom=1" target="_blank" class="timeline-link">See it on the Map</a></li>
                         @if (!string.IsNullOrWhiteSpace(Model.Content.NextCheckPoint.Url))
                         {
                             <li><a href="@Model.Content.NextCheckPoint.Url" target="_blank" class="timeline-link">Find out more</a></li>
                         }
                     </ul>
-                </p>
+                </div>
             </div>
         </div>
     </div>
