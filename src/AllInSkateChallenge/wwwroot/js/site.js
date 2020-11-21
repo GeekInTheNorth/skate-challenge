@@ -4,7 +4,9 @@
 // Write your JavaScript code.
 $(document).ready(function () {
     $(".js-cookie-banner--banner").click(function () {
-        document.cookie = "cookieWarningDismissed=true;path=/;";
+        var expires = new Date;
+        expires.setFullYear(expires.getFullYear() + 1);
+        document.cookie = "cookieWarningDismissed=true;path=/;expires=" + expires.toUTCString() + ";";
         $(".js-cookie-banner").remove();
     });
 });
