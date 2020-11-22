@@ -48,7 +48,7 @@ namespace AllInSkateChallenge.Features.Activities
 
         public async Task Process(SaveActivityCommand request, SaveActivityCommandResult response, CancellationToken cancellationToken)
         {
-            if (!response.WasSuccessful || !request.Skater.AcceptProgressNotifications) return;
+            if (!response.WasSuccessful || !request.Skater.AcceptProgressNotifications || !request.Skater.EmailConfirmed) return;
 
             try
             {
@@ -66,12 +66,10 @@ namespace AllInSkateChallenge.Features.Activities
                 var totalMiles = context.SkateLogEntries.Where(x => x.ApplicationUserId.Equals(request.Skater.Id)).Sum(x => x.DistanceInMiles);
                 var previousMiles = totalMiles - milesThisSkate;
                 var checkPoints = checkPointRepository.Get();
-                var checkPointReached = checkPoints.Where(x => x.Distance >= previousMiles && x.Distance <= totalMiles).OrderByDescending(x => x.Distance).FirstOrDefault();
+                var checkPointsReached = checkPoints.Where(x => x.Distance >= previousMiles && x.Distance <= totalMiles).OrderByDescending(x => x.Distance).ToList();
 
-                if (checkPointReached != null && request.Skater.EmailConfirmed)
+                foreach(var checkPointReached in checkPointsReached)
                 {
-                    var nextCheckPoint = checkPoints.Where(x => x.Distance > checkPointReached.Distance).OrderBy(x => x.Distance).FirstOrDefault();
-
                     var emailModel = new SkaterProgressEmailViewModel
                     {
                         LogoUrl = absoluteUrlHelper.Get("/images/AllInSkateChallengeBanner2.png"),
@@ -79,7 +77,7 @@ namespace AllInSkateChallenge.Features.Activities
                         Skater = request.Skater,
                         CheckPoint = checkPointReached,
                         TotalMiles = totalMiles,
-                        NextCheckPoint = nextCheckPoint
+                        NextCheckPoint = checkPoints.Where(x => x.Distance > totalMiles).OrderBy(x => x.Distance).FirstOrDefault()
                     };
 
                     var emailTemplate = checkPointReached.IsFinalCheckpoint ? "~/Views/Email/ChallengeCompleteEmail.cshtml" : "~/Views/Email/SkaterProgressEmail.cshtml";
