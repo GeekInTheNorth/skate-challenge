@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 
+using Microsoft.AspNetCore.Mvc.Rendering;
+
 namespace AllInSkateChallenge.Features.Administration.UserList
 {
     public class AdminUserListQueryResponse
@@ -13,5 +15,7 @@ namespace AllInSkateChallenge.Features.Administration.UserList
         public int CurrentPage { get; set; }
 
         public int MaxPages { get; set; }
+
+        public List<SelectListItem> SortOrders { get; set; }
     }
 }

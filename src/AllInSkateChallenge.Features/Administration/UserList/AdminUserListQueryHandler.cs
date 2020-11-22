@@ -9,6 +9,7 @@ using AllInSkateChallenge.Features.Data.Entities;
 using MediatR;
 
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace AllInSkateChallenge.Features.Administration.UserList
@@ -36,6 +37,20 @@ namespace AllInSkateChallenge.Features.Administration.UserList
             var totalUsers = query.Count();
             var pageSize = 10;
             var skip = (request.Page - 1) * pageSize;
+
+            switch (request.SortOrder)
+            {
+                case SortOrder.AtoZ:
+                    query = query.OrderBy(x => x.SkaterName);
+                    break;
+                case SortOrder.ZtoA:
+                    query = query.OrderByDescending(x => x.SkaterName);
+                    break;
+                case SortOrder.LatestFirst:
+                    query = query.OrderByDescending(x => x.DateRegistered);
+                    break;
+            }
+
             var users = await query.Skip(skip).Take(pageSize).ToListAsync();
 
             return new AdminUserListQueryResponse
@@ -44,7 +59,13 @@ namespace AllInSkateChallenge.Features.Administration.UserList
                 CurrentPage = request.Page,
                 MaxPages = (int)Math.Ceiling((decimal)totalUsers / pageSize),
                 Users = ConvertUsers(users, admins),
-                SearchText = request.SearchText
+                SearchText = request.SearchText,
+                SortOrders = new List<SelectListItem>
+                {
+                    new SelectListItem { Text = "A to Z", Value = SortOrder.AtoZ.ToString(), Selected = SortOrder.AtoZ.Equals(request.SortOrder) },
+                    new SelectListItem { Text = "Z to A", Value = SortOrder.ZtoA.ToString(), Selected = SortOrder.ZtoA.Equals(request.SortOrder) },
+                    new SelectListItem { Text = "Latest Registered", Value = SortOrder.LatestFirst.ToString(), Selected = SortOrder.LatestFirst.Equals(request.SortOrder) }
+                }
             };
         }
 
@@ -57,7 +78,8 @@ namespace AllInSkateChallenge.Features.Administration.UserList
                 Email = x.Email,
                 EmailConfirmed = x.EmailConfirmed,
                 HasPaid = x.HasPaid,
-                IsAdmin = admins?.Any(y => y.Id.Equals(x.Id)) ?? false
+                IsAdmin = admins?.Any(y => y.Id.Equals(x.Id)) ?? false,
+                DateRegistered = x.DateRegistered
             }).ToList();
         }
     }

@@ -1,12 +1,15 @@
-﻿namespace AllInSkateChallenge.Features.Administration.UserList
+﻿using System;
+
+namespace AllInSkateChallenge.Features.Administration.UserList
 {
     public class AdminUserModel
     {
         public string Id { get; set; }
-        public string SkaterName { get; internal set; }
-        public string Email { get; internal set; }
-        public bool EmailConfirmed { get; internal set; }
-        public bool HasPaid { get; internal set; }
-        public bool IsAdmin { get; internal set; }
+        public string SkaterName { get; set; }
+        public string Email { get; set; }
+        public bool EmailConfirmed { get; set; }
+        public bool HasPaid { get; set; }
+        public bool IsAdmin { get; set; }
+        public DateTime DateRegistered { get; set; }
     }
 }

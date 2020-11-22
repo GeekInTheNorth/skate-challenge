@@ -8,6 +8,7 @@
 <form asp-controller="UserAdministration" asp-action="Index" method="get">
     <div class="input-group mb-3">
         <input name="searchText" type="text" class="form-control" placeholder="Skater's Name or Email" aria-label="Skater's Name or Email" aria-describedby="search-button" value="@Model.SearchText">
+        <select name="sortOrder" asp-items="@Model.SortOrders" class="form-control" aria-label="Sort Order" aria-describedby="search-button"></select>
         <div class="input-group-append">
             <button class="btn btn-primary" type="submit" id="search-button">Search</button>
         </div>
@@ -28,6 +29,7 @@
             <th scope="col">Skater Name</th>
             <th scope="col">Email Address</th>
             <th scope="col">Email Verified</th>
+            <th scope="col">Registered</th>
             <th scope="col">Paid?</th>
             <th scope="col">Actions</th>
         </tr>
@@ -39,9 +41,17 @@
                 <td>@user.SkaterName @(user.IsAdmin ? " (Admin)" : "")</td>
                 <td>@user.Email</td>
                 <td>@(user.EmailConfirmed ? "Yes" : "No")</td>
+                <td>@user.DateRegistered.ToString("dd/MM/yyyy")</td>
                 <td>@(user.HasPaid ? "Yes" : "No")</td>
                 <td>
-                    <button type="button" class="btn btn-primary js-toggle-user-paid-status" data-user-id="@user.Id" data-user-name="@user.SkaterName" data-has-paid="@user.HasPaid">Set As Paid</button>
+                    @if (!user.HasPaid)
+                    {
+                        <button type="button" class="btn btn-primary js-toggle-user-paid-status" data-user-id="@user.Id" data-user-name="@user.SkaterName" data-has-paid="@user.HasPaid">Set as Paid</button>
+                    }
+                    else
+                    {
+                        <button type="button" class="btn btn-secondary js-toggle-user-paid-status" data-user-id="@user.Id" data-user-name="@user.SkaterName" data-has-paid="@user.HasPaid">Set as UnPaid</button>
+                    }
                     @if (!user.IsAdmin)
                     {
                         <button type="button" class="btn btn-danger js-delete-user" data-user-id="@user.Id" data-user-name="@user.SkaterName">Delete</button>
@@ -140,7 +150,10 @@
                         $(".alert.alert-danger").hide();
                         $(".alert.alert-success").show();
                         $(event.target).data("has-paid", toggled.toString());
-                        $(rowSelector).children().eq(3).html((toggled ? "Yes" : "No"));
+                        $(event.target).removeClass((toggled ? "btn-primary" : "btn-secondary"));
+                        $(event.target).addClass((toggled ? "btn-secondary" : "btn-primary"));
+                        $(event.target).html((toggled ? "Set as UnPaid" : "Set as Paid"));
+                        $(rowSelector).children().eq(4).html((toggled ? "Yes" : "No"));
                     })
                     .fail(function () {
                         $(".alert.alert-danger").html("Failed to update <strong>" + $(event.target).data("user-name") + "</strong>.");
