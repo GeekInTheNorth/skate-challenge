@@ -24,6 +24,8 @@ namespace AllInSkateChallenge.Features.Data
         {
             base.OnModelCreating(builder);
 
+            builder.Entity<ApplicationUser>().Property(x => x.DateRegistered).HasDefaultValueSql("getdate()");
+
             builder.Entity<SkateLogEntry>().HasOne(x => x.ApplicationUser).WithMany(x => x.SkateLogEntries).HasForeignKey(x => x.ApplicationUserId).OnDelete(DeleteBehavior.Cascade);
             builder.Entity<SkateLogEntry>().HasIndex(x => new { x.ApplicationUserId, x.Logged });
 
