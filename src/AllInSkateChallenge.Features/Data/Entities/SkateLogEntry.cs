@@ -17,5 +17,7 @@ namespace AllInSkateChallenge.Features.Data.Entities
         public DateTime Logged { get; set; }
 
         public string StravaId { get; set; }
+
+        public string Name { get; set; }
     }
 }
