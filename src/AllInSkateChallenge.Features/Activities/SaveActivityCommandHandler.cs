@@ -44,7 +44,7 @@ namespace AllInSkateChallenge.Features.Activities
                 var recordExists = !string.IsNullOrWhiteSpace(request.StavaActivityId) && context.SkateLogEntries.Any(x => x.StravaId.Equals(request.StavaActivityId));
                 if (!recordExists)
                 {
-                    var entry = new SkateLogEntry { ApplicationUserId = request.Skater.Id, StravaId = request.StavaActivityId, DistanceInMiles = distance, Logged = request.StartDate ?? DateTime.Now };
+                    var entry = new SkateLogEntry { ApplicationUserId = request.Skater.Id, StravaId = request.StavaActivityId, DistanceInMiles = distance, Logged = request.StartDate ?? DateTime.Now, Name = request.Name };
                     context.SkateLogEntries.Add(entry);
                 }
 
