@@ -325,8 +325,8 @@ img.hero-banner {
 .social-panel--icon {
     border: none;
     width: auto;
-    height: 36px;
-    margin: 9px;
+    height: 40px;
+    margin: 10px;
     display: inline-block;
 }
 
@@ -339,10 +339,3 @@ img.hero-banner {
         display: none;
     }
 }
-
-@media screen and (max-width: 450px) {
-    .social-panel--link {
-        display: block;
-    }
-}
-
