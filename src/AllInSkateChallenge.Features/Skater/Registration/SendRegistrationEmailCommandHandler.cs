@@ -48,7 +48,7 @@ namespace AllInSkateChallenge.Features.Skater.Registration
 
                 var emailModel = new RegistrationEmailModel
                 {
-                    LogoUrl = absoluteUrlHelper.Get("/images/AllInSkateChallengeBanner2.png"),
+                    LogoUrl = absoluteUrlHelper.Get("/images/AllInSkateChallengeBannerSmall.png"),
                     EmailConfirmationUrl = request.EmailConfirmationUrl,
                     SiteUrl = absoluteUrlHelper.Get("/"),
                     LogMilesUrl = absoluteUrlHelper.Get("/skater/skate-log"),
