@@ -7,31 +7,35 @@
     <title>You Completed Your Challenge</title>
 </head>
 <body style="font-family: Arial, Helvetica, sans-serif; margin: 0; background-color: #8ABC2D; padding: 10px;">
-    <img src="@Model.LogoUrl" alt="ALL IN Logo" style="width: 100%; height: auto; margin-right:auto; margin-left:auto;" />
-    <div style="padding: 20px 5% 20px 5%; margin-bottom: 10px; border-radius: 10px; background-color: #FFFFFF;">
-        <h1>Congratulations @Model.Skater.SkaterName!<br/>YOU HAVE ARRIVED IN LIVERPOOL!</h1>
-    </div>
-    <div style="padding: 20px 5% 20px 5%; margin-bottom: 10px; border-radius: 10px; background-color: #FFFFFF;">
-        <h2>@Model.CheckPoint.Title</h2>
-        <p>@Model.CheckPoint.Description</p>
-        @if (!string.IsNullOrWhiteSpace(Model.CheckPoint.Image))
-        {
-            <img src="@Model.CheckPoint.Image" alt="@Model.CheckPoint.Title" style="width: 100%; height: auto;" />
-        }
-        <p>Milestone Distance: @Model.CheckPoint.Distance.ToString("F1") miles</p>
-        <p>
-            Links:
-            <a href="http://www.google.com/maps/place/@Model.CheckPoint.Latitude,@Model.CheckPoint.Longitude?zoom=1" target="_blank">Milestone in Google Maps</a>
-            @if (!string.IsNullOrWhiteSpace(Model.CheckPoint.Url))
+    <center>
+        <div style="padding: 20px 5% 20px 5%; margin-bottom: 10px; border-radius: 10px; background-color: #FFFFFF; max-width: 600px;">
+            <img src="@Model.LogoUrl" alt="ALL IN Logo" style="width: 100%; height: auto; margin-right:auto; margin-left:auto;" />
+        </div>
+        <div style="padding: 20px 5% 20px 5%; margin-bottom: 10px; border-radius: 10px; background-color: #FFFFFF; max-width: 600px;">
+            <h1>Congratulations @Model.Skater.SkaterName!<br />YOU HAVE ARRIVED IN LIVERPOOL!</h1>
+        </div>
+        <div style="padding: 20px 5% 20px 5%; margin-bottom: 10px; border-radius: 10px; background-color: #FFFFFF; max-width: 600px;">
+            <h2>@Model.CheckPoint.Title</h2>
+            <p style="text-align: left;">@Model.CheckPoint.Description</p>
+            @if (!string.IsNullOrWhiteSpace(Model.CheckPoint.Image))
             {
-                <a href="@Model.CheckPoint.Url" target="_blank">Milestone Website</a>
+                <img src="@Model.CheckPoint.Image" alt="@Model.CheckPoint.Title" style="width: 100%; height: auto;" />
             }
-        </p>
-    </div>
-    <div style="padding: 20px 5% 20px 5%; margin-bottom: 10px; border-radius: 10px; background-color: #FFFFFF;">
-        <h2>Celebrate Your Achievement</h2>
-        <p>If you want to commemorate your 127.5 miles with a tshirt or hoody, pop over to the <a href="https://skateeverywhereproject.com/product-category/all-in/" target="_blank">Skate Everywhere Project</a>.</p>
-        <p>Thank you muchly for supporting <a href="https://www.allincrd.uk/" target="_blank">ALL IN: Community Roller Derby</a> and for being a part of our skate challenge. &#10084;</p>
-    </div>
+            <p style="text-align: left;">Milestone Distance: @Model.CheckPoint.Distance.ToString("F1") miles</p>
+            <p style="text-align: left;">
+                Links:
+                <a href="http://www.google.com/maps/place/@Model.CheckPoint.Latitude,@Model.CheckPoint.Longitude?zoom=1" target="_blank">Milestone in Google Maps</a>
+                @if (!string.IsNullOrWhiteSpace(Model.CheckPoint.Url))
+                {
+                    <a href="@Model.CheckPoint.Url" target="_blank">Milestone Website</a>
+                }
+            </p>
+        </div>
+        <div style="padding: 20px 5% 20px 5%; margin-bottom: 10px; border-radius: 10px; background-color: #FFFFFF; max-width: 600px;">
+            <h2>Celebrate Your Achievement</h2>
+            <p style="text-align: left;">If you want to commemorate your 127.5 miles with a tshirt or hoody, pop over to the <a href="https://skateeverywhereproject.com/product-category/all-in/" target="_blank">Skate Everywhere Project</a>.</p>
+            <p style="text-align: left;">Thank you muchly for supporting <a href="https://www.allincrd.uk/" target="_blank">ALL IN: Community Roller Derby</a> and for being a part of our skate challenge. &#10084;</p>
+        </div>
+    </center>
 </body>
 </html>

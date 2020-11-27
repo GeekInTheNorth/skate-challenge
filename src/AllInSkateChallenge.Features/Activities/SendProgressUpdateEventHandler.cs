@@ -72,7 +72,7 @@ namespace AllInSkateChallenge.Features.Activities
                 {
                     var emailModel = new SkaterProgressEmailViewModel
                     {
-                        LogoUrl = absoluteUrlHelper.Get("/images/AllInSkateChallengeBanner2.png"),
+                        LogoUrl = absoluteUrlHelper.Get("/images/AllInSkateChallengeBannerSmall.png"),
                         SponsorLogoUrl = absoluteUrlHelper.Get("/images/SkateEverywhereLogo.png"),
                         Skater = request.Skater,
                         CheckPoint = checkPointReached,
