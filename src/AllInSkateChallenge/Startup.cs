@@ -15,7 +15,7 @@ using AllInSkateChallenge.Features.Skater.Progress;
 using AllInSkateChallenge.Features.Skater.SkateLog;
 using AllInSkateChallenge.Features.Skater.StravaImport;
 using AllInSkateChallenge.Features.Strava;
-
+using AllInSkateChallenge.Features.Updates;
 using MediatR;
 
 using Microsoft.AspNetCore.Builder;
@@ -111,6 +111,7 @@ namespace AllInSkateChallenge
             services.AddTransient<IEventDetailsViewModelBuilder, EventDetailsViewModelBuilder>();
             services.AddTransient<ILeaderBoardViewModelBuilder, LeaderBoardViewModelBuilder>();
             services.AddTransient<IErrorViewModelBuilder, ErrorViewModelBuilder>();
+            services.AddTransient<ILatestUpdatesViewModelBuilder, LatestUpdatesViewModelBuilder>();
 
             // Data
             services.AddTransient<ICheckPointRepository, CheckPointRepository>();

@@ -8,6 +8,8 @@ namespace AllInSkateChallenge.Features.Updates
 
         public string Skater { get; set; }
 
+        public string JourneyName { get; set; }
+
         public string GravatarUrl { get; set; }
 
         public decimal Miles { get; set; }

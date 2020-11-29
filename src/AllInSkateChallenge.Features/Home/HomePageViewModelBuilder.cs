@@ -29,7 +29,7 @@ namespace AllInSkateChallenge.Features.Home
 
             if (model.IsLoggedIn)
             {
-                var latestUpdates = await mediator.Send(new LatestUpdatesQuery { Limit = 10 });
+                var latestUpdates = await mediator.Send(new LatestUpdatesQuery { Page = 1, PageSize = 10 });
                 var leaderBoard = await mediator.Send(new LeaderBoardQuery { Limit = 10 });
 
                 model.Content.LeaderBoard = leaderBoard.Entries;
