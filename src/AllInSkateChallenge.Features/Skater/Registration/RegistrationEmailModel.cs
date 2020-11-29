@@ -13,5 +13,7 @@
         public string SponsorLogoUrl { get; set; }
 
         public string StartingPostCard { get; set; }
+
+        public bool FromSkateEverywhere { get; set; }
     }
 }

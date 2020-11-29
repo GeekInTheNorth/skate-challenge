@@ -53,7 +53,8 @@ namespace AllInSkateChallenge.Features.Skater.Registration
                     SiteUrl = absoluteUrlHelper.Get("/"),
                     LogMilesUrl = absoluteUrlHelper.Get("/skater/skate-log"),
                     SponsorLogoUrl = absoluteUrlHelper.Get("/images/SkateEverywhereLogo.png"),
-                    StartingPostCard = absoluteUrlHelper.Get(startPoint?.Image)
+                    StartingPostCard = absoluteUrlHelper.Get(startPoint?.Image),
+                    FromSkateEverywhere = request.FromSkateEverywhere
                 };
 
                 var emailBody = await viewToStringRenderer.RenderPartialToStringAsync("~/Views/Email/RegistrationEmail.cshtml", emailModel);

@@ -80,8 +80,13 @@ namespace AllInSkateChallenge.Areas.Identity.Pages.Account
             }
         }
 
-        public async Task OnGetAsync(string returnUrl = null)
+        public async Task OnGetAsync(string returnUrl = null, string referrer = null)
         {
+            if (string.Equals(referrer, "SEP", System.StringComparison.CurrentCultureIgnoreCase))
+            {
+                Response.Cookies.Append("FromSkateEverywhere", "true");
+            }
+
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
@@ -112,7 +117,8 @@ namespace AllInSkateChallenge.Areas.Identity.Pages.Account
                         values: new { area = "Identity", userId = user.Id, code = code, returnUrl = returnUrl },
                         protocol: Request.Scheme);
 
-                    var command = new SendRegistrationEmailCommand { Email = Input.Email, EmailConfirmationUrl = callbackUrl };
+                    var fromSkateEverywhere = Request.Cookies.Any(x => x.Key.Equals("FromSkateEverywhere") && x.Value.Equals("true"));
+                    var command = new SendRegistrationEmailCommand { Email = Input.Email, EmailConfirmationUrl = callbackUrl, FromSkateEverywhere = fromSkateEverywhere };
                     await _mediator.Send(command);
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)

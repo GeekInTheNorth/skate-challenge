@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Text.Encodings.Web;
@@ -191,7 +192,8 @@ namespace AllInSkateChallenge.Areas.Identity.Pages.Account
                             values: new { area = "Identity", userId = userId, code = code },
                             protocol: Request.Scheme);
 
-                        var command = new SendRegistrationEmailCommand { Email = Input.Email, EmailConfirmationUrl = callbackUrl };
+                        var fromSkateEverywhere = Request.Cookies.Any(x => x.Key.Equals("FromSkateEverywhere") && x.Value.Equals("true"));
+                        var command = new SendRegistrationEmailCommand { Email = Input.Email, EmailConfirmationUrl = callbackUrl, FromSkateEverywhere = fromSkateEverywhere };
                         await _mediator.Send(command);
 
                         // If account confirmation is required, we need to show the link if we don't have a real email sender

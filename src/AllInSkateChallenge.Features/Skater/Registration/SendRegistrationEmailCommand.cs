@@ -7,5 +7,7 @@ namespace AllInSkateChallenge.Features.Skater.Registration
         public string Email { get; set; }
 
         public string EmailConfirmationUrl { get; set; }
+
+        public bool FromSkateEverywhere { get; set; }
     }
 }
