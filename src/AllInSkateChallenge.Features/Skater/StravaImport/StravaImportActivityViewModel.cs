@@ -17,5 +17,7 @@ namespace AllInSkateChallenge.Features.Skater.StravaImport
         public bool IsImported { get; set; }
 
         public bool IsEligableActivity { get; set; }
+
+        public string Name { get; set; }
     }
 }

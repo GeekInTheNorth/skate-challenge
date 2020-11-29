@@ -36,11 +36,10 @@
     <table class="table table-hover mt-3">
         <thead class="thead-dark">
             <tr>
-                <th scope="col">Activity Type</th>
-                <th scope="col">Started</th>
+                <th scope="col">Type</th>
+                <th scope="col">Date</th>
                 <th scope="col">Miles</th>
-                <th scope="col">Imported</th>
-                <th scope="col">Actions</th>
+                <th scope="col">Import</th>
             </tr>
         </thead>
         <tbody>
@@ -48,13 +47,16 @@
             {
                 <tr data-activity-id="@activity.ActivityId" data-activity-eligible="@activity.IsEligableActivity" style="@(activity.IsEligableActivity ? "" : "display: none;")">
                     <td class="align-middle">@activity.ActivityType</td>
-                    <td class="align-middle">@activity.StartDate.ToString("dd/MM/yyyy HH:mm")</td>
-                    <td class="align-middle">@activity.Miles.ToString("F2") miles</td>
-                    <td class="align-middle"><span class="js-import-strava-state" data-activity-id="@activity.ActivityId">@(activity.IsImported ? "Yes" : "No")</span></td>
-                    <td class="align-middle js-action-delete-column">
+                    <td class="align-middle">@activity.StartDate.ToString("dd/MM/yyyy")</td>
+                    <td class="align-middle">@activity.Miles.ToString("F2")</td>
+                    <td class="align-middle js-action-column">
                         @if (!activity.IsImported && activity.IsEligableActivity)
                         {
-                            <button type="button" class="btn btn-primary js-import-strava" data-activity-id="@activity.ActivityId" data-start-date="@activity.StartDate.ToString("O")" data-miles="@activity.Miles">Import</button>
+                            <button type="button" class="btn btn-primary js-import-strava" data-activity-id="@activity.ActivityId" data-start-date="@activity.StartDate.ToString("O")" data-miles="@activity.Miles" data-name="@activity.Name">Import</button>
+                        }
+                        else if (activity.IsImported)
+                        {
+                            <span>Imported</span>
                         }
                     </td>
                 </tr>
@@ -74,11 +76,11 @@
                 var activityId = $(event.target).data("activity-id");
                 var startDate = $(event.target).data("start-date");
                 var miles = $(event.target).data("miles");
+                var name = $(event.target).data("name");
 
-                $.post("/skater/skate-log/strava-import/save", { "activityId": activityId, "logged": startDate, "miles": miles })
+                $.post("/skater/skate-log/strava-import/save", { "activityId": activityId, "logged": startDate, "miles": miles, "name": name })
                     .done(function () {
-                        $("button[data-activity-id='" + activityId + "']").hide();
-                        $("span[data-activity-id='" + activityId + "']").html("Yes");
+                        $("tr[data-activity-id='" + activityId + "']").children().eq(3).html("<span>Imported</span>");
                         CreateNotification("success", "<strong>Awesome!</strong> Your strava activity has been imported. Why not check out <a href='/skater/progress/' class='alert-link'>Your Progress</a> now?");
                     })
                     .fail(function () {

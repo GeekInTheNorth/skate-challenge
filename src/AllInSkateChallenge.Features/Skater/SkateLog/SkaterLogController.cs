@@ -72,6 +72,7 @@ namespace AllInSkateChallenge.Controllers
                 var command = new SaveActivityCommand 
                 { 
                     Skater = user, 
+                    Name = mileageEntry.JourneyName,
                     Distance = mileageEntry.Distance, 
                     DistanceUnit = mileageEntry.DistanceUnit, 
                     StartDate = mileageEntry.DateSkated ?? DateTime.Now 

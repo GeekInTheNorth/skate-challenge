@@ -7,7 +7,7 @@ using AllInSkateChallenge.Features.Data.Entities;
 using AllInSkateChallenge.Features.Framework.Models;
 using AllInSkateChallenge.Features.Skater.SkateLog;
 using AllInSkateChallenge.Features.Strava;
-
+using Humanizer;
 using MediatR;
 
 namespace AllInSkateChallenge.Features.Skater.StravaImport
@@ -56,7 +56,8 @@ namespace AllInSkateChallenge.Features.Skater.StravaImport
             return stravaActivityListResponse.Activities.Select(x => new StravaImportActivityViewModel
             {
                 ActivityId = x.ActivityId,
-                ActivityType = x.ActivityType,
+                ActivityType = x.ActivityType?.Humanize(),
+                Name = x.Name,
                 Miles = x.DistanceMetres * 0.000621371M,
                 StartDate = x.StartDate,
                 EndDate = x.StartDate.AddSeconds(x.ElapsedTime),

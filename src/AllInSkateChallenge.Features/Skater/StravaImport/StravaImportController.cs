@@ -49,7 +49,7 @@ namespace AllInSkateChallenge.Features.Skater.StravaImport
 
         [HttpPost]
         [Route("skater/skate-log/strava-import/save")]
-        public async Task<IActionResult> Save(string activityId, DateTime logged, decimal miles)
+        public async Task<IActionResult> Save(string activityId, string name, DateTime logged, decimal miles)
         {
             var user = await userManager.GetUserAsync(User);
             if (user == null || !user.IsStravaAccount)
@@ -62,7 +62,7 @@ namespace AllInSkateChallenge.Features.Skater.StravaImport
                 return BadRequest();
             }
 
-            var saveCommand = new SaveActivityCommand { Skater = user, Distance = miles, DistanceUnit = DistanceUnit.Miles, StartDate = logged, StavaActivityId = activityId };
+            var saveCommand = new SaveActivityCommand { Skater = user, Distance = miles, DistanceUnit = DistanceUnit.Miles, StartDate = logged, StavaActivityId = activityId, Name = name };
             await mediator.Send(saveCommand);
 
             return Ok();

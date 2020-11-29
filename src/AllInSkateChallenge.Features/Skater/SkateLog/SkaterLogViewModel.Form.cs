@@ -6,6 +6,8 @@ namespace AllInSkateChallenge.Features.Skater.SkateLog
 
     public partial class SkaterLogViewModel : INewSkaterLogEntry
     {
+        public string JourneyName { get; set; }
+
         [Required]
         public DistanceUnit DistanceUnit { get; set; }
 

@@ -22,11 +22,12 @@
 <table class="table table-striped">
     <thead class="thead-dark">
         <tr>
+            <th scope="col">Journey</th>
             <th scope="col">Logged</th>
             <th scope="col">Miles</th>
             @if (Model.IsStravaUser)
             {
-                <th scope="col">Source</th>
+                <th scope="col" class="mobile-hidden">Source</th>
             }
             <th scope="col" class="js-action-delete-column">Actions</th>
         </tr>
@@ -35,11 +36,12 @@
         @foreach (var entry in Model.Content.Entries)
         {
             <tr class="js-mileage-entry-row" data-entry-id="@entry.SkateLogEntryId">
+                <td class="align-middle">@(string.IsNullOrWhiteSpace(entry.Name) ? "Unnamed Skate" : entry.Name)</td>
                 <td class="align-middle">@entry.Logged.ToString("dd/MM/yyyy HH:mm")</td>
-                <td class="align-middle">@entry.DistanceInMiles.ToString("F2") miles</td>
+                <td class="align-middle">@entry.DistanceInMiles.ToString("F2")</td>
                 @if (Model.IsStravaUser)
                 {
-                    <td class="align-middle">@(string.IsNullOrWhiteSpace(entry.StravaId) ? "Manual" : "Strava")</td>
+                    <td class="align-middle mobile-hidden">@(string.IsNullOrWhiteSpace(entry.StravaId) ? "Manual" : "Strava")</td>
                 }
                 <td class="align-middle js-action-delete-column">
                     <button type="button" class="btn btn-danger js-delete-mileage-entry" data-entry-id="@entry.SkateLogEntryId">Delete</button>
@@ -80,6 +82,11 @@
             </div>
             <form method="post" asp-controller="SkaterLog" asp-action="Index" asp-antiforgery="true">
                 <div class="modal-body">
+                    <div class="form-group">
+                        <label for="journeyName">Journey Name</label>
+                        @Html.TextBox(nameof(INewSkaterLogEntry.JourneyName), Model.Content.JourneyName, new { @class = "form-control", aria_describedby = "journeyNameHelp" })
+                        <small id="journeyNameHelp" class="form-text text-muted">An optional name for your skating session.</small>
+                    </div>
                     <div class="form-group">
                         <label for="distanceUnit">Miles or Kilometres?</label>
                         @Html.DropDownList(nameof(INewSkaterLogEntry.DistanceUnit), new SelectList(Enum.GetValues(typeof(DistanceUnit))), new { @class = "form-control", aria_describedby = "distanceUnitHelp" })
