@@ -25,13 +25,16 @@ namespace AllInSkateChallenge.Areas.Identity.Pages.Account
         [TempData]
         public string StatusMessage { get; set; }
 
+        [TempData]
+        public bool IsInvalidToken { get; set; }
+
         public async Task<IActionResult> OnGetAsync(string userId, string code)
         {
             if (userId == null || code == null)
             {
                 return RedirectToPage("/Index");
             }
-
+             
             var user = await _userManager.FindByIdAsync(userId);
             if (user == null)
             {
@@ -40,6 +43,7 @@ namespace AllInSkateChallenge.Areas.Identity.Pages.Account
 
             code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(code));
             var result = await _userManager.ConfirmEmailAsync(user, code);
+            IsInvalidToken = result.Errors.Any(x => string.Equals(x.Code, "InvalidToken", StringComparison.CurrentCultureIgnoreCase));
             StatusMessage = result.Succeeded ? "Thank you for confirming your email." : "Error confirming your email.";
             return Page();
         }

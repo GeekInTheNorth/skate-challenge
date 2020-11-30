@@ -12,4 +12,13 @@
     </div>
 </div>
 
-<partial name="_StatusMessage" model="Model.StatusMessage" />
+@if (Model.IsInvalidToken)
+{
+    <div class="alert alert-danger" role="alert">
+        It looks like your email verification link has expired.  When an email verification link is generated, it lasts for just 24 hours.  You can generate a new one by visiting <a asp-area="Identity" asp-page="/Account/Manage/Email" title="Manage" class="alert-link">your email settings page.</a>
+    </div>
+}
+else
+{
+    <partial name="_StatusMessage" model="Model.StatusMessage" />
+}
