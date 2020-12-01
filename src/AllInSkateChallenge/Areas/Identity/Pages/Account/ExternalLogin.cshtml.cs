@@ -3,19 +3,19 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 
 using AllInSkateChallenge.Features.Data.Entities;
+using AllInSkateChallenge.Features.Data.Static;
 using AllInSkateChallenge.Features.Skater.Registration;
 
 using MediatR;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 
@@ -26,22 +26,22 @@ namespace AllInSkateChallenge.Areas.Identity.Pages.Account
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly IEmailSender _emailSender;
         private readonly ILogger<ExternalLoginModel> _logger;
         private readonly IMediator _mediator;
+        private readonly ICheckPointRepository _checkPointRepository;
 
         public ExternalLoginModel(
             SignInManager<ApplicationUser> signInManager,
             UserManager<ApplicationUser> userManager,
             ILogger<ExternalLoginModel> logger,
-            IEmailSender emailSender, 
-            IMediator mediator)
+            IMediator mediator, 
+            ICheckPointRepository checkPointRepository)
         {
             _signInManager = signInManager;
             _userManager = userManager;
             _logger = logger;
-            _emailSender = emailSender;
             _mediator = mediator;
+            _checkPointRepository = checkPointRepository;
         }
 
         [BindProperty]
@@ -54,12 +54,17 @@ namespace AllInSkateChallenge.Areas.Identity.Pages.Account
         [TempData]
         public string ErrorMessage { get; set; }
 
+        public IList<SelectListItem> SkateTargets => _checkPointRepository.GetSelectList();
+
         public class InputModel : IValidatableObject
         {
             [Required]
             [EmailAddress]
             [Display(Name = "Email Address (Some third parties such as Strava do not share this data)")]
             public string Email { get; set; }
+
+            [Display(Name = "Your Personal Target")]
+            public SkateTarget Target { get; set; }
 
             [Display(Name = "Send me emails about my progress in the ALL IN Skate Challenge.")]
             public bool AcceptProgressNotifications { get; set; }
@@ -126,13 +131,11 @@ namespace AllInSkateChallenge.Areas.Identity.Pages.Account
                 // If the user does not have an account, then ask the user to create an account.
                 ReturnUrl = returnUrl;
                 ProviderDisplayName = info.ProviderDisplayName;
-                if (info.Principal.HasClaim(c => c.Type == ClaimTypes.Email))
+                Input = new InputModel
                 {
-                    Input = new InputModel
-                    {
-                        Email = info.Principal.FindFirstValue(ClaimTypes.Email)
-                    };
-                }
+                    Email = info.Principal.FindFirstValue(ClaimTypes.Email),
+                    Target = SkateTarget.LiverpoolCanningDock
+                };
                 return Page();
             }
         }
@@ -155,7 +158,8 @@ namespace AllInSkateChallenge.Areas.Identity.Pages.Account
                     UserName = Input.Email, 
                     Email = Input.Email, 
                     IsStravaAccount = info.LoginProvider.Equals("Strava", System.StringComparison.CurrentCultureIgnoreCase),
-                    AcceptProgressNotifications = Input.AcceptProgressNotifications
+                    AcceptProgressNotifications = Input.AcceptProgressNotifications,
+                    Target = Input.Target
                 };
 
                 if (!info.Principal.HasClaim(x => x.Type.Equals(ClaimTypes.Email)) && info.Principal.HasClaim(x => x.Type.Equals(ClaimTypes.NameIdentifier)))
