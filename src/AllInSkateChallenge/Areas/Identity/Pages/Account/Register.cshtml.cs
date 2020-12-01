@@ -13,6 +13,8 @@ using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using MediatR;
 using AllInSkateChallenge.Features.Skater.Registration;
+using AllInSkateChallenge.Features.Data.Static;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace AllInSkateChallenge.Areas.Identity.Pages.Account
 {
@@ -23,17 +25,20 @@ namespace AllInSkateChallenge.Areas.Identity.Pages.Account
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IMediator _mediator;
+        private readonly ICheckPointRepository _checkPointRepository;
 
         public RegisterModel(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             ILogger<RegisterModel> logger,
-            IMediator mediator)
+            IMediator mediator, 
+            ICheckPointRepository checkPointRepository)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
             _mediator = mediator;
+            _checkPointRepository = checkPointRepository;
         }
 
         [BindProperty]
@@ -42,6 +47,8 @@ namespace AllInSkateChallenge.Areas.Identity.Pages.Account
         public string ReturnUrl { get; set; }
 
         public IList<AuthenticationScheme> ExternalLogins { get; set; }
+
+        public IList<SelectListItem> SkateTargets => _checkPointRepository.GetSelectList();
 
         public class InputModel : IValidatableObject
         {
@@ -65,6 +72,9 @@ namespace AllInSkateChallenge.Areas.Identity.Pages.Account
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
 
+            [Display(Name = "Your Personal Target")]
+            public SkateTarget Target { get; set; }
+
             [Display(Name = "Send me emails about my progress in the ALL IN Skate Challenge.")]
             public bool AcceptProgressNotifications { get; set; }
 
@@ -87,6 +97,7 @@ namespace AllInSkateChallenge.Areas.Identity.Pages.Account
                 Response.Cookies.Append("FromSkateEverywhere", "true");
             }
 
+            Input = new InputModel { Target = SkateTarget.LiverpoolCanningDock };
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
@@ -102,7 +113,8 @@ namespace AllInSkateChallenge.Areas.Identity.Pages.Account
                     UserName = Input.Email, 
                     Email = Input.Email, 
                     SkaterName = Input.SkaterName, 
-                    AcceptProgressNotifications = Input.AcceptProgressNotifications
+                    AcceptProgressNotifications = Input.AcceptProgressNotifications,
+                    Target = Input.Target
                 };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
