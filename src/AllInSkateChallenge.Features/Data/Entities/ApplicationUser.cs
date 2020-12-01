@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 
+using AllInSkateChallenge.Features.Data.Static;
+
 using Microsoft.AspNetCore.Identity;
 
 namespace AllInSkateChallenge.Features.Data.Entities
@@ -22,5 +24,7 @@ namespace AllInSkateChallenge.Features.Data.Entities
         public List<StravaEvent> StravaEvents { get; set; }
 
         public DateTime DateRegistered { get; set; }
+
+        public SkateTarget Target { get; set; }
     }
 }

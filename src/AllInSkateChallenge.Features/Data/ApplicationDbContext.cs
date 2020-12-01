@@ -1,7 +1,9 @@
 ﻿using AllInSkateChallenge.Features.Data.Entities;
+using AllInSkateChallenge.Features.Data.Static;
 
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AllInSkateChallenge.Features.Data
 {
@@ -24,7 +26,9 @@ namespace AllInSkateChallenge.Features.Data
         {
             base.OnModelCreating(builder);
 
+            var skateTargetConverter = new EnumToNumberConverter<SkateTarget, int>();
             builder.Entity<ApplicationUser>().Property(x => x.DateRegistered).HasDefaultValueSql("getdate()");
+            builder.Entity<ApplicationUser>().Property(x => x.Target).HasConversion(skateTargetConverter).HasDefaultValue(SkateTarget.LiverpoolCanningDock);
 
             builder.Entity<SkateLogEntry>().HasOne(x => x.ApplicationUser).WithMany(x => x.SkateLogEntries).HasForeignKey(x => x.ApplicationUserId).OnDelete(DeleteBehavior.Cascade);
             builder.Entity<SkateLogEntry>().HasIndex(x => new { x.ApplicationUserId, x.Logged });
