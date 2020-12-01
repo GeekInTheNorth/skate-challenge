@@ -36,10 +36,12 @@ namespace AllInSkateChallenge.Features.Skater.Progress
             var totalDistance = mileageEntries.Sum(x => x.DistanceInMiles);
             var checkPoints = checkPointRepository.Get();
             var checkPointsReached = checkPoints.Where(x => x.Distance <= totalDistance).OrderBy(x => x.Distance);
-            var nextCheckPoint = checkPoints.Where(x => x.Distance > totalDistance).OrderBy(x => x.Distance).FirstOrDefault();
+            var targetCheckPoint = checkPoints.First(x => x.SkateTarget.Equals(User.Target));
+            var nextCheckPoint = checkPoints.Where(x => x.Distance > totalDistance && x.Distance <= targetCheckPoint.Distance).OrderBy(x => x.Distance).FirstOrDefault();
 
             model.Content.CheckPointsReached = checkPointsReached.ToList();
             model.Content.MilesSkated = totalDistance;
+            model.Content.TargetMiles = targetCheckPoint.Distance;
 
             if (nextCheckPoint != null)
             {
