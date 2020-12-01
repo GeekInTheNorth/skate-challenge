@@ -19,6 +19,7 @@ namespace AllInSkateChallenge.Features.Data.Static
             {
                 new CheckPointModel
                 {
+                    SkateTarget = SkateTarget.None,
                     Distance = 0,
                     Title = "Leeds Canal Basin",
                     Description = "Start your Skate Challenge at the very start of the Leeds Liverpool Canal",
@@ -28,6 +29,7 @@ namespace AllInSkateChallenge.Features.Data.Static
                 },
                 new CheckPointModel
                 {
+                    SkateTarget = SkateTarget.AireValleyMarina,
                     Distance = 2.1M, // MAHA put 3m
                     Title = "Aire Valley Marina",
                     Description = "Congratulations, you've made it to the Aire Valley Marina. The Marina has two canal entrances with pedestrian bridges which must be navigated to proceed.",
@@ -38,6 +40,7 @@ namespace AllInSkateChallenge.Features.Data.Static
                 },
                 new CheckPointModel
                 {
+                    SkateTarget = SkateTarget.Saltaire,
                     Distance = 13,
                     Title = "Saltaire",
                     Description = "Flippin eck, you have skated a half marathon! There's an Ice Cream Boat on the side of the canal for a quick snack on the move!",
@@ -48,6 +51,7 @@ namespace AllInSkateChallenge.Features.Data.Static
                 },
                 new CheckPointModel
                 {
+                    SkateTarget = SkateTarget.BingleyFiveRiseLocks,
                     Distance = 16,
                     Title = "Bingley Five Rise Locks",
                     Description  = "Bravo! You have reached Bingley Five Rise Locks.  Boats passing through this stair case lock are raised or lowered in five stages, covering a height of 18.03m over 98.00m.  (That's almost 60 feet!)",
@@ -59,6 +63,7 @@ namespace AllInSkateChallenge.Features.Data.Static
                 },
                 new CheckPointModel
                 {
+                    SkateTarget = SkateTarget.SkiptonCastle,
                     Distance = 30,
                     Title = "Skipton Castle",
                     Description = "Awesome! You have smashed a marathon and then some to reach Skipton Castle. Over 900 years old, Skipton Castle is one of the most complete and best preserved medieval castles.",
@@ -70,6 +75,7 @@ namespace AllInSkateChallenge.Features.Data.Static
                 },
                 new CheckPointModel
                 {
+                    SkateTarget = SkateTarget.EastMartonDoubleArchedBridge,
                     Distance = 38,
                     Title = "East Marton Double Arched Bridge",
                     Description = "Nice work! Thanks to the wibbly wobbly nature of the canal, it's taken you 8 miles to actually go 5 miles to reach this bridge made of two separate arches stacked atop of each other.",
@@ -80,6 +86,7 @@ namespace AllInSkateChallenge.Features.Data.Static
                 },
                 new CheckPointModel
                 {
+                    SkateTarget = SkateTarget.FoulridgeSummit,
                     Distance = 47,
                     Title = "Foulridge Summit",
                     Description = "Hooray! You have reached Foulridge, the highest point on the Leeds-Liverpool Canal.  This is also where the canal goes underground into the Foulridge tunnel which stretches for 1.49km, can you swim in skates?",
@@ -90,6 +97,7 @@ namespace AllInSkateChallenge.Features.Data.Static
                 },
                 new CheckPointModel
                 {
+                    SkateTarget = SkateTarget.Burnley,
                     Distance = 57,
                     Title = "Burnley",
                     Description = "Pat on the back! You have reached Burnley. Once again the canal goes underground, this time through Gannow Tunnel for 511m, Skaters can follow alternate footpaths to rejoin the canal.",
@@ -100,6 +108,7 @@ namespace AllInSkateChallenge.Features.Data.Static
                 },
                 new CheckPointModel
                 {
+                    SkateTarget = SkateTarget.HalfwayThere,
                     Distance = 63,
                     Title = "Halfway There!",
                     Description = "Whooooaaaa! You've reached the halfway point! Did you know that the halfway marker was added to the Leeds Liverpool Canal to mark its 200th birthday?",
@@ -110,6 +119,7 @@ namespace AllInSkateChallenge.Features.Data.Static
                 },
                 new CheckPointModel
                 {
+                    SkateTarget = SkateTarget.BlackburnFlight,
                     Distance = 72,
                     Title = "Blackburn Flight",
                     Description = "Good on you! You've reached the Blackburn flightwhere there are 7 locks in quick succession...  stop and watch the boats work their way through or skate on past at speed!",
@@ -120,6 +130,7 @@ namespace AllInSkateChallenge.Features.Data.Static
                 },
                 new CheckPointModel
                 {
+                    SkateTarget = SkateTarget.WiganPier,
                     Distance = 93,
                     Title = "Wigan Pier",
                     Description = "Top effort! You've reached Wigan Pier. The name has humorous or ironic connotations since it conjures an image of a seaside pleasure pier, whereas Wigan is in fact an inland and traditionally industrial town.",
@@ -131,6 +142,7 @@ namespace AllInSkateChallenge.Features.Data.Static
                 },
                 new CheckPointModel
                 {
+                    SkateTarget = SkateTarget.TheScotchPiperInn,
                     Distance = 113,
                     Title = "The Scotch Piper Inn",
                     Description = "Hats off! You're now a stones throw from the Scotch Piper Inn, a thatched pub reputed to be the oldest inn in Lancashire and dates back to the 14th century. Originally the inn was built around an oak tree which can be seen in the tap room.  Do you want a pint before that last stretch to the finish line?",
@@ -142,6 +154,7 @@ namespace AllInSkateChallenge.Features.Data.Static
                 },
                 new CheckPointModel
                 {
+                    SkateTarget = SkateTarget.LiverpoolCanningDock,
                     Distance = 127.5M,
                     Title = "Liverpool Canning Dock",
                     Description = "YOU ARE AMAZING! You have reached the finish line and found yourself in Liverpool Docks! Time for a pint or a cuppa!",
@@ -151,7 +164,18 @@ namespace AllInSkateChallenge.Features.Data.Static
                     IsFinalCheckpoint = true,
                     DigitalBadge = absoluteUrlHelper.Get("/images/badges/Liverpool.png"),
                     FinisherDigitalBadge = absoluteUrlHelper.Get("/images/badges/Finisher.png")
-                }
+                },
+                new CheckPointModel
+                {
+                    SkateTarget = SkateTarget.ThereAndBackAgain,
+                    Distance = 255M,
+                    Title = "Leeds Canal Basin",
+                    Description = "YOU ARE AMAZING! Not only have you reached the finish line, but you skated all the way home to Leeds! Time for a pint or a cuppa!",
+                    Longitude = -1.551093M,
+                    Latitude = 53.793155M,
+                    Image = absoluteUrlHelper.Get("/images/GreetingsFromLeedsCanalBasin.png"),
+                    IsFinalCheckpoint = true
+                },
             };
         }
     }

@@ -4,6 +4,8 @@ namespace AllInSkateChallenge.Features.Data.Static
 {
     public class CheckPointModel
     {
+        public SkateTarget SkateTarget { get; set; }
+
         public decimal Distance { get; set; }
 
         public string Title { get; set; }
