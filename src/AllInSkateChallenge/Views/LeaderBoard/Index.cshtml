@@ -45,17 +45,17 @@
 </form>
 
 <div class="row mt-3">
-    @if (Model.Content.Entries != null && Model.Content.Entries.Any())
-    {
-        <div class="col-xl-12">
-            <table class="table">
-                <thead class="thead-dark">
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Skater</th>
-                        <th scope="col">Total Miles</th>
-                    </tr>
-                </thead>
+    <div class="col-xl-12">
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Skater</th>
+                    <th scope="col">Total Miles</th>
+                </tr>
+            </thead>
+            @if (Model.Content.Entries != null && Model.Content.Entries.Any())
+            {
                 <tbody>
                     @foreach (var entry in Model.Content.Entries)
                     {
@@ -73,7 +73,7 @@
                         </tr>
                     }
                 </tbody>
-            </table>
-        </div>
-    }
+            }
+        </table>
+    </div>
 </div>
