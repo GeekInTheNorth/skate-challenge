@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 
 using AllInSkateChallenge.Features.Data.Entities;
+using AllInSkateChallenge.Features.Data.Static;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -21,11 +22,11 @@ namespace AllInSkateChallenge.Features.LeaderBoard
             this.userManager = userManager;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(SkateTarget? target)
         {
             var user = await userManager.GetUserAsync(User);
 
-            var model = await viewModelBuilder.WithUser(user).Build();
+            var model = await viewModelBuilder.WithATarget(target ?? user.Target).WithUser(user).Build();
 
             return View(model);
         }

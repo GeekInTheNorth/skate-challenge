@@ -32,6 +32,18 @@
     </div>
 }
 
+<form asp-controller="Leaderboard" asp-action="Index" method="get">
+    <div class="input-group mt-3 mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="target-distance">Target Distance</span>
+        </div>
+        <select name="target" asp-for="@Model.Content.SelectedTarget" asp-items="@Model.Content.Targets" class="form-control" aria-label="Sort Order" aria-describedby="target-distance"></select>
+        <div class="input-group-append">
+            <button class="btn btn-primary" type="submit" id="search-button">Reload</button>
+        </div>
+    </div>
+</form>
+
 <div class="row mt-3">
     @if (Model.Content.Entries != null && Model.Content.Entries.Any())
     {

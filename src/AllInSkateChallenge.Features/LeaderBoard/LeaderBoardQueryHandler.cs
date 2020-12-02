@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using AllInSkateChallenge.Features.Data;
+using AllInSkateChallenge.Features.Data.Static;
 using AllInSkateChallenge.Features.Gravatar;
 
 using MediatR;
@@ -17,16 +18,21 @@ namespace AllInSkateChallenge.Features.LeaderBoard
 
         private readonly IGravatarResolver gravatarResolver;
 
+        private readonly ICheckPointRepository checkPointRepository;
+
         public LeaderBoardQueryHandler(
             ApplicationDbContext context,
-            IGravatarResolver gravatarResolver)
+            IGravatarResolver gravatarResolver, 
+            ICheckPointRepository checkPointRepository)
         {
             this.context = context;
             this.gravatarResolver = gravatarResolver;
+            this.checkPointRepository = checkPointRepository;
         }
 
         public async Task<LeaderBoardQueryResponse> Handle(LeaderBoardQuery request, CancellationToken cancellationToken)
         {
+            var targetDistance = checkPointRepository.Get().FirstOrDefault(x => x.SkateTarget.Equals(request.Target))?.Distance ?? 127.5M;
             var distanceTotals = from entries in context.SkateLogEntries
                                  group entries by entries.ApplicationUserId into userEntries
                                  select new
@@ -37,7 +43,7 @@ namespace AllInSkateChallenge.Features.LeaderBoard
 
             var userMilageEntries = from distanceTotal in distanceTotals
                                     join user in context.Users on distanceTotal.UserId equals user.Id
-                                    where user.HasPaid == true
+                                    where user.HasPaid == true && (user.Target <= request.Target || distanceTotal.TotalMiles <= targetDistance)
                                     orderby distanceTotal.TotalMiles descending
                                     select new
                                     {
@@ -45,9 +51,9 @@ namespace AllInSkateChallenge.Features.LeaderBoard
                                         User = user
                                     };
 
-            if (request.Limit.HasValue)
+            if (request.PageSize.HasValue)
             {
-                userMilageEntries = userMilageEntries.Take(request.Limit.Value);
+                userMilageEntries = userMilageEntries.Take(request.PageSize.Value);
             }
 
             var results = await userMilageEntries.ToListAsync();

@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 
+using AllInSkateChallenge.Features.Data.Static;
 using AllInSkateChallenge.Features.Framework.Models;
 using AllInSkateChallenge.Features.LeaderBoard;
 using AllInSkateChallenge.Features.Updates;
@@ -30,7 +31,7 @@ namespace AllInSkateChallenge.Features.Home
             if (model.IsLoggedIn)
             {
                 var latestUpdates = await mediator.Send(new LatestUpdatesQuery { Page = 1, PageSize = 10 });
-                var leaderBoard = await mediator.Send(new LeaderBoardQuery { Limit = 10 });
+                var leaderBoard = await mediator.Send(new LeaderBoardQuery { PageSize = 10, Target = SkateTarget.LiverpoolCanningDock });
 
                 model.Content.LeaderBoard = leaderBoard.Entries;
                 model.Content.LatestUpdates = latestUpdates.Entries;
