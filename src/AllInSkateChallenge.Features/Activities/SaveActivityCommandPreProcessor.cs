@@ -53,7 +53,7 @@ namespace AllInSkateChallenge.Features.Activities
 
                 if (userMiles > targetCheckPoint.Distance)
                 {
-                    request.Skater.Target = request.Skater.Target.Next();
+                    request.Skater.Target = GetNewTarget(request.Skater.Target);
                     await userManager.UpdateAsync(request.Skater);
                 }
             }
@@ -61,6 +61,13 @@ namespace AllInSkateChallenge.Features.Activities
             {
                 logger.LogError(exception, "Failed to update the user's personal target.");
             }
+        }
+
+        private SkateTarget GetNewTarget(SkateTarget oldTarget)
+        {
+            if (oldTarget <= SkateTarget.Saltaire) return SkateTarget.FoulridgeSummit;
+
+            return SkateTarget.LiverpoolCanningDock;
         }
     }
 }

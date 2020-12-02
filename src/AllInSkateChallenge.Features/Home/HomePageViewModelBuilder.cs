@@ -31,7 +31,7 @@ namespace AllInSkateChallenge.Features.Home
             if (model.IsLoggedIn)
             {
                 var latestUpdates = await mediator.Send(new LatestUpdatesQuery { Page = 1, PageSize = 10 });
-                var leaderBoard = await mediator.Send(new LeaderBoardQuery { PageSize = 10, Target = SkateTarget.LiverpoolCanningDock });
+                var leaderBoard = await mediator.Send(new LeaderBoardQuery { PageSize = 10, Target = User.Target });
 
                 model.Content.LeaderBoard = leaderBoard.Entries;
                 model.Content.LatestUpdates = latestUpdates.Entries;

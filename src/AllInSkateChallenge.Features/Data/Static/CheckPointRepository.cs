@@ -185,19 +185,9 @@ namespace AllInSkateChallenge.Features.Data.Static
         {
             return new List<SelectListItem>
             {
-                new SelectListItem { Text = "Aire Valley Marina (2.1 Miles)", Value = SkateTarget.AireValleyMarina.ToString("F") },
                 new SelectListItem { Text = "Saltaire (13 Miles)", Value = SkateTarget.Saltaire.ToString("F") },
-                new SelectListItem { Text = "Bingley Five Rise Locks (16 Miles)", Value = SkateTarget.BingleyFiveRiseLocks.ToString("F") },
-                new SelectListItem { Text = "Skipton Castle (30 Miles)", Value = SkateTarget.SkiptonCastle.ToString("F") },
-                new SelectListItem { Text = "East Marton Double Arched Bridge (38 Miles)", Value = SkateTarget.EastMartonDoubleArchedBridge.ToString("F") },
                 new SelectListItem { Text = "Foulridge Summit (47 Miles)", Value = SkateTarget.FoulridgeSummit.ToString("F") },
-                new SelectListItem { Text = "Burnley (57 Miles)", Value = SkateTarget.Burnley.ToString("F") },
-                new SelectListItem { Text = "Halfway There (63 Miles)", Value = SkateTarget.HalfwayThere.ToString("F") },
-                new SelectListItem { Text = "Blackburn Flight (72 Miles)", Value = SkateTarget.BlackburnFlight.ToString("F") },
-                new SelectListItem { Text = "WiganPier (93 Miles)", Value = SkateTarget.WiganPier.ToString("F") },
-                new SelectListItem { Text = "The Scotch Piper Inn (113 Miles)", Value = SkateTarget.TheScotchPiperInn.ToString("F") },
-                new SelectListItem { Text = "Liverpool Canning Dock (127.5 Miles)", Value = SkateTarget.LiverpoolCanningDock.ToString("F") },
-                new SelectListItem { Text = "There And Back Again (255 Miles)", Value = SkateTarget.ThereAndBackAgain.ToString("F") }
+                new SelectListItem { Text = "Liverpool Canning Dock (127.5 Miles)", Value = SkateTarget.LiverpoolCanningDock.ToString("F") }
             };
         }
     }

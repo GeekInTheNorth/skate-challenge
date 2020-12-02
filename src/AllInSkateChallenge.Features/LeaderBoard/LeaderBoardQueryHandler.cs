@@ -43,7 +43,7 @@ namespace AllInSkateChallenge.Features.LeaderBoard
 
             var userMilageEntries = from distanceTotal in distanceTotals
                                     join user in context.Users on distanceTotal.UserId equals user.Id
-                                    where user.HasPaid == true && (user.Target <= request.Target || distanceTotal.TotalMiles <= targetDistance)
+                                    where user.HasPaid == true && user.Target == request.Target
                                     orderby distanceTotal.TotalMiles descending
                                     select new
                                     {
