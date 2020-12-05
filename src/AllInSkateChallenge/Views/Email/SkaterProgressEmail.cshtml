@@ -1,4 +1,5 @@
-﻿@model AllInSkateChallenge.Features.Activities.SkaterProgressEmailViewModel
+﻿@using AllInSkateChallenge.Features.Data.Static;
+@model AllInSkateChallenge.Features.Activities.SkaterProgressEmailViewModel
 
 <!DOCTYPE html>
 <html>
@@ -12,7 +13,7 @@
             <img src="@Model.LogoUrl" alt="ALL IN Logo" style="width: 100%; max-width: 600px; height: auto;" />
         </div>
         <div style="padding: 20px 5% 20px 5%; margin-bottom: 10px; border-radius: 10px; background-color: #FFFFFF; max-width: 600px;">
-            <h1>Congratulations @Model.Skater.SkaterName!<br />You've just hit another milestone!!!</h1>
+            <h1>Congratulations @Model.Skater.SkaterName! You've just hit another milestone!!!</h1>
         </div>
         <div style="padding: 20px 5% 20px 5%; margin-bottom: 10px; border-radius: 10px; background-color: #FFFFFF; max-width: 600px;">
             <h2>@Model.CheckPoint.Title</h2>
@@ -42,8 +43,19 @@
         }
         <div style="padding: 20px 5% 20px 5%; margin-bottom: 10px; border-radius: 10px; background-color: #FFFFFF; max-width: 600px;">
             <h2>Your Journey to Date</h2>
-            <p style="text-align: left;">You have skated a total distance of @Model.TotalMiles.ToString("F1") of the required 127.5 miles required to skate the entire length of the Leeds Liverpool canal.</p>
-            <p style="text-align: left;">This means that there is total of @Model.TotalMilesRemaining.ToString("F1") miles remaining on your journey from Leeds to Liverpool. If this distance feels too great, perhaps you could think about the distance remaining to your next milestone instead?</p>
+            @if (Model.TargetCheckPoint.SkateTarget == SkateTarget.LiverpoolCanningDock)
+            {
+                <p style="text-align: left;">You have skated @Model.TotalMiles.ToString("F1") of your @Model.TargetCheckPoint.Distance.ToString("F1") mile goal to skate the entire length of the Leeds Liverpool canal.</p>
+            }
+            else if (Model.TargetCheckPoint.SkateTarget == SkateTarget.FoulridgeSummit)
+            {
+                <p style="text-align: left;">You have skated @Model.TotalMiles.ToString("F1") of your @Model.TargetCheckPoint.Distance.ToString("F1") mile goal to skate from Leeds to @Model.TargetCheckPoint.Title, the highest point on the Leeds-Liverpool canal.</p>
+            }
+            else
+            {
+                <p style="text-align: left;">You have skated @Model.TotalMiles.ToString("F1") of your @Model.TargetCheckPoint.Distance.ToString("F1") mile goal to skate from Leeds to @Model.TargetCheckPoint.Title.</p>
+            }
+            <p style="text-align: left;">This means that there is total of @Model.TotalMilesRemaining.ToString("F1") miles remaining on your journey. If this distance feels too great, perhaps you could think about the distance remaining to your next milestone instead?</p>
         </div>
         @if (Model.NextCheckPoint != null)
         {

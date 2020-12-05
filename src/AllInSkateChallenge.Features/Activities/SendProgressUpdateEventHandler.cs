@@ -65,11 +65,13 @@ namespace AllInSkateChallenge.Features.Activities
 
                 var totalMiles = context.SkateLogEntries.Where(x => x.ApplicationUserId.Equals(request.Skater.Id)).Sum(x => x.DistanceInMiles);
                 var previousMiles = totalMiles - milesThisSkate;
-                var checkPoints = checkPointRepository.Get();
+                var checkPoints = checkPointRepository.Get().Where(x => x.SkateTarget <= request.Skater.Target).ToList();
+                var targetCheckPoint = checkPoints.Last();
                 var checkPointsReached = checkPoints.Where(x => x.Distance >= previousMiles && x.Distance <= totalMiles).OrderByDescending(x => x.Distance).ToList();
 
                 foreach(var checkPointReached in checkPointsReached)
                 {
+                    var isFinalCheckpoint = checkPointReached.SkateTarget.Equals(request.Skater.Target);
                     var emailModel = new SkaterProgressEmailViewModel
                     {
                         LogoUrl = absoluteUrlHelper.Get("/images/AllInSkateChallengeBannerSmall.png"),
@@ -77,10 +79,11 @@ namespace AllInSkateChallenge.Features.Activities
                         Skater = request.Skater,
                         CheckPoint = checkPointReached,
                         TotalMiles = totalMiles,
-                        NextCheckPoint = checkPoints.Where(x => x.Distance > totalMiles).OrderBy(x => x.Distance).FirstOrDefault()
+                        NextCheckPoint = checkPoints.Where(x => x.Distance > totalMiles).OrderBy(x => x.Distance).FirstOrDefault(),
+                        TargetCheckPoint = targetCheckPoint
                     };
 
-                    var emailTemplate = checkPointReached.IsFinalCheckpoint ? "~/Views/Email/ChallengeCompleteEmail.cshtml" : "~/Views/Email/SkaterProgressEmail.cshtml";
+                    var emailTemplate = isFinalCheckpoint ? "~/Views/Email/ChallengeCompleteEmail.cshtml" : "~/Views/Email/SkaterProgressEmail.cshtml";
                     var emailBody = await viewToStringRenderer.RenderPartialToStringAsync(emailTemplate, emailModel);
 
                     await emailSender.SendEmailAsync(request.Skater.Email, "ALL IN Skate Challenge - Your Progress", emailBody);

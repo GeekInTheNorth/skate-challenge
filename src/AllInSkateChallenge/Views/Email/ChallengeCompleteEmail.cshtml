@@ -1,4 +1,5 @@
-﻿@model AllInSkateChallenge.Features.Activities.SkaterProgressEmailViewModel
+﻿@using AllInSkateChallenge.Features.Data.Static;
+@model AllInSkateChallenge.Features.Activities.SkaterProgressEmailViewModel
 
 <!DOCTYPE html>
 <html>
@@ -12,7 +13,14 @@
             <img src="@Model.LogoUrl" alt="ALL IN Logo" style="width: 100%; height: auto; margin-right:auto; margin-left:auto;" />
         </div>
         <div style="padding: 20px 5% 20px 5%; margin-bottom: 10px; border-radius: 10px; background-color: #FFFFFF; max-width: 600px;">
-            <h1>Congratulations @Model.Skater.SkaterName!<br />YOU HAVE ARRIVED IN LIVERPOOL!</h1>
+            @if (Model.TargetCheckPoint.SkateTarget == SkateTarget.LiverpoolCanningDock)
+            {
+                <h1>Congratulations @Model.Skater.SkaterName! YOU HAVE ARRIVED IN LIVERPOOL!</h1>
+            }
+            else
+            {
+                <h1>Congratulations @Model.Skater.SkaterName! YOU HAVE ARRIVED IN @Model.TargetCheckPoint.Title.ToUpper()!</h1>
+            }
         </div>
         <div style="padding: 20px 5% 20px 5%; margin-bottom: 10px; border-radius: 10px; background-color: #FFFFFF; max-width: 600px;">
             <h2>@Model.CheckPoint.Title</h2>
@@ -33,8 +41,10 @@
         </div>
         <div style="padding: 20px 5% 20px 5%; margin-bottom: 10px; border-radius: 10px; background-color: #FFFFFF; max-width: 600px;">
             <h2>Celebrate Your Achievement</h2>
-            <p style="text-align: left;">If you want to commemorate your 127.5 miles with a tshirt or hoody, pop over to the <a href="https://skateeverywhereproject.com/product-category/all-in/" target="_blank">Skate Everywhere Project</a>.</p>
+            <p style="text-align: left;">If you want to commemorate your @Model.TargetCheckPoint.Distance.ToString("F1") miles with a finisher's badge, tshirt or hoody, pop over to the <a href="https://skateeverywhereproject.com/product-category/all-in/" target="_blank">Skate Everywhere Project</a>.</p>
             <p style="text-align: left;">Thank you muchly for supporting <a href="https://www.allincrd.uk/" target="_blank">ALL IN: Community Roller Derby</a> and for being a part of our skate challenge. &#10084;</p>
+            <p style="text-align: left;">We're pretty impressed with you right now.</p>
+            <p style="text-align: left;">Lotsa love from the ALL IN: Community Roller Derby team.</p>
         </div>
     </center>
 </body>

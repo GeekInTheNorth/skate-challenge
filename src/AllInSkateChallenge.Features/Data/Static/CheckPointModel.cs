@@ -20,8 +20,6 @@ namespace AllInSkateChallenge.Features.Data.Static
 
         public string Image { get; set; }
 
-        public bool IsFinalCheckpoint { get; set; }
-
         public string DigitalBadge { get; set; }
 
         public string DigitalBadgeName => DigitalBadge?.Split('/').Last();

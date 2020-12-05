@@ -17,8 +17,10 @@ namespace AllInSkateChallenge.Features.Activities
 
         public decimal TotalMiles { get; set; }
 
-        public decimal TotalMilesRemaining => TotalMiles >= 127.5M ? 0 : 127.5M - TotalMiles;
+        public decimal TotalMilesRemaining => TotalMiles >= TargetCheckPoint.Distance ? 0 : TargetCheckPoint.Distance - TotalMiles;
 
         public decimal NextCheckPointMilesRemaining => NextCheckPoint != null ? NextCheckPoint.Distance - TotalMiles : 0;
+
+        public CheckPointModel TargetCheckPoint { get; set; }
     }
 }

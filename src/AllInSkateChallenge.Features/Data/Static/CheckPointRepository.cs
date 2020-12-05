@@ -163,7 +163,6 @@ namespace AllInSkateChallenge.Features.Data.Static
                     Longitude = -2.994955M,
                     Latitude = 53.403282M,
                     Image = absoluteUrlHelper.Get("/images/GreetingsFromLiverpool.png"),
-                    IsFinalCheckpoint = true,
                     DigitalBadge = absoluteUrlHelper.Get("/images/badges/Liverpool.png"),
                     FinisherDigitalBadge = absoluteUrlHelper.Get("/images/badges/Finisher.png")
                 },
@@ -175,8 +174,7 @@ namespace AllInSkateChallenge.Features.Data.Static
                     Description = "YOU ARE AMAZING! Not only have you reached the finish line, but you skated all the way home to Leeds! Time for a pint or a cuppa!",
                     Longitude = -1.551093M,
                     Latitude = 53.793155M,
-                    Image = absoluteUrlHelper.Get("/images/GreetingsFromLeedsCanalBasin.png"),
-                    IsFinalCheckpoint = true
+                    Image = absoluteUrlHelper.Get("/images/GreetingsFromLeedsCanalBasin.png")
                 },
             };
         }
