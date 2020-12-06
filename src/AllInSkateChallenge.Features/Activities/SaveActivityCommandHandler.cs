@@ -41,11 +41,14 @@ namespace AllInSkateChallenge.Features.Activities
                 }
 
                 // Create the new entry if it does not exist
-                var recordExists = !string.IsNullOrWhiteSpace(request.StavaActivityId) && context.SkateLogEntries.Any(x => x.StravaId.Equals(request.StavaActivityId));
+                var activityLogged = request.StartDate ?? DateTime.Now;
+                var recordExists = await RecordExists(request, activityLogged);
+                var creatingRecord = false;
                 if (!recordExists)
                 {
                     var entry = new SkateLogEntry { ApplicationUserId = request.Skater.Id, StravaId = request.StavaActivityId, DistanceInMiles = distance, Logged = request.StartDate ?? DateTime.Now, Name = request.Name };
                     context.SkateLogEntries.Add(entry);
+                    creatingRecord = true;
                 }
 
                 // mark any strava import event as imported
@@ -62,7 +65,7 @@ namespace AllInSkateChallenge.Features.Activities
 
                 await context.SaveChangesAsync();
 
-                return new SaveActivityCommandResult { WasSuccessful = true };
+                return new SaveActivityCommandResult { WasSuccessful = creatingRecord, RecordExists = recordExists };
             }
             catch (Exception exception)
             {
@@ -70,6 +73,19 @@ namespace AllInSkateChallenge.Features.Activities
             }
 
             return new SaveActivityCommandResult() { WasSuccessful = false };
+        }
+
+        private async Task<bool> RecordExists(SaveActivityCommand request, DateTime activityLogged)
+        {
+            if (!string.IsNullOrWhiteSpace(request.StavaActivityId))
+            {
+                return await context.SkateLogEntries.AnyAsync(x => x.StravaId.Equals(request.StavaActivityId));
+            }
+
+            var upperThreshold = activityLogged.AddSeconds(30);
+            var lowerThreshold = activityLogged.AddSeconds(-30);
+
+            return await context.SkateLogEntries.Where(x => x.ApplicationUserId.Equals(request.Skater.Id) && x.Name.Equals(request.Name) && x.Logged >= lowerThreshold && x.Logged <= upperThreshold).AnyAsync();
         }
     }
 }

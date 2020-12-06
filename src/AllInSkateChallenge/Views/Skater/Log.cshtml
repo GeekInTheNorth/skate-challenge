@@ -19,6 +19,16 @@
     </div>
 </div>
 
+@if (Model.Content.RecordExists)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        Your activity has not been created as it already exists. Activities which have the same date, distance and name are considered to be duplicate entries.
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
+
 <table class="table table-striped">
     <thead class="thead-dark">
         <tr>
@@ -80,7 +90,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="post" asp-controller="SkaterLog" asp-action="Index" asp-antiforgery="true">
+            <form id="createForm" method="post" asp-controller="SkaterLog" asp-action="Index" asp-antiforgery="true">
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="distanceUnit">Miles or Kilometres?</label>
@@ -131,6 +141,12 @@
 
             $(".js-add-mileage-entry").click(function () {
                 $("#addEntryModal").modal({ keyboard: true, focus: true });
+            });
+
+            $("#createForm").submit(function (event) {
+                $(".js-confirm-create-mileage-entry").prop("disabled", true);
+
+                setTimeout(function () { $(".js-confirm-create-mileage-entry").prop("disabled", false); }, 5000);
             });
         });
     </script>

@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 
+using AllInSkateChallenge.Features.Activities;
 using AllInSkateChallenge.Features.Data.Entities;
 using AllInSkateChallenge.Features.Framework.Models;
 
@@ -15,14 +16,23 @@ namespace AllInSkateChallenge.Features.Skater.SkateLog
 
         private INewSkaterLogEntry newEntry;
 
+        private SaveActivityCommandResult saveResponse;
+
         public SkaterLogViewModelBuilder(IMediator mediator) : base(mediator)
         {
             this.mediator = mediator;
         }
 
-        public IPageViewModelBuilder<SkaterLogViewModel> WithNewEntry(INewSkaterLogEntry newEntry)
+        public ISkaterLogViewModelBuilder WithNewEntry(INewSkaterLogEntry newEntry)
         {
             this.newEntry = newEntry;
+
+            return this;
+        }
+
+        public ISkaterLogViewModelBuilder WithSaveResponse(SaveActivityCommandResult saveResponse)
+        {
+            this.saveResponse = saveResponse;
 
             return this;
         }
@@ -54,6 +64,7 @@ namespace AllInSkateChallenge.Features.Skater.SkateLog
             model.Content.Distance = newEntry?.Distance ?? 0;
             model.Content.DateSkated = newEntry?.DateSkated;
             model.Content.JourneyName = newEntry?.JourneyName;
+            model.Content.RecordExists = saveResponse?.RecordExists ?? false;
 
             return model;
         }

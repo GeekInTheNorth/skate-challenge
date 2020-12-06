@@ -78,9 +78,9 @@ namespace AllInSkateChallenge.Controllers
                     StartDate = mileageEntry.DateSkated ?? DateTime.Now 
                 };
 
-                await mediator.Send(command);
+                var saveResponse = await mediator.Send(command);
 
-                var model = await viewModelBuilder.WithUser(user).Build();
+                var model = await viewModelBuilder.WithSaveResponse(saveResponse).WithNewEntry(new SkaterLogViewModel()).WithUser(user).Build();
 
                 return View("~/Views/Skater/Log.cshtml", model);
             }

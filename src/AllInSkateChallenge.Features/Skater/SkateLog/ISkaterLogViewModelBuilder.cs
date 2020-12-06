@@ -1,9 +1,12 @@
-﻿using AllInSkateChallenge.Features.Framework.Models;
+﻿using AllInSkateChallenge.Features.Activities;
+using AllInSkateChallenge.Features.Framework.Models;
 
 namespace AllInSkateChallenge.Features.Skater.SkateLog
 {
     public interface ISkaterLogViewModelBuilder : IPageViewModelBuilder<SkaterLogViewModel>
     {
-        IPageViewModelBuilder<SkaterLogViewModel> WithNewEntry(INewSkaterLogEntry newEntry);
+        ISkaterLogViewModelBuilder WithNewEntry(INewSkaterLogEntry newEntry);
+
+        ISkaterLogViewModelBuilder WithSaveResponse(SaveActivityCommandResult saveResponse);
     }
 }
