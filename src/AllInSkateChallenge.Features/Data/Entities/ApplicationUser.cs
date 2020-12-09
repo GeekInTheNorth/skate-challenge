@@ -26,5 +26,20 @@ namespace AllInSkateChallenge.Features.Data.Entities
         public DateTime DateRegistered { get; set; }
 
         public SkateTarget Target { get; set; }
+
+        public string GetDisplaySkaterName()
+        {
+            if (string.IsNullOrWhiteSpace(SkaterName))
+            {
+                return "Private Skater";
+            }
+
+            if (IsStravaAccount && SkaterName.Contains("_"))
+            {
+                return SkaterName.Replace("_", " ");
+            }
+
+            return SkaterName;
+        }
     }
 }

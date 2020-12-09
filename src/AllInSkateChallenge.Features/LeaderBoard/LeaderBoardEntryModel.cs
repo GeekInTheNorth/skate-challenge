@@ -4,7 +4,7 @@
     {
         public int Place { get; set; }
 
-        public string Name { get; set; }
+        public string SkaterName { get; set; }
 
         public string GravatarUrl { get; set; }
 

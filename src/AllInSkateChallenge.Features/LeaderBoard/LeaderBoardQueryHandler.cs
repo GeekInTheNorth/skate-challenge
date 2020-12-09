@@ -3,7 +3,6 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using AllInSkateChallenge.Features.Data;
-using AllInSkateChallenge.Features.Data.Static;
 using AllInSkateChallenge.Features.Gravatar;
 
 using MediatR;
@@ -18,21 +17,16 @@ namespace AllInSkateChallenge.Features.LeaderBoard
 
         private readonly IGravatarResolver gravatarResolver;
 
-        private readonly ICheckPointRepository checkPointRepository;
-
         public LeaderBoardQueryHandler(
             ApplicationDbContext context,
-            IGravatarResolver gravatarResolver, 
-            ICheckPointRepository checkPointRepository)
+            IGravatarResolver gravatarResolver)
         {
             this.context = context;
             this.gravatarResolver = gravatarResolver;
-            this.checkPointRepository = checkPointRepository;
         }
 
         public async Task<LeaderBoardQueryResponse> Handle(LeaderBoardQuery request, CancellationToken cancellationToken)
         {
-            var targetDistance = checkPointRepository.Get().FirstOrDefault(x => x.SkateTarget.Equals(request.Target))?.Distance ?? 127.5M;
             var distanceTotals = from entries in context.SkateLogEntries
                                  group entries by entries.ApplicationUserId into userEntries
                                  select new
@@ -41,22 +35,18 @@ namespace AllInSkateChallenge.Features.LeaderBoard
                                      TotalMiles = userEntries.Sum(x => x.DistanceInMiles)
                                  };
 
-            var userMilageEntries = from distanceTotal in distanceTotals
-                                    join user in context.Users on distanceTotal.UserId equals user.Id
-                                    where user.HasPaid == true && user.Target == request.Target
-                                    orderby distanceTotal.TotalMiles descending
-                                    select new
-                                    {
-                                        Distance = distanceTotal,
-                                        User = user
-                                    };
+            var userMileageEntries = from distanceTotal in distanceTotals
+                                     join user in context.Users on distanceTotal.UserId equals user.Id
+                                     where user.HasPaid && user.Target == request.Target
+                                     orderby distanceTotal.TotalMiles descending
+                                     select new { Distance = distanceTotal, User = user };
 
             if (request.PageSize.HasValue)
             {
-                userMilageEntries = userMilageEntries.Take(request.PageSize.Value);
+                userMileageEntries = userMileageEntries.Take(request.PageSize.Value);
             }
 
-            var results = await userMilageEntries.ToListAsync();
+            var results = await userMileageEntries.ToListAsync(cancellationToken);
 
             return new LeaderBoardQueryResponse
             {
@@ -64,7 +54,7 @@ namespace AllInSkateChallenge.Features.LeaderBoard
                 {
                     Place = i + 1,
                     GravatarUrl = gravatarResolver.GetGravatarUrl(x.User?.Email),
-                    Name = x.User.SkaterName ?? "Private Skater",
+                    SkaterName = x.User?.GetDisplaySkaterName(),
                     TotalMiles = x.Distance.TotalMiles
                 }).ToList()
             };

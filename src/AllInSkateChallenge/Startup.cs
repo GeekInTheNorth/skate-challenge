@@ -16,6 +16,7 @@ using AllInSkateChallenge.Features.Skater.SkateLog;
 using AllInSkateChallenge.Features.Skater.StravaImport;
 using AllInSkateChallenge.Features.Strava;
 using AllInSkateChallenge.Features.Updates;
+
 using MediatR;
 
 using Microsoft.AspNetCore.Builder;
@@ -41,7 +42,7 @@ namespace AllInSkateChallenge
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer( Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
                     .AddRoles<IdentityRole>()
                     .AddEntityFrameworkStores<ApplicationDbContext>();

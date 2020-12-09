@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -27,20 +26,16 @@ namespace AllInSkateChallenge.Features.Updates
 
         public async Task<LatestUpdatesQueryResponse> Handle(LatestUpdatesQuery request, CancellationToken cancellationToken)
         {
-            var totalUpdates = await context.SkateLogEntries.CountAsync();
+            var totalUpdates = await context.SkateLogEntries.CountAsync(cancellationToken);
             var skip = (request.Page - 1) * request.PageSize;
 
-            var userMilageEntries = from skateLogEntry in context.SkateLogEntries
-                                    join user in context.Users on skateLogEntry.ApplicationUserId equals user.Id
-                                    where user.HasPaid
-                                    orderby skateLogEntry.Logged descending
-                                    select new
-                                    {
-                                        Entry = skateLogEntry,
-                                        User = user
-                                    };
+            var userMileageEntries = from skateLogEntry in context.SkateLogEntries
+                                     join user in context.Users on skateLogEntry.ApplicationUserId equals user.Id
+                                     where user.HasPaid
+                                     orderby skateLogEntry.Logged descending
+                                     select new { Entry = skateLogEntry, User = user };
 
-            var results = await userMilageEntries.Skip(skip).Take(request.PageSize).ToListAsync();
+            var results = await userMileageEntries.Skip(skip).Take(request.PageSize).ToListAsync(cancellationToken);
             
             return new LatestUpdatesQueryResponse
             {
@@ -52,7 +47,7 @@ namespace AllInSkateChallenge.Features.Updates
                     Logged = x.Entry.Logged,
                     Miles = x.Entry.DistanceInMiles,
                     GravatarUrl = gravatarResolver.GetGravatarUrl(x.User?.Email),
-                    Skater = string.IsNullOrWhiteSpace(x.User.SkaterName) ? "Private Skater" : x.User.SkaterName,
+                    Skater = x.User?.GetDisplaySkaterName(),
                     JourneyName = x.Entry.Name
                 }).ToList()
             };
