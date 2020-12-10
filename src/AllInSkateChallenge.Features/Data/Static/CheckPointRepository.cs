@@ -32,7 +32,7 @@ namespace AllInSkateChallenge.Features.Data.Static
                 new CheckPointModel
                 {
                     SkateTarget = SkateTarget.AireValleyMarina,
-                    Distance = 2.1M, // MAHA put 3m
+                    Distance = 2.1M,
                     Title = "Aire Valley Marina",
                     Description = "Congratulations, you've made it to the Aire Valley Marina. The Marina has two canal entrances with pedestrian bridges which must be navigated to proceed.",
                     Longitude = -1.594375M,
@@ -185,7 +185,8 @@ namespace AllInSkateChallenge.Features.Data.Static
             {
                 new SelectListItem { Text = "Saltaire (13 Miles)", Value = SkateTarget.Saltaire.ToString("F") },
                 new SelectListItem { Text = "Foulridge Summit (47 Miles)", Value = SkateTarget.FoulridgeSummit.ToString("F") },
-                new SelectListItem { Text = "Liverpool Canning Dock (127.5 Miles)", Value = SkateTarget.LiverpoolCanningDock.ToString("F") }
+                new SelectListItem { Text = "Liverpool Canning Dock (127.5 Miles)", Value = SkateTarget.LiverpoolCanningDock.ToString("F") },
+                new SelectListItem { Text = "There and Back Again (255 Miles)", Value = SkateTarget.ThereAndBackAgain.ToString("F") }
             };
         }
     }
