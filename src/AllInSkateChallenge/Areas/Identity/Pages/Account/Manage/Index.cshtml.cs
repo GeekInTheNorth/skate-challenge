@@ -54,10 +54,6 @@ namespace AllInSkateChallenge.Areas.Identity.Pages.Account.Manage
             [Display(Name = "Your Personal Target")]
             public SkateTarget Target { get; set; }
 
-            [Phone]
-            [Display(Name = "Phone number")]
-            public string PhoneNumber { get; set; }
-
             [Display(Name = "Send me emails about my progress in the ALL IN Skate Challenge.")]
             public bool AcceptProgressNotifications { get; set; }
         }
@@ -65,14 +61,11 @@ namespace AllInSkateChallenge.Areas.Identity.Pages.Account.Manage
         private async Task LoadAsync(ApplicationUser user)
         {
             var userName = await _userManager.GetUserNameAsync(user);
-            var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
-
             Username = userName;
 
             Input = new InputModel
             {
                 GravatarUrl = _gravatarResolver.GetGravatarUrl(user.Email),
-                PhoneNumber = phoneNumber,
                 SkaterName = user.SkaterName,
                 AcceptProgressNotifications = user.AcceptProgressNotifications,
                 Target = user.Target
@@ -105,13 +98,11 @@ namespace AllInSkateChallenge.Areas.Identity.Pages.Account.Manage
                 return Page();
             }
 
-            var phoneNumberChanged = !string.Equals(Input.PhoneNumber, user.PhoneNumber);
             var skaterNameChanged = !string.Equals(Input.SkaterName, user.SkaterName);
             var targetChanged = !Input.Target.Equals(user.Target);
             var acceptProgressChanged = !Input.AcceptProgressNotifications.Equals(user.AcceptProgressNotifications);
-            if (phoneNumberChanged || skaterNameChanged || acceptProgressChanged || targetChanged)
+            if (skaterNameChanged || acceptProgressChanged || targetChanged)
             {
-                user.PhoneNumber = Input.PhoneNumber;
                 user.SkaterName = Input.SkaterName;
                 user.AcceptProgressNotifications = Input.AcceptProgressNotifications;
                 user.Target = Input.Target;
