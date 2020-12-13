@@ -29,7 +29,7 @@ namespace AllInSkateChallenge.Features.Strava.Webhook.LogStravaIntegration
         {
             try
             {
-                var serializedEvent = JsonConvert.SerializeObject(request.Event);
+                var serializedEvent = JsonConvert.SerializeObject(request.Event, Formatting.Indented);
                 var log = new StravaIntegrationLog
                 {
                     Recieved = DateTime.Now,

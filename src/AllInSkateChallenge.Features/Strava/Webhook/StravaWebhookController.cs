@@ -2,14 +2,13 @@
 using System.Linq;
 using System.Threading.Tasks;
 
-using AllInSkateChallenge.Features.Strava.Webhook.CreateActivity;
 using AllInSkateChallenge.Features.Strava.Webhook.Deauthorise;
 using AllInSkateChallenge.Features.Strava.Webhook.LogStravaIntegration;
+using AllInSkateChallenge.Features.Strava.Webhook.SaveStravaEvent;
 
 using MediatR;
 
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.Extensions.Options;
 
 namespace AllInSkateChallenge.Features.Strava.Webhook
@@ -48,8 +47,12 @@ namespace AllInSkateChallenge.Features.Strava.Webhook
         [Route("api/strava/event")]
         public async Task<IActionResult> AthleteEvents(WebHookEvent webHookEvent)
         {
-            // https://developers.strava.com/docs/webhooks/
+            if (webHookEvent == null)
+            {
+                return BadRequest();
+            }
 
+            // https://developers.strava.com/docs/webhooks/
             // Log the unprocessed event to assist with understanding data.
             var logCommand = new LogStravaIntegrationCommand { Event = webHookEvent };
             await mediator.Send(logCommand);
@@ -57,12 +60,12 @@ namespace AllInSkateChallenge.Features.Strava.Webhook
             // Assign activity based events to their respective owners
             if (string.Equals("activity", webHookEvent?.ObjectType, StringComparison.CurrentCultureIgnoreCase))
             {
-                var newEventCommand = new CreateActivityEventCommand { StravaUserId = webHookEvent.OwnerId, ActivityId = webHookEvent.ObjectId };
+                var newEventCommand = new SaveStravaEventCommand { StravaUserId = webHookEvent.OwnerId, ActivityId = webHookEvent.ObjectId, Updates = webHookEvent.Updates };
                 await mediator.Send(newEventCommand);
             }
 
-            var hasDeauthentication = webHookEvent.Updates.Any(x => x.Key.Equals("authorized", StringComparison.CurrentCultureIgnoreCase) && x.Value.Equals("false", StringComparison.CurrentCultureIgnoreCase));
-            if (string.Equals("athlete", webHookEvent?.ObjectType, StringComparison.CurrentCultureIgnoreCase) && hasDeauthentication)
+            var hasDeAuthentication = webHookEvent.Updates.Any(x => x.Key.Equals("authorized", StringComparison.CurrentCultureIgnoreCase) && x.Value.Equals("false", StringComparison.CurrentCultureIgnoreCase));
+            if (string.Equals("athlete", webHookEvent?.ObjectType, StringComparison.CurrentCultureIgnoreCase) && hasDeAuthentication)
             {
                 var deAuthCommand = new DeauthoriseStravaUserCommand { StravaUserId = webHookEvent.OwnerId };
                 await mediator.Send(deAuthCommand);
