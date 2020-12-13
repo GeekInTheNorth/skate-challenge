@@ -2,14 +2,13 @@
 using System.Linq;
 using System.Threading.Tasks;
 
-using AllInSkateChallenge.Features.Strava.Webhook.CreateActivity;
 using AllInSkateChallenge.Features.Strava.Webhook.Deauthorise;
 using AllInSkateChallenge.Features.Strava.Webhook.LogStravaIntegration;
+using AllInSkateChallenge.Features.Strava.Webhook.SaveStravaEvent;
 
 using MediatR;
 
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.Extensions.Options;
 
 namespace AllInSkateChallenge.Features.Strava.Webhook
