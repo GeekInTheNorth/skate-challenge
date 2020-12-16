@@ -13,5 +13,7 @@ namespace AllInSkateChallenge.Features.Updates
         public string GravatarUrl { get; set; }
 
         public decimal Miles { get; set; }
+
+        public string ProfileImage { get; set; }
     }
 }

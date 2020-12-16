@@ -47,6 +47,7 @@ namespace AllInSkateChallenge.Features.Updates
                     Logged = x.Entry.Logged,
                     Miles = x.Entry.DistanceInMiles,
                     GravatarUrl = gravatarResolver.GetGravatarUrl(x.User?.Email),
+                    ProfileImage = x.User?.ExternalProfileImage,
                     Skater = x.User?.GetDisplaySkaterName(),
                     JourneyName = x.Entry.Name
                 }).ToList()
