@@ -9,5 +9,7 @@
         public string GravatarUrl { get; set; }
 
         public decimal TotalMiles { get; set; }
+
+        public string ProfileImage { get; set; }
     }
 }
