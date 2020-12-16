@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="AspNet.Security.OAuth.Strava" Version="3.1.6" />
+    <PackageReference Include="Azure.Storage.Blobs" Version="12.7.0" />
     <PackageReference Include="MailKit" Version="2.9.0" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.1.9" />

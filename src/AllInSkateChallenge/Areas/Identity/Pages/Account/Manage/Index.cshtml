@@ -8,30 +8,42 @@
 <h4>@ViewData["Title"]</h4>
 <partial name="_StatusMessage" model="Model.StatusMessage" />
 <div>
-    <form id="profile-form" method="post">
+    <form id="profile-form" method="post" enctype="multipart/form-data">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <div class="form-group">
+        <div class="form-group mb-4">
             <label asp-for="Username"></label>
             <input asp-for="Username" class="form-control" disabled />
         </div>
-        <div class="form-group">
-            <label asp-for="Input.GravatarUrl"></label>
-            <img src="@Model.Input.GravatarUrl?s=50" class="leaderboard-profile" style="display: block;" />
-            <span class="text-muted">Gravatar is a global avatar service used by many sites outside of social media which serves your chosen profile image based on your encrypted email address. <a href="https://en.gravatar.com/" target="_blank">Visit Gravatar</a> to get your own.</span>
+        @if (string.IsNullOrWhiteSpace(Model.ProfileImage))
+        {
+            <div class="form-group mb-4">
+                <label asp-for="Input.GravatarUrl"></label>
+                <img src="@Model.Input.GravatarUrl?s=50" class="leaderboard-profile" style="display: block;" />
+                <span class="text-muted">Gravatar is a global avatar service used by many sites outside of social media which serves your chosen profile image based on your encrypted email address. <a href="https://en.gravatar.com/" target="_blank">Visit Gravatar</a> to get your own.</span>
+            </div>
+        }
+        <div class="form-group mb-4">
+            <label asp-for="Input.ProfileImage"></label>
+            @if (!string.IsNullOrWhiteSpace(Model.ProfileImage))
+            {
+                <img src="@Model.ProfileImage" class="img-thumbnail mb-2" alt="Profile Image" style="width: 200px; height: auto; display: block;" />
+            }
+            <input asp-for="Input.ProfileImage" class="form-control-file" />
+            <span class="text-muted">If you upload a profile image, then your profile image will be used instead of a Gravatar.</span>
         </div>
-        <div class="form-group">
+        <div class="form-group mb-4">
             <label asp-for="Input.SkaterName"></label>
             <input asp-for="Input.SkaterName" class="form-control" />
             <span class="text-muted">This is what your name will look like to other skaters in the challenge.</span>
             <span asp-validation-for="Input.SkaterName" class="text-danger"></span>
         </div>
-        <div class="form-group">
+        <div class="form-group mb-4">
             <label asp-for="Input.Target"></label>
             <select asp-for="Input.Target" asp-items="Model.SkateTargets" class="form-control"></select>
             <span class="text-muted">If you perform another skate activity after surpassing your personal target, your target will be automatically updated.</span>
             <span asp-validation-for="Input.Target" class="text-danger"></span>
         </div>
-        <div class="form-group">
+        <div class="form-group mb-4">
             <label class="align-middle">
                 <input asp-for="Input.AcceptProgressNotifications" style="margin-right: 0.5em;" />Send me emails about my progress in the ALL IN Skate Challenge.
             </label>

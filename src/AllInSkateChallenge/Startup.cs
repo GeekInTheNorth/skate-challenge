@@ -1,35 +1,36 @@
-using System;
-
-using AllInSkateChallenge.Features.Administration.UserDelete;
-using AllInSkateChallenge.Features.Data;
-using AllInSkateChallenge.Features.Data.Entities;
-using AllInSkateChallenge.Features.Data.Static;
-using AllInSkateChallenge.Features.Error;
-using AllInSkateChallenge.Features.EventDetails;
-using AllInSkateChallenge.Features.Framework.Routing;
-using AllInSkateChallenge.Features.Gravatar;
-using AllInSkateChallenge.Features.Home;
-using AllInSkateChallenge.Features.LeaderBoard;
-using AllInSkateChallenge.Features.Services.Email;
-using AllInSkateChallenge.Features.Skater.Progress;
-using AllInSkateChallenge.Features.Skater.SkateLog;
-using AllInSkateChallenge.Features.Skater.StravaImport;
-using AllInSkateChallenge.Features.Strava;
-using AllInSkateChallenge.Features.Updates;
-
-using MediatR;
-
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-
 namespace AllInSkateChallenge
 {
+    using System;
+
+    using AllInSkateChallenge.Features.Administration.UserDelete;
+    using AllInSkateChallenge.Features.Data;
+    using AllInSkateChallenge.Features.Data.Entities;
+    using AllInSkateChallenge.Features.Data.Static;
+    using AllInSkateChallenge.Features.Error;
+    using AllInSkateChallenge.Features.EventDetails;
+    using AllInSkateChallenge.Features.Framework.Routing;
+    using AllInSkateChallenge.Features.Gravatar;
+    using AllInSkateChallenge.Features.Home;
+    using AllInSkateChallenge.Features.LeaderBoard;
+    using AllInSkateChallenge.Features.Services.BlobStorage;
+    using AllInSkateChallenge.Features.Services.Email;
+    using AllInSkateChallenge.Features.Skater.Progress;
+    using AllInSkateChallenge.Features.Skater.SkateLog;
+    using AllInSkateChallenge.Features.Skater.StravaImport;
+    using AllInSkateChallenge.Features.Strava;
+    using AllInSkateChallenge.Features.Updates;
+
+    using MediatR;
+
+    using Microsoft.AspNetCore.Builder;
+    using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Identity.UI.Services;
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Hosting;
+
     public class Startup
     {
         public Startup(IConfiguration configuration)
@@ -100,10 +101,13 @@ namespace AllInSkateChallenge
 
             // External Services
             services.Configure<EmailSettings>(options => Configuration.GetSection("EmailSettings").Bind(options));
-            services.Configure<StravaSettings>(options => Configuration.GetSection("Strava").Bind(options));
             services.AddTransient<IEmailSender, EmailSenderService>();
+            services.Configure<StorageSettings>(options => options.ConnectionString = Configuration.GetConnectionString("BlobStorage"));
+            services.AddTransient<IBlobStorageService, BlobStorageService>();
+            services.Configure<StravaSettings>(options => Configuration.GetSection("Strava").Bind(options));
             services.AddTransient<IStravaService, StravaService>();
 
+            // Page Model Builders
             services.AddTransient<IGravatarResolver, GravatarResolver>();
             services.AddTransient<IHomePageViewModelBuilder, HomePageViewModelBuilder>();
             services.AddTransient<ISkaterProgressViewModelBuilder, SkaterProgressViewModelBuilder>();
