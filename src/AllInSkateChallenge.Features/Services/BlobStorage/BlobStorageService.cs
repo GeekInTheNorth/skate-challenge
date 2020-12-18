@@ -36,9 +36,13 @@
             return uriBuilder.ToString();
         }
 
-        public Task DeleteFile(string fileUrl)
+        public async Task DeleteFile(string fileUrl)
         {
-            return Task.CompletedTask;
+            var uri = new Uri(fileUrl);
+            var filename = Path.GetFileName(uri.LocalPath);
+
+            var blobContainer = new BlobContainerClient(settings.ConnectionString, settings.ProfileContainer);
+            await blobContainer.DeleteBlobIfExistsAsync(filename, DeleteSnapshotsOption.IncludeSnapshots);
         }
     }
 }

@@ -26,10 +26,16 @@
             <label asp-for="Input.ProfileImage"></label>
             @if (!string.IsNullOrWhiteSpace(Model.ProfileImage))
             {
-                <img src="@Model.ProfileImage" class="img-thumbnail mb-2" alt="Profile Image" style="width: 200px; height: auto; display: block;" />
+                <img src="@Model.ProfileImage" class="img-thumbnail mb-2 js-profile-image" alt="Profile Image" style="width: 200px; height: auto; display: block;" />
+                <button type="button" class="btn btn-danger mb-2 js-remove-profile-image">Remove Profile Image</button>
             }
             <input asp-for="Input.ProfileImage" class="form-control-file" />
             <span class="text-muted">If you upload a profile image, then your profile image will be used instead of a Gravatar.</span>
+        </div>
+        <div class="form-group d-none">
+            <label class="align-middle">
+                <input asp-for="Input.ImageRemoved" class="js-remove-profile-image-check mr-1" />Remove Profile Image.
+            </label>
         </div>
         <div class="form-group mb-4">
             <label asp-for="Input.SkaterName"></label>
@@ -45,7 +51,7 @@
         </div>
         <div class="form-group mb-4">
             <label class="align-middle">
-                <input asp-for="Input.AcceptProgressNotifications" style="margin-right: 0.5em;" />Send me emails about my progress in the ALL IN Skate Challenge.
+                <input asp-for="Input.AcceptProgressNotifications" class="js-remove-profile-image-check mr-1"/>Send me emails about my progress in the ALL IN Skate Challenge.
             </label>
         </div>
         <button id="update-profile-button" type="submit" class="btn btn-primary">Save</button>
@@ -54,4 +60,11 @@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+    <script>
+        $(".js-remove-profile-image").click(function () {
+            $(".js-remove-profile-image").remove();
+            $(".js-profile-image").remove();
+            $(".js-remove-profile-image-check").prop("checked", true);
+        });
+    </script>
 }

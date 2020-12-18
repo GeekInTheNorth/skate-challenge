@@ -1,6 +1,5 @@
 namespace AllInSkateChallenge.Areas.Identity.Pages.Account.Manage
 {
-    using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.IO;
@@ -72,6 +71,8 @@ namespace AllInSkateChallenge.Areas.Identity.Pages.Account.Manage
             [MaxFileSize(4194304)]
             [AllowedExtensions(new[] { ".jpg", ".jpeg", ".png" })]
             public IFormFile ProfileImage { get; set; }
+
+            public bool ImageRemoved { get; set; }
         }
 
         public async Task<IActionResult> OnGetAsync()
@@ -100,33 +101,30 @@ namespace AllInSkateChallenge.Areas.Identity.Pages.Account.Manage
                 return Page();
             }
 
-            var profileImagePath = string.Empty;
+            if (Input.ImageRemoved && Input.ProfileImage == null)
+            {
+                await _blobStorageService.DeleteFile(user.ExternalProfileImage);
+                user.ExternalProfileImage = null;
+            }
+
             if (Input.ProfileImage != null)
             {
                 using (var stream = Input.ProfileImage.OpenReadStream())
                 {
                     var fileName = $"{user.Id}{Path.GetExtension(Input.ProfileImage.FileName)}";
-                    profileImagePath = await _blobStorageService.StoreFile(fileName, stream, Input.ProfileImage.ContentType);
+                    user.ExternalProfileImage = await _blobStorageService.StoreFile(fileName, stream, Input.ProfileImage.ContentType);
                 }
             }
 
-            var skaterNameChanged = !string.Equals(Input.SkaterName, user.SkaterName);
-            var targetChanged = !Input.Target.Equals(user.Target);
-            var acceptProgressChanged = !Input.AcceptProgressNotifications.Equals(user.AcceptProgressNotifications);
-            var profileImageChanged = Input.ProfileImage != null && !string.Equals(user.ExternalProfileImage, profileImagePath, StringComparison.CurrentCultureIgnoreCase);
-            if (skaterNameChanged || acceptProgressChanged || targetChanged || profileImageChanged)
-            {
-                user.SkaterName = Input.SkaterName;
-                user.AcceptProgressNotifications = Input.AcceptProgressNotifications;
-                user.Target = Input.Target;
-                user.ExternalProfileImage = profileImageChanged ? profileImagePath : user.ExternalProfileImage;
+            user.SkaterName = Input.SkaterName;
+            user.AcceptProgressNotifications = Input.AcceptProgressNotifications;
+            user.Target = Input.Target;
 
-                var saveResult = await _userManager.UpdateAsync(user);
-                if (!saveResult.Succeeded)
-                {
-                    StatusMessage = "Unexpected error when trying to save user name.";
-                    return RedirectToPage();
-                }
+            var saveResult = await _userManager.UpdateAsync(user);
+            if (!saveResult.Succeeded)
+            {
+                StatusMessage = "Unexpected error when trying to save user name.";
+                return RedirectToPage();
             }
 
             await _signInManager.RefreshSignInAsync(user);
