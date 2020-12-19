@@ -1,17 +1,17 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-
-using AllInSkateChallenge.Features.Framework.Routing;
-using AllInSkateChallenge.Features.Services.Email;
-
-using MediatR.Pipeline;
-
-using Microsoft.AspNetCore.Identity.UI.Services;
-using Microsoft.Extensions.Logging;
-
-namespace AllInSkateChallenge.Features.Strava.Webhook.Deauthorise
+﻿namespace AllInSkateChallenge.Features.Strava.Webhook.Deauthorise
 {
+    using System;
+    using System.Threading;
+    using System.Threading.Tasks;
+
+    using AllInSkateChallenge.Features.Framework.Routing;
+    using AllInSkateChallenge.Features.Services.Email;
+
+    using MediatR.Pipeline;
+
+    using Microsoft.AspNetCore.Identity.UI.Services;
+    using Microsoft.Extensions.Logging;
+
     public class DeauthoriseStravaUserCommandNotificationHandler : IRequestPostProcessor<DeauthoriseStravaUserCommand, DeauthoriseStravaUserCommandResponse>
     {
         private readonly IViewToStringRenderer viewToStringRenderer;

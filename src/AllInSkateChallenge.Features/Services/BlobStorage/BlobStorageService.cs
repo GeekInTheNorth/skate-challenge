@@ -38,6 +38,11 @@
 
         public async Task DeleteFile(string fileUrl)
         {
+            if (string.IsNullOrWhiteSpace(fileUrl))
+            {
+                return;
+            }
+
             var uri = new Uri(fileUrl);
             var filename = Path.GetFileName(uri.LocalPath);
 

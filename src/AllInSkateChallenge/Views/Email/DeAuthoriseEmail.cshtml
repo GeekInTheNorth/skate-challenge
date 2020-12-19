@@ -20,6 +20,7 @@
                     <tr>
                         <th>Logged</th>
                         <th>Miles</th>
+                        <th>Name</th>
                         <th>Source</th>
                     </tr>
                 </thead>
@@ -29,6 +30,7 @@
                         <tr>
                             <td>@entry.Logged.ToString("f")</td>
                             <td>@entry.DistanceInMiles.ToString("F1")</td>
+                            <td>@entry.Name</td>
                             <td>@(entry.SkateLogEntryId == null ? "Manual" : "Strava")</td>
                         </tr>
                     }

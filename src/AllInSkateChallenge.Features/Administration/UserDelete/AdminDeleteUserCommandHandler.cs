@@ -1,22 +1,26 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-
-using AllInSkateChallenge.Features.Data;
-using AllInSkateChallenge.Features.Data.Entities;
-
-using MediatR;
-
-using Microsoft.AspNetCore.Identity;
-
-namespace AllInSkateChallenge.Features.Administration.UserDelete
+﻿namespace AllInSkateChallenge.Features.Administration.UserDelete
 {
+    using System.Threading;
+    using System.Threading.Tasks;
+
+    using AllInSkateChallenge.Features.Data;
+    using AllInSkateChallenge.Features.Data.Entities;
+    using AllInSkateChallenge.Features.Services.BlobStorage;
+
+    using MediatR;
+
+    using Microsoft.AspNetCore.Identity;
+
     public class AdminDeleteUserCommandHandler : IRequestHandler<AdminDeleteUserCommand>
     {
         private readonly UserManager<ApplicationUser> userManager;
 
-        public AdminDeleteUserCommandHandler(UserManager<ApplicationUser> userManager)
+        private readonly IBlobStorageService blobStorageService;
+
+        public AdminDeleteUserCommandHandler(UserManager<ApplicationUser> userManager, IBlobStorageService blobStorageService)
         {
             this.userManager = userManager;
+            this.blobStorageService = blobStorageService;
         }
 
         public async Task<Unit> Handle(AdminDeleteUserCommand request, CancellationToken cancellationToken)
@@ -34,6 +38,7 @@ namespace AllInSkateChallenge.Features.Administration.UserDelete
                 throw new EntityProtectedException(typeof(ApplicationUser), user.Id);
             }
 
+            await blobStorageService.DeleteFile(user.ExternalProfileImage);
             await userManager.DeleteAsync(user);
 
             return Unit.Value;
