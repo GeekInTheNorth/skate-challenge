@@ -18,7 +18,8 @@
         {
             if (value is IFormFile file && file.Length > maxFileSize)
             {
-                return new ValidationResult($"Maximum allowed file size is {maxFileSize} bytes.");
+                var errorMessage = ErrorMessage ?? $"Maximum allowed file size is {maxFileSize} bytes.";
+                return new ValidationResult(errorMessage);
             }
 
             return ValidationResult.Success;

@@ -19,11 +19,11 @@ namespace AllInSkateChallenge.Areas.Identity.Pages.Account.Manage
 
     public partial class IndexModel : PageModel
     {
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly ICheckPointRepository _checkPointRepository;
-        private readonly IGravatarResolver _gravatarResolver;
-        private readonly IBlobStorageService _blobStorageService;
+        private readonly UserManager<ApplicationUser> userManager;
+        private readonly SignInManager<ApplicationUser> signInManager;
+        private readonly ICheckPointRepository checkPointRepository;
+        private readonly IGravatarResolver gravatarResolver;
+        private readonly IBlobStorageService blobStorageService;
 
         public IndexModel(
             UserManager<ApplicationUser> userManager,
@@ -32,11 +32,11 @@ namespace AllInSkateChallenge.Areas.Identity.Pages.Account.Manage
             IGravatarResolver gravatarResolver,
             IBlobStorageService blobStorageService)
         {
-            _userManager = userManager;
-            _signInManager = signInManager;
-            _checkPointRepository = checkPointRepository;
-            _gravatarResolver = gravatarResolver;
-            _blobStorageService = blobStorageService;
+            this.userManager = userManager;
+            this.signInManager = signInManager;
+            this.checkPointRepository = checkPointRepository;
+            this.gravatarResolver = gravatarResolver;
+            this.blobStorageService = blobStorageService;
         }
 
         public string Username { get; set; }
@@ -50,7 +50,79 @@ namespace AllInSkateChallenge.Areas.Identity.Pages.Account.Manage
         [BindProperty]
         public InputModel Input { get; set; }
 
-        public IList<SelectListItem> SkateTargets => _checkPointRepository.GetSelectList();
+        public IList<SelectListItem> SkateTargets => checkPointRepository.GetSelectList();
+
+        public async Task<IActionResult> OnGetAsync()
+        {
+            var user = await userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return NotFound($"Unable to load user with ID '{userManager.GetUserId(User)}'.");
+            }
+
+            await LoadAsync(user);
+            return Page();
+        }
+
+        public async Task<IActionResult> OnPostAsync()
+        {
+            var user = await userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return NotFound($"Unable to load user with ID '{userManager.GetUserId(User)}'.");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                await LoadAsync(user);
+                return Page();
+            }
+
+            if (Input.ImageRemoved && Input.ProfileImage == null)
+            {
+                await blobStorageService.DeleteFile(user.ExternalProfileImage);
+                user.ExternalProfileImage = null;
+            }
+
+            if (Input.ProfileImage != null)
+            {
+                using (var stream = Input.ProfileImage.OpenReadStream())
+                {
+                    var fileName = $"{user.Id}{Path.GetExtension(Input.ProfileImage.FileName)}";
+                    user.ExternalProfileImage = await blobStorageService.StoreFile(fileName, stream, Input.ProfileImage.ContentType);
+                }
+            }
+
+            user.SkaterName = Input.SkaterName;
+            user.AcceptProgressNotifications = Input.AcceptProgressNotifications;
+            user.Target = Input.Target;
+
+            var saveResult = await userManager.UpdateAsync(user);
+            if (!saveResult.Succeeded)
+            {
+                StatusMessage = "Unexpected error when trying to save user name.";
+                return RedirectToPage();
+            }
+
+            await signInManager.RefreshSignInAsync(user);
+            StatusMessage = "Your profile has been updated";
+            return RedirectToPage();
+        }
+
+        private async Task LoadAsync(ApplicationUser user)
+        {
+            var userName = await userManager.GetUserNameAsync(user);
+            Username = userName;
+            ProfileImage = user.ExternalProfileImage;
+
+            Input = new InputModel
+                        {
+                            GravatarUrl = gravatarResolver.GetGravatarUrl(user.Email),
+                            SkaterName = user.SkaterName,
+                            AcceptProgressNotifications = user.AcceptProgressNotifications,
+                            Target = user.Target
+                        };
+        }
 
         public class InputModel
         {
@@ -68,83 +140,11 @@ namespace AllInSkateChallenge.Areas.Identity.Pages.Account.Manage
             public bool AcceptProgressNotifications { get; set; }
 
             [Display(Name = "Profile Image")]
-            [MaxFileSize(4194304)]
+            [MaxFileSize(1048576, ErrorMessage = "The selected image exceeds the file size limit of 1mb.")]
             [AllowedExtensions(new[] { ".jpg", ".jpeg", ".png" })]
             public IFormFile ProfileImage { get; set; }
 
             public bool ImageRemoved { get; set; }
-        }
-
-        public async Task<IActionResult> OnGetAsync()
-        {
-            var user = await _userManager.GetUserAsync(User);
-            if (user == null)
-            {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
-            }
-
-            await LoadAsync(user);
-            return Page();
-        }
-
-        public async Task<IActionResult> OnPostAsync()
-        {
-            var user = await _userManager.GetUserAsync(User);
-            if (user == null)
-            {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
-            }
-
-            if (!ModelState.IsValid)
-            {
-                await LoadAsync(user);
-                return Page();
-            }
-
-            if (Input.ImageRemoved && Input.ProfileImage == null)
-            {
-                await _blobStorageService.DeleteFile(user.ExternalProfileImage);
-                user.ExternalProfileImage = null;
-            }
-
-            if (Input.ProfileImage != null)
-            {
-                using (var stream = Input.ProfileImage.OpenReadStream())
-                {
-                    var fileName = $"{user.Id}{Path.GetExtension(Input.ProfileImage.FileName)}";
-                    user.ExternalProfileImage = await _blobStorageService.StoreFile(fileName, stream, Input.ProfileImage.ContentType);
-                }
-            }
-
-            user.SkaterName = Input.SkaterName;
-            user.AcceptProgressNotifications = Input.AcceptProgressNotifications;
-            user.Target = Input.Target;
-
-            var saveResult = await _userManager.UpdateAsync(user);
-            if (!saveResult.Succeeded)
-            {
-                StatusMessage = "Unexpected error when trying to save user name.";
-                return RedirectToPage();
-            }
-
-            await _signInManager.RefreshSignInAsync(user);
-            StatusMessage = "Your profile has been updated";
-            return RedirectToPage();
-        }
-
-        private async Task LoadAsync(ApplicationUser user)
-        {
-            var userName = await _userManager.GetUserNameAsync(user);
-            Username = userName;
-            ProfileImage = user.ExternalProfileImage;
-
-            Input = new InputModel
-                        {
-                            GravatarUrl = _gravatarResolver.GetGravatarUrl(user.Email),
-                            SkaterName = user.SkaterName,
-                            AcceptProgressNotifications = user.AcceptProgressNotifications,
-                            Target = user.Target
-                        };
         }
     }
 }

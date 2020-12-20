@@ -22,16 +22,17 @@
                 <span class="text-muted">Gravatar is a global avatar service used by many sites outside of social media which serves your chosen profile image based on your encrypted email address. <a href="https://en.gravatar.com/" target="_blank">Visit Gravatar</a> to get your own.</span>
             </div>
         }
-        <div class="form-group mb-4">
-            <label asp-for="Input.ProfileImage"></label>
-            @if (!string.IsNullOrWhiteSpace(Model.ProfileImage))
-            {
-                <img src="@Model.ProfileImage" class="img-thumbnail mb-2 js-profile-image" alt="Profile Image" style="width: 200px; height: auto; display: block;" />
-                <button type="button" class="btn btn-danger mb-2 js-remove-profile-image">Remove Profile Image</button>
-            }
-            <input asp-for="Input.ProfileImage" class="form-control-file" />
-            <span class="text-muted">If you upload a profile image, then your profile image will be used instead of a Gravatar.</span>
-        </div>
+    <div class="form-group mb-4">
+        <label asp-for="Input.ProfileImage"></label>
+        @if (!string.IsNullOrWhiteSpace(Model.ProfileImage))
+        {
+            <img src="@Model.ProfileImage" class="img-thumbnail mb-2 d-block js-profile-image" alt="Profile Image" style="width: 200px; height: auto;" />
+            <button type="button" class="btn btn-danger mb-2 js-remove-profile-image">Remove Profile Image</button>
+        }
+        <input asp-for="Input.ProfileImage" class="form-control-file" />
+        <span class="text-muted">If you upload a profile image, then your profile image will be used instead of a Gravatar. Your profile image should not exceed 1mb in size and should be square with your visage in the centre for the best effect.</span>
+        <span asp-validation-for="Input.ProfileImage" class="text-danger d-block"></span>
+    </div>
         <div class="form-group d-none">
             <label class="align-middle">
                 <input asp-for="Input.ImageRemoved" class="js-remove-profile-image-check mr-1" />Remove Profile Image.
@@ -41,13 +42,13 @@
             <label asp-for="Input.SkaterName"></label>
             <input asp-for="Input.SkaterName" class="form-control" />
             <span class="text-muted">This is what your name will look like to other skaters in the challenge.</span>
-            <span asp-validation-for="Input.SkaterName" class="text-danger"></span>
+            <span asp-validation-for="Input.SkaterName" class="text-danger d-block"></span>
         </div>
         <div class="form-group mb-4">
             <label asp-for="Input.Target"></label>
             <select asp-for="Input.Target" asp-items="Model.SkateTargets" class="form-control"></select>
             <span class="text-muted">If you perform another skate activity after surpassing your personal target, your target will be automatically updated.</span>
-            <span asp-validation-for="Input.Target" class="text-danger"></span>
+            <span asp-validation-for="Input.Target" class="text-danger d-block"></span>
         </div>
         <div class="form-group mb-4">
             <label class="align-middle">
