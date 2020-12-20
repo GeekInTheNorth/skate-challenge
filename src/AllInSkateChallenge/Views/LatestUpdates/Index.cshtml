@@ -21,9 +21,16 @@
                     <tr>
                         <td class="align-middle">
                             <picture>
-                                <source media="(min-width:576px)" srcset="@entry.GravatarUrl?s=48">
-                                <source srcset="@entry.GravatarUrl?s=28">
-                                <img src="@entry.GravatarUrl?s=28" alt="@entry.Skater Gravatar Profile Image" class="leaderboard-profile" />
+                                @if (!string.IsNullOrWhiteSpace(entry.ProfileImage))
+                                {
+                                    <img src="@entry.ProfileImage" alt="@entry.Skater Profile Image" class="leaderboard-profile" />
+                                }
+                                else
+                                {
+                                    <source media="(min-width:576px)" srcset="@entry.GravatarUrl?s=48">
+                                    <source srcset="@entry.GravatarUrl?s=28">
+                                    <img src="@entry.GravatarUrl?s=28" alt="@entry.Skater Gravatar Profile Image" class="leaderboard-profile" />
+                                }
                             </picture>
                             @entry.Skater
                         </td>

@@ -102,16 +102,24 @@ span.leaderboard-position--third {
     background-color: #DE8F43;
 }
 
+img.leaderboard-profile {
+    border-radius: 50%;
+    width: 3rem;
+    height: 3rem;
+    object-fit: cover;
+}
+
 @media screen and (max-width: 596px) {
     span.leaderboard-position{
         width: 2rem;
         height: 2rem;
         font-size: 1rem;
     }
-}
 
-img.leaderboard-profile {
-    border-radius: 50%;
+    img.leaderboard-profile {
+        width: 2rem;
+        height: 2rem;
+    }
 }
 
 /* Banners and Nav

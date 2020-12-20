@@ -1,28 +1,34 @@
-using System;
-using System.ComponentModel.DataAnnotations;
-using System.Threading.Tasks;
-using AllInSkateChallenge.Features.Data.Entities;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Extensions.Logging;
-
 namespace AllInSkateChallenge.Areas.Identity.Pages.Account.Manage
 {
+    using System;
+    using System.ComponentModel.DataAnnotations;
+    using System.Threading.Tasks;
+
+    using AllInSkateChallenge.Features.Data.Entities;
+    using AllInSkateChallenge.Features.Services.BlobStorage;
+
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.RazorPages;
+    using Microsoft.Extensions.Logging;
+
     public class DeletePersonalDataModel : PageModel
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ILogger<DeletePersonalDataModel> _logger;
+        private readonly IBlobStorageService _blobStorageService;
 
         public DeletePersonalDataModel(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
-            ILogger<DeletePersonalDataModel> logger)
+            ILogger<DeletePersonalDataModel> logger,
+            IBlobStorageService blobStorageService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
+            _blobStorageService = blobStorageService;
         }
 
         [BindProperty]
@@ -67,8 +73,10 @@ namespace AllInSkateChallenge.Areas.Identity.Pages.Account.Manage
                 }
             }
 
+            await _blobStorageService.DeleteFile(user.ExternalProfileImage);
             var result = await _userManager.DeleteAsync(user);
             var userId = await _userManager.GetUserIdAsync(user);
+            
             if (!result.Succeeded)
             {
                 throw new InvalidOperationException($"Unexpected error occurred deleting user with ID '{userId}'.");

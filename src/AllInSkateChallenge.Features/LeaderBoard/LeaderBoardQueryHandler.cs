@@ -54,6 +54,7 @@ namespace AllInSkateChallenge.Features.LeaderBoard
                 {
                     Place = i + 1,
                     GravatarUrl = gravatarResolver.GetGravatarUrl(x.User?.Email),
+                    ProfileImage = x.User?.ExternalProfileImage,
                     SkaterName = x.User?.GetDisplaySkaterName(),
                     TotalMiles = x.Distance.TotalMiles
                 }).ToList()
