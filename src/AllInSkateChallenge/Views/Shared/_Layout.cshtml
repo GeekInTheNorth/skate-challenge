@@ -1,11 +1,14 @@
 ﻿@using AllInSkateChallenge.Features.Data.Entities
-@using Microsoft.AspNetCore.Http; 
+@using AllInSkateChallenge.Features.Gravatar
+@using Microsoft.AspNetCore.Http;
 @using Microsoft.AspNetCore.Identity
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 @inject IHttpContextAccessor contextAccessor
+@inject IGravatarResolver gravatarResolver
 
 @{
+    var profileImage = string.Empty;
     var isSignedIn = false;
     var isAdmin = false;
     ApplicationUser userDetails = null;
@@ -14,6 +17,7 @@
         isSignedIn = true;
         userDetails = await UserManager.GetUserAsync(User);
         isAdmin = await UserManager.IsInRoleAsync(userDetails, "Administrator");
+        profileImage = string.IsNullOrWhiteSpace(userDetails.ExternalProfileImage) ? gravatarResolver.GetGravatarUrl(userDetails.Email) : userDetails.ExternalProfileImage;
     }
 
     var smallImage = Url.Content("~/images/AllInSkateChallengeBannerSmall.png");
@@ -66,21 +70,45 @@
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-lg-inline-flex flex-lg-row-reverse">
-
-                    <ul class="navbar-nav">
+                <div class="navbar-collapse collapse d-lg-inline-flex">
+                    
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
                         @if (isSignedIn)
                         {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @userDetails.SkaterName</a>
-                            </li>
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-controller="SkaterProgress" asp-action="Progress" title="Your Progress">Your Progress</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-controller="SkaterLog" asp-action="Index" title="Log Your Miles">Log Your Miles</a>
                             </li>
-                            <li class="nav-item">
+                        }
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" href="https://www.allincrd.uk/" target="_blank">About ALL IN</a>
+                        </li>
+                    </ul>
+
+                    <ul class="navbar-nav">
+                        @if (isSignedIn)
+                        {
+                            <li class="nav-item dropdown d-none d-lg-inline-block">
+                                <img src="@profileImage" class="account-profile d-inline-block" alt="@userDetails.SkaterName" />
+                                <a class="nav-link dropdown-toggle d-inline-block text-dark" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    @userDetails.SkaterName
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item d-inline-block" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Your Profile</a>
+                                    <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                                        <button type="submit" class="dropdown-item btn btn-link">Logout</button>
+                                    </form>
+                                </div>
+                            </li>
+                            <li class="nav-item d-block d-lg-none">
+                                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Your Profile</a>
+                            </li>
+                            <li class="nav-item d-block d-lg-none">
                                 <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
                                     <button type="submit" class="nav-link btn btn-link text-dark font-weight-bold">Logout</button>
                                 </form>
@@ -96,15 +124,7 @@
                             </li>
                         }
                     </ul>
-
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" href="https://www.allincrd.uk/" target="_blank">About ALL IN</a>
-                        </li>
-                    </ul>
+                    
                 </div>
             </div>
         </nav>

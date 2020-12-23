@@ -1,18 +1,18 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-
-using AllInSkateChallenge.Features.Data;
-using AllInSkateChallenge.Features.Data.Entities;
-
-using MediatR;
-
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-
-namespace AllInSkateChallenge.Features.Framework.Models
+﻿namespace AllInSkateChallenge.Features.Framework.Models
 {
+    using System.Threading;
+    using System.Threading.Tasks;
+
+    using AllInSkateChallenge.Features.Data;
+    using AllInSkateChallenge.Features.Data.Entities;
+    using AllInSkateChallenge.Features.Gravatar;
+
+    using MediatR;
+
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.EntityFrameworkCore;
+
     public class UserStateQueryHandler : IRequestHandler<UserStateQuery, UserStateQueryResponse>
     {
         private readonly ApplicationDbContext context;
@@ -21,10 +21,17 @@ namespace AllInSkateChallenge.Features.Framework.Models
 
         private readonly HttpContext httpContext;
 
-        public UserStateQueryHandler(ApplicationDbContext context, UserManager<ApplicationUser> userManager, IHttpContextAccessor httpContextAccessor)
+        private readonly IGravatarResolver gravatarResolver;
+
+        public UserStateQueryHandler(
+            ApplicationDbContext context, 
+            UserManager<ApplicationUser> userManager, 
+            IHttpContextAccessor httpContextAccessor, 
+            IGravatarResolver gravatarResolver)
         {
             this.context = context;
             this.userManager = userManager;
+            this.gravatarResolver = gravatarResolver;
             httpContext = httpContextAccessor.HttpContext;
         }
 
@@ -38,7 +45,8 @@ namespace AllInSkateChallenge.Features.Framework.Models
                 IsStravaUser= request?.User?.IsStravaAccount ?? false,
                 HasPaid = request?.User?.HasPaid ?? false,
                 SkaterName = request?.User?.SkaterName,
-                HasDismissedCookieBanner = hasDismissedCookieBanner
+                HasDismissedCookieBanner = hasDismissedCookieBanner,
+                ProfileImage = string.IsNullOrWhiteSpace(request?.User?.ExternalProfileImage) ? gravatarResolver.GetGravatarUrl(request?.User?.Email) : request.User.ExternalProfileImage
             };
 
             if (request?.User != null)

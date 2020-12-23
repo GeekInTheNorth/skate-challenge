@@ -143,6 +143,13 @@ img.hero-banner {
     color: black !important;
 }
 
+img.account-profile {
+    border-radius: 50%;
+    width: 2.5rem;
+    height: 2.5rem;
+    object-fit: cover;
+}
+
 /* Time Line
 -------------------------------------------------- */
 .timeline, .timeline-container, .timeline-content {

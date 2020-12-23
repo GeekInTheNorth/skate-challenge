@@ -13,6 +13,8 @@
 
         public string DisplayUserName { get; set; }
 
+        public string UserProfileImage { get; set; }
+
         public bool IsAdmin { get; set; }
 
         public bool IsLoggedIn { get; set; }

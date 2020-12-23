@@ -2,13 +2,15 @@
 {
     public interface IPageViewModel
     {
-        public string PageTitle { get; }
+        string PageTitle { get; }
 
-        public string DisplayPageTitle { get; }
+        string DisplayPageTitle { get; }
 
-        public string IntroductoryText { get; }
+        string IntroductoryText { get; }
 
         string DisplayUserName { get; }
+
+        string UserProfileImage { get; }
 
         bool IsAdmin { get; }
 
@@ -18,7 +20,7 @@
 
         bool HasStravaImports { get; }
 
-        public bool DisplayStravaNotification { get; }
+        bool DisplayStravaNotification { get; }
 
         bool HasPaid { get; }
 

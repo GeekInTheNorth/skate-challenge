@@ -1,12 +1,12 @@
-﻿using System;
-using System.Threading.Tasks;
-
-using AllInSkateChallenge.Features.Data.Entities;
-
-using MediatR;
-
-namespace AllInSkateChallenge.Features.Framework.Models
+﻿namespace AllInSkateChallenge.Features.Framework.Models
 {
+    using System;
+    using System.Threading.Tasks;
+
+    using AllInSkateChallenge.Features.Data.Entities;
+
+    using MediatR;
+
     public class PageViewModelBuilder<T> : IPageViewModelBuilder<T>
         where T : class
     {
@@ -42,7 +42,8 @@ namespace AllInSkateChallenge.Features.Framework.Models
                 DisplayUserName = response.SkaterName,
                 Content = Activator.CreateInstance<T>(),
                 ShowCookieBanner = User == null && !response.HasDismissedCookieBanner,
-                IsNoIndexPage = false
+                IsNoIndexPage = false,
+                UserProfileImage = response.ProfileImage
             };
 
             return model;
