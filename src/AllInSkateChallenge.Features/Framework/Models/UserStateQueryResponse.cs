@@ -13,9 +13,5 @@
         public bool HasStravaImports { get; set; }
 
         public bool HasDismissedCookieBanner { get; set; }
-
-        public string SkaterName { get; set; }
-
-        public string ProfileImage { get; set; }
     }
 }

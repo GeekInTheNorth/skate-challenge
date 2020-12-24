@@ -8,10 +8,6 @@
 
         string IntroductoryText { get; }
 
-        string DisplayUserName { get; }
-
-        string UserProfileImage { get; }
-
         bool IsAdmin { get; }
 
         bool IsLoggedIn { get; }

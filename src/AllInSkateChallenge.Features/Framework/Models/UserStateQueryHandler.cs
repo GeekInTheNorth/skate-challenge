@@ -5,7 +5,6 @@
 
     using AllInSkateChallenge.Features.Data;
     using AllInSkateChallenge.Features.Data.Entities;
-    using AllInSkateChallenge.Features.Gravatar;
 
     using MediatR;
 
@@ -21,17 +20,13 @@
 
         private readonly HttpContext httpContext;
 
-        private readonly IGravatarResolver gravatarResolver;
-
         public UserStateQueryHandler(
             ApplicationDbContext context, 
             UserManager<ApplicationUser> userManager, 
-            IHttpContextAccessor httpContextAccessor, 
-            IGravatarResolver gravatarResolver)
+            IHttpContextAccessor httpContextAccessor)
         {
             this.context = context;
             this.userManager = userManager;
-            this.gravatarResolver = gravatarResolver;
             httpContext = httpContextAccessor.HttpContext;
         }
 
@@ -44,9 +39,7 @@
                 IsLoggedIn = request?.User != null,
                 IsStravaUser= request?.User?.IsStravaAccount ?? false,
                 HasPaid = request?.User?.HasPaid ?? false,
-                SkaterName = request?.User?.SkaterName,
-                HasDismissedCookieBanner = hasDismissedCookieBanner,
-                ProfileImage = string.IsNullOrWhiteSpace(request?.User?.ExternalProfileImage) ? gravatarResolver.GetGravatarUrl(request?.User?.Email) : request.User.ExternalProfileImage
+                HasDismissedCookieBanner = hasDismissedCookieBanner
             };
 
             if (request?.User != null)

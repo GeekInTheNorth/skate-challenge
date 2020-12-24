@@ -39,11 +39,9 @@
                 HasPaid = response.HasPaid,
                 HasStravaImports = response.HasStravaImports,
                 DisplayStravaNotification = response.HasStravaImports,
-                DisplayUserName = response.SkaterName,
                 Content = Activator.CreateInstance<T>(),
                 ShowCookieBanner = User == null && !response.HasDismissedCookieBanner,
-                IsNoIndexPage = false,
-                UserProfileImage = response.ProfileImage
+                IsNoIndexPage = false
             };
 
             return model;
