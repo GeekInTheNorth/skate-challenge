@@ -1,5 +1,7 @@
 ﻿namespace AllInSkateChallenge.Features.Framework.Models
 {
+    using AllInSkateChallenge.Features.Data.Entities;
+
     public interface IPageViewModel
     {
         string PageTitle { get; }
@@ -8,13 +10,11 @@
 
         string IntroductoryText { get; }
 
-        bool IsAdmin { get; }
-
+        ApplicationUser CurrentUser { get; }
+    
         bool IsLoggedIn { get; }
 
         bool IsStravaUser { get; }
-
-        bool HasStravaImports { get; }
 
         bool DisplayStravaNotification { get; }
 

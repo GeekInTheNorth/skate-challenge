@@ -33,11 +33,7 @@
 
             var model = new PageViewModel<T>
             {
-                IsLoggedIn = response.IsLoggedIn,
-                IsStravaUser = response.IsStravaUser,
-                IsAdmin = response.IsAdmin,
-                HasPaid = response.HasPaid,
-                HasStravaImports = response.HasStravaImports,
+                CurrentUser = this.User,
                 DisplayStravaNotification = response.HasStravaImports,
                 Content = Activator.CreateInstance<T>(),
                 ShowCookieBanner = User == null && !response.HasDismissedCookieBanner,
