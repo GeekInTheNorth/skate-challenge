@@ -1,26 +1,30 @@
-﻿using System;
-using System.Threading.Tasks;
-
-using AllInSkateChallenge.Features.Administration.UserDelete;
-using AllInSkateChallenge.Features.Administration.UserList;
-using AllInSkateChallenge.Features.Administration.UserUpdate;
-using AllInSkateChallenge.Features.Data;
-
-using MediatR;
-
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-
-namespace AllInSkateChallenge.Features.Administration
+﻿namespace AllInSkateChallenge.Features.Administration
 {
+    using System;
+    using System.Threading.Tasks;
+
+    using AllInSkateChallenge.Features.Administration.UserDelete;
+    using AllInSkateChallenge.Features.Administration.UserList;
+    using AllInSkateChallenge.Features.Administration.UserUpdate;
+    using AllInSkateChallenge.Features.Data;
+
+    using MediatR;
+
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Logging;
+
     [Authorize(Roles = "Administrator")]
     public class UserAdministrationController : Controller
     {
         private readonly IMediator mediator;
 
-        public UserAdministrationController(IMediator mediator)
+        private readonly ILogger<UserAdministrationController> logger;
+
+        public UserAdministrationController(IMediator mediator, ILogger<UserAdministrationController> logger)
         {
             this.mediator = mediator;
+            this.logger = logger;
         }
 
         public async Task<IActionResult> Index(string searchText, int page = 1, SortOrder sortOrder = SortOrder.AtoZ)
@@ -44,9 +48,9 @@ namespace AllInSkateChallenge.Features.Administration
             {
                 return NotFound();
             }
-            catch (Exception)
+            catch (Exception exception)
             {
-                // TODO - Add Logging
+                logger.LogError(exception, "Unexpected error encountered when trying to delete a user.");
                 throw;
             }
         }
@@ -64,9 +68,9 @@ namespace AllInSkateChallenge.Features.Administration
             {
                 return NotFound();
             }
-            catch (Exception)
+            catch (Exception exception)
             {
-                // TODO - Add Logging
+                logger.LogError(exception, "Unexpected error encountered when trying to update a user.");
                 throw;
             }
         }

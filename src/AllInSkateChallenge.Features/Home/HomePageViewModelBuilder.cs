@@ -1,14 +1,13 @@
-﻿using System.Threading.Tasks;
-
-using AllInSkateChallenge.Features.Data.Static;
-using AllInSkateChallenge.Features.Framework.Models;
-using AllInSkateChallenge.Features.LeaderBoard;
-using AllInSkateChallenge.Features.Updates;
-
-using MediatR;
-
-namespace AllInSkateChallenge.Features.Home
+﻿namespace AllInSkateChallenge.Features.Home
 {
+    using System.Threading.Tasks;
+
+    using AllInSkateChallenge.Features.Framework.Models;
+    using AllInSkateChallenge.Features.LeaderBoard;
+    using AllInSkateChallenge.Features.Updates;
+
+    using MediatR;
+
     public class HomePageViewModelBuilder : PageViewModelBuilder<HomePageViewModel>, IHomePageViewModelBuilder
     {
         private readonly IMediator mediator;
