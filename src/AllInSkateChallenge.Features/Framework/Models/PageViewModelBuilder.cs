@@ -36,7 +36,6 @@
                 CurrentUser = this.User,
                 DisplayStravaNotification = response.HasStravaImports,
                 Content = Activator.CreateInstance<T>(),
-                ShowCookieBanner = User == null && !response.HasDismissedCookieBanner,
                 IsNoIndexPage = false
             };
 

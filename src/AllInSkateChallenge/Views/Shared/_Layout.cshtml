@@ -1,25 +1,16 @@
 ﻿@using AllInSkateChallenge.Features.Data.Entities
-@using Microsoft.AspNetCore.Http;
 @using Microsoft.AspNetCore.Identity
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
-@inject IHttpContextAccessor contextAccessor
 
 @{
-    var isSignedIn = false;
-    var isAdmin = false;
     ApplicationUser userDetails = null;
     if (SignInManager.IsSignedIn(User))
     {
-        isSignedIn = true;
         userDetails = await UserManager.GetUserAsync(User);
     }
 
-    var smallImage = Url.Content("~/images/AllInSkateChallengeBannerSmall.png");
-    var largeImage = Url.Content("~/images/AllInSkateChallengeBanner.png");
     var twitterSite = "@allincrd";
-    var hasDismissedCookie = contextAccessor.HttpContext.Request.Cookies.ContainsKey("cookieWarningDismissed");
-    var showCookieBanner = !isSignedIn && !hasDismissedCookie;
 }
 
 <!DOCTYPE html>
@@ -50,22 +41,7 @@
     <meta name="theme-color" content="#ffffff">
 </head>
 <body class="mb-0">
-    <header>
-        @if (showCookieBanner)
-        {
-            <nav class="navbar navbar-light bg-light js-cookie-banner">
-                <span class="navbar-text">This site uses essential cookies to manage user sessions and logins. See our <a class="text-dark font-weight-bold" href="https://www.allincrd.uk/s/Data-Privacy-Notice-v11-Oct-20.pdf" target="_blank">Privacy Policy</a> for further information.</span>
-                <button class="btn btn-danger js-cookie-banner--banner">Dismiss</button>
-            </nav>
-        }
-
-        <vc:header-menu></vc:header-menu>
-
-        <picture>
-            <source media="(orientation: landscape)" srcset="@smallImage 100w, @largeImage 800w" />
-            <img src="@smallImage" alt="All In Community Roller Derby banner." class="hero-banner" />
-        </picture>
-    </header>
+    <vc:header-menu user="@userDetails"></vc:header-menu>
 
     <div class="container mt-3">
         <main role="main" class="pb-3">

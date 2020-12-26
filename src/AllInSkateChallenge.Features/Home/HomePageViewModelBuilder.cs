@@ -28,7 +28,7 @@ namespace AllInSkateChallenge.Features.Home
             model.Content.NumberOfSkaters = eventStatistics.NumberOfSkaters;
             model.Content.CumulativeMiles = eventStatistics.CumulativeMiles;
 
-            if (model.IsLoggedIn)
+            if (this.User != null)
             {
                 var latestUpdates = await mediator.Send(new LatestUpdatesQuery { Page = 1, PageSize = 10 });
                 var leaderBoard = await mediator.Send(new LeaderBoardQuery { PageSize = 10, Target = User.Target });

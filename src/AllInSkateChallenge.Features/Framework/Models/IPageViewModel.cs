@@ -12,15 +12,11 @@
 
         ApplicationUser CurrentUser { get; }
     
-        bool IsLoggedIn { get; }
-
         bool IsStravaUser { get; }
 
         bool DisplayStravaNotification { get; }
 
         bool HasPaid { get; }
-
-        bool ShowCookieBanner { get; }
 
         bool IsNoIndexPage { get; }
     }

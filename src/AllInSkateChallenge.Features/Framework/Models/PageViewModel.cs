@@ -15,15 +15,11 @@
 
         public ApplicationUser CurrentUser { get; set; }
 
-        public bool IsLoggedIn => CurrentUser != null;
-
         public bool IsStravaUser => CurrentUser?.IsStravaAccount ?? false;
 
         public bool HasPaid => CurrentUser?.HasPaid ?? false;
 
         public bool DisplayStravaNotification { get; set; }
-
-        public bool ShowCookieBanner { get; set; }
 
         public bool IsNoIndexPage { get; set; }
     }

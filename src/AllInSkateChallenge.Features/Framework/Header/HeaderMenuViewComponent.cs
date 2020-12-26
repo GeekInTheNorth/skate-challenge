@@ -1,38 +1,32 @@
 ﻿namespace AllInSkateChallenge.Features.Framework.Header
 {
-    using System.Threading.Tasks;
-
     using AllInSkateChallenge.Features.Data.Entities;
     using AllInSkateChallenge.Features.Gravatar;
 
-    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
 
     public class HeaderMenuViewComponent : ViewComponent
     {
-        private readonly UserManager<ApplicationUser> userManager;
-
         private readonly IGravatarResolver gravatarResolver;
 
-        public HeaderMenuViewComponent(UserManager<ApplicationUser> userManager, IGravatarResolver gravatarResolver)
+        public HeaderMenuViewComponent(IGravatarResolver gravatarResolver)
         {
-            this.userManager = userManager;
             this.gravatarResolver = gravatarResolver;
         }
 
-        public async Task<IViewComponentResult> InvokeAsync()
+        public IViewComponentResult Invoke(ApplicationUser user)
         {
-            var userDetails = await userManager.GetUserAsync(UserClaimsPrincipal);
-
+            var hasDismissedCookieBanner = Request.Cookies.ContainsKey("cookieWarningDismissed");
             var model = new HeaderMenuViewModel
                             {
-                                UserName = userDetails?.SkaterName,
+                                UserName = user?.SkaterName,
                                 UserProfileImage =
-                                    string.IsNullOrWhiteSpace(userDetails?.ExternalProfileImage)
-                                        ? gravatarResolver.GetGravatarUrl(userDetails?.Email)
-                                        : userDetails?.ExternalProfileImage,
-                                IsLoggedIn = userDetails != null
-                            };
+                                    string.IsNullOrWhiteSpace(user?.ExternalProfileImage)
+                                        ? gravatarResolver.GetGravatarUrl(user?.Email)
+                                        : user?.ExternalProfileImage,
+                                IsLoggedIn = user != null,
+                                ShowCookieBanner = user == null && !hasDismissedCookieBanner
+            };
 
             return View("~/Views/Shared/Components/HeaderMenu/Default.cshtml", model);
         }

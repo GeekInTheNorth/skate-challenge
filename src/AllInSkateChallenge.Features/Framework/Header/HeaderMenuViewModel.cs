@@ -7,5 +7,7 @@
         public string UserProfileImage { get; set; }
 
         public bool IsLoggedIn { get; set; }
+
+        public bool ShowCookieBanner { get; set; }
     }
 }
