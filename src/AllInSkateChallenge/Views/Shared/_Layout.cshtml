@@ -1,26 +1,16 @@
 ﻿@using AllInSkateChallenge.Features.Data.Entities
-@using Microsoft.AspNetCore.Http; 
 @using Microsoft.AspNetCore.Identity
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
-@inject IHttpContextAccessor contextAccessor
 
 @{
-    var isSignedIn = false;
-    var isAdmin = false;
     ApplicationUser userDetails = null;
     if (SignInManager.IsSignedIn(User))
     {
-        isSignedIn = true;
         userDetails = await UserManager.GetUserAsync(User);
-        isAdmin = await UserManager.IsInRoleAsync(userDetails, "Administrator");
     }
 
-    var smallImage = Url.Content("~/images/AllInSkateChallengeBannerSmall.png");
-    var largeImage = Url.Content("~/images/AllInSkateChallengeBanner.png");
     var twitterSite = "@allincrd";
-    var hasDismissedCookie = contextAccessor.HttpContext.Request.Cookies.ContainsKey("cookieWarningDismissed");
-    var showCookieBanner = !isSignedIn && !hasDismissedCookie;
 }
 
 <!DOCTYPE html>
@@ -51,68 +41,7 @@
     <meta name="theme-color" content="#ffffff">
 </head>
 <body class="mb-0">
-    <header>
-        @if (showCookieBanner)
-        {
-            <nav class="navbar navbar-light bg-light js-cookie-banner">
-                <span class="navbar-text">This site uses essential cookies to manage user sessions and logins. See our <a class="text-dark font-weight-bold" href="https://www.allincrd.uk/s/Data-Privacy-Notice-v11-Oct-20.pdf" target="_blank">Privacy Policy</a> for further information.</span>
-                <button class="btn btn-danger js-cookie-banner--banner">Dismiss</button>
-            </nav>
-        }
-        <nav class="navbar navbar-expand-lg navbar-light bg-allin-green border-bottom box-shadow sticky-top font-weight-bold">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">ALL IN Skate Challenge</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-lg-inline-flex flex-lg-row-reverse">
-
-                    <ul class="navbar-nav">
-                        @if (isSignedIn)
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @userDetails.SkaterName</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="SkaterProgress" asp-action="Progress" title="Your Progress">Your Progress</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="SkaterLog" asp-action="Index" title="Log Your Miles">Log Your Miles</a>
-                            </li>
-                            <li class="nav-item">
-                                <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-                                    <button type="submit" class="nav-link btn btn-link text-dark font-weight-bold">Logout</button>
-                                </form>
-                            </li>
-                        }
-                        else
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Login</a>
-                            </li>
-                        }
-                    </ul>
-
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" href="https://www.allincrd.uk/" target="_blank">About ALL IN</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-        <picture>
-            <source media="(orientation: landscape)" srcset="@smallImage 100w, @largeImage 800w" />
-            <img src="@smallImage" alt="All In Community Roller Derby banner." class="hero-banner" />
-        </picture>
-    </header>
+    <vc:header-menu user="@userDetails"></vc:header-menu>
 
     <div class="container mt-3">
         <main role="main" class="pb-3">
@@ -120,27 +49,8 @@
         </main>
     </div>
 
-    <footer class="border-top bg-allin-green">
-        <div class="container text-center pt-3 pb-3">
-            <nav class="nav justify-content-center">
-                <a class="nav-link text-dark font-weight-bold" asp-controller="EventDetails" asp-action="Faq">FAQ</a>
-                <a class="nav-link text-dark font-weight-bold" asp-controller="EventDetails" asp-action="TermsAndConditions">Terms</a>
-                <a class="nav-link text-dark font-weight-bold" href="https://www.allincrd.uk/s/Data-Privacy-Notice-v11-Oct-20.pdf" target="_blank">Privacy</a>
-                <a class="nav-link text-dark font-weight-bold" href="https://www.allincrd.uk/contact" target="_blank">Contact Us</a>
-                @if (isAdmin)
-                {
-                    <a class="nav-link text-dark font-weight-bold" asp-controller="UserAdministration" asp-action="Index" title="Admin">Admin</a>
-                    <a class="nav-link text-dark font-weight-bold" asp-controller="StravaWebhookAdmin" asp-action="Index" title="Strava">Strava</a>
-                }
-            </nav>
-            <div class="justify-content-center">
-                <a href="https://www.facebook.com/groups/3257681721008087/" title="FaceBook" aria-valuetext="FaceBook" target="_blank" class="social-panel--link"><img src="~/images/icon-facebook-black.png" alt="FaceBook" class="social-panel--icon" /></a>
-                <a href="https://twitter.com/allincrd" title="Twitter" aria-valuetext="Twitter" target="_blank" class="social-panel--link"><img src="~/images/icon-twitter-black.png" alt="Twitter" class="social-panel--icon" /></a>
-                <a href="https://www.instagram.com/allin.crd/" title="Instagram" aria-valuetext="Instagram" target="_blank" class="social-panel--link"><img src="~/images/icon-instagram.png" alt="Instagram" class="social-panel--icon" /></a>
-            </div>
-            <span class="text-dark font-weight-bold">&copy; 2020 - </span><a class="text-dark font-weight-bold" href="https://www.allincrd.uk/" target="_blank">ALL IN Community Roller Derby</a>
-        </div>
-    </footer>
+    <vc:footer-menu user="@userDetails"></vc:footer-menu>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

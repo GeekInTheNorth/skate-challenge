@@ -1,28 +1,22 @@
 ﻿namespace AllInSkateChallenge.Features.Framework.Models
 {
+    using AllInSkateChallenge.Features.Data.Entities;
+
     public interface IPageViewModel
     {
-        public string PageTitle { get; }
+        string PageTitle { get; }
 
-        public string DisplayPageTitle { get; }
+        string DisplayPageTitle { get; }
 
-        public string IntroductoryText { get; }
+        string IntroductoryText { get; }
 
-        string DisplayUserName { get; }
-
-        bool IsAdmin { get; }
-
-        bool IsLoggedIn { get; }
-
+        ApplicationUser CurrentUser { get; }
+    
         bool IsStravaUser { get; }
 
-        bool HasStravaImports { get; }
-
-        public bool DisplayStravaNotification { get; }
+        bool DisplayStravaNotification { get; }
 
         bool HasPaid { get; }
-
-        bool ShowCookieBanner { get; }
 
         bool IsNoIndexPage { get; }
     }

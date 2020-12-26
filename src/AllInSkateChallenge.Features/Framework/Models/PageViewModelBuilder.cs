@@ -1,12 +1,12 @@
-﻿using System;
-using System.Threading.Tasks;
-
-using AllInSkateChallenge.Features.Data.Entities;
-
-using MediatR;
-
-namespace AllInSkateChallenge.Features.Framework.Models
+﻿namespace AllInSkateChallenge.Features.Framework.Models
 {
+    using System;
+    using System.Threading.Tasks;
+
+    using AllInSkateChallenge.Features.Data.Entities;
+
+    using MediatR;
+
     public class PageViewModelBuilder<T> : IPageViewModelBuilder<T>
         where T : class
     {
@@ -33,15 +33,9 @@ namespace AllInSkateChallenge.Features.Framework.Models
 
             var model = new PageViewModel<T>
             {
-                IsLoggedIn = response.IsLoggedIn,
-                IsStravaUser = response.IsStravaUser,
-                IsAdmin = response.IsAdmin,
-                HasPaid = response.HasPaid,
-                HasStravaImports = response.HasStravaImports,
+                CurrentUser = this.User,
                 DisplayStravaNotification = response.HasStravaImports,
-                DisplayUserName = response.SkaterName,
                 Content = Activator.CreateInstance<T>(),
-                ShowCookieBanner = User == null && !response.HasDismissedCookieBanner,
                 IsNoIndexPage = false
             };
 

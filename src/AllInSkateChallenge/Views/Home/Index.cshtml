@@ -33,7 +33,7 @@
 
 <div class="row">
     <div class="col-xl-12">
-        @if (!Model.IsLoggedIn)
+        @if (Model.CurrentUser == null)
         {
             <div class="card mt-3 mb-3 border-allin-green">
                 <h5 class="card-header bg-allin-green">Register for the Skate Challenge</h5>

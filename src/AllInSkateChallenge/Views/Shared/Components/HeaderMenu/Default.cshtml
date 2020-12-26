@@ -1,0 +1,87 @@
+﻿@model AllInSkateChallenge.Features.Framework.Header.HeaderMenuViewModel
+
+@{
+    var smallImage = Url.Content("~/images/AllInSkateChallengeBannerSmall.png");
+    var largeImage = Url.Content("~/images/AllInSkateChallengeBanner.png");
+}
+
+<header>
+    @if (Model.ShowCookieBanner)
+    {
+        <nav class="navbar navbar-light bg-light js-cookie-banner">
+            <span class="navbar-text">This site uses essential cookies to manage user sessions and logins. See our <a class="text-dark font-weight-bold" href="https://www.allincrd.uk/s/Data-Privacy-Notice-v11-Oct-20.pdf" target="_blank">Privacy Policy</a> for further information.</span>
+            <button class="btn btn-danger js-cookie-banner--banner">Dismiss</button>
+        </nav>
+    }
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-allin-green border-bottom box-shadow sticky-top font-weight-bold">
+        <div class="container">
+            <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">ALL IN Skate Challenge</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="navbar-collapse collapse d-lg-inline-flex">
+
+                <ul class="navbar-nav flex-grow-1">
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                    </li>
+                    @if (Model.IsLoggedIn)
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-controller="SkaterProgress" asp-action="Progress" title="Your Progress">Your Progress</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-controller="SkaterLog" asp-action="Index" title="Log Your Miles">Log Your Miles</a>
+                        </li>
+                    }
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" href="https://www.allincrd.uk/" target="_blank">About ALL IN</a>
+                    </li>
+                </ul>
+
+                <ul class="navbar-nav">
+                    @if (Model.IsLoggedIn)
+                    {
+                        <li class="nav-item dropdown d-none d-lg-inline-block">
+                            <img src="@Model.UserProfileImage" class="account-profile d-inline-block" alt="@Model.UserName" />
+                            <a class="nav-link dropdown-toggle d-inline-block text-dark" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                @Model.UserName
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item d-inline-block" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Your Profile</a>
+                                <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                                    <button type="submit" class="dropdown-item btn btn-link">Logout</button>
+                                </form>
+                            </div>
+                        </li>
+                        <li class="nav-item d-block d-lg-none">
+                            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Your Profile</a>
+                        </li>
+                        <li class="nav-item d-block d-lg-none">
+                            <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                                <button type="submit" class="nav-link btn btn-link text-dark font-weight-bold">Logout</button>
+                            </form>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Login</a>
+                        </li>
+                    }
+                </ul>
+
+            </div>
+        </div>
+    </nav>
+
+    <picture>
+        <source media="(orientation: landscape)" srcset="@smallImage 100w, @largeImage 800w" />
+        <img src="@smallImage" alt="All In Community Roller Derby banner." class="hero-banner" />
+    </picture>
+</header>

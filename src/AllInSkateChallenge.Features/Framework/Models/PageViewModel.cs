@@ -1,5 +1,7 @@
 ﻿namespace AllInSkateChallenge.Features.Framework.Models
 {
+    using AllInSkateChallenge.Features.Data.Entities;
+
     public class PageViewModel<T> : IPageViewModel
         where T : class
     {
@@ -11,21 +13,13 @@
 
         public string IntroductoryText { get; set; }
 
-        public string DisplayUserName { get; set; }
+        public ApplicationUser CurrentUser { get; set; }
 
-        public bool IsAdmin { get; set; }
+        public bool IsStravaUser => CurrentUser?.IsStravaAccount ?? false;
 
-        public bool IsLoggedIn { get; set; }
-
-        public bool IsStravaUser { get; set; }
-
-        public bool HasStravaImports { get; set; }
+        public bool HasPaid => CurrentUser?.HasPaid ?? false;
 
         public bool DisplayStravaNotification { get; set; }
-        
-        public bool HasPaid { get; set; }
-
-        public bool ShowCookieBanner { get; set; }
 
         public bool IsNoIndexPage { get; set; }
     }
