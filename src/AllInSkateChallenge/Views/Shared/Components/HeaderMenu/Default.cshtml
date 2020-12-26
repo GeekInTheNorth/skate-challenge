@@ -24,6 +24,12 @@
             <div class="navbar-collapse collapse d-lg-inline-flex">
 
                 <ul class="navbar-nav flex-grow-1">
+                    @if (Model.IsLoggedIn)
+                    {
+                        <li class="nav-item d-block d-lg-none">
+                            <span class="nav-link text-dark font-italic border-bottom">Hello @Model.UserName</span>
+                        </li>
+                    }
                     <li class="nav-item">
                         <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                     </li>
