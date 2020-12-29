@@ -2,7 +2,7 @@
 {
     using MediatR;
 
-    public class EventStatisticsCommand : IRequest<EventStatisticsResponse>
+    public class EventStatisticsQuery : IRequest<EventStatisticsQueryResponse>
     {
     }
 }

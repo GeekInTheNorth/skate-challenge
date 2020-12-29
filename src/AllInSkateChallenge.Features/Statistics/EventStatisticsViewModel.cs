@@ -2,7 +2,7 @@
 {
     using System.Collections.Generic;
 
-    public class EventStatisticsQueryResponse
+    public class EventStatisticsViewModel
     {
         public SkaterStatisticsModel LongestTotalDistance { get; set; }
 

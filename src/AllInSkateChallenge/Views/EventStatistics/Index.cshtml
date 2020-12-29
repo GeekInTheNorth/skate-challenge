@@ -1,0 +1,45 @@
+﻿@model AllInSkateChallenge.Features.Framework.Models.PageViewModel<AllInSkateChallenge.Features.Statistics.EventStatisticsViewModel>
+
+@{
+    Layout = "_PageViewModelLayout";
+}
+
+<div class="chart-container" style="height:40vh; width: 100%; margin-bottom: 6rem;">
+    <canvas id="skateMilageChart"></canvas>
+</div>
+
+
+@section Scripts{
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
+    <script>
+        $(document).ready(function() {
+
+            var ctx = document.getElementById('skateMilageChart').getContext('2d');
+            var myLineChart = new Chart(ctx,
+                {
+                    type: 'line',
+                    data: {
+                        labels: [ @Html.Raw(string.Join(',', Model.Content.SkateDistances.Select(x => $"'{x.Date:d}'"))) ],
+                        datasets: [{
+                            label: 'Distance Skated Per Day',
+                            borderColor: '#8ABC2D',
+                            backgroundColor: '#8ABC2D',
+                            fill: false,
+                            data: [ @(string.Join(',', Model.Content.SkateDistances.Select(x => x.Value.ToString("F2")))) ]
+                        }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        xAxes: [{
+                            ticks: {
+                                maxTicksLimit: 10
+                            }
+                        }]
+                    }
+                }
+            });
+
+        });
+    </script>
+}

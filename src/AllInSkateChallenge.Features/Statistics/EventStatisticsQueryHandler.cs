@@ -14,25 +14,25 @@
 
     using Microsoft.EntityFrameworkCore;
 
-    public class EventStatisticsCommandHandler : IRequestHandler<EventStatisticsCommand, EventStatisticsResponse>
+    public class EventStatisticsQueryHandler : IRequestHandler<EventStatisticsQuery, EventStatisticsQueryResponse>
     {
         private readonly ApplicationDbContext context;
 
         private readonly IGravatarResolver gravatarResolver;
 
-        public EventStatisticsCommandHandler(ApplicationDbContext context, IGravatarResolver gravatarResolver)
+        public EventStatisticsQueryHandler(ApplicationDbContext context, IGravatarResolver gravatarResolver)
         {
             this.context = context;
             this.gravatarResolver = gravatarResolver;
         }
 
-        public async Task<EventStatisticsResponse> Handle(EventStatisticsCommand request, CancellationToken cancellationToken)
+        public async Task<EventStatisticsQueryResponse> Handle(EventStatisticsQuery request, CancellationToken cancellationToken)
         {
             var allSessions = await context.SkateLogEntries.ToListAsync(cancellationToken);
             var allSkaters = await context.Users.ToListAsync(cancellationToken);
             var allDates = GetAllDates(allSessions);
 
-            return new EventStatisticsResponse
+            return new EventStatisticsQueryResponse
                        {
                            ShortestSingleDistance = GetShortestDistance(allSessions, allSkaters),
                            LongestSingleDistance = GetLongestDistance(allSessions, allSkaters),
