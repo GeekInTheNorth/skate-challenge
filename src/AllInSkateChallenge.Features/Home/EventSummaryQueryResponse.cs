@@ -1,6 +1,6 @@
 ﻿namespace AllInSkateChallenge.Features.Home
 {
-    public class EventStatisticsQueryResponse
+    public class EventSummaryQueryResponse
     {
         public bool StatisticsExists { get; set; }
 

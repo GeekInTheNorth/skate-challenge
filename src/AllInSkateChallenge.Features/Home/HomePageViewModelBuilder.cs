@@ -19,7 +19,7 @@
 
         public override async Task<PageViewModel<HomePageViewModel>> Build()
         {
-            var eventStatistics = await mediator.Send(new EventStatisticsQuery());
+            var eventStatistics = await mediator.Send(new EventSummaryQuery());
             var model = await base.Build();
             model.PageTitle = "Home";
             model.DisplayPageTitle = "Welcome to the ALL IN Leeds-Liverpool Skate Challenge";

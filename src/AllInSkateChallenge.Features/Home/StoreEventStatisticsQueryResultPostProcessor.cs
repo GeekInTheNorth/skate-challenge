@@ -8,7 +8,7 @@ using MediatR.Pipeline;
 
 namespace AllInSkateChallenge.Features.Home
 {
-    public class StoreEventStatisticsQueryResultPostProcessor : IRequestPostProcessor<EventStatisticsQuery, EventStatisticsQueryResponse>
+    public class StoreEventStatisticsQueryResultPostProcessor : IRequestPostProcessor<EventSummaryQuery, EventSummaryQueryResponse>
     {
         private readonly ApplicationDbContext context;
 
@@ -17,7 +17,7 @@ namespace AllInSkateChallenge.Features.Home
             this.context = context;
         }
 
-        public async Task Process(EventStatisticsQuery request, EventStatisticsQueryResponse response, CancellationToken cancellationToken)
+        public async Task Process(EventSummaryQuery request, EventSummaryQueryResponse response, CancellationToken cancellationToken)
         {
             if (!response.StatisticsExists)
             {

@@ -1,30 +1,30 @@
-﻿using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-
-using AllInSkateChallenge.Features.Data;
-
-using MediatR;
-
-using Microsoft.EntityFrameworkCore;
-
-namespace AllInSkateChallenge.Features.Home
+﻿namespace AllInSkateChallenge.Features.Home
 {
-    public class EventStatisticsQueryHandler : IRequestHandler<EventStatisticsQuery, EventStatisticsQueryResponse>
+    using System.Linq;
+    using System.Threading;
+    using System.Threading.Tasks;
+
+    using AllInSkateChallenge.Features.Data;
+
+    using MediatR;
+
+    using Microsoft.EntityFrameworkCore;
+
+    public class EventSummaryQueryHandler : IRequestHandler<EventSummaryQuery, EventSummaryQueryResponse>
     {
         private readonly ApplicationDbContext context;
 
-        public EventStatisticsQueryHandler(ApplicationDbContext context)
+        public EventSummaryQueryHandler(ApplicationDbContext context)
         {
             this.context = context;
         }
 
-        public async Task<EventStatisticsQueryResponse> Handle(EventStatisticsQuery request, CancellationToken cancellationToken)
+        public async Task<EventSummaryQueryResponse> Handle(EventSummaryQuery request, CancellationToken cancellationToken)
         {
             var eventStatistics = await context.EventStatistics.FirstOrDefaultAsync();
             if (eventStatistics != null)
             {
-                return new EventStatisticsQueryResponse { StatisticsExists = true, NumberOfSkaters = eventStatistics.NumberOfSkaters, CumulativeMiles = eventStatistics.CumulativeMiles };
+                return new EventSummaryQueryResponse { StatisticsExists = true, NumberOfSkaters = eventStatistics.NumberOfSkaters, CumulativeMiles = eventStatistics.CumulativeMiles };
             }
 
             var skaterMiles = (from entries in context.SkateLogEntries
@@ -37,7 +37,7 @@ namespace AllInSkateChallenge.Features.Home
                                    TotalMiles = userEntries.Sum(x => x.DistanceInMiles),
                                }).ToList();
 
-            return new EventStatisticsQueryResponse
+            return new EventSummaryQueryResponse
             {
                 StatisticsExists = false,
                 NumberOfSkaters = skaterMiles.Count,
