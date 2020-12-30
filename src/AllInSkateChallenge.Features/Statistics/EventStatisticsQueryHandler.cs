@@ -28,8 +28,8 @@
 
         public async Task<EventStatisticsQueryResponse> Handle(EventStatisticsQuery request, CancellationToken cancellationToken)
         {
-            var allSessions = await context.SkateLogEntries.ToListAsync(cancellationToken);
-            var allSkaters = await context.Users.ToListAsync(cancellationToken);
+            var allSessions = await context.SkateLogEntries.Where(x => x.ApplicationUser.HasPaid).ToListAsync(cancellationToken);
+            var allSkaters = await context.Users.Where(x => x.HasPaid).ToListAsync(cancellationToken);
             var allDates = GetAllDates(allSessions);
 
             return new EventStatisticsQueryResponse
