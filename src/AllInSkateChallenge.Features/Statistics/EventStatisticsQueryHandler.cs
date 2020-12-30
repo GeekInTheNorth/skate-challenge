@@ -91,7 +91,7 @@
 
             return new SkaterStatisticsModel
                        {
-                           SkaterName = skater?.SkaterName,
+                           SkaterName = skater?.GetDisplaySkaterName(),
                            Name = shortestDistance.Name,
                            DisplayDistance = GetDisplayDistance(shortestDistance.DistanceInMiles),
                            SkaterProfile = GetProfileImage(skater)
@@ -110,7 +110,7 @@
 
             return new SkaterStatisticsModel
                        {
-                           SkaterName = skater?.SkaterName,
+                           SkaterName = skater?.GetDisplaySkaterName(),
                            Name = shortestDistance.Name,
                            DisplayDistance = GetDisplayDistance(shortestDistance.DistanceInMiles),
                            SkaterProfile = GetProfileImage(skater)
@@ -132,7 +132,7 @@
 
             return new SkaterStatisticsModel
                        {
-                           SkaterName = skater?.SkaterName,
+                           SkaterName = skater?.GetDisplaySkaterName(),
                            DisplayDistance = GetDisplayDistance(longestTotalDistance.TotalMiles),
                            SkaterProfile = GetProfileImage(skater)
                        };
