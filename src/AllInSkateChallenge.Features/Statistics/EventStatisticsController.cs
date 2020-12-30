@@ -8,7 +8,7 @@
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
 
-    [Authorize(Roles = "Administrator")]
+    [Authorize]
     public class EventStatisticsController : Controller
     {
         private readonly IEventStatisticsViewModelBuilder viewModelBuilder;
