@@ -21,6 +21,7 @@
             var model = new FooterMenuViewModel();
             if (user != null)
             {
+                model.IsLoggedIn = true;
                 model.IsAdmin = await userManager.IsInRoleAsync(user, "Administrator");
             }
 

@@ -7,6 +7,10 @@
             <a class="nav-link text-dark font-weight-bold" asp-controller="EventDetails" asp-action="TermsAndConditions">Terms</a>
             <a class="nav-link text-dark font-weight-bold" href="https://www.allincrd.uk/s/Data-Privacy-Notice-v11-Oct-20.pdf" target="_blank">Privacy</a>
             <a class="nav-link text-dark font-weight-bold" href="https://www.allincrd.uk/contact" target="_blank">Contact Us</a>
+            @if (Model.IsLoggedIn)
+            {
+                <a class="nav-link text-dark font-weight-bold" asp-controller="EventStatistics" asp-action="Index" title="Statistics">Statistics</a>
+            }
             @if (Model.IsAdmin)
             {
                 <a class="nav-link text-dark font-weight-bold" asp-controller="UserAdministration" asp-action="Index" title="Admin">Admin</a>

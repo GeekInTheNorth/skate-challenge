@@ -1,8 +1,7 @@
-﻿using MediatR;
-using MediatR.Pipeline;
-
-namespace AllInSkateChallenge.Features.Home
+﻿namespace AllInSkateChallenge.Features.Statistics
 {
+    using MediatR;
+
     public class EventStatisticsQuery : IRequest<EventStatisticsQueryResponse>
     {
     }

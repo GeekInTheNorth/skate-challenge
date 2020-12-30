@@ -1,0 +1,148 @@
+﻿@model AllInSkateChallenge.Features.Framework.Models.PageViewModel<AllInSkateChallenge.Features.Statistics.EventStatisticsViewModel>
+
+@{
+    Layout = "_PageViewModelLayout";
+}
+
+@if (!Model.HasPaid)
+{
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="alert alert-warning" role="alert">
+                Please note that ALL IN has either not yet received or not yet processed your Skate Challenge entry fee. Your progress will not be included in the statistics below.
+            </div>
+        </div>
+    </div>
+}
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card border-allin-green mb-3">
+            <h5 class="card-header bg-allin-green text-dark">Longest Journey</h5>
+            <div class="card-body row">
+                <div class="col-2">
+                    <img src="@Model.Content.LongestSingleDistance.SkaterProfile" alt="@Model.Content.LongestSingleDistance.SkaterName Profile Image" class="leaderboard-profile" />
+                </div>
+                <div class="col-5 align-middle">
+                    @Model.Content.LongestSingleDistance.SkaterName
+                </div>
+                <div class="col-5 align-middle">
+                    @Model.Content.LongestSingleDistance.DisplayDistance
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card border-allin-green mb-3">
+            <h5 class="card-header bg-allin-green text-dark">Shortest Journey</h5>
+            <div class="card-body row">
+                <div class="col-2">
+                    <img src="@Model.Content.ShortestSingleDistance.SkaterProfile" alt="@Model.Content.ShortestSingleDistance.SkaterName Profile Image" class="leaderboard-profile" />
+                </div>
+                <div class="col-5 align-middle">
+                    @Model.Content.ShortestSingleDistance.SkaterName
+                </div>
+                <div class="col-5 align-middle">
+                    @Model.Content.ShortestSingleDistance.DisplayDistance
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card border-allin-green mb-3">
+            <h5 class="card-header bg-allin-green text-dark">Longest Total Distance</h5>
+            <div class="card-body row">
+                <div class="col-2">
+                    <img src="@Model.Content.LongestTotalDistance.SkaterProfile" alt="@Model.Content.LongestTotalDistance.SkaterName Profile Image" class="leaderboard-profile" />
+                </div>
+                <div class="col-5 align-middle">
+                    @Model.Content.LongestTotalDistance.SkaterName
+                </div>
+                <div class="col-5 align-middle">
+                    @Model.Content.LongestTotalDistance.DisplayDistance
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card border-allin-green mb-3">
+            <h5 class="card-header bg-allin-green text-dark">Collective Journeys</h5>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-7 align-middle">
+                        Total Distance:
+                    </div>
+                    <div class="col-5 align-middle">
+                        @Model.Content.TotalMiles.ToString("F2") miles
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-7 align-middle">
+                        Number of Journeys:
+                    </div>
+                    <div class="col-5 align-middle">
+                        @Model.Content.TotalSkateSessions.ToString("F0")
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mb-3">
+    <div class="col-xl-12">
+        <div class="card border-allin-green">
+            <h5 class="card-header bg-allin-green text-dark">Daily Summaries</h5>
+            <div class="card-body">
+                <canvas id="skateMilageChart" style="height: 400px;"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
+    <script>
+        $(document).ready(function() {
+
+            var ctx = document.getElementById('skateMilageChart').getContext('2d');
+            var skateMilageChart = new Chart(ctx,
+                {
+                    type: 'line',
+                    data: {
+                        labels: [ @Html.Raw(string.Join(',', Model.Content.SkateDistances.Select(x => $"'{x.Date:d}'"))) ],
+                        datasets: [
+                            {
+                                label: 'Distance Skated Per Day',
+                                borderColor: '#8ABC2D',
+                                backgroundColor: '#8ABC2D',
+                                fill: false,
+                                data: [ @(string.Join(',', Model.Content.SkateDistances.Select(x => x.Value.ToString("F2")))) ]
+                            },
+                            {
+                                label: 'Skate Sessions Per Day',
+                                borderColor: '#F7BC0C',
+                                backgroundColor: '#F7BC0C',
+                                fill: false,
+                                data: [ @(string.Join(',', Model.Content.SkateSessions.Select(x => x.Value.ToString("F2")))) ]
+                            }
+                        ]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        xAxes: [{
+                            ticks: {
+                                maxTicksLimit: 10
+                            }
+                        }]
+                    }
+                }
+                });
+
+        });
+    </script>
+}

@@ -17,6 +17,7 @@ namespace AllInSkateChallenge
     using AllInSkateChallenge.Features.Skater.Progress;
     using AllInSkateChallenge.Features.Skater.SkateLog;
     using AllInSkateChallenge.Features.Skater.StravaImport;
+    using AllInSkateChallenge.Features.Statistics;
     using AllInSkateChallenge.Features.Strava;
     using AllInSkateChallenge.Features.Updates;
 
@@ -117,6 +118,7 @@ namespace AllInSkateChallenge
             services.AddTransient<ILeaderBoardViewModelBuilder, LeaderBoardViewModelBuilder>();
             services.AddTransient<IErrorViewModelBuilder, ErrorViewModelBuilder>();
             services.AddTransient<ILatestUpdatesViewModelBuilder, LatestUpdatesViewModelBuilder>();
+            services.AddTransient<IEventStatisticsViewModelBuilder, EventStatisticsViewModelBuilder>();
 
             // Data
             services.AddTransient<ICheckPointRepository, CheckPointRepository>();
@@ -147,7 +149,7 @@ namespace AllInSkateChallenge
             app.UseXfo(opt => opt.SameOrigin());
             app.UseReferrerPolicy(opt => opt.NoReferrerWhenDowngrade());
             app.UseCsp(opt => opt.DefaultSources(s => s.Self())
-                                 .ScriptSources(s => s.Self().UnsafeInline().CustomSources("https://ajax.aspnetcdn.com"))
+                                 .ScriptSources(s => s.Self().UnsafeInline().CustomSources("https://ajax.aspnetcdn.com", "https://cdn.jsdelivr.net"))
                                  .StyleSources(s => s.Self().UnsafeInline())
                                  .FrameSources(s => s.None())
                                  .FrameAncestors(s => s.None())
