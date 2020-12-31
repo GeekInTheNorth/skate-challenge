@@ -97,7 +97,26 @@
         <div class="card border-allin-green">
             <h5 class="card-header bg-allin-green text-dark">Daily Summaries</h5>
             <div class="card-body">
-                <canvas id="skateMilageChart" style="height: 400px;"></canvas>
+                <canvas id="skateMilageChart" style="height: 500px;"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card border-allin-green mb-3">
+            <h5 class="card-header bg-allin-green text-dark">Miles by Source</h5>
+            <div class="card-body">
+                <canvas id="milesBySourceChart" style="height: 400px;"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card border-allin-green mb-3">
+            <h5 class="card-header bg-allin-green text-dark">Journeys by Source</h5>
+            <div class="card-body">
+                <canvas id="journeysBySourceChart" style="height: 400px;"></canvas>
             </div>
         </div>
     </div>
@@ -108,41 +127,79 @@
     <script>
         $(document).ready(function() {
 
-            var ctx = document.getElementById('skateMilageChart').getContext('2d');
-            var skateMilageChart = new Chart(ctx,
+            var ctx1 = document.getElementById('skateMilageChart').getContext('2d');
+            var skateMilageChart = new Chart(ctx1,
                 {
                     type: 'line',
                     data: {
-                        labels: [ @Html.Raw(string.Join(',', Model.Content.SkateDistances.Select(x => $"'{x.Date:d}'"))) ],
+                        labels: [
+                            @Html.Raw(string.Join(',', Model.Content.SkateDistances.Select(x => $"'{x.Date:dd/MM/yy}'")))],
                         datasets: [
                             {
-                                label: 'Distance Skated Per Day',
+                                label: 'Miles Per Day',
                                 borderColor: '#8ABC2D',
                                 backgroundColor: '#8ABC2D',
                                 fill: false,
-                                data: [ @(string.Join(',', Model.Content.SkateDistances.Select(x => x.Value.ToString("F2")))) ]
+                                data: [
+                                    @(string.Join(',', Model.Content.SkateDistances.Select(x => x.Value.ToString("F2"))))
+                                ]
                             },
                             {
-                                label: 'Skate Sessions Per Day',
+                                label: 'Journeys Per Day',
                                 borderColor: '#F7BC0C',
                                 backgroundColor: '#F7BC0C',
                                 fill: false,
-                                data: [ @(string.Join(',', Model.Content.SkateSessions.Select(x => x.Value.ToString("F2")))) ]
+                                data: [
+                                    @(string.Join(',', Model.Content.SkateSessions.Select(x => x.Value.ToString("F2"))))
+                                ]
                             }
                         ]
-                },
-                options: {
-                    responsive: true,
-                    scales: {
-                        xAxes: [{
-                            ticks: {
-                                maxTicksLimit: 10
-                            }
-                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        scales: {
+                            xAxes: [
+                                {
+                                    ticks: {
+                                        maxTicksLimit: 10
+                                    }
+                                }
+                            ]
+                        }
                     }
-                }
                 });
 
+            var ctx2 = document.getElementById('milesBySourceChart').getContext('2d');
+            var milesBySourceChart = new Chart(ctx2,
+                {
+                    type: 'pie',
+                    data: {
+                        labels: ['Strava', 'Manual'],
+                        datasets: [
+                            {
+                                borderColor: ['#FC4C02', '#8ABC2D'],
+                                backgroundColor: ['#FC4C02', '#8ABC2D'],
+                                data: [@Model.Content.MilesByStrava.ToString("F2"), @Model.Content.MilesByManual.ToString("F2")]
+                            }
+                        ]
+                    }
+                });
+
+            var ctx3 = document.getElementById('journeysBySourceChart').getContext('2d');
+            var journeysBySourceChart = new Chart(ctx3,
+                {
+                    type: 'pie',
+                    data: {
+                        labels: ['Strava', 'Manual'],
+                        datasets: [
+                            {
+                                borderColor: ['#FC4C02', '#8ABC2D'],
+                                backgroundColor: ['#FC4C02', '#8ABC2D'],
+                                data: [@Model.Content.JourneysByStrava, @Model.Content.JourneysByManual]
+                            }
+                        ]
+                    }
+                });
         });
     </script>
 }

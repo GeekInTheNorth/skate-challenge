@@ -31,6 +31,10 @@
             model.Content.SkateSessions = result.SkateSessions;
             model.Content.TotalMiles = result.TotalMiles;
             model.Content.TotalSkateSessions = result.TotalSkateSessions;
+            model.Content.MilesByManual = result.MilesByManual;
+            model.Content.MilesByStrava = result.MilesByStrava;
+            model.Content.JourneysByManual = result.JourneysByManual;
+            model.Content.JourneysByStrava = result.JourneysByStrava;
 
             return model;
         }

@@ -39,6 +39,10 @@
                            LongestTotalDistance = GetLongestTotalDistance(allSessions, allSkaters),
                            TotalMiles = allSessions.Sum(x => x.DistanceInMiles),
                            TotalSkateSessions = allSessions.Count,
+                           MilesByStrava = allSessions.Where(x => !string.IsNullOrWhiteSpace(x.StravaId)).Sum(x => x.DistanceInMiles),
+                           MilesByManual = allSessions.Where(x => string.IsNullOrWhiteSpace(x.StravaId)).Sum(x => x.DistanceInMiles),
+                           JourneysByStrava = allSessions.Count(x => !string.IsNullOrWhiteSpace(x.StravaId)),
+                           JourneysByManual = allSessions.Count(x => string.IsNullOrWhiteSpace(x.StravaId)),
                            SkateDistances = GetMilesPerDay(allSessions, allDates),
                            SkateSessions = GetSessionsPerDay(allSessions, allDates)
                        };

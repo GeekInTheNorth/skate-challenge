@@ -17,5 +17,13 @@
         public decimal TotalMiles { get; set; }
 
         public int TotalSkateSessions { get; set; }
+
+        public decimal MilesByStrava { get; set; }
+
+        public decimal MilesByManual { get; set; }
+
+        public int JourneysByStrava { get; set; }
+
+        public int JourneysByManual { get; set; }
     }
 }
