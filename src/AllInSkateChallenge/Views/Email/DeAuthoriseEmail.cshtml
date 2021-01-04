@@ -31,7 +31,7 @@
                             <td>@entry.Logged.ToString("f")</td>
                             <td>@entry.DistanceInMiles.ToString("F1")</td>
                             <td>@entry.Name</td>
-                            <td>@(entry.SkateLogEntryId == null ? "Manual" : "Strava")</td>
+                            <td>@(string.IsNullOrWhiteSpace(entry.StravaId) ? "Manual" : "Strava"))</td>
                         </tr>
                     }
                 </tbody>
