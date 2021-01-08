@@ -1,8 +1,8 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace AllInSkateChallenge.Features.Data.Entities
+﻿namespace AllInSkateChallenge.Features.Data.Entities
 {
+    using System;
+    using System.ComponentModel.DataAnnotations.Schema;
+
     public class SkateLogEntry
     {
         public Guid SkateLogEntryId { get; set; }
@@ -19,5 +19,7 @@ namespace AllInSkateChallenge.Features.Data.Entities
         public string StravaId { get; set; }
 
         public string Name { get; set; }
+
+        public bool IsMultipleEntry { get; set; }
     }
 }

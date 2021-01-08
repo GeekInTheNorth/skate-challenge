@@ -50,7 +50,8 @@
 
         private List<StatisticsItemModel> GetSessionsPerDay(IList<SkateLogEntry> allSessions, IList<DateTime> allDates)
         {
-            var sessionsByDate = allSessions.GroupBy(x => x.Logged.Date)
+            var sessionsByDate = allSessions.Where(x => !x.IsMultipleEntry)
+                                            .GroupBy(x => x.Logged.Date)
                                             .Select(x => new { Date = x.Key, Value = x.Count() })
                                             .OrderBy(x => x.Date)
                                             .ToList();
@@ -63,7 +64,8 @@
 
         private List<StatisticsItemModel> GetMilesPerDay(IList<SkateLogEntry> allSessions, IList<DateTime> allDates)
         {
-            var milesByDate = allSessions.GroupBy(x => x.Logged.Date)
+            var milesByDate = allSessions.Where(x => !x.IsMultipleEntry)
+                                         .GroupBy(x => x.Logged.Date)
                                          .Select(x => new { Date = x.Key, Value = x.Sum(y => y.DistanceInMiles) })
                                          .OrderBy(x => x.Date)
                                          .ToList();
@@ -90,7 +92,7 @@
                 return null;
             }
 
-            var shortestDistance = allSessions.OrderBy(x => x.DistanceInMiles).First();
+            var shortestDistance = allSessions.Where(x => !x.IsMultipleEntry).OrderBy(x => x.DistanceInMiles).First();
             var skater = allSkaters.FirstOrDefault(x => x.Id.Equals(shortestDistance.ApplicationUserId, StringComparison.CurrentCultureIgnoreCase));
 
             return new SkaterStatisticsModel
@@ -109,7 +111,7 @@
                 return null;
             }
 
-            var shortestDistance = allSessions.OrderByDescending(x => x.DistanceInMiles).First();
+            var shortestDistance = allSessions.Where(x => !x.IsMultipleEntry).OrderByDescending(x => x.DistanceInMiles).First();
             var skater = allSkaters.FirstOrDefault(x => x.Id.Equals(shortestDistance.ApplicationUserId, StringComparison.CurrentCultureIgnoreCase));
 
             return new SkaterStatisticsModel
