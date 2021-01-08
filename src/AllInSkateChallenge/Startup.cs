@@ -133,7 +133,7 @@ namespace AllInSkateChallenge
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseMigrationsEndPoint();
+                app.UseDatabaseErrorPage();
             }
             else
             {
