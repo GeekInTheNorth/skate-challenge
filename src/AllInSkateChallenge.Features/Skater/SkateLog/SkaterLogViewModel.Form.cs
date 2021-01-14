@@ -3,7 +3,6 @@ using System.ComponentModel.DataAnnotations;
 
 namespace AllInSkateChallenge.Features.Skater.SkateLog
 {
-
     public partial class SkaterLogViewModel : INewSkaterLogEntry
     {
         public string JourneyName { get; set; }
