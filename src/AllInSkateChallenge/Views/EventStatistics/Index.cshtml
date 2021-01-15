@@ -27,7 +27,7 @@
                     @Model.Content.LongestSingleDistance.SkaterName
                 </div>
                 <div class="col-5 align-middle">
-                    @Model.Content.LongestSingleDistance.DisplayDistance
+                    @Model.Content.LongestSingleDistance.Statistic
                 </div>
             </div>
         </div>
@@ -43,7 +43,7 @@
                     @Model.Content.ShortestSingleDistance.SkaterName
                 </div>
                 <div class="col-5 align-middle">
-                    @Model.Content.ShortestSingleDistance.DisplayDistance
+                    @Model.Content.ShortestSingleDistance.Statistic
                 </div>
             </div>
         </div>
@@ -62,11 +62,30 @@
                     @Model.Content.LongestTotalDistance.SkaterName
                 </div>
                 <div class="col-5 align-middle">
-                    @Model.Content.LongestTotalDistance.DisplayDistance
+                    @Model.Content.LongestTotalDistance.Statistic
                 </div>
             </div>
         </div>
     </div>
+    <div class="col-md-6">
+        <div class="card border-allin-green mb-3">
+            <h5 class="card-header bg-allin-green text-dark">Most Journeys</h5>
+            <div class="card-body row">
+                <div class="col-2">
+                    <img src="@Model.Content.MostJourneys.SkaterProfile" alt="@Model.Content.MostJourneys.SkaterName Profile Image" class="leaderboard-profile" />
+                </div>
+                <div class="col-5 align-middle">
+                    @Model.Content.MostJourneys.SkaterName
+                </div>
+                <div class="col-5 align-middle">
+                    @Model.Content.MostJourneys.Statistic
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row justify-content-md-center">
     <div class="col-md-6">
         <div class="card border-allin-green mb-3">
             <h5 class="card-header bg-allin-green text-dark">Collective Journeys</h5>

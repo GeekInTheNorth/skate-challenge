@@ -10,6 +10,8 @@
 
         public SkaterStatisticsModel ShortestSingleDistance { get; set; }
 
+        public SkaterStatisticsModel MostJourneys { get; set; }
+
         public List<StatisticsItemModel> SkateSessions { get; set; }
 
         public List<StatisticsItemModel> SkateDistances { get; set; }

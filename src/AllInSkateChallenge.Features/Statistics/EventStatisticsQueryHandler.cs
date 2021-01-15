@@ -37,6 +37,7 @@
                            ShortestSingleDistance = GetShortestDistance(allSessions, allSkaters),
                            LongestSingleDistance = GetLongestDistance(allSessions, allSkaters),
                            LongestTotalDistance = GetLongestTotalDistance(allSessions, allSkaters),
+                           MostJourneys = GetHighestNumberOfJourneys(allSessions, allSkaters),
                            TotalMiles = allSessions.Sum(x => x.DistanceInMiles),
                            TotalSkateSessions = allSessions.Count,
                            MilesByStrava = allSessions.Where(x => !string.IsNullOrWhiteSpace(x.StravaId)).Sum(x => x.DistanceInMiles),
@@ -99,7 +100,7 @@
                        {
                            SkaterName = skater?.GetDisplaySkaterName(),
                            Name = shortestDistance.Name,
-                           DisplayDistance = GetDisplayDistance(shortestDistance.DistanceInMiles),
+                           Statistic = GetDisplayDistance(shortestDistance.DistanceInMiles),
                            SkaterProfile = GetProfileImage(skater)
                        };
         }
@@ -118,7 +119,7 @@
                        {
                            SkaterName = skater?.GetDisplaySkaterName(),
                            Name = shortestDistance.Name,
-                           DisplayDistance = GetDisplayDistance(shortestDistance.DistanceInMiles),
+                           Statistic = GetDisplayDistance(shortestDistance.DistanceInMiles),
                            SkaterProfile = GetProfileImage(skater)
                        };
         }
@@ -139,9 +140,30 @@
             return new SkaterStatisticsModel
                        {
                            SkaterName = skater?.GetDisplaySkaterName(),
-                           DisplayDistance = GetDisplayDistance(longestTotalDistance.TotalMiles),
+                           Statistic = GetDisplayDistance(longestTotalDistance.TotalMiles),
                            SkaterProfile = GetProfileImage(skater)
                        };
+        }
+
+        private SkaterStatisticsModel GetHighestNumberOfJourneys(IList<SkateLogEntry> allSessions, IList<ApplicationUser> allSkaters)
+        {
+            if (allSessions == null || !allSessions.Any())
+            {
+                return null;
+            }
+
+            var mostJourneys = allSessions.GroupBy(x => x.ApplicationUserId)
+                                          .Select(x => new { ApplicationUserId = x.Key, Journeys = x.Count() })
+                                          .OrderByDescending(x => x.Journeys)
+                                          .First();
+            var skater = allSkaters.FirstOrDefault(x => x.Id.Equals(mostJourneys.ApplicationUserId, StringComparison.CurrentCultureIgnoreCase));
+
+            return new SkaterStatisticsModel
+            {
+                SkaterName = skater?.GetDisplaySkaterName(),
+                Statistic = $"{mostJourneys.Journeys:F0} Journeys",
+                SkaterProfile = GetProfileImage(skater)
+            };
         }
 
         private string GetProfileImage(ApplicationUser skater)
