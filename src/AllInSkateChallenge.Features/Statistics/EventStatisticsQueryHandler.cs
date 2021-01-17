@@ -20,16 +20,23 @@
 
         private readonly IGravatarResolver gravatarResolver;
 
-        public EventStatisticsQueryHandler(ApplicationDbContext context, IGravatarResolver gravatarResolver)
+        private readonly ISkaterTargetAnalyser skaterTargetAnalyser;
+
+        public EventStatisticsQueryHandler(
+            ApplicationDbContext context, 
+            IGravatarResolver gravatarResolver, 
+            ISkaterTargetAnalyser skaterTargetAnalyser)
         {
             this.context = context;
             this.gravatarResolver = gravatarResolver;
+            this.skaterTargetAnalyser = skaterTargetAnalyser;
         }
 
         public async Task<EventStatisticsQueryResponse> Handle(EventStatisticsQuery request, CancellationToken cancellationToken)
         {
             var allSessions = await context.SkateLogEntries.Where(x => x.ApplicationUser.HasPaid).ToListAsync(cancellationToken);
             var allSkaters = await context.Users.Where(x => x.HasPaid).ToListAsync(cancellationToken);
+            var skaterLogs = allSkaters.Select(x => skaterTargetAnalyser.Analyse(x, allSessions)).Where(x => x.TotalSessions > 0).ToList();
             var allDates = GetAllDates(allSessions);
 
             return new EventStatisticsQueryResponse
