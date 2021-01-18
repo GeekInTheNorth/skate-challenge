@@ -46,7 +46,7 @@ namespace AllInSkateChallenge.Test.Statistics
             var skaterStats = analyser.Analyse(user, miles);
 
             // Assert
-            Assert.That(skaterStats.DateReachedSaltaire.HasValue, Is.EqualTo(datePopulated));
+            Assert.That(skaterStats.CheckPointDates.Any(x => x.Key.Equals(SkateTarget.Saltaire)), Is.EqualTo(datePopulated));
         }
 
         [Test]
@@ -66,7 +66,7 @@ namespace AllInSkateChallenge.Test.Statistics
             var skaterStats = analyser.Analyse(user, miles);
 
             // Assert
-            Assert.That(skaterStats.DateReachedFoulridge.HasValue, Is.EqualTo(datePopulated));
+            Assert.That(skaterStats.CheckPointDates.Any(x => x.Key.Equals(SkateTarget.FoulridgeSummit)), Is.EqualTo(datePopulated));
         }
 
         [Test]
@@ -86,7 +86,7 @@ namespace AllInSkateChallenge.Test.Statistics
             var skaterStats = analyser.Analyse(user, miles);
 
             // Assert
-            Assert.That(skaterStats.DateReachedLiverpool.HasValue, Is.EqualTo(datePopulated));
+            Assert.That(skaterStats.CheckPointDates.Any(x => x.Key.Equals(SkateTarget.LiverpoolCanningDock)), Is.EqualTo(datePopulated));
         }
 
         [Test]
@@ -106,7 +106,7 @@ namespace AllInSkateChallenge.Test.Statistics
             var skaterStats = analyser.Analyse(user, miles);
 
             // Assert
-            Assert.That(skaterStats.DateReachedLeeds.HasValue, Is.EqualTo(datePopulated));
+            Assert.That(skaterStats.CheckPointDates.Any(x => x.Key.Equals(SkateTarget.ThereAndBackAgain)), Is.EqualTo(datePopulated));
         }
 
         [Test]

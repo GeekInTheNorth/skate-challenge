@@ -40,26 +40,6 @@
                         statistics.CheckPointDates.Add(checkPoint.SkateTarget, session.Logged);
                     }
                 }
-
-                if (totalMiles >= 13)
-                {
-                    statistics.DateReachedSaltaire ??= session.Logged;
-                }
-
-                if (totalMiles >= 47)
-                {
-                    statistics.DateReachedFoulridge ??= session.Logged;
-                }
-
-                if (totalMiles >= 127.5M)
-                {
-                    statistics.DateReachedLiverpool ??= session.Logged;
-                }
-
-                if (totalMiles >= 255)
-                {
-                    statistics.DateReachedLeeds ??= session.Logged;
-                }
             }
 
             statistics.TotalMiles = totalMiles;

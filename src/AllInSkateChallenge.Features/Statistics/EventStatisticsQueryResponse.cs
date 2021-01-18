@@ -27,5 +27,7 @@
         public int JourneysByStrava { get; set; }
 
         public int JourneysByManual { get; set; }
+
+        public List<CheckPointStatisticsModel> CheckPoints { get; set; }
     }
 }

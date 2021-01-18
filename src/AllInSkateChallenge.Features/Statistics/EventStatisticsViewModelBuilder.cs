@@ -36,6 +36,7 @@
             model.Content.MilesByStrava = result.MilesByStrava;
             model.Content.JourneysByManual = result.JourneysByManual;
             model.Content.JourneysByStrava = result.JourneysByStrava;
+            model.Content.CheckPoints = result.CheckPoints;
 
             return model;
         }

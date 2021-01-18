@@ -141,7 +141,39 @@
     </div>
 </div>
 
-@section Scripts{
+@if (Model.Content.CheckPoints != null && Model.Content.CheckPoints.Any())
+{
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card border-allin-green mb-3">
+                <h5 class="card-header bg-allin-green text-dark">Milestones</h5>
+                <div class="card-body">
+                    <table class="table table-responsive">
+                        <thead>
+                            <tr>
+                                <th>Milestone</th>
+                                <th>First Skater</th>
+                                <th>Latest Skater</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var checkPoint in Model.Content.CheckPoints)
+                            {
+                                <tr>
+                                    <td>@checkPoint.CheckPointName</td>
+                                    <td>@checkPoint.FirstSkaterName</td>
+                                    <td>@checkPoint.LatestSkaterName</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
     <script>
         $(document).ready(function() {

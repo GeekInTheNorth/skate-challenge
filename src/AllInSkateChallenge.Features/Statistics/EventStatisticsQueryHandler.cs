@@ -8,6 +8,7 @@
 
     using AllInSkateChallenge.Features.Data;
     using AllInSkateChallenge.Features.Data.Entities;
+    using AllInSkateChallenge.Features.Data.Static;
     using AllInSkateChallenge.Features.Gravatar;
 
     using MediatR;
@@ -22,14 +23,18 @@
 
         private readonly ISkaterTargetAnalyser skaterTargetAnalyser;
 
+        private readonly ICheckPointRepository checkPointRepository;
+
         public EventStatisticsQueryHandler(
-            ApplicationDbContext context, 
-            IGravatarResolver gravatarResolver, 
-            ISkaterTargetAnalyser skaterTargetAnalyser)
+            ApplicationDbContext context,
+            IGravatarResolver gravatarResolver,
+            ISkaterTargetAnalyser skaterTargetAnalyser, 
+            ICheckPointRepository checkPointRepository)
         {
             this.context = context;
             this.gravatarResolver = gravatarResolver;
             this.skaterTargetAnalyser = skaterTargetAnalyser;
+            this.checkPointRepository = checkPointRepository;
         }
 
         public async Task<EventStatisticsQueryResponse> Handle(EventStatisticsQuery request, CancellationToken cancellationToken)
@@ -52,7 +57,8 @@
                            JourneysByStrava = allSessions.Count(x => !string.IsNullOrWhiteSpace(x.StravaId)),
                            JourneysByManual = allSessions.Count(x => string.IsNullOrWhiteSpace(x.StravaId)),
                            SkateDistances = GetMilesPerDay(allSessions, allDates),
-                           SkateSessions = GetSessionsPerDay(allSessions, allDates)
+                           SkateSessions = GetSessionsPerDay(allSessions, allDates),
+                           CheckPoints = GetCheckPointStatistics(skaterLogs).ToList()
                        };
         }
 
@@ -171,6 +177,32 @@
                 Statistic = $"{mostJourneys.Journeys:F0} Journeys",
                 SkaterProfile = GetProfileImage(skater)
             };
+        }
+
+        private IEnumerable<CheckPointStatisticsModel> GetCheckPointStatistics(List<SkaterTargetAnalysis> skaterAnalyses)
+        {
+            var checkPoints = checkPointRepository.Get().Where(x => !x.SkateTarget.Equals(SkateTarget.None)).ToList();
+            foreach(var checkPoint in checkPoints)
+            {
+                var firstSkater = skaterAnalyses.Where(x => x.CheckPointDates.ContainsKey(checkPoint.SkateTarget))
+                                                .OrderBy(x => x.GetMileStoneDate(checkPoint.SkateTarget))
+                                                .Select(x => x.Skater)
+                                                .FirstOrDefault();
+                var lastSkater = skaterAnalyses.Where(x => x.CheckPointDates.ContainsKey(checkPoint.SkateTarget))
+                                               .OrderByDescending(x => x.GetMileStoneDate(checkPoint.SkateTarget))
+                                               .Select(x => x.Skater)
+                                               .FirstOrDefault();
+
+                yield return new CheckPointStatisticsModel
+                {
+                    Target = checkPoint.SkateTarget,
+                    CheckPointName = checkPoint.Title,
+                    FirstSkaterName = firstSkater?.GetDisplaySkaterName(),
+                    FirstSkaterProfile = firstSkater != null ? GetProfileImage(firstSkater) : null,
+                    LatestSkaterName = lastSkater?.GetDisplaySkaterName(),
+                    LatestSkaterProfile = lastSkater != null ? GetProfileImage(lastSkater) : null
+                };
+            }
         }
 
         private string GetProfileImage(ApplicationUser skater)
