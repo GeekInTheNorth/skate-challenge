@@ -8,6 +8,7 @@
 
     using AllInSkateChallenge.Features.Data;
     using AllInSkateChallenge.Features.Data.Entities;
+    using AllInSkateChallenge.Features.Data.Static;
     using AllInSkateChallenge.Features.Gravatar;
 
     using MediatR;
@@ -20,16 +21,27 @@
 
         private readonly IGravatarResolver gravatarResolver;
 
-        public EventStatisticsQueryHandler(ApplicationDbContext context, IGravatarResolver gravatarResolver)
+        private readonly ISkaterTargetAnalyser skaterTargetAnalyser;
+
+        private readonly ICheckPointRepository checkPointRepository;
+
+        public EventStatisticsQueryHandler(
+            ApplicationDbContext context,
+            IGravatarResolver gravatarResolver,
+            ISkaterTargetAnalyser skaterTargetAnalyser, 
+            ICheckPointRepository checkPointRepository)
         {
             this.context = context;
             this.gravatarResolver = gravatarResolver;
+            this.skaterTargetAnalyser = skaterTargetAnalyser;
+            this.checkPointRepository = checkPointRepository;
         }
 
         public async Task<EventStatisticsQueryResponse> Handle(EventStatisticsQuery request, CancellationToken cancellationToken)
         {
             var allSessions = await context.SkateLogEntries.Where(x => x.ApplicationUser.HasPaid).ToListAsync(cancellationToken);
             var allSkaters = await context.Users.Where(x => x.HasPaid).ToListAsync(cancellationToken);
+            var skaterLogs = allSkaters.Select(x => skaterTargetAnalyser.Analyse(x, allSessions)).Where(x => x.TotalSessions > 0).ToList();
             var allDates = GetAllDates(allSessions);
 
             return new EventStatisticsQueryResponse
@@ -37,6 +49,7 @@
                            ShortestSingleDistance = GetShortestDistance(allSessions, allSkaters),
                            LongestSingleDistance = GetLongestDistance(allSessions, allSkaters),
                            LongestTotalDistance = GetLongestTotalDistance(allSessions, allSkaters),
+                           MostJourneys = GetHighestNumberOfJourneys(allSessions, allSkaters),
                            TotalMiles = allSessions.Sum(x => x.DistanceInMiles),
                            TotalSkateSessions = allSessions.Count,
                            MilesByStrava = allSessions.Where(x => !string.IsNullOrWhiteSpace(x.StravaId)).Sum(x => x.DistanceInMiles),
@@ -44,7 +57,8 @@
                            JourneysByStrava = allSessions.Count(x => !string.IsNullOrWhiteSpace(x.StravaId)),
                            JourneysByManual = allSessions.Count(x => string.IsNullOrWhiteSpace(x.StravaId)),
                            SkateDistances = GetMilesPerDay(allSessions, allDates),
-                           SkateSessions = GetSessionsPerDay(allSessions, allDates)
+                           SkateSessions = GetSessionsPerDay(allSessions, allDates),
+                           CheckPoints = GetCheckPointStatistics(skaterLogs).ToList()
                        };
         }
 
@@ -99,7 +113,7 @@
                        {
                            SkaterName = skater?.GetDisplaySkaterName(),
                            Name = shortestDistance.Name,
-                           DisplayDistance = GetDisplayDistance(shortestDistance.DistanceInMiles),
+                           Statistic = GetDisplayDistance(shortestDistance.DistanceInMiles),
                            SkaterProfile = GetProfileImage(skater)
                        };
         }
@@ -118,7 +132,7 @@
                        {
                            SkaterName = skater?.GetDisplaySkaterName(),
                            Name = shortestDistance.Name,
-                           DisplayDistance = GetDisplayDistance(shortestDistance.DistanceInMiles),
+                           Statistic = GetDisplayDistance(shortestDistance.DistanceInMiles),
                            SkaterProfile = GetProfileImage(skater)
                        };
         }
@@ -139,9 +153,56 @@
             return new SkaterStatisticsModel
                        {
                            SkaterName = skater?.GetDisplaySkaterName(),
-                           DisplayDistance = GetDisplayDistance(longestTotalDistance.TotalMiles),
+                           Statistic = GetDisplayDistance(longestTotalDistance.TotalMiles),
                            SkaterProfile = GetProfileImage(skater)
                        };
+        }
+
+        private SkaterStatisticsModel GetHighestNumberOfJourneys(IList<SkateLogEntry> allSessions, IList<ApplicationUser> allSkaters)
+        {
+            if (allSessions == null || !allSessions.Any())
+            {
+                return null;
+            }
+
+            var mostJourneys = allSessions.GroupBy(x => x.ApplicationUserId)
+                                          .Select(x => new { ApplicationUserId = x.Key, Journeys = x.Count() })
+                                          .OrderByDescending(x => x.Journeys)
+                                          .First();
+            var skater = allSkaters.FirstOrDefault(x => x.Id.Equals(mostJourneys.ApplicationUserId, StringComparison.CurrentCultureIgnoreCase));
+
+            return new SkaterStatisticsModel
+            {
+                SkaterName = skater?.GetDisplaySkaterName(),
+                Statistic = $"{mostJourneys.Journeys:F0} Journeys",
+                SkaterProfile = GetProfileImage(skater)
+            };
+        }
+
+        private IEnumerable<CheckPointStatisticsModel> GetCheckPointStatistics(List<SkaterTargetAnalysis> skaterAnalyses)
+        {
+            var checkPoints = checkPointRepository.Get().Where(x => !x.SkateTarget.Equals(SkateTarget.None)).ToList();
+            foreach(var checkPoint in checkPoints)
+            {
+                var firstSkater = skaterAnalyses.Where(x => x.CheckPointDates.ContainsKey(checkPoint.SkateTarget))
+                                                .OrderBy(x => x.GetMileStoneDate(checkPoint.SkateTarget))
+                                                .Select(x => x.Skater)
+                                                .FirstOrDefault();
+                var lastSkater = skaterAnalyses.Where(x => x.CheckPointDates.ContainsKey(checkPoint.SkateTarget))
+                                               .OrderByDescending(x => x.GetMileStoneDate(checkPoint.SkateTarget))
+                                               .Select(x => x.Skater)
+                                               .FirstOrDefault();
+
+                yield return new CheckPointStatisticsModel
+                {
+                    Target = checkPoint.SkateTarget,
+                    CheckPointName = checkPoint.Title,
+                    FirstSkaterName = firstSkater?.GetDisplaySkaterName(),
+                    FirstSkaterProfile = firstSkater != null ? GetProfileImage(firstSkater) : null,
+                    LatestSkaterName = lastSkater?.GetDisplaySkaterName(),
+                    LatestSkaterProfile = lastSkater != null ? GetProfileImage(lastSkater) : null
+                };
+            }
         }
 
         private string GetProfileImage(ApplicationUser skater)

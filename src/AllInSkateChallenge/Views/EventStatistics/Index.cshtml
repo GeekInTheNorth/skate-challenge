@@ -27,7 +27,7 @@
                     @Model.Content.LongestSingleDistance.SkaterName
                 </div>
                 <div class="col-5 align-middle">
-                    @Model.Content.LongestSingleDistance.DisplayDistance
+                    @Model.Content.LongestSingleDistance.Statistic
                 </div>
             </div>
         </div>
@@ -43,7 +43,7 @@
                     @Model.Content.ShortestSingleDistance.SkaterName
                 </div>
                 <div class="col-5 align-middle">
-                    @Model.Content.ShortestSingleDistance.DisplayDistance
+                    @Model.Content.ShortestSingleDistance.Statistic
                 </div>
             </div>
         </div>
@@ -62,11 +62,30 @@
                     @Model.Content.LongestTotalDistance.SkaterName
                 </div>
                 <div class="col-5 align-middle">
-                    @Model.Content.LongestTotalDistance.DisplayDistance
+                    @Model.Content.LongestTotalDistance.Statistic
                 </div>
             </div>
         </div>
     </div>
+    <div class="col-md-6">
+        <div class="card border-allin-green mb-3">
+            <h5 class="card-header bg-allin-green text-dark">Most Journeys</h5>
+            <div class="card-body row">
+                <div class="col-2">
+                    <img src="@Model.Content.MostJourneys.SkaterProfile" alt="@Model.Content.MostJourneys.SkaterName Profile Image" class="leaderboard-profile" />
+                </div>
+                <div class="col-5 align-middle">
+                    @Model.Content.MostJourneys.SkaterName
+                </div>
+                <div class="col-5 align-middle">
+                    @Model.Content.MostJourneys.Statistic
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row justify-content-md-center">
     <div class="col-md-6">
         <div class="card border-allin-green mb-3">
             <h5 class="card-header bg-allin-green text-dark">Collective Journeys</h5>
@@ -122,7 +141,51 @@
     </div>
 </div>
 
-@section Scripts{
+@if (Model.Content.CheckPoints != null && Model.Content.CheckPoints.Any())
+{
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card border-allin-green mb-3">
+                <h5 class="card-header bg-allin-green text-dark">Milestones</h5>
+                <div class="card-body">
+                    <table class="table table-responsive-lg table-hover table-re">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th scope="col">Milestone</th>
+                                <th scope="col">First</th>
+                                <th scope="col">Latest</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var checkPoint in Model.Content.CheckPoints)
+                            {
+                                <tr>
+                                    <td class="align-middle" style="width: 30%">@checkPoint.CheckPointName</td>
+                                    <td class="align-middle">
+                                        @if (!string.IsNullOrWhiteSpace(checkPoint.FirstSkaterProfile))
+                                        {
+                                            <img src="@checkPoint.FirstSkaterProfile" alt="@checkPoint.FirstSkaterName Profile Image" class="leaderboard-profile mobile-hidden" />
+                                        }
+                                        @checkPoint.FirstSkaterName
+                                    </td>
+                                    <td class="align-middle">
+                                        @if (!string.IsNullOrWhiteSpace(checkPoint.LatestSkaterProfile))
+                                        {
+                                            <img src="@checkPoint.LatestSkaterProfile" alt="@checkPoint.LatestSkaterName Profile Image" class="leaderboard-profile mobile-hidden" />
+                                        }
+                                        @checkPoint.LatestSkaterName
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
     <script>
         $(document).ready(function() {

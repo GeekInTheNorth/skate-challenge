@@ -10,6 +10,8 @@
 
         public SkaterStatisticsModel ShortestSingleDistance { get; set; }
 
+        public SkaterStatisticsModel MostJourneys { get; set; }
+
         public List<StatisticsItemModel> SkateSessions { get; set; }
 
         public List<StatisticsItemModel> SkateDistances { get; set; }
@@ -25,5 +27,7 @@
         public int JourneysByStrava { get; set; }
 
         public int JourneysByManual { get; set; }
+
+        public List<CheckPointStatisticsModel> CheckPoints { get; set; }
     }
 }

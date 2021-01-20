@@ -8,6 +8,6 @@
 
         public string Name { get; set; }
 
-        public string DisplayDistance { get; set; }
+        public string Statistic { get; set; }
     }
 }

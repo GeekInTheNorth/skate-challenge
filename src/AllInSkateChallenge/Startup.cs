@@ -100,11 +100,16 @@ namespace AllInSkateChallenge
             services.Configure<RouteSettings>(options => Configuration.GetSection("RouteSettings").Bind(options));
             services.AddSingleton<IAbsoluteUrlHelper, AbsoluteUrlHelper>();
 
-            // External Services
+            // Emails
             services.Configure<EmailSettings>(options => Configuration.GetSection("EmailSettings").Bind(options));
             services.AddTransient<IEmailSender, EmailSenderService>();
+            services.AddTransient<IViewToStringRenderer, ViewToStringRenderer>();
+
+            // Blob Storage
             services.Configure<StorageSettings>(options => options.ConnectionString = Configuration.GetConnectionString("BlobStorage"));
             services.AddTransient<IBlobStorageService, BlobStorageService>();
+
+            // Strava
             services.Configure<StravaSettings>(options => Configuration.GetSection("Strava").Bind(options));
             services.AddTransient<IStravaService, StravaService>();
 
@@ -123,8 +128,11 @@ namespace AllInSkateChallenge
             // Data
             services.AddTransient<ICheckPointRepository, CheckPointRepository>();
             
-            services.AddTransient<IViewToStringRenderer, ViewToStringRenderer>();
+            // Commands & Queries
             services.AddMediatR(typeof(AdminDeleteUserCommand).Assembly);
+
+            // Misc
+            services.AddTransient<ISkaterTargetAnalyser, SkaterTargetAnalyser>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
