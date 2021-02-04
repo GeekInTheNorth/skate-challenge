@@ -1,42 +1,38 @@
 ﻿@model AllInSkateChallenge.Features.LeaderBoard.LeaderBoardViewComponentModel
 
-<div id="leaderboard-list-app" class="row mt-3">
+<div id="leaderboard-list-app">
 
     @if (Model.ShowFilter)
     {
-        <div class="col-xl-12">
-            <div class="input-group mt-3 mb-3">
-                <div class="input-group-prepend">
-                    <span class="input-group-text" id="target-distance">Target Distance</span>
-                </div>
-                <select name="target" asp-for="@Model.FilterValue" asp-items="@Model.FilterItems" class="form-control" aria-label="Sort Order" aria-describedby="target-distance" v-model="skateTarget" v-on:change="getLeaderBoard"></select>
+        <div class="input-group mt-3 mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="target-distance">Target</span>
             </div>
+            <select name="target" asp-for="@Model.FilterValue" asp-items="@Model.FilterItems" class="form-control" aria-label="Sort Order" aria-describedby="target-distance" v-model="skateTarget" v-on:change="getLeaderBoard"></select>
         </div>
     }
 
-    <div class="col-xl-12">
-        <table class="table">
-            <thead class="thead-dark">
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Skater</th>
+                <th scope="col">Total Miles</th>
+            </tr>
+        </thead>
+        <tbody>
+            <template v-for="skater in skaters">
                 <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Skater</th>
-                    <th scope="col">Total Miles</th>
+                    <td class="align-middle"><span v-bind:class="getPositionClass(skater.position)">{{skater.position}}</span></td>
+                    <td class="align-middle">
+                        <img v-bind:src="skater.profileImage" v-bind:alt="getProfileAltText(skater.skaterName)" class="leaderboard-profile" />
+                        {{skater.skaterName}}
+                    </td>
+                    <td class="align-middle">{{skater.totalMiles.toFixed(2)}}</td>
                 </tr>
-            </thead>
-            <tbody>
-                <template v-for="skater in skaters">
-                    <tr>
-                        <td class="align-middle"><span v-bind:class="getPositionClass(skater.position)">{{skater.position}}</span></td>
-                        <td class="align-middle">
-                            <img v-bind:src="skater.profileImage" v-bind:alt="getProfileAltText(skater.skaterName)" class="leaderboard-profile" />
-                            {{skater.skaterName}}
-                        </td>
-                        <td class="align-middle">{{skater.totalMiles.toFixed(2)}}</td>
-                    </tr>
-                </template>
-            </tbody>
-        </table>
-    </div>
+            </template>
+        </tbody>
+    </table>
 
 </div>
 

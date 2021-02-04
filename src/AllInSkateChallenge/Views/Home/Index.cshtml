@@ -60,39 +60,7 @@
     {
         <div class="col-xl-6 mb-3">
             <h2>Leader Board</h2>
-            <table class="table">
-                <thead class="thead-dark">
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Skater</th>
-                        <th scope="col">Total Miles</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var entry in Model.Content.LeaderBoard)
-                    {
-                        <tr>
-                            <td class="align-middle"><span class="@GetPositionClass(entry.Place)">@entry.Place</span></td>
-                            <td class="align-middle">
-                                <picture>
-                                    @if (!string.IsNullOrWhiteSpace(entry.ProfileImage))
-                                    {
-                                        <img src="@entry.ProfileImage" alt="@entry.SkaterName Profile Image" class="leaderboard-profile" />
-                                    }
-                                    else
-                                    {
-                                        <source media="(min-width:576px)" srcset="@entry.GravatarUrl?s=48">
-                                        <source srcset="@entry.GravatarUrl?s=28">
-                                        <img src="@entry.GravatarUrl?s=28" alt="@entry.SkaterName Gravatar Profile Image" class="leaderboard-profile" />
-                                    }
-                                </picture>
-                                @entry.SkaterName
-                            </td>
-                            <td class="align-middle">@entry.TotalMiles.ToString("F2")</td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
+            <vc:leader-board user="@Model.CurrentUser" show-filter="false" limit="10"></vc:leader-board>
             <a asp-controller="LeaderBoard" asp-action="Index" class="btn btn-primary">See All Leader Boards</a>
         </div>
     }
