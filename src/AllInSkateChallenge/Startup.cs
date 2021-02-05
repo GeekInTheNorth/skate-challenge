@@ -120,7 +120,6 @@ namespace AllInSkateChallenge
             services.AddTransient<ISkaterLogViewModelBuilder, SkaterLogViewModelBuilder>();
             services.AddTransient<IStravaImportViewModelBuilder, StravaImportViewModelBuilder>();
             services.AddTransient<IEventDetailsViewModelBuilder, EventDetailsViewModelBuilder>();
-            services.AddTransient<ILeaderBoardViewModelBuilder, LeaderBoardViewModelBuilder>();
             services.AddTransient<IErrorViewModelBuilder, ErrorViewModelBuilder>();
             services.AddTransient<ILatestUpdatesViewModelBuilder, LatestUpdatesViewModelBuilder>();
             services.AddTransient<IEventStatisticsViewModelBuilder, EventStatisticsViewModelBuilder>();

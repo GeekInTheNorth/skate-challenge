@@ -12,6 +12,8 @@ namespace AllInSkateChallenge.Features.EventDetails
 
         private string displayPageTitle;
 
+        private bool isNoIndexPage;
+
         public EventDetailsViewModelBuilder(IMediator mediator) : base(mediator)
         {
         }
@@ -24,12 +26,19 @@ namespace AllInSkateChallenge.Features.EventDetails
             return this;
         }
 
+        public IEventDetailsViewModelBuilder WithNoIndex()
+        {
+            isNoIndexPage = true;
+
+            return this;
+        }
+
         public override async Task<PageViewModel<EventDetailsViewModel>> Build()
         {
             var model = await base.Build();
             model.PageTitle = pageTitle;
             model.DisplayPageTitle = displayPageTitle;
-            model.IsNoIndexPage = true;
+            model.IsNoIndexPage = isNoIndexPage;
 
             return model;
         }

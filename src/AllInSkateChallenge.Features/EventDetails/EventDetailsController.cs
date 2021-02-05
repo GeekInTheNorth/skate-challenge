@@ -36,5 +36,15 @@ namespace AllInSkateChallenge.Features.EventDetails
 
             return View(model);
         }
+
+        [Route("LeaderBoard")]
+        public async Task<IActionResult> LeaderBoard()
+        {
+            var user = await userManager.GetUserAsync(User);
+            var model = await viewModelBuilder.WithTitles("Leader Board", "Leader Board").WithUser(user).Build();
+            model.IsNoIndexPage = true;
+
+            return View(model);
+        }
     }
 }
