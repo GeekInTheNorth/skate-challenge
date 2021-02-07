@@ -1,0 +1,72 @@
+﻿@model AllInSkateChallenge.Features.Updates.LatestUpdatesViewComponentModel
+
+<div id="latest-updates-app">
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Skater</th>
+                @if (Model.ShowJourneyName)
+                {
+                    <th scope="col" class="mobile-hidden">Journey</th>
+                }
+                <th scope="col">Logged</th>
+                <th scope="col">Miles</th>
+            </tr>
+        </thead>
+        <tbody>
+            <template v-for="skater in skaters">
+                <tr>
+                    <td class="align-middle">
+                        <img v-bind:src="skater.profileImage" v-bind:alt="getProfileAltText(skater.skaterName)" class="leaderboard-profile" />
+                        {{skater.skaterName}}
+                    </td>
+                    @if (Model.ShowJourneyName)
+                    {
+                        <td class="align-middle mobile-hidden">{{skater.activityName}}</td>
+                    }
+                    <td class="align-middle">{{getDateString(skater.logged)}}</td>
+                    <td class="align-middle">{{skater.miles.toFixed(2)}}</td>
+                </tr>
+            </template>
+        </tbody>
+    </table>
+    @if (Model.ShowLoadMore)
+    {
+        <div class="text-center">
+            <button type="button" class="btn btn-primary" v-on:click="getLatestUpdates">Load More</button>
+        </div>
+    }
+</div>
+
+<script type="text/javascript" on-content-loaded="true">
+    $(document).ready(function () {
+        var latestUpdatesApp = new Vue({
+            el: '#latest-updates-app',
+            data: {
+                skaters: [],
+                take: @Model.Take,
+                skip: @Model.Skip
+            },
+            mounted: function () {
+                this.getLatestUpdates();
+            },
+            methods: {
+                getProfileAltText: function (skaterName) {
+                    return skaterName + " Profile Image";
+                },
+                getLatestUpdates: function () {
+                    var url = "@Model.LatestUpdatesUrl?skip=" + this.skip + "&take=" + this.take;
+
+                    $.get(url, function (data) {
+                        latestUpdatesApp.skaters = latestUpdatesApp.skaters.concat(data.log);
+                        latestUpdatesApp.skip += latestUpdatesApp.take;
+                    });
+                },
+                getDateString(loggedDate) {
+                    var date = new Date(loggedDate);
+                    return date.toLocaleDateString("en-GB");
+                }
+            }
+        });
+    });
+</script>

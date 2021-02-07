@@ -1,0 +1,11 @@
+﻿@model AllInSkateChallenge.Features.Framework.Models.PageViewModel<AllInSkateChallenge.Features.EventDetails.EventDetailsViewModel>
+
+@{
+    Layout = "_PageViewModelLayout";
+}
+
+<div class="row">
+    <div class="col-xl-12">
+        <vc:latest-updates take="20" skip="0" show-load-more="true" show-journey-name="true"></vc:latest-updates>
+    </div>
+</div>
