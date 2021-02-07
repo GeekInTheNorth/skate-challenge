@@ -5,5 +5,7 @@
         public string SiteUrl { get; set; }
 
         public string LeaderBoardUrl { get; set; }
+
+        public string LatestUpdatesUrl { get; set; }
     }
 }
