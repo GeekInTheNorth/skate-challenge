@@ -9,5 +9,7 @@
         public string LatestUpdatesUrl { get; set; }
 
         public bool ShowLoadMore { get; set; }
+
+        public bool ShowJourneyName { get; set; }
     }
 }

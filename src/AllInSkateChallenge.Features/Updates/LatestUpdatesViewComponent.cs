@@ -14,13 +14,14 @@ namespace AllInSkateChallenge.Features.Updates
             this.routeSettings = routeSettings.Value;
         }
 
-        public IViewComponentResult Invoke(int take, int skip, bool showLoadMore)
+        public IViewComponentResult Invoke(int take, int skip, bool showLoadMore, bool showJourneyName)
         {
             var model = new LatestUpdatesViewComponentModel
             {
                 Take = take,
                 Skip = skip,
                 ShowLoadMore = showLoadMore,
+                ShowJourneyName = showJourneyName,
                 LatestUpdatesUrl = routeSettings.LatestUpdatesUrl
             };
 

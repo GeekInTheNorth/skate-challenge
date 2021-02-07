@@ -4,23 +4,6 @@
     Layout = "_PageViewModelLayout";
 }
 
-@functions{
-    string GetPositionClass(int position)
-    {
-        switch (position)
-        {
-            case 1:
-                return "leaderboard-position leaderboard-position--first";
-            case 2:
-                return "leaderboard-position leaderboard-position--second";
-            case 3:
-                return "leaderboard-position leaderboard-position--third";
-            default:
-                return "leaderboard-position";
-        }
-    }
-}
-
 <div class="row">
     <div class="col-xl-12">
         <p>ALL IN challenges you to join our virtual skate along the Leeds-Liverpool canal (127.5 miles)!   The Leeds Liverpool canal is the longest canal in Britain built as a single waterway and snakes through the northern heartlands of the Industrial Revolution, including right through our very own Bradford! Skate whenever, wherever, and take however long you need.  Track your miles here and share your successes in our <a href="https://www.facebook.com/groups/3257681721008087" target="_blank">Facebook Group</a>. Disclaimer: the actual Leeds-Liverpool canal isn't skateable...  you'll need a boat!</p>
@@ -63,45 +46,10 @@
             <vc:leader-board user="@Model.CurrentUser" show-filter="false" limit="10"></vc:leader-board>
             <a asp-controller="EventDetails" asp-action="LeaderBoard" class="btn btn-primary">See All Leader Boards</a>
         </div>
-    }
 
-    @if (Model.Content.LatestUpdates != null && Model.Content.LatestUpdates.Any())
-    {
         <div class="col-xl-6 mb-3">
             <h2>Latest Journeys</h2>
-            <table class="table">
-                <thead class="thead-dark">
-                    <tr>
-                        <th scope="col">Skater</th>
-                        <th scope="col">Logged</th>
-                        <th scope="col">Miles</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var entry in Model.Content.LatestUpdates)
-                    {
-                        <tr>
-                            <td class="align-middle">
-                                <picture>
-                                    @if (!string.IsNullOrWhiteSpace(entry.ProfileImage))
-                                    {
-                                        <img src="@entry.ProfileImage" alt="@entry.Skater Profile Image" class="leaderboard-profile" />
-                                    }
-                                    else
-                                    {
-                                        <source media="(min-width:576px)" srcset="@entry.GravatarUrl?s=48">
-                                        <source srcset="@entry.GravatarUrl?s=28">
-                                        <img src="@entry.GravatarUrl?s=28" alt="@entry.Skater Gravatar Profile Image" class="leaderboard-profile" />
-                                    }
-                                </picture>
-                                @entry.Skater
-                            </td>
-                            <td class="align-middle">@entry.Logged.ToString("dd/MM/yyyy")</td>
-                            <td class="align-middle">@entry.Miles.ToString("F2")</td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
+            <vc:latest-updates take="10" skip="0" show-load-more="false" show-journey-name="false"></vc:latest-updates>
             <a asp-controller="LatestUpdates" asp-action="Index" class="btn btn-primary">See All Updates</a>
         </div>
     }

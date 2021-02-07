@@ -1,7 +1,6 @@
 ﻿using System.Threading.Tasks;
 
 using AllInSkateChallenge.Features.Framework.Models;
-using AllInSkateChallenge.Features.Updates;
 
 using MediatR;
 
@@ -25,13 +24,6 @@ namespace AllInSkateChallenge.Features.Home
             model.IsNoIndexPage = false;
             model.Content.NumberOfSkaters = eventStatistics.NumberOfSkaters;
             model.Content.CumulativeMiles = eventStatistics.CumulativeMiles;
-
-            if (this.User != null)
-            {
-                var latestUpdates = await mediator.Send(new LatestUpdatesQuery { Page = 1, PageSize = 10 });
-
-                model.Content.LatestUpdates = latestUpdates.Entries;
-            }
 
             return model;
         }

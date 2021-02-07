@@ -5,7 +5,10 @@
         <thead class="thead-dark">
             <tr>
                 <th scope="col">Skater</th>
-                <th scope="col" class="mobile-hidden">Journey</th>
+                @if (Model.ShowJourneyName)
+                {
+                    <th scope="col" class="mobile-hidden">Journey</th>
+                }
                 <th scope="col">Logged</th>
                 <th scope="col">Miles</th>
             </tr>
@@ -17,7 +20,10 @@
                         <img v-bind:src="skater.profileImage" v-bind:alt="getProfileAltText(skater.skaterName)" class="leaderboard-profile" />
                         {{skater.skaterName}}
                     </td>
-                    <td class="align-middle mobile-hidden">{{skater.activityName}}</td>
+                    @if (Model.ShowJourneyName)
+                    {
+                        <td class="align-middle mobile-hidden">{{skater.activityName}}</td>
+                    }
                     <td class="align-middle">{{getDateString(skater.logged)}}</td>
                     <td class="align-middle">{{skater.miles.toFixed(2)}}</td>
                 </tr>
