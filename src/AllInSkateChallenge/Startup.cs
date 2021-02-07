@@ -121,7 +121,6 @@ namespace AllInSkateChallenge
             services.AddTransient<IStravaImportViewModelBuilder, StravaImportViewModelBuilder>();
             services.AddTransient<IEventDetailsViewModelBuilder, EventDetailsViewModelBuilder>();
             services.AddTransient<IErrorViewModelBuilder, ErrorViewModelBuilder>();
-            services.AddTransient<ILatestUpdatesViewModelBuilder, LatestUpdatesViewModelBuilder>();
             services.AddTransient<IEventStatisticsViewModelBuilder, EventStatisticsViewModelBuilder>();
 
             // Data

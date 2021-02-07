@@ -2,6 +2,7 @@
 
 using AllInSkateChallenge.Features.Data.Entities;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -37,11 +38,23 @@ namespace AllInSkateChallenge.Features.EventDetails
             return View(model);
         }
 
+        [Authorize]
         [Route("LeaderBoard")]
         public async Task<IActionResult> LeaderBoard()
         {
             var user = await userManager.GetUserAsync(User);
             var model = await viewModelBuilder.WithTitles("Leader Board", "Leader Board").WithUser(user).Build();
+            model.IsNoIndexPage = true;
+
+            return View(model);
+        }
+
+        [Authorize]
+        [Route("LatestUpdates")]
+        public async Task<IActionResult> LatestUpdates()
+        {
+            var user = await userManager.GetUserAsync(User);
+            var model = await viewModelBuilder.WithTitles("Latest Updates", "Latest Updates").WithUser(user).Build();
             model.IsNoIndexPage = true;
 
             return View(model);
