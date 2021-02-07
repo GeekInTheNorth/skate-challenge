@@ -24,6 +24,12 @@
             </template>
         </tbody>
     </table>
+    @if (Model.ShowLoadMore)
+    {
+        <div class="text-center">
+            <button type="button" class="btn btn-primary" v-on:click="getLatestUpdates">Load More</button>
+        </div>
+    }
 </div>
 
 <script type="text/javascript" on-content-loaded="true">
@@ -46,7 +52,7 @@
                     var url = "@Model.LatestUpdatesUrl?skip=" + this.skip + "&take=" + this.take;
 
                     $.get(url, function (data) {
-                        latestUpdatesApp.skaters = data.log;
+                        latestUpdatesApp.skaters = latestUpdatesApp.skaters.concat(data.log);
                         latestUpdatesApp.skip += latestUpdatesApp.take;
                     });
                 },
