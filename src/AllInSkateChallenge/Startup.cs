@@ -27,6 +27,7 @@ namespace AllInSkateChallenge
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Identity.UI.Services;
+    using Microsoft.AspNetCore.StaticFiles;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
@@ -164,12 +165,16 @@ namespace AllInSkateChallenge
                                  .ImageSources(s => s.Self().CustomSources("data:", "https:", "https://www.gravatar.com")));
 
             app.UseHttpsRedirection();
+
+            var staticFileTypeProvider = new FileExtensionContentTypeProvider();
+            staticFileTypeProvider.Mappings[".webmanifest"] = "application/manifest+json";
             app.UseStaticFiles(new StaticFileOptions { 
                 OnPrepareResponse = ctx =>
                 {
                     const int yearInSeconds = 365 * 24 * 60 * 60;
                     ctx.Context.Response.Headers[HeaderNames.CacheControl] = $"public,max-age={yearInSeconds}";
-                }
+                },
+                ContentTypeProvider = staticFileTypeProvider
             });
 
             app.UseRouting();
