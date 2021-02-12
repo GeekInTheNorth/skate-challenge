@@ -31,6 +31,7 @@ namespace AllInSkateChallenge
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
+    using Microsoft.Net.Http.Headers;
 
     public class Startup
     {
@@ -163,7 +164,13 @@ namespace AllInSkateChallenge
                                  .ImageSources(s => s.Self().CustomSources("data:", "https:", "https://www.gravatar.com")));
 
             app.UseHttpsRedirection();
-            app.UseStaticFiles();
+            app.UseStaticFiles(new StaticFileOptions { 
+                OnPrepareResponse = ctx =>
+                {
+                    const int yearInSeconds = 365 * 24 * 60 * 60;
+                    ctx.Context.Response.Headers[HeaderNames.CacheControl] = $"public,max-age={yearInSeconds}";
+                }
+            });
 
             app.UseRouting();
 
