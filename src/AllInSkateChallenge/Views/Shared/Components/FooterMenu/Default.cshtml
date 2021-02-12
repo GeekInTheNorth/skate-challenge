@@ -5,8 +5,8 @@
         <nav class="nav justify-content-center">
             <a class="nav-link text-dark font-weight-bold" asp-controller="EventDetails" asp-action="Faq">FAQ</a>
             <a class="nav-link text-dark font-weight-bold" asp-controller="EventDetails" asp-action="TermsAndConditions">Terms</a>
-            <a class="nav-link text-dark font-weight-bold" href="https://www.allincrd.uk/s/Data-Privacy-Notice-v11-Oct-20.pdf" target="_blank">Privacy</a>
-            <a class="nav-link text-dark font-weight-bold" href="https://www.allincrd.uk/contact" target="_blank">Contact Us</a>
+            <a class="nav-link text-dark font-weight-bold" href="https://www.allincrd.uk/s/Data-Privacy-Notice-v11-Oct-20.pdf" target="_blank" rel="noopener noreferrer">Privacy</a>
+            <a class="nav-link text-dark font-weight-bold" href="https://www.allincrd.uk/contact" target="_blank" rel="noopener noreferrer">Contact Us</a>
             @if (Model.IsLoggedIn)
             {
                 <a class="nav-link text-dark font-weight-bold" asp-controller="EventStatistics" asp-action="Index" title="Statistics">Statistics</a>
@@ -18,10 +18,16 @@
             }
         </nav>
         <div class="justify-content-center">
-            <a href="https://www.facebook.com/groups/3257681721008087/" title="FaceBook" aria-valuetext="FaceBook" target="_blank" class="social-panel--link"><img src="~/images/icon-facebook-black.png" alt="FaceBook" class="social-panel--icon" /></a>
-            <a href="https://twitter.com/allincrd" title="Twitter" aria-valuetext="Twitter" target="_blank" class="social-panel--link"><img src="~/images/icon-twitter-black.png" alt="Twitter" class="social-panel--icon" /></a>
-            <a href="https://www.instagram.com/allin.crd/" title="Instagram" aria-valuetext="Instagram" target="_blank" class="social-panel--link"><img src="~/images/icon-instagram.png" alt="Instagram" class="social-panel--icon" /></a>
+            <a href="https://www.facebook.com/groups/3257681721008087/" title="FaceBook" aria-valuetext="FaceBook" target="_blank" class="social-panel--link" rel="noopener noreferrer">
+                <img src="~/images/icon-facebook-black.png" alt="FaceBook" class="social-panel--icon" />
+            </a>
+            <a href="https://twitter.com/allincrd" title="Twitter" aria-valuetext="Twitter" target="_blank" class="social-panel--link" rel="noopener noreferrer">
+                <img src="~/images/icon-twitter-black.png" alt="Twitter" class="social-panel--icon" />
+            </a>
+            <a href="https://www.instagram.com/allin.crd/" title="Instagram" aria-valuetext="Instagram" target="_blank" class="social-panel--link" rel="noopener noreferrer">
+                <img src="~/images/icon-instagram.png" alt="Instagram" class="social-panel--icon" />
+            </a>
         </div>
-        <span class="text-dark font-weight-bold">&copy; 2020 - </span><a class="text-dark font-weight-bold" href="https://www.allincrd.uk/" target="_blank">ALL IN Community Roller Derby</a>
+        <span class="text-dark font-weight-bold">&copy; 2020 - </span><a class="text-dark font-weight-bold" href="https://www.allincrd.uk/" target="_blank" rel="noopener noreferrer">ALL IN Community Roller Derby</a>
     </div>
 </footer>

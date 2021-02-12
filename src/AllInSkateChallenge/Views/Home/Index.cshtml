@@ -6,7 +6,7 @@
 
 <div class="row">
     <div class="col-xl-12">
-        <p>ALL IN challenges you to join our virtual skate along the Leeds-Liverpool canal (127.5 miles)!   The Leeds Liverpool canal is the longest canal in Britain built as a single waterway and snakes through the northern heartlands of the Industrial Revolution, including right through our very own Bradford! Skate whenever, wherever, and take however long you need.  Track your miles here and share your successes in our <a href="https://www.facebook.com/groups/3257681721008087" target="_blank">Facebook Group</a>. Disclaimer: the actual Leeds-Liverpool canal isn't skateable...  you'll need a boat!</p>
+        <p>ALL IN challenges you to join our virtual skate along the Leeds-Liverpool canal (127.5 miles)!   The Leeds Liverpool canal is the longest canal in Britain built as a single waterway and snakes through the northern heartlands of the Industrial Revolution, including right through our very own Bradford! Skate whenever, wherever, and take however long you need.  Track your miles here and share your successes in our <a href="https://www.facebook.com/groups/3257681721008087" target="_blank" rel="noopener noreferrer">Facebook Group</a>. Disclaimer: the actual Leeds-Liverpool canal isn't skateable...  you'll need a boat!</p>
         @if (Model.Content.NumberOfSkaters > 1 && Model.Content.CumulativeMiles > 0)
         {
             <p class="font-weight-bold">@Model.Content.NumberOfSkaters skaters have now taken up the challenge and skated a collective @Model.Content.CumulativeMiles.ToString("F1") miles.</p>
@@ -23,7 +23,7 @@
                 <div class="card-body">
                     <p class="card-text">Register now to join the ALL IN Skate Challenge and begin your virtual journey along the Leeds Liverpool Canal.</p>
                     <p class="card-text">We understand that 127.5 miles is a long distance to commit to, you can always aim for one of the other awesome milestones along the Leeds Liverpool Canal if you are looking for something a bit shorter.</p>
-                    <p class="card-text">We ask for a £3 donation to take part in the challenge- this helps support our community programmes like <a href="https://www.allincrd.uk/women-on-wheels" target="_blank">Women on Wheels</a>.</p>
+                    <p class="card-text">We ask for a £3 donation to take part in the challenge- this helps support our community programmes like <a href="https://www.allincrd.uk/women-on-wheels" target="_blank" rel="noopener noreferrer">Women on Wheels</a>.</p>
                     <form id="external-account" asp-area="Identity" asp-page="/Account/ExternalLogin" method="post" class="form-horizontal">
                         <a class="btn btn-primary" asp-area="Identity" asp-page="/Account/Register">Register as a new challenger</a>
                         <button type="submit" class="btn btn-strava" name="provider" value="Strava" title="Log in using your strava account"></button>
@@ -33,7 +33,7 @@
         }
         <div class="leeps-liverpool-map-container">
             <img src="~/images/SkateEverywhereMap.jpg" class="img-fluid leeds-liverpool-map" />
-            <a href="https://skateeverywhereproject.com/sepchallenges/distance-and-endurance/leeds-to-liverpool-all-in-challenge-digital-milestone-print/" target="_blank" class="leeds-liverpool-map-link">Get a digital print of this map here!</a>
+            <a href="https://skateeverywhereproject.com/sepchallenges/distance-and-endurance/leeds-to-liverpool-all-in-challenge-digital-milestone-print/" target="_blank" class="leeds-liverpool-map-link" rel="noopener noreferrer">Get a digital print of this map here!</a>
         </div>
     </div>
 </div>
