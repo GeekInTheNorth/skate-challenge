@@ -28,9 +28,10 @@
         <tr class="thead-dark">
             <th scope="col">Skater Name</th>
             <th scope="col">Email Address</th>
-            <th scope="col">Email Verified</th>
             <th scope="col">Registered</th>
             <th scope="col">Paid?</th>
+            <th scope="col">Strava?</th>
+            <th scope="col">Activities</th>
             <th scope="col">Actions</th>
         </tr>
     </thead>
@@ -39,22 +40,28 @@
         {
             <tr data-user-id="@user.Id">
                 <td>@user.SkaterName @(user.IsAdmin ? " (Admin)" : "")</td>
-                <td>@user.Email</td>
-                <td>@(user.EmailConfirmed ? "Yes" : "No")</td>
+                <td>
+                    @user.Email
+                    @if (!user.EmailConfirmed)
+                    {
+                        <br /><span class="text-danger">(Not Verified)</span>
+                    }
                 <td>@user.DateRegistered.ToString("dd/MM/yyyy")</td>
                 <td>@(user.HasPaid ? "Yes" : "No")</td>
+                <td>@(user.IsStravaAccount ? "Yes" : "No")</td>
+                <td>@user.NoOfActivities</td>
                 <td>
                     @if (!user.HasPaid)
                     {
-                        <button type="button" class="btn btn-primary js-toggle-user-paid-status" data-user-id="@user.Id" data-user-name="@user.SkaterName" data-has-paid="@user.HasPaid">Set as Paid</button>
+                        <button type="button" class="btn btn-primary btn-sm js-toggle-user-paid-status" data-user-id="@user.Id" data-user-name="@user.SkaterName" data-has-paid="@user.HasPaid">Set as Paid</button>
                     }
                     else
                     {
-                        <button type="button" class="btn btn-secondary js-toggle-user-paid-status" data-user-id="@user.Id" data-user-name="@user.SkaterName" data-has-paid="@user.HasPaid">Set as UnPaid</button>
+                        <button type="button" class="btn btn-secondary btn-sm js-toggle-user-paid-status" data-user-id="@user.Id" data-user-name="@user.SkaterName" data-has-paid="@user.HasPaid">Set as UnPaid</button>
                     }
                     @if (!user.IsAdmin)
                     {
-                        <button type="button" class="btn btn-danger js-delete-user" data-user-id="@user.Id" data-user-name="@user.SkaterName">Delete</button>
+                        <button type="button" class="btn btn-danger btn-sm js-delete-user" data-user-id="@user.Id" data-user-name="@user.SkaterName">Delete</button>
                     }
                 </td>
             </tr>

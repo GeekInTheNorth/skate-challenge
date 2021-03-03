@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
+using AllInSkateChallenge.Features.Data;
 using AllInSkateChallenge.Features.Data.Entities;
 
 using MediatR;
@@ -16,12 +17,16 @@ namespace AllInSkateChallenge.Features.Administration.UserList
 {
     public class AdminUserListQueryHandler : IRequestHandler<AdminUserListQuery, AdminUserListQueryResponse>
     {
-
         private readonly UserManager<ApplicationUser> userManager;
 
-        public AdminUserListQueryHandler(UserManager<ApplicationUser> userManager)
+        private readonly ApplicationDbContext dbContext;
+
+        public AdminUserListQueryHandler(
+            UserManager<ApplicationUser> userManager, 
+            ApplicationDbContext dbContext)
         {
             this.userManager = userManager;
+            this.dbContext = dbContext;
         }
 
         public async Task<AdminUserListQueryResponse> Handle(AdminUserListQuery request, CancellationToken cancellationToken)
@@ -52,13 +57,19 @@ namespace AllInSkateChallenge.Features.Administration.UserList
             }
 
             var users = await query.Skip(skip).Take(pageSize).ToListAsync();
+            var distinctUserIds = users.Select(x => x.Id).ToList();
+            var activitySummaries = await dbContext.SkateLogEntries
+                                           .Where(x => distinctUserIds.Contains(x.ApplicationUserId))
+                                           .GroupBy(x => x.ApplicationUserId)
+                                           .Select(x => new Tuple<string, int>(x.Key, x.Count()))
+                                           .ToListAsync();
 
             return new AdminUserListQueryResponse
             {
                 TotalUsers = totalUsers,
                 CurrentPage = request.Page,
                 MaxPages = (int)Math.Ceiling((decimal)totalUsers / pageSize),
-                Users = ConvertUsers(users, admins),
+                Users = ConvertUsers(users, admins, activitySummaries),
                 SearchText = request.SearchText,
                 SortOrders = new List<SelectListItem>
                 {
@@ -69,7 +80,10 @@ namespace AllInSkateChallenge.Features.Administration.UserList
             };
         }
 
-        private List<AdminUserModel> ConvertUsers(IEnumerable<ApplicationUser> users, IEnumerable<ApplicationUser> admins)
+        private List<AdminUserModel> ConvertUsers(
+            IEnumerable<ApplicationUser> users, 
+            IEnumerable<ApplicationUser> admins, 
+            IEnumerable<Tuple<string, int>> activitySummaries)
         {
             return users.Select(x => new AdminUserModel
             {
@@ -79,7 +93,9 @@ namespace AllInSkateChallenge.Features.Administration.UserList
                 EmailConfirmed = x.EmailConfirmed,
                 HasPaid = x.HasPaid,
                 IsAdmin = admins?.Any(y => y.Id.Equals(x.Id)) ?? false,
-                DateRegistered = x.DateRegistered
+                DateRegistered = x.DateRegistered,
+                IsStravaAccount = x.IsStravaAccount,
+                NoOfActivities = activitySummaries.FirstOrDefault(y => y.Item1.Equals(x.Id))?.Item2 ?? 0
             }).ToList();
         }
     }

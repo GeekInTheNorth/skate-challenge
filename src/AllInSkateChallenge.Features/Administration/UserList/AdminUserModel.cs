@@ -10,6 +10,8 @@ namespace AllInSkateChallenge.Features.Administration.UserList
         public bool EmailConfirmed { get; set; }
         public bool HasPaid { get; set; }
         public bool IsAdmin { get; set; }
+        public bool IsStravaAccount { get; set; }
         public DateTime DateRegistered { get; set; }
+        public int NoOfActivities { get; set; }
     }
 }
