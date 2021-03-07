@@ -4,6 +4,14 @@
     ViewData["Title"] = "User Administration";
 }
 
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Home</a></li>
+        <li class="breadcrumb-item"><a asp-controller="UserAdministration" asp-action="Index" asp-route-searchText="@Model.UserFilter">User Administration</a></li>
+        <li class="breadcrumb-item active" aria-current="page">@Model.User.SkaterName</li>
+    </ol>
+</nav>
+
 <h2>User Details</h2>
 
 <div class="alert alert-danger fade show" role="alert" style="display:none;">

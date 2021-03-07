@@ -9,5 +9,7 @@ namespace AllInSkateChallenge.Features.Administration.UserDetail
         public ApplicationUser User { get; set; }
 
         public List<SkateLogEntry> Activities { get; set; }
+
+        public string UserFilter { get; set; }
     }
 }

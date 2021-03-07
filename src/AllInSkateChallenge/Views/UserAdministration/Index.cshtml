@@ -4,6 +4,13 @@
     ViewData["Title"] = "User Administration";
 }
 
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">User Administration</li>
+    </ol>
+</nav>
+
 <div class="text-center">
     <h1>User Administration</h1>
 </div>
@@ -55,7 +62,7 @@
                 <td>@(user.IsStravaAccount ? "Yes" : "No")</td>
                 <td>@user.NoOfActivities</td>
                 <td>
-                    <a class="btn btn-info btn-sm" asp-controller="UserAdministration" asp-action="UserDetail" asp-route-userId="@user.Id">View</a>
+                    <a class="btn btn-info btn-sm" asp-controller="UserAdministration" asp-action="UserDetail" asp-route-userId="@user.Id" asp-route-userFilter="@Model.SearchText">View</a>
                     @if (!user.IsAdmin)
                     {
                         <button type="button" class="btn btn-danger btn-sm js-delete-user" data-user-id="@user.Id" data-user-name="@user.SkaterName">Delete</button>

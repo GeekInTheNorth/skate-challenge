@@ -38,11 +38,11 @@
         }
 
         [HttpGet]
-        public async Task<IActionResult> UserDetail(string userId)
+        public async Task<IActionResult> UserDetail(string userId, string userFilter)
         {
             try
             {
-                var command = new UserDetailQuery { UserId = userId };
+                var command = new UserDetailQuery { UserId = userId, UserFilter = userFilter };
                 var response = await mediator.Send(command);
 
                 return View("~/Views/UserAdministration/UserDetails.cshtml", response);

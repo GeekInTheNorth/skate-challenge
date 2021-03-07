@@ -42,8 +42,9 @@ namespace AllInSkateChallenge.Features.Administration.UserDetail
 
             return new UserDetailQueryResponse
             {
+                Activities = activities,
                 User = user,
-                Activities = activities
+                UserFilter = request.UserFilter
             };
         }
     }
