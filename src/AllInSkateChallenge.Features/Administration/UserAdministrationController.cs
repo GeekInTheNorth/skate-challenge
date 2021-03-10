@@ -8,6 +8,7 @@
     using AllInSkateChallenge.Features.Administration.UserList;
     using AllInSkateChallenge.Features.Administration.UserUpdate;
     using AllInSkateChallenge.Features.Data;
+    using AllInSkateChallenge.Features.Skater.Registration;
 
     using MediatR;
 
@@ -90,6 +91,22 @@
             catch (Exception exception)
             {
                 logger.LogError(exception, "Unexpected error encountered when trying to update a user.");
+                throw;
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> SendSignUpEmail(ResendRegistrationEmailCommand command)
+        {
+            try
+            {
+                await mediator.Send(command);
+
+                return Ok();
+            }
+            catch (Exception exception)
+            {
+                logger.LogError(exception, "Unexpected error encountered when trying to resend a user registration email.");
                 throw;
             }
         }

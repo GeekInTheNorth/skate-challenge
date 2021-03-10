@@ -38,7 +38,13 @@
         </tr>
         <tr>
             <th>Email Verified</th>
-            <td>@(Model.User.EmailConfirmed ? "Yes" : "No")</td>
+            <td>
+                <label class="js-resend-join-email-label">@(Model.User.EmailConfirmed ? "Yes" : "No")</label>
+                @if (Model.User.EmailConfirmed)
+                {
+                    <button type="button" class="btn btn-primary btn-sm ml-3 js-resend-join-email" data-user-id="@Model.User.Id" data-user-name="@Model.User.SkaterName">Send Signup Email</button>
+                }
+            </td>
         </tr>
         <tr>
             <th>Strava Account?</th>
@@ -50,11 +56,11 @@
                 <label class="js-user-paid-label">@(Model.User.HasPaid ? "Yes" : "No")</label>
                 @if (!Model.User.HasPaid)
                 {
-                    <button type="button" class="btn btn-primary btn-sm ml-r-5 js-toggle-user-paid-status" data-user-id="@Model.User.Id" data-user-name="@Model.User.SkaterName" data-has-paid="@Model.User.HasPaid">Set as Paid</button>
+                    <button type="button" class="btn btn-primary btn-sm ml-3 js-toggle-user-paid-status" data-user-id="@Model.User.Id" data-user-name="@Model.User.SkaterName" data-has-paid="@Model.User.HasPaid">Set as Paid</button>
                 }
                 else
                 {
-                    <button type="button" class="btn btn-secondary btn-sm ml-r-5 js-toggle-user-paid-status" data-user-id="@Model.User.Id" data-user-name="@Model.User.SkaterName" data-has-paid="@Model.User.HasPaid">Set as UnPaid</button>
+                    <button type="button" class="btn btn-secondary btn-sm ml-3 js-toggle-user-paid-status" data-user-id="@Model.User.Id" data-user-name="@Model.User.SkaterName" data-has-paid="@Model.User.HasPaid">Set as UnPaid</button>
                 }
             </td>
         </tr>
@@ -134,6 +140,14 @@
                         $(".alert.alert-danger").html("Failed to update <strong>" + $(event.target).data("user-name") + "</strong>.");
                         $(".alert.alert-danger").show();
                     });
+            });
+
+            $(".js-resend-join-email").click(function (event) {
+                $.post("/UserAdministration/SendSignUpEmail", { "userId": $(event.target).data("user-id") })
+                    .done(function () {
+                        $(".js-resend-join-email").attr("disabled", true);
+                        $(".js-resend-join-email-label").html("Sent");
+                    })
             });
         });
     </script>
