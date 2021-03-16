@@ -99,31 +99,6 @@
 @section Scripts{
     <script type="text/javascript">
         $(document).ready(function () {
-            $(".js-delete-user").click(function (event) {
-                $(".js-confirm-delete-user").data("user-id", ($(event.target).data("user-id")));
-                $(".js-delete-user--name").html($(event.target).data("user-name"))
-                $("#deleteUserModal").modal({ keyboard: true, focus: true });
-            });
-
-            $(".js-confirm-delete-user").click(function (event) {
-                var rowSelector = "tr[data-user-id='" + $(event.target).data("user-id") + "']";
-                $.post("/UserAdministration/delete", { "userId": $(event.target).data("user-id") })
-                    .done(function () {
-                        $(".alert.alert-success").html("<strong>" + $(".js-delete-user--name").html() + "</strong> has been deleted.");
-                        $(rowSelector).remove();
-                        $("#deleteUserModal").modal('hide');
-                        $(".alert.alert-danger").hide();
-                        $(".alert.alert-success").show();
-                    })
-                    .fail(function () {
-                        $(".alert.alert-danger").html("Failed to delete <strong>" + $(".js-delete-user--name").html() + "</strong>.");
-                        $(".js-delete-user-failure--name").html($(".js-delete-user--name").html())
-                        $("#deleteUserModal").modal('hide');
-                        $(".alert.alert-success").hide();
-                        $(".alert.alert-danger").show();
-                    });
-            });
-
             $(".js-toggle-user-paid-status").click(function (event) {
                 var hasPaid = $.parseJSON($(event.target).data("has-paid").toLowerCase());
                 var toggled = !hasPaid;
