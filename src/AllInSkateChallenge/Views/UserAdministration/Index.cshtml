@@ -4,6 +4,13 @@
     ViewData["Title"] = "User Administration";
 }
 
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">User Administration</li>
+    </ol>
+</nav>
+
 <div class="text-center">
     <h1>User Administration</h1>
 </div>
@@ -55,14 +62,7 @@
                 <td>@(user.IsStravaAccount ? "Yes" : "No")</td>
                 <td>@user.NoOfActivities</td>
                 <td>
-                    @if (!user.HasPaid)
-                    {
-                        <button type="button" class="btn btn-primary btn-sm js-toggle-user-paid-status" data-user-id="@user.Id" data-user-name="@user.SkaterName" data-has-paid="@user.HasPaid">Set as Paid</button>
-                    }
-                    else
-                    {
-                        <button type="button" class="btn btn-secondary btn-sm js-toggle-user-paid-status" data-user-id="@user.Id" data-user-name="@user.SkaterName" data-has-paid="@user.HasPaid">Set as UnPaid</button>
-                    }
+                    <a class="btn btn-info btn-sm" asp-controller="UserAdministration" asp-action="UserDetail" asp-route-userId="@user.Id" asp-route-userFilter="@Model.SearchText">View</a>
                     @if (!user.IsAdmin)
                     {
                         <button type="button" class="btn btn-danger btn-sm js-delete-user" data-user-id="@user.Id" data-user-name="@user.SkaterName">Delete</button>
@@ -145,29 +145,6 @@
                         $(".alert.alert-danger").html("Failed to delete <strong>" + $(".js-delete-user--name").html() + "</strong>.");
                         $(".js-delete-user-failure--name").html($(".js-delete-user--name").html())
                         $("#deleteUserModal").modal('hide');
-                        $(".alert.alert-success").hide();
-                        $(".alert.alert-danger").show();
-                    });
-            });
-
-            $(".js-toggle-user-paid-status").click(function (event) {
-                var rowSelector = "tr[data-user-id='" + $(event.target).data("user-id") + "']";
-                var hasPaid = $.parseJSON($(event.target).data("has-paid").toLowerCase());
-                var toggled = !hasPaid;
-
-                $.post("/UserAdministration/update", { "userId": $(event.target).data("user-id"), "hasPaid": toggled })
-                    .done(function () {
-                        $(".alert.alert-success").html("<strong>" + $(event.target).data("user-name") + "</strong> has been updated.");
-                        $(".alert.alert-danger").hide();
-                        $(".alert.alert-success").show();
-                        $(event.target).data("has-paid", toggled.toString());
-                        $(event.target).removeClass((toggled ? "btn-primary" : "btn-secondary"));
-                        $(event.target).addClass((toggled ? "btn-secondary" : "btn-primary"));
-                        $(event.target).html((toggled ? "Set as UnPaid" : "Set as Paid"));
-                        $(rowSelector).children().eq(4).html((toggled ? "Yes" : "No"));
-                    })
-                    .fail(function () {
-                        $(".alert.alert-danger").html("Failed to update <strong>" + $(event.target).data("user-name") + "</strong>.");
                         $(".alert.alert-success").hide();
                         $(".alert.alert-danger").show();
                     });

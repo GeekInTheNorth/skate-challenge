@@ -1,0 +1,129 @@
+﻿@model AllInSkateChallenge.Features.Administration.UserDetail.UserDetailQueryResponse
+
+@{
+    ViewData["Title"] = "User Administration";
+}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Home</a></li>
+        <li class="breadcrumb-item"><a asp-controller="UserAdministration" asp-action="Index" asp-route-searchText="@Model.UserFilter">User Administration</a></li>
+        <li class="breadcrumb-item active" aria-current="page">@Model.User.SkaterName</li>
+    </ol>
+</nav>
+
+<h2>User Details</h2>
+
+<div class="alert alert-danger fade show" role="alert" style="display:none;">
+    We were unable to delete user <strong class="js-delete-user-failure--name"></strong>.
+</div>
+
+<table class="table">
+    <tbody>
+        <tr>
+            <th>Display Name</th>
+            <td>@Model.User.SkaterName</td>
+        </tr>
+        <tr>
+            <th>Registered</th>
+            <td>@Model.User.DateRegistered.ToString("dd/MM/yyyy HH:mm")</td>
+        </tr>
+        <tr>
+            <th>User Name</th>
+            <td>@Model.User.UserName</td>
+        </tr>
+        <tr>
+            <th>Email</th>
+            <td>@Model.User.Email</td>
+        </tr>
+        <tr>
+            <th>Email Verified</th>
+            <td>
+                <label class="js-resend-join-email-label">@(Model.User.EmailConfirmed ? "Yes" : "No")</label>
+                @if (Model.User.EmailConfirmed)
+                {
+                    <button type="button" class="btn btn-primary btn-sm ml-3 js-resend-join-email" data-user-id="@Model.User.Id" data-user-name="@Model.User.SkaterName">Send Signup Email</button>
+                }
+            </td>
+        </tr>
+        <tr>
+            <th>Strava Account?</th>
+            <td>@(Model.User.IsStravaAccount ? "Yes" : "No")</td>
+        </tr>
+        <tr>
+            <th>Has Paid?</th>
+            <td>
+                <label class="js-user-paid-label">@(Model.User.HasPaid ? "Yes" : "No")</label>
+                @if (!Model.User.HasPaid)
+                {
+                    <button type="button" class="btn btn-primary btn-sm ml-3 js-toggle-user-paid-status" data-user-id="@Model.User.Id" data-user-name="@Model.User.SkaterName" data-has-paid="@Model.User.HasPaid">Set as Paid</button>
+                }
+                else
+                {
+                    <button type="button" class="btn btn-secondary btn-sm ml-3 js-toggle-user-paid-status" data-user-id="@Model.User.Id" data-user-name="@Model.User.SkaterName" data-has-paid="@Model.User.HasPaid">Set as UnPaid</button>
+                }
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<h2>User Activities</h2>
+<table class="table table-hover">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">Journey</th>
+            <th scope="col">Logged</th>
+            <th scope="col">Miles</th>
+            @if (Model.User.IsStravaAccount)
+            {
+                <th scope="col" class="mobile-hidden">Source</th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var entry in Model.Activities)
+        {
+            <tr class="js-mileage-entry-row" data-entry-id="@entry.SkateLogEntryId">
+                <td class="align-middle">@entry.Name</td>
+                <td class="align-middle">@entry.Logged.ToString("dd/MM/yyyy HH:mm")</td>
+                <td class="align-middle">@entry.DistanceInMiles.ToString("F2")</td>
+                @if (Model.User.IsStravaAccount)
+                {
+                    <td class="align-middle mobile-hidden">@(string.IsNullOrWhiteSpace(entry.StravaId) ? "Manual" : "Strava")</td>
+                }
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(".js-toggle-user-paid-status").click(function (event) {
+                var hasPaid = $.parseJSON($(event.target).data("has-paid").toLowerCase());
+                var toggled = !hasPaid;
+
+                $.post("/UserAdministration/update", { "userId": $(event.target).data("user-id"), "hasPaid": toggled })
+                    .done(function () {
+                        $(event.target).data("has-paid", toggled.toString());
+                        $(event.target).removeClass((toggled ? "btn-primary" : "btn-secondary"));
+                        $(event.target).addClass((toggled ? "btn-secondary" : "btn-primary"));
+                        $(event.target).html((toggled ? "Set as UnPaid" : "Set as Paid"));
+                        $(".js-user-paid-label").html((toggled ? "Yes" : "No"));
+                    })
+                    .fail(function () {
+                        $(".alert.alert-danger").html("Failed to update <strong>" + $(event.target).data("user-name") + "</strong>.");
+                        $(".alert.alert-danger").show();
+                    });
+            });
+
+            $(".js-resend-join-email").click(function (event) {
+                $.post("/UserAdministration/SendSignUpEmail", { "userId": $(event.target).data("user-id") })
+                    .done(function () {
+                        $(".js-resend-join-email").attr("disabled", true);
+                        $(".js-resend-join-email-label").html("Sent");
+                    })
+            });
+        });
+    </script>
+}
