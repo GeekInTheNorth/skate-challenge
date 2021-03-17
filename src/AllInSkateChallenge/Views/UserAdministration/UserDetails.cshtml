@@ -40,7 +40,7 @@
             <th>Email Verified</th>
             <td>
                 <label class="js-resend-join-email-label">@(Model.User.EmailConfirmed ? "Yes" : "No")</label>
-                @if (Model.User.EmailConfirmed)
+                @if (!Model.User.EmailConfirmed)
                 {
                     <button type="button" class="btn btn-primary btn-sm ml-3 js-resend-join-email" data-user-id="@Model.User.Id" data-user-name="@Model.User.SkaterName">Send Signup Email</button>
                 }
