@@ -42,61 +42,59 @@
             var allSessions = await context.SkateLogEntries.Where(x => x.ApplicationUser.HasPaid).ToListAsync(cancellationToken);
             var allSkaters = await context.Users.Where(x => x.HasPaid).ToListAsync(cancellationToken);
             var skaterLogs = allSkaters.Select(x => skaterTargetAnalyser.Analyse(x, allSessions)).Where(x => x.TotalSessions > 0).ToList();
-            var allDates = GetAllDates(allSessions);
+            var allWeeks = GetAllWeeks(allSessions);
 
             return new EventStatisticsQueryResponse
-                       {
-                           ShortestSingleDistance = GetShortestDistance(allSessions, allSkaters),
-                           LongestSingleDistance = GetLongestDistance(allSessions, allSkaters),
-                           LongestTotalDistance = GetLongestTotalDistance(allSessions, allSkaters),
-                           MostJourneys = GetHighestNumberOfJourneys(allSessions, allSkaters),
-                           TotalMiles = allSessions.Sum(x => x.DistanceInMiles),
-                           TotalSkateSessions = allSessions.Count,
-                           MilesByStrava = allSessions.Where(x => !string.IsNullOrWhiteSpace(x.StravaId)).Sum(x => x.DistanceInMiles),
-                           MilesByManual = allSessions.Where(x => string.IsNullOrWhiteSpace(x.StravaId)).Sum(x => x.DistanceInMiles),
-                           JourneysByStrava = allSessions.Count(x => !string.IsNullOrWhiteSpace(x.StravaId)),
-                           JourneysByManual = allSessions.Count(x => string.IsNullOrWhiteSpace(x.StravaId)),
-                           SkateDistances = GetMilesPerDay(allSessions, allDates),
-                           SkateSessions = GetSessionsPerDay(allSessions, allDates),
-                           CheckPoints = GetCheckPointStatistics(skaterLogs).ToList()
-                       };
+            {
+                ShortestSingleDistance = GetShortestDistance(allSessions, allSkaters),
+                LongestSingleDistance = GetLongestDistance(allSessions, allSkaters),
+                LongestTotalDistance = GetLongestTotalDistance(allSessions, allSkaters),
+                MostJourneys = GetHighestNumberOfJourneys(allSessions, allSkaters),
+                TotalMiles = allSessions.Sum(x => x.DistanceInMiles),
+                TotalSkateSessions = allSessions.Count,
+                MilesByStrava = allSessions.Where(x => !string.IsNullOrWhiteSpace(x.StravaId)).Sum(x => x.DistanceInMiles),
+                MilesByManual = allSessions.Where(x => string.IsNullOrWhiteSpace(x.StravaId)).Sum(x => x.DistanceInMiles),
+                JourneysByStrava = allSessions.Count(x => !string.IsNullOrWhiteSpace(x.StravaId)),
+                JourneysByManual = allSessions.Count(x => string.IsNullOrWhiteSpace(x.StravaId)),
+                SkateDistances = GetMilesPerWeek(allSessions, allWeeks).ToList(),
+                SkateSessions = GetSessionsPerWeek(allSessions, allWeeks).ToList(),
+                CheckPoints = GetCheckPointStatistics(skaterLogs).ToList()
+            };
         }
 
-        private List<StatisticsItemModel> GetSessionsPerDay(IList<SkateLogEntry> allSessions, IList<DateTime> allDates)
+        private IEnumerable<StatisticsItemModel> GetSessionsPerWeek(IList<SkateLogEntry> allSessions, IList<Tuple<DateTime, DateTime>> allWeeks)
         {
-            var sessionsByDate = allSessions.Where(x => !x.IsMultipleEntry)
-                                            .GroupBy(x => x.Logged.Date)
-                                            .Select(x => new { Date = x.Key, Value = x.Count() })
-                                            .OrderBy(x => x.Date)
-                                            .ToList();
+            foreach (var week in allWeeks)
+            {
+                var miles = allSessions.Where(x => x.Logged.Date >= week.Item1 && x.Logged.Date <= week.Item2).Count();
 
-            return (from dates in allDates
-                    join sessions in sessionsByDate on dates equals sessions.Date
-                    orderby dates
-                    select new StatisticsItemModel { Date = dates, Value = sessions?.Value ?? 0 }).ToList();
+                yield return new StatisticsItemModel { Date = week.Item1, Value = miles };
+            }
         }
 
-        private List<StatisticsItemModel> GetMilesPerDay(IList<SkateLogEntry> allSessions, IList<DateTime> allDates)
+        private IEnumerable<StatisticsItemModel> GetMilesPerWeek(IList<SkateLogEntry> allSessions, IList<Tuple<DateTime, DateTime>> allWeeks)
         {
-            var milesByDate = allSessions.Where(x => !x.IsMultipleEntry)
-                                         .GroupBy(x => x.Logged.Date)
-                                         .Select(x => new { Date = x.Key, Value = x.Sum(y => y.DistanceInMiles) })
-                                         .OrderBy(x => x.Date)
-                                         .ToList();
+            foreach(var week in allWeeks)
+            {
+                var miles = allSessions.Where(x => x.Logged.Date >= week.Item1 && x.Logged.Date <= week.Item2).Sum(x => x.DistanceInMiles);
 
-            return (from dates in allDates
-                    join miles in milesByDate on dates equals miles.Date
-                    orderby dates
-                    select new StatisticsItemModel { Date = dates, Value = miles?.Value ?? 0 }).ToList();
+                yield return new StatisticsItemModel { Date = week.Item1, Value = miles };
+            }
         }
 
-        private List<DateTime> GetAllDates(IList<SkateLogEntry> allSessions)
+        private List<Tuple<DateTime, DateTime>> GetAllWeeks(IList<SkateLogEntry> allSessions)
         {
-            var earliestDate = allSessions.Min(x => x.Logged).Date;
+            var workingDate = allSessions.Min(x => x.Logged).Date;
             var today = DateTime.Today;
-            var days = (int)(today - earliestDate).TotalDays;
+            var weeks = new List<Tuple<DateTime, DateTime>>();
 
-            return Enumerable.Range(0, days).Select(x => earliestDate.AddDays(x)).ToList();
+            while (workingDate < today)
+            {
+                weeks.Add(new Tuple<DateTime, DateTime>(workingDate, workingDate.AddDays(6)));
+                workingDate = workingDate.AddDays(7);
+            }
+
+            return weeks;
         }
 
         private SkaterStatisticsModel GetShortestDistance(IList<SkateLogEntry> allSessions, IList<ApplicationUser> allSkaters)
