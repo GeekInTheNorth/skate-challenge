@@ -114,7 +114,7 @@
 <div class="row mb-3">
     <div class="col-xl-12">
         <div class="card border-allin-green">
-            <h5 class="card-header bg-allin-green text-dark">Daily Summaries</h5>
+            <h5 class="card-header bg-allin-green text-dark">Weekly Summaries</h5>
             <div class="card-body">
                 <canvas id="skateMilageChart" style="height: 500px;"></canvas>
             </div>
@@ -199,7 +199,7 @@
                             @Html.Raw(string.Join(',', Model.Content.SkateDistances.Select(x => $"'{x.Date:dd/MM/yy}'")))],
                         datasets: [
                             {
-                                label: 'Miles Per Day',
+                                label: 'Miles Per Week',
                                 borderColor: '#8ABC2D',
                                 backgroundColor: '#8ABC2D',
                                 fill: false,
@@ -208,7 +208,7 @@
                                 ]
                             },
                             {
-                                label: 'Journeys Per Day',
+                                label: 'Journeys Per Week',
                                 borderColor: '#F7BC0C',
                                 backgroundColor: '#F7BC0C',
                                 fill: false,
