@@ -14,6 +14,9 @@
         [Column(TypeName = "decimal(18, 6)")]
         public decimal DistanceInMiles { get; set; }
 
+        [Column(TypeName = "decimal(18, 6)")]
+        public decimal ElevationInFeet { get; set; }
+
         public DateTime Logged { get; set; }
 
         public string StravaId { get; set; }

@@ -3,6 +3,7 @@
     public enum DistanceUnit
     {
         Miles,
+        Feet,
         Kilometres,
         Metres
     }

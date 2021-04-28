@@ -17,6 +17,10 @@ namespace AllInSkateChallenge.Features.Activities
 
         public DistanceUnit DistanceUnit { get; set; }
 
+        public decimal Elevation { get; set; }
+
+        public DistanceUnit ElevationUnit { get; set; }
+
         public DateTime? StartDate { get; set; }
 
         public string Name { get; set; }

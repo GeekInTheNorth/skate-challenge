@@ -41,7 +41,19 @@ namespace AllInSkateChallenge.Features.Strava
                 {
                     if (allowedTypes.Contains(activity.ActivityType))
                     {
-                        await mediator.Send(new SaveActivityCommand { Skater = user, Distance = activity.DistanceMetres, DistanceUnit = DistanceUnit.Metres, StartDate = activity.StartDate, StavaActivityId = activity.ActivityId, Name = activity.Name });
+                        await mediator.Send(
+                            new SaveActivityCommand 
+                            { 
+                                Skater = user, 
+                                Distance = activity.DistanceMetres, 
+                                DistanceUnit = DistanceUnit.Metres, 
+                                Elevation = activity.TotalElevationGainMetres, 
+                                ElevationUnit = DistanceUnit.Metres, 
+                                StartDate = activity.StartDate, 
+                                StavaActivityId = activity.ActivityId, 
+                                Name = activity.Name 
+                            });
+
                         responseModel.NumberImported++;
                     }
                     else

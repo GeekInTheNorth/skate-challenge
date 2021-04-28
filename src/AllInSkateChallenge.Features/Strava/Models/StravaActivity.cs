@@ -16,6 +16,9 @@ namespace AllInSkateChallenge.Features.Strava.Models
         [JsonProperty("distance")]
         public decimal DistanceMetres { get; set; }
 
+        [JsonProperty("total_elevation_gain")]
+        public decimal TotalElevationGainMetres { get; set; }
+
         [JsonProperty("type")]
         public string ActivityType { get; set; }
 
