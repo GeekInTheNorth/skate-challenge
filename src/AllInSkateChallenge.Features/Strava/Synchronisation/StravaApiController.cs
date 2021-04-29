@@ -57,7 +57,7 @@ namespace AllInSkateChallenge.Features.Strava
                                 StavaActivityId = activity.ActivityId, 
                                 TopSpeed = activity.TopSpeed,
                                 TopSpeedUnit = VelocityUnit.MetresPerSecond,
-                                AverageSpeed = activity.TopSpeed,
+                                AverageSpeed = activity.AverageSpeed,
                                 AverageSpeedUnit = VelocityUnit.MetresPerSecond,
                                 Duration = activity.ElapsedTime,
                                 Name = activity.Name 
