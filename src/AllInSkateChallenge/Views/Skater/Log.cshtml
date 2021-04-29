@@ -95,7 +95,7 @@
                     <p>Please enter the details of your skating journey.  This should represent a single journey on skates.</p>
                     <div class="form-group">
                         <label for="distanceUnit">Miles or Kilometres?</label>
-                        @Html.DropDownList(nameof(INewSkaterLogEntry.DistanceUnit), new SelectList(Enum.GetValues(typeof(DistanceUnit))), new { @class = "form-control", aria_describedby = "distanceUnitHelp" })
+                        @Html.DropDownList(nameof(INewSkaterLogEntry.DistanceUnit), new SelectList(new[] { DistanceUnit.Miles, DistanceUnit.Kilometres }), new { @class = "form-control", aria_describedby = "distanceUnitHelp" })
                         <small id="distanceUnitHelp" class="form-text text-muted">Distance can be logged in miles or kilometres, but will be converted into miles.</small>
                     </div>
                     <div class="form-group">

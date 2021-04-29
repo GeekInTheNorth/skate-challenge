@@ -41,7 +41,28 @@ namespace AllInSkateChallenge.Features.Strava
                 {
                     if (allowedTypes.Contains(activity.ActivityType))
                     {
-                        await mediator.Send(new SaveActivityCommand { Skater = user, Distance = activity.DistanceMetres, DistanceUnit = DistanceUnit.Metres, StartDate = activity.StartDate, StavaActivityId = activity.ActivityId, Name = activity.Name });
+                        await mediator.Send(
+                            new SaveActivityCommand 
+                            { 
+                                Skater = user, 
+                                Distance = activity.DistanceMetres, 
+                                DistanceUnit = DistanceUnit.Metres, 
+                                ElevationGain = activity.ElevationGainMetres, 
+                                ElevationGainUnit = DistanceUnit.Metres, 
+                                LowestElevation = activity.LowestElevationMetres,
+                                LowestElevationUnit = DistanceUnit.Metres,
+                                HighestElevation = activity.HighestElevationMetres,
+                                HighestElevationUnit = DistanceUnit.Metres,
+                                StartDate = activity.StartDate, 
+                                StavaActivityId = activity.ActivityId, 
+                                TopSpeed = activity.TopSpeed,
+                                TopSpeedUnit = VelocityUnit.MetresPerSecond,
+                                AverageSpeed = activity.AverageSpeed,
+                                AverageSpeedUnit = VelocityUnit.MetresPerSecond,
+                                Duration = activity.ElapsedTime,
+                                Name = activity.Name 
+                            });
+
                         responseModel.NumberImported++;
                     }
                     else

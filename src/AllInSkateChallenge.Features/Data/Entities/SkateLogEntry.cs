@@ -14,7 +14,24 @@
         [Column(TypeName = "decimal(18, 6)")]
         public decimal DistanceInMiles { get; set; }
 
+        [Column(TypeName = "decimal(18, 6)")]
+        public decimal ElevationGainInFeet { get; set; }
+
+        [Column(TypeName = "decimal(18, 6)")]
+        public decimal LowestElevationInFeet { get; set; }
+
+        [Column(TypeName = "decimal(18, 6)")]
+        public decimal HighestElevationInFeet { get; set; }
+
+        [Column(TypeName = "decimal(18, 6)")]
+        public decimal AverageSpeedInMph { get; set; }
+
+        [Column(TypeName = "decimal(18, 6)")]
+        public decimal TopSpeedInMph { get; set; }
+
         public DateTime Logged { get; set; }
+
+        public int Duration { get; set; }
 
         public string StravaId { get; set; }
 

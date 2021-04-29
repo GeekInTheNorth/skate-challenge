@@ -29,24 +29,26 @@ namespace AllInSkateChallenge.Features.Activities
         {
             try
             {
-                var distance = request.Distance;
-                switch (request.DistanceUnit)
-                {
-                    case DistanceUnit.Kilometres:
-                        distance = distance * 0.621371M;
-                        break;
-                    case DistanceUnit.Metres:
-                        distance = distance * 0.000621371M;
-                        break;
-                }
-
                 // Create the new entry if it does not exist
                 var activityLogged = request.StartDate ?? DateTime.Now;
                 var recordExists = await RecordExists(request, activityLogged);
                 var creatingRecord = false;
                 if (!recordExists)
                 {
-                    var entry = new SkateLogEntry { ApplicationUserId = request.Skater.Id, StravaId = request.StavaActivityId, DistanceInMiles = distance, Logged = request.StartDate ?? DateTime.Now, Name = request.Name };
+                    var entry = new SkateLogEntry
+                    {
+                        ApplicationUserId = request.Skater.Id,
+                        StravaId = request.StavaActivityId,
+                        DistanceInMiles = ConvertToMiles(request.Distance, request.DistanceUnit),
+                        ElevationGainInFeet = ConvertToFeet(request.ElevationGain, request.ElevationGainUnit),
+                        LowestElevationInFeet = ConvertToFeet(request.LowestElevation, request.LowestElevationUnit),
+                        HighestElevationInFeet = ConvertToFeet(request.HighestElevation, request.HighestElevationUnit),
+                        AverageSpeedInMph = ConvertToMph(request.AverageSpeed, request.AverageSpeedUnit),
+                        TopSpeedInMph = ConvertToMph(request.TopSpeed, request.TopSpeedUnit),
+                        Logged = request.StartDate ?? DateTime.Now,
+                        Duration = request.Duration,
+                        Name = request.Name
+                    };
                     context.SkateLogEntries.Add(entry);
                     creatingRecord = true;
                 }
@@ -86,6 +88,49 @@ namespace AllInSkateChallenge.Features.Activities
             var lowerThreshold = activityLogged.AddSeconds(-30);
 
             return await context.SkateLogEntries.Where(x => x.ApplicationUserId.Equals(request.Skater.Id) && x.Name.Equals(request.Name) && x.Logged >= lowerThreshold && x.Logged <= upperThreshold).AnyAsync();
+        }
+
+        private decimal ConvertToMiles(decimal distance, DistanceUnit units)
+        {
+            switch (units)
+            {
+                case DistanceUnit.Kilometres:
+                    return distance * 0.621371M;
+                case DistanceUnit.Metres:
+                    return distance * 0.000621371M;
+                case DistanceUnit.Feet:
+                    return distance / 5280M;
+                default:
+                    return distance;
+            }
+        }
+
+        private decimal ConvertToFeet(decimal distance, DistanceUnit units)
+        {
+            switch (units)
+            {
+                case DistanceUnit.Kilometres:
+                    return distance * 3280.84M;
+                case DistanceUnit.Metres:
+                    return distance * 3.28084M;
+                case DistanceUnit.Miles:
+                    return distance * 5280M;
+                default:
+                    return distance;
+            }
+        }
+
+        private decimal ConvertToMph(decimal velocity, VelocityUnit units)
+        {
+            switch (units)
+            {
+                case VelocityUnit.MetresPerSecond:
+                    return velocity * 2.237M;
+                case VelocityUnit.KilometersPerHour:
+                    return velocity * 0.621371M;
+                default:
+                    return velocity;
+            }
         }
     }
 }
