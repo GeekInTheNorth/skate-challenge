@@ -47,10 +47,19 @@ namespace AllInSkateChallenge.Features.Strava
                                 Skater = user, 
                                 Distance = activity.DistanceMetres, 
                                 DistanceUnit = DistanceUnit.Metres, 
-                                Elevation = activity.TotalElevationGainMetres, 
-                                ElevationUnit = DistanceUnit.Metres, 
+                                ElevationGain = activity.ElevationGainMetres, 
+                                ElevationGainUnit = DistanceUnit.Metres, 
+                                LowestElevation = activity.LowestElevationMetres,
+                                LowestElevationUnit = DistanceUnit.Metres,
+                                HighestElevation = activity.HighestElevationMetres,
+                                HighestElevationUnit = DistanceUnit.Metres,
                                 StartDate = activity.StartDate, 
                                 StavaActivityId = activity.ActivityId, 
+                                TopSpeed = activity.TopSpeed,
+                                TopSpeedUnit = VelocityUnit.MetresPerSecond,
+                                AverageSpeed = activity.TopSpeed,
+                                AverageSpeedUnit = VelocityUnit.MetresPerSecond,
+                                Duration = activity.ElapsedTime,
                                 Name = activity.Name 
                             });
 

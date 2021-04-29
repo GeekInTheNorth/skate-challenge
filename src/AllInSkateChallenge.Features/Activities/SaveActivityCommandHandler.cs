@@ -29,23 +29,25 @@ namespace AllInSkateChallenge.Features.Activities
         {
             try
             {
-                var distance = ConvertToMiles(request.Distance, request.DistanceUnit);
-                var elevation = ConvertToFeet(request.Elevation, request.ElevationUnit);
-                
                 // Create the new entry if it does not exist
                 var activityLogged = request.StartDate ?? DateTime.Now;
                 var recordExists = await RecordExists(request, activityLogged);
                 var creatingRecord = false;
                 if (!recordExists)
                 {
-                    var entry = new SkateLogEntry 
-                    { 
-                        ApplicationUserId = request.Skater.Id, 
-                        StravaId = request.StavaActivityId, 
-                        DistanceInMiles = distance, 
-                        ElevationInFeet = elevation,
-                        Logged = request.StartDate ?? DateTime.Now, 
-                        Name = request.Name 
+                    var entry = new SkateLogEntry
+                    {
+                        ApplicationUserId = request.Skater.Id,
+                        StravaId = request.StavaActivityId,
+                        DistanceInMiles = ConvertToMiles(request.Distance, request.DistanceUnit),
+                        ElevationGainInFeet = ConvertToFeet(request.ElevationGain, request.ElevationGainUnit),
+                        LowestElevationInFeet = ConvertToFeet(request.LowestElevation, request.LowestElevationUnit),
+                        HighestElevationInFeet = ConvertToFeet(request.HighestElevation, request.HighestElevationUnit),
+                        AverageSpeedInMph = ConvertToMph(request.AverageSpeed, request.AverageSpeedUnit),
+                        TopSpeedInMph = ConvertToMph(request.TopSpeed, request.TopSpeedUnit),
+                        Logged = request.StartDate ?? DateTime.Now,
+                        Duration = request.Duration,
+                        Name = request.Name
                     };
                     context.SkateLogEntries.Add(entry);
                     creatingRecord = true;
@@ -115,6 +117,19 @@ namespace AllInSkateChallenge.Features.Activities
                     return distance * 5280M;
                 default:
                     return distance;
+            }
+        }
+
+        private decimal ConvertToMph(decimal velocity, VelocityUnit units)
+        {
+            switch (units)
+            {
+                case VelocityUnit.MetresPerSecond:
+                    return velocity * 2.237M;
+                case VelocityUnit.KilometersPerHour:
+                    return velocity * 0.621371M;
+                default:
+                    return velocity;
             }
         }
     }
