@@ -10,6 +10,16 @@ namespace AllInSkateChallenge.Features.Skater.StravaImport
 
         public decimal Miles { get; set; }
 
+        public decimal LowestElevation { get; set; }
+
+        public decimal HighestElevation { get; set; }
+
+        public decimal TotalElevation { get; set; }
+
+        public decimal AverageSpeed { get; set; }
+
+        public decimal TopSpeed { get; set; }
+
         public DateTime StartDate { get; set; }
 
         public DateTime EndDate { get; set; }

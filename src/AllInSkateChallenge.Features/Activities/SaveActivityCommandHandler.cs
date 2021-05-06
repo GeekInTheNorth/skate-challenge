@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
+using AllInSkateChallenge.Features.Common;
 using AllInSkateChallenge.Features.Data;
 using AllInSkateChallenge.Features.Data.Entities;
 using AllInSkateChallenge.Features.Skater;
@@ -95,11 +96,11 @@ namespace AllInSkateChallenge.Features.Activities
             switch (units)
             {
                 case DistanceUnit.Kilometres:
-                    return distance * 0.621371M;
+                    return Conversion.KilometresToMiles(distance);
                 case DistanceUnit.Metres:
-                    return distance * 0.000621371M;
+                    return Conversion.MetresToMiles(distance);
                 case DistanceUnit.Feet:
-                    return distance / 5280M;
+                    return Conversion.FeetToMiles(distance);
                 default:
                     return distance;
             }
@@ -110,11 +111,11 @@ namespace AllInSkateChallenge.Features.Activities
             switch (units)
             {
                 case DistanceUnit.Kilometres:
-                    return distance * 3280.84M;
+                    return Conversion.KilometresToFeet(distance);
                 case DistanceUnit.Metres:
-                    return distance * 3.28084M;
+                    return Conversion.MetresToFeet(distance);
                 case DistanceUnit.Miles:
-                    return distance * 5280M;
+                    return Conversion.MilesToFeet(distance);
                 default:
                     return distance;
             }
@@ -125,9 +126,9 @@ namespace AllInSkateChallenge.Features.Activities
             switch (units)
             {
                 case VelocityUnit.MetresPerSecond:
-                    return velocity * 2.237M;
+                    return Conversion.MetresPerSecondToMilesPerHour(velocity);
                 case VelocityUnit.KilometersPerHour:
-                    return velocity * 0.621371M;
+                    return Conversion.KilometresPerHourToMilesPerHour(velocity);
                 default:
                     return velocity;
             }

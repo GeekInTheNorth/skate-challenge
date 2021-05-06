@@ -52,7 +52,16 @@
                     <td class="align-middle js-action-column">
                         @if (!activity.IsImported && activity.IsEligableActivity)
                         {
-                            <button type="button" class="btn btn-primary js-import-strava" data-activity-id="@activity.ActivityId" data-start-date="@activity.StartDate.ToString("O")" data-miles="@activity.Miles" data-name="@activity.Name">Import</button>
+                            <button type="button" class="btn btn-primary js-import-strava" 
+                                    data-activity-id="@activity.ActivityId" 
+                                    data-start-date="@activity.StartDate.ToString("O")" 
+                                    data-miles="@activity.Miles" 
+                                    data-lowest-elevation="@activity.LowestElevation"
+                                    data-highest-elevation="@activity.HighestElevation"
+                                    data-total-elevation="@activity.TotalElevation"
+                                    data-average-speed="@activity.AverageSpeed"
+                                    data-top-speed="@activity.TopSpeed"
+                                    data-name="@activity.Name">Import</button>
                         }
                         else if (activity.IsImported)
                         {
@@ -77,8 +86,13 @@
                 var startDate = $(event.target).data("start-date");
                 var miles = $(event.target).data("miles");
                 var name = $(event.target).data("name");
+                var lowestElevation = $(event.target).data("lowest-elevation");
+                var highestElevation = $(event.target).data("highest-elevation");
+                var totalElevation = $(event.target).data("total-elevation");
+                var averageSpeed = $(event.target).data("average-speed");
+                var topSpeed = $(event.target).data("top-speed");
 
-                $.post("/skater/skate-log/strava-import/save", { "activityId": activityId, "logged": startDate, "miles": miles, "name": name })
+                $.post("/skater/skate-log/strava-import/save", { "activityId": activityId, "logged": startDate, "miles": miles, "name": name, "lowestElevation": lowestElevation, "highestElevation": highestElevation, "totalElevation": totalElevation, "averageSpeed": averageSpeed, "topSpeed": topSpeed })
                     .done(function () {
                         $("tr[data-activity-id='" + activityId + "']").children().eq(3).html("<span>Imported</span>");
                         CreateNotification("success", "<strong>Awesome!</strong> Your strava activity has been imported. Why not check out <a href='/skater/progress/' class='alert-link'>Your Progress</a> now?");
