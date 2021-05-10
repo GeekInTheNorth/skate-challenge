@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+using AllInSkateChallenge.Features.Common;
 using AllInSkateChallenge.Features.Data.Entities;
 using AllInSkateChallenge.Features.Framework.Models;
 using AllInSkateChallenge.Features.Skater.SkateLog;
@@ -58,11 +59,17 @@ namespace AllInSkateChallenge.Features.Skater.StravaImport
                 ActivityId = x.ActivityId,
                 ActivityType = x.ActivityType?.Humanize(),
                 Name = x.Name,
-                Miles = x.DistanceMetres * 0.000621371M,
+                Miles = Conversion.MetresToMiles(x.DistanceMetres),
+                LowestElevation = Conversion.MetresToFeet(x.LowestElevationMetres),
+                HighestElevation = Conversion.MetresToFeet(x.HighestElevationMetres),
+                TotalElevation = Conversion.MetresToFeet(x.ElevationGainMetres),
+                AverageSpeed = Conversion.MetresPerSecondToMilesPerHour(x.AverageSpeed),
+                TopSpeed = Conversion.MetresPerSecondToMilesPerHour(x.TopSpeed),
                 StartDate = x.StartDate,
                 EndDate = x.StartDate.AddSeconds(x.ElapsedTime),
                 IsImported = logEntries.Any(y => y.StravaId != null && y.StravaId == x.ActivityId),
-                IsEligableActivity = allowedTypes.Any(y => y.Equals(x.ActivityType, StringComparison.CurrentCultureIgnoreCase))
+                IsEligableActivity = allowedTypes.Any(y => y.Equals(x.ActivityType, StringComparison.CurrentCultureIgnoreCase)),
+                Duration = x.ElapsedTime
             }).ToList();
         }
     }

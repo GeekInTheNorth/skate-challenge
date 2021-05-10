@@ -49,7 +49,17 @@ namespace AllInSkateChallenge.Features.Skater.StravaImport
 
         [HttpPost]
         [Route("skater/skate-log/strava-import/save")]
-        public async Task<IActionResult> Save(string activityId, string name, DateTime logged, decimal miles)
+        public async Task<IActionResult> Save(
+            string activityId, 
+            string name, 
+            DateTime logged, 
+            decimal miles, 
+            decimal lowestElevation,
+            decimal highestElevation,
+            decimal totalElevation,
+            decimal averageSpeed,
+            decimal topSpeed,
+            int duration)
         {
             var user = await userManager.GetUserAsync(User);
             if (user == null || !user.IsStravaAccount)
@@ -62,7 +72,27 @@ namespace AllInSkateChallenge.Features.Skater.StravaImport
                 return BadRequest();
             }
 
-            var saveCommand = new SaveActivityCommand { Skater = user, Distance = miles, DistanceUnit = DistanceUnit.Miles, StartDate = logged, StavaActivityId = activityId, Name = name };
+            var saveCommand = new SaveActivityCommand 
+            { 
+                Skater = user, 
+                Distance = miles, 
+                DistanceUnit = DistanceUnit.Miles, 
+                StartDate = logged, 
+                StavaActivityId = activityId, 
+                Name = name ,
+                LowestElevation = lowestElevation,
+                LowestElevationUnit = DistanceUnit.Feet,
+                HighestElevation = highestElevation,
+                HighestElevationUnit = DistanceUnit.Feet,
+                ElevationGain = totalElevation,
+                ElevationGainUnit = DistanceUnit.Feet,
+                AverageSpeed = averageSpeed,
+                AverageSpeedUnit = VelocityUnit.MilesPerHour,
+                TopSpeed = topSpeed,
+                TopSpeedUnit = VelocityUnit.MilesPerHour,
+                Duration = duration
+            };
+
             await mediator.Send(saveCommand);
 
             return Ok();
