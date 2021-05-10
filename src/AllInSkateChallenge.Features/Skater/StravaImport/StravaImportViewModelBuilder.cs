@@ -68,7 +68,8 @@ namespace AllInSkateChallenge.Features.Skater.StravaImport
                 StartDate = x.StartDate,
                 EndDate = x.StartDate.AddSeconds(x.ElapsedTime),
                 IsImported = logEntries.Any(y => y.StravaId != null && y.StravaId == x.ActivityId),
-                IsEligableActivity = allowedTypes.Any(y => y.Equals(x.ActivityType, StringComparison.CurrentCultureIgnoreCase))
+                IsEligableActivity = allowedTypes.Any(y => y.Equals(x.ActivityType, StringComparison.CurrentCultureIgnoreCase)),
+                Duration = x.ElapsedTime
             }).ToList();
         }
     }

@@ -23,7 +23,7 @@ namespace AllInSkateChallenge.Features.Strava
 
         public async Task<StravaActivityListResponse> List(ApplicationUser applicationUser)
         {
-            var url = "https://www.strava.com/api/v3/athlete/activities?page=1&per_page=30";
+            var url = "https://www.strava.com/api/v3/athlete/activities?page=1&per_page=100";
             var authToken = await userManager.GetAuthenticationTokenAsync(applicationUser, StravaConstants.ProviderName, StravaConstants.AccessTokenName);
             var responseModel = new StravaActivityListResponse();
 

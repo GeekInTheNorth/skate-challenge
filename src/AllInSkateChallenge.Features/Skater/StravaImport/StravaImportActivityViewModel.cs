@@ -24,6 +24,8 @@ namespace AllInSkateChallenge.Features.Skater.StravaImport
 
         public DateTime EndDate { get; set; }
 
+        public int Duration { get; set; }
+
         public bool IsImported { get; set; }
 
         public bool IsEligableActivity { get; set; }
