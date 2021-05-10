@@ -141,6 +141,25 @@
     </div>
 </div>
 
+<div class="row">
+    <div class="col-md-6">
+        <div class="card border-allin-green mb-3">
+            <h5 class="card-header bg-allin-green text-dark">Activities By Week Day</h5>
+            <div class="card-body">
+                <canvas id="activitiesByDayChart" style="height: 400px;"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card border-allin-green mb-3">
+            <h5 class="card-header bg-allin-green text-dark">Miles By Week Day</h5>
+            <div class="card-body">
+                <canvas id="milesByDayChart" style="height: 400px;"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
 @if (Model.Content.CheckPoints != null && Model.Content.CheckPoints.Any())
 {
     <div class="row">
@@ -261,6 +280,66 @@
                                 data: [@Model.Content.JourneysByStrava, @Model.Content.JourneysByManual]
                             }
                         ]
+                    }
+                });
+
+            var ctx4 = document.getElementById('activitiesByDayChart').getContext('2d');
+            var activitiesByDayChart = new Chart(ctx4,
+                {
+                    type: 'bar',
+                    data: {
+                        labels: [ 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday' ],
+                        datasets: [
+                            {
+                                label: 'Activities by Week Day',
+                                borderColor: ['#8ABC2D', '#8ABC2D', '#8ABC2D', '#8ABC2D', '#8ABC2D', '#8ABC2D', '#8ABC2D'],
+                                backgroundColor: ['#8ABC2D', '#8ABC2D', '#8ABC2D', '#8ABC2D', '#8ABC2D', '#8ABC2D', '#8ABC2D'],
+                                data: [@(string.Join(',', Model.Content.ActivitiesByDay.OrderBy(x => x.DayOfWeek).Select(x => x.Value.ToString("F2"))))]
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        legend: {
+                            display: false
+                        },
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }]
+                        }
+                    }
+                });
+
+            var ctx5 = document.getElementById('milesByDayChart').getContext('2d');
+            var milesByDayChart = new Chart(ctx5,
+                {
+                    type: 'bar',
+                    data: {
+                        labels: [ 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday' ],
+                        datasets: [
+                            {
+                                label: 'Miles by Week Day',
+                                borderColor: ['#8ABC2D', '#8ABC2D', '#8ABC2D', '#8ABC2D', '#8ABC2D', '#8ABC2D', '#8ABC2D'],
+                                backgroundColor: ['#8ABC2D', '#8ABC2D', '#8ABC2D', '#8ABC2D', '#8ABC2D', '#8ABC2D', '#8ABC2D'],
+                                data: [@(string.Join(',', Model.Content.MilesByDay.OrderBy(x => x.DayOfWeek).Select(x => x.Value.ToString("F2"))))]
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        legend: {
+                            display: false
+                        },
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }]
+                        }
                     }
                 });
         });

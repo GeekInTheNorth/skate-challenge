@@ -58,7 +58,9 @@
                 JourneysByManual = allSessions.Count(x => string.IsNullOrWhiteSpace(x.StravaId)),
                 SkateDistances = GetMilesPerWeek(allSessions, allWeeks).ToList(),
                 SkateSessions = GetSessionsPerWeek(allSessions, allWeeks).ToList(),
-                CheckPoints = GetCheckPointStatistics(skaterLogs).ToList()
+                CheckPoints = GetCheckPointStatistics(skaterLogs).ToList(),
+                ActivitiesByDay = GetActivitiesPerWeekDay(allSessions).ToList(),
+                MilesByDay = GetMilesPerWeekDay(allSessions).ToList()
             };
         }
 
@@ -80,6 +82,24 @@
 
                 yield return new StatisticsItemModel { Date = week.Item1, Value = miles };
             }
+        }
+
+        private List<StatisticsDayItemModel> GetActivitiesPerWeekDay(IList<SkateLogEntry> allSessions)
+        {
+            return allSessions.Select(x => new { x.Logged.DayOfWeek, x.DistanceInMiles })
+                              .GroupBy(x => x.DayOfWeek)
+                              .Select(x => new StatisticsDayItemModel { DayOfWeek = x.Key, Value = x.Count() })
+                              .OrderBy(x => x.DayOfWeek)
+                              .ToList();
+        }
+
+        private List<StatisticsDayItemModel> GetMilesPerWeekDay(IList<SkateLogEntry> allSessions)
+        {
+            return allSessions.Select(x => new { x.Logged.DayOfWeek, x.DistanceInMiles })
+                              .GroupBy(x => x.DayOfWeek)
+                              .Select(x => new StatisticsDayItemModel { DayOfWeek = x.Key, Value = x.Sum(x => x.DistanceInMiles) })
+                              .OrderBy(x => x.DayOfWeek)
+                              .ToList();
         }
 
         private List<Tuple<DateTime, DateTime>> GetAllWeeks(IList<SkateLogEntry> allSessions)

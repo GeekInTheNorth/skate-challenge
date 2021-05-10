@@ -30,6 +30,8 @@
             model.Content.MostJourneys = result.MostJourneys;
             model.Content.SkateDistances = result.SkateDistances;
             model.Content.SkateSessions = result.SkateSessions;
+            model.Content.ActivitiesByDay = result.ActivitiesByDay;
+            model.Content.MilesByDay = result.MilesByDay;
             model.Content.TotalMiles = result.TotalMiles;
             model.Content.TotalSkateSessions = result.TotalSkateSessions;
             model.Content.MilesByManual = result.MilesByManual;

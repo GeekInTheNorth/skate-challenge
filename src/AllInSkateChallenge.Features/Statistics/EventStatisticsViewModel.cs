@@ -16,6 +16,10 @@
 
         public List<StatisticsItemModel> SkateDistances { get; set; }
 
+        public List<StatisticsDayItemModel> ActivitiesByDay { get; set; }
+
+        public List<StatisticsDayItemModel> MilesByDay { get; set; }
+
         public decimal TotalMiles { get; set; }
 
         public int TotalSkateSessions { get; set; }
