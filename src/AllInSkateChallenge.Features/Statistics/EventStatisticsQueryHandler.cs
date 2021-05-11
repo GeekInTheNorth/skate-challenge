@@ -50,6 +50,10 @@
                 LongestSingleDistance = GetLongestDistance(allSessions, allSkaters),
                 LongestTotalDistance = GetLongestTotalDistance(allSessions, allSkaters),
                 MostJourneys = GetHighestNumberOfJourneys(allSessions, allSkaters),
+                BestTopSpeed = GetFastestSkater(allSessions, allSkaters),
+                BestAverageSpeed = GetBestAverageSpeedSkater(allSessions, allSkaters),
+                GreatestClimb = GetGreatestClimber(allSessions, allSkaters),
+                SkybornSkater = GetSkybornSkater(allSessions, allSkaters),
                 TotalMiles = allSessions.Sum(x => x.DistanceInMiles),
                 TotalSkateSessions = allSessions.Count,
                 MilesByStrava = allSessions.Where(x => !string.IsNullOrWhiteSpace(x.StravaId)).Sum(x => x.DistanceInMiles),
@@ -193,6 +197,78 @@
             {
                 SkaterName = skater?.GetDisplaySkaterName(),
                 Statistic = $"{mostJourneys.Journeys:F0} Journeys",
+                SkaterProfile = GetProfileImage(skater)
+            };
+        }
+
+        private SkaterStatisticsModel GetFastestSkater(IList<SkateLogEntry> allSessions, IList<ApplicationUser> allSkaters)
+        {
+            if (allSessions == null || !allSessions.Any())
+            {
+                return null;
+            }
+
+            var bestTopSpeed = allSessions.OrderByDescending(x => x.TopSpeedInMph).FirstOrDefault();
+            var skater = allSkaters.FirstOrDefault(x => x.Id.Equals(bestTopSpeed.ApplicationUserId, StringComparison.CurrentCultureIgnoreCase));
+
+            return new SkaterStatisticsModel
+            {
+                SkaterName = skater?.GetDisplaySkaterName(),
+                Statistic = $"{bestTopSpeed.TopSpeedInMph:F2} MPH",
+                SkaterProfile = GetProfileImage(skater)
+            };
+        }
+
+        private SkaterStatisticsModel GetBestAverageSpeedSkater(IList<SkateLogEntry> allSessions, IList<ApplicationUser> allSkaters)
+        {
+            if (allSessions == null || !allSessions.Any())
+            {
+                return null;
+            }
+
+            var bestAverageSpeed = allSessions.Where(x => x.Duration >= 1800).OrderByDescending(x => x.AverageSpeedInMph).FirstOrDefault();
+            var skater = allSkaters.FirstOrDefault(x => x.Id.Equals(bestAverageSpeed.ApplicationUserId, StringComparison.CurrentCultureIgnoreCase));
+
+            return new SkaterStatisticsModel
+            {
+                SkaterName = skater?.GetDisplaySkaterName(),
+                Statistic = $"{bestAverageSpeed.AverageSpeedInMph:F2} MPH",
+                SkaterProfile = GetProfileImage(skater)
+            };
+        }
+
+        private SkaterStatisticsModel GetGreatestClimber(IList<SkateLogEntry> allSessions, IList<ApplicationUser> allSkaters)
+        {
+            if (allSessions == null || !allSessions.Any())
+            {
+                return null;
+            }
+
+            var bestElevationGain = allSessions.OrderByDescending(x => x.ElevationGainInFeet).FirstOrDefault();
+            var skater = allSkaters.FirstOrDefault(x => x.Id.Equals(bestElevationGain.ApplicationUserId, StringComparison.CurrentCultureIgnoreCase));
+
+            return new SkaterStatisticsModel
+            {
+                SkaterName = skater?.GetDisplaySkaterName(),
+                Statistic = $"{bestElevationGain.ElevationGainInFeet:F2} Feet",
+                SkaterProfile = GetProfileImage(skater)
+            };
+        }
+
+        private SkaterStatisticsModel GetSkybornSkater(IList<SkateLogEntry> allSessions, IList<ApplicationUser> allSkaters)
+        {
+            if (allSessions == null || !allSessions.Any())
+            {
+                return null;
+            }
+
+            var highestAltitude = allSessions.OrderByDescending(x => x.HighestElevationInFeet).FirstOrDefault();
+            var skater = allSkaters.FirstOrDefault(x => x.Id.Equals(highestAltitude.ApplicationUserId, StringComparison.CurrentCultureIgnoreCase));
+
+            return new SkaterStatisticsModel
+            {
+                SkaterName = skater?.GetDisplaySkaterName(),
+                Statistic = $"{highestAltitude.HighestElevationInFeet:F2} Feet",
                 SkaterProfile = GetProfileImage(skater)
             };
         }

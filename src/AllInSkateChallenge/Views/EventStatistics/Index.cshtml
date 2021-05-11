@@ -18,6 +18,76 @@
 <div class="row">
     <div class="col-md-6">
         <div class="card border-allin-green mb-3">
+            <h5 class="card-header bg-allin-green text-dark">Best Top Speed</h5>
+            <div class="card-body row">
+                <div class="col-2">
+                    <img src="@Model.Content.BestTopSpeed.SkaterProfile" alt="@Model.Content.BestTopSpeed.SkaterName Profile Image" class="leaderboard-profile" />
+                </div>
+                <div class="col-5 align-middle">
+                    @Model.Content.BestTopSpeed.SkaterName
+                </div>
+                <div class="col-5 align-middle">
+                    @Model.Content.BestTopSpeed.Statistic
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card border-allin-green mb-3">
+            <h5 class="card-header bg-allin-green text-dark">Best Average Speed (30 mins or more)</h5>
+            <div class="card-body row">
+                <div class="col-2">
+                    <img src="@Model.Content.BestAverageSpeed.SkaterProfile" alt="@Model.Content.BestAverageSpeed.SkaterName Profile Image" class="leaderboard-profile" />
+                </div>
+                <div class="col-5 align-middle">
+                    @Model.Content.BestAverageSpeed.SkaterName
+                </div>
+                <div class="col-5 align-middle">
+                    @Model.Content.BestAverageSpeed.Statistic
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card border-allin-green mb-3">
+            <h5 class="card-header bg-allin-green text-dark">Greatest Climb in One Session</h5>
+            <div class="card-body row">
+                <div class="col-2">
+                    <img src="@Model.Content.GreatestClimb.SkaterProfile" alt="@Model.Content.GreatestClimb.SkaterName Profile Image" class="leaderboard-profile" />
+                </div>
+                <div class="col-5 align-middle">
+                    @Model.Content.GreatestClimb.SkaterName
+                </div>
+                <div class="col-5 align-middle">
+                    @Model.Content.GreatestClimb.Statistic
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card border-allin-green mb-3">
+            <h5 class="card-header bg-allin-green text-dark">Skyborn Skater (Highest Altitude)</h5>
+            <div class="card-body row">
+                <div class="col-2">
+                    <img src="@Model.Content.SkybornSkater.SkaterProfile" alt="@Model.Content.SkybornSkater.SkaterName Profile Image" class="leaderboard-profile" />
+                </div>
+                <div class="col-5 align-middle">
+                    @Model.Content.SkybornSkater.SkaterName
+                </div>
+                <div class="col-5 align-middle">
+                    @Model.Content.SkybornSkater.Statistic
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card border-allin-green mb-3">
             <h5 class="card-header bg-allin-green text-dark">Longest Journey</h5>
             <div class="card-body row">
                 <div class="col-2">

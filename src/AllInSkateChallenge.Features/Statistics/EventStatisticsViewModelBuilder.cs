@@ -30,6 +30,10 @@
             model.Content.MostJourneys = result.MostJourneys;
             model.Content.SkateDistances = result.SkateDistances;
             model.Content.SkateSessions = result.SkateSessions;
+            model.Content.BestTopSpeed = result.BestTopSpeed;
+            model.Content.BestAverageSpeed = result.BestAverageSpeed;
+            model.Content.GreatestClimb = result.GreatestClimb;
+            model.Content.SkybornSkater = result.SkybornSkater;
             model.Content.ActivitiesByDay = result.ActivitiesByDay;
             model.Content.MilesByDay = result.MilesByDay;
             model.Content.TotalMiles = result.TotalMiles;
