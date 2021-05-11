@@ -12,9 +12,21 @@
 
         public SkaterStatisticsModel MostJourneys { get; set; }
 
+        public SkaterStatisticsModel BestTopSpeed { get; set; }
+
+        public SkaterStatisticsModel BestAverageSpeed { get; set; }
+
+        public SkaterStatisticsModel GreatestClimb { get; set; }
+
+        public SkaterStatisticsModel SkybornSkater { get; set; }
+
         public List<StatisticsItemModel> SkateSessions { get; set; }
 
         public List<StatisticsItemModel> SkateDistances { get; set; }
+
+        public List<StatisticsDayItemModel> ActivitiesByDay { get; set; }
+
+        public List<StatisticsDayItemModel> MilesByDay { get; set; }
 
         public decimal TotalMiles { get; set; }
 
