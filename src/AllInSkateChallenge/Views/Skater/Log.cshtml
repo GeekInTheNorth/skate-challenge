@@ -3,6 +3,7 @@
 
 @{
     Layout = "_PageViewModelLayout";
+    var darkRow = false;
 }
 
 <div class="row">
@@ -29,37 +30,69 @@
     </div>
 }
 
-<table class="table table-striped">
-    <thead class="thead-dark">
-        <tr>
-            <th scope="col">Journey</th>
-            <th scope="col">Logged</th>
-            <th scope="col">Miles</th>
-            @if (Model.IsStravaUser)
-            {
-                <th scope="col" class="mobile-hidden">Source</th>
-            }
-            <th scope="col" class="js-action-delete-column">Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var entry in Model.Content.Entries)
-        {
-            <tr class="js-mileage-entry-row" data-entry-id="@entry.SkateLogEntryId">
-                <td class="align-middle">@entry.Name</td>
-                <td class="align-middle">@entry.Logged.ToString("dd/MM/yyyy HH:mm")</td>
-                <td class="align-middle">@entry.DistanceInMiles.ToString("F2")</td>
-                @if (Model.IsStravaUser)
-                {
-                    <td class="align-middle mobile-hidden">@(string.IsNullOrWhiteSpace(entry.StravaId) ? "Manual" : "Strava")</td>
-                }
-                <td class="align-middle js-action-delete-column">
-                    <button type="button" class="btn btn-danger js-delete-mileage-entry" data-entry-id="@entry.SkateLogEntryId">Delete</button>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+<div class="container mb-2">
+    <div class="row">
+        <div class="col-1 p-2 bg-dark text-light"></div>
+        <div class="col-5 p-2 bg-dark text-light">Journey</div>
+        <div class="col-3 p-2 bg-dark text-light">Logged</div>
+        <div class="col-2 p-2 bg-dark text-light">Miles</div>
+        <div class="col-1 p-2 bg-dark text-light"></div>
+    </div>
+    @foreach (var entry in Model.Content.Entries)
+    {
+        darkRow = !darkRow;
+        <div class="row border-bottom @(darkRow?"bg-light":"bg-white")" data-entry-id="@entry.SkateLogEntryId">
+            <div class="col-1 p-1 align-middle">
+                <button type="button" class="btn btn-sm btn-primary js-toggle-detail" data-target-container="detail-@entry.SkateLogEntryId">
+                    <img src="~/images/open-iconic/chevron-bottom.svg" alt="Expand" />
+                </button>
+            </div>
+            <div class="col-5 p-2">@entry.Name</div>
+            <div class="col-3 p-2">@entry.Logged.ToString("dd/MM/yyyy HH:mm")</div>
+            <div class="col-2 p-2">@entry.DistanceInMiles.ToString("F2")</div>
+            <div class="col-1 p-1 align-middle">
+                <button type="button" class="btn btn-sm btn-danger js-delete-mileage-entry" data-entry-id="@entry.SkateLogEntryId">
+                  <img src="~/images/open-iconic/trash.svg" alt="Trash" />
+                </button>
+            </div>
+        </div>
+        <div id="detail-@entry.SkateLogEntryId" class="row border-bottom d-none @(darkRow?"bg-light":"bg-white")" data-entry-id="@entry.SkateLogEntryId">
+            <div class="col-1 p-1"></div>
+            <div class="col-10 p-2">
+                <table class="table table-striped">
+                    <tr>
+                        <th class="border-right">Lowest Elevation</th>
+                        <td>@entry.LowestElevationInFeet.ToString("F2") Feet</td>
+                    </tr>
+                    <tr>
+                        <th class="border-right">Highest Elevation</th>
+                        <td>@entry.HighestElevationInFeet.ToString("F2") Feet</td>
+                    </tr>
+                    <tr>
+                        <th class="border-right">Total Elevation Gain</th>
+                        <td>@entry.ElevationGainInFeet.ToString("F2") Feet</td>
+                    </tr>
+                    <tr>
+                        <th class="border-right">Average Speed</th>
+                        <td>@entry.AverageSpeedInMph.ToString("F2") MPH</td>
+                    </tr>
+                    <tr>
+                        <th class="border-right">Top Speed</th>
+                        <td>@entry.TopSpeedInMph.ToString("F2") MPH</td>
+                    </tr>
+                    @if (Model.IsStravaUser)
+                    {
+                        <tr>
+                            <th class="border-right">Logged By</th>
+                            <td>@(string.IsNullOrWhiteSpace(entry.StravaId) ? "User" : "Strava")</td>
+                        </tr>
+                    }
+                </table>
+            </div>
+            <div class="col-1 p-1"></div>
+        </div>
+    }
+</div>
 
 <div class="modal fade" id="deleteEntryModal" tabindex="-1" role="dialog" aria-labelledby="deleteEntryLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -127,13 +160,13 @@
     <script type="text/javascript">
         $(document).ready(function () {
             $(".js-delete-mileage-entry").click(function (event) {
-                $(".js-confirm-delete-mileage-entry").data("entry-id", ($(event.target).data("entry-id")));
+                $(".js-confirm-delete-mileage-entry").data("entry-id", ($(event.currentTarget).data("entry-id")));
                 $("#deleteEntryModal").modal({ keyboard: true, focus: true });
             });
 
             $(".js-confirm-delete-mileage-entry").click(function (event) {
-                var rowSelector = "tr[data-entry-id='" + $(event.target).data("entry-id") + "']";
-                $.post("/skater/skate-log/delete", { "mileageEntryId": $(event.target).data("entry-id") })
+                var rowSelector = "div[data-entry-id='" + $(event.currentTarget).data("entry-id") + "']";
+                $.post("/skater/skate-log/delete", { "mileageEntryId": $(event.currentTarget).data("entry-id") })
                     .done(function () {
                         $(rowSelector).remove();
                         $("#deleteEntryModal").modal('hide');
@@ -148,6 +181,19 @@
                 $(".js-confirm-create-mileage-entry").prop("disabled", true);
 
                 setTimeout(function () { $(".js-confirm-create-mileage-entry").prop("disabled", false); }, 5000);
+            });
+
+            $(".js-toggle-detail").click(function (event) {
+                var detailContainer = $(event.currentTarget).data("target-container");
+                var detailContainerSelector = "#" + detailContainer;
+                var isHidden = $(detailContainerSelector).hasClass("d-none");
+                if (isHidden) {
+                    $(detailContainerSelector).removeClass("d-none");
+                }
+                else {
+                    $(detailContainerSelector).addClass("d-none");
+                }
+                
             });
         });
     </script>
