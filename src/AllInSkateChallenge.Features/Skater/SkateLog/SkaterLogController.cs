@@ -75,7 +75,17 @@ namespace AllInSkateChallenge.Controllers
                     Name = mileageEntry.JourneyName,
                     Distance = mileageEntry.Distance, 
                     DistanceUnit = mileageEntry.DistanceUnit, 
-                    StartDate = mileageEntry.DateSkated ?? DateTime.Now 
+                    StartDate = mileageEntry.DateSkated ?? DateTime.Now,
+                    AverageSpeed = mileageEntry.AverageSpeed,
+                    AverageSpeedUnit = mileageEntry.VelocityUnit,
+                    TopSpeed = mileageEntry.TopSpeed,
+                    TopSpeedUnit = mileageEntry.VelocityUnit,
+                    LowestElevation = mileageEntry.LowestElevation,
+                    LowestElevationUnit = mileageEntry.ElevationUnit,
+                    HighestElevation = mileageEntry.HighestElevation,
+                    HighestElevationUnit = mileageEntry.ElevationUnit,
+                    ElevationGain = mileageEntry.ElevationGain,
+                    ElevationGainUnit = mileageEntry.ElevationUnit
                 };
 
                 var saveResponse = await mediator.Send(command);

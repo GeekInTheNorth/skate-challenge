@@ -16,30 +16,23 @@ namespace AllInSkateChallenge.Features.Skater.SkateLog
 
         public DateTime? DateSkated { get; set; }
 
-        public decimal DistanceMiles
-        {
-            get
-            {
-                if (DistanceUnit.Equals(DistanceUnit.Miles))
-                {
-                    return Distance;
-                }
+        public VelocityUnit VelocityUnit { get; set; }
 
-                return Distance / 1.60934M;
-            }
-        }
+        [Range(0, 100)]
+        public decimal AverageSpeed { get; set;  }
 
-        public decimal DistanceKilometres
-        {
-            get
-            {
-                if (DistanceUnit.Equals(DistanceUnit.Kilometres))
-                {
-                    return Distance;
-                }
+        [Range(0, 100)]
+        public decimal TopSpeed { get; set; }
 
-                return Distance * 1.60934M;
-            }
-        }
+        public DistanceUnit ElevationUnit { get; set; }
+
+        [Range(0, 10000)]
+        public decimal LowestElevation { get; set; }
+
+        [Range(0, 10000)]
+        public decimal HighestElevation { get; set; }
+
+        [Range(0, 10000)]
+        public decimal ElevationGain { get; set; }
     }
 }

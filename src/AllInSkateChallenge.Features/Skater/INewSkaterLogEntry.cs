@@ -10,10 +10,20 @@ namespace AllInSkateChallenge.Features.Skater
 
         decimal Distance { get; }
 
-        decimal DistanceMiles { get; }
-
-        decimal DistanceKilometres { get; }
-
         DateTime? DateSkated { get; }
+
+        VelocityUnit VelocityUnit { get; }
+
+        decimal AverageSpeed { get; }
+
+        decimal TopSpeed { get; }
+
+        DistanceUnit ElevationUnit { get; }
+
+        decimal LowestElevation { get; }
+
+        decimal HighestElevation { get; }
+
+        decimal ElevationGain { get; }
     }
 }

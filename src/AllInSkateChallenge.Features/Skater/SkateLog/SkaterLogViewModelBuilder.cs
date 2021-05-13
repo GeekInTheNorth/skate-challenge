@@ -44,16 +44,8 @@ namespace AllInSkateChallenge.Features.Skater.SkateLog
             model.DisplayPageTitle = "Your Skate Log";
             model.IsNoIndexPage = true;
             model.DisplayStravaNotification = false;
-
-            if (model.IsStravaUser)
-            {
-                model.IntroductoryText = "This screen allows you to create, view and delete your skate log entries. When Strava sends us notifications about your new or updated activities, you will be able to import those activities by clicking on 'Connect with STRAVA'.";
-            }
-            else
-            {
-                model.IntroductoryText = "This screen allows you to create, view and delete your skate log entries.";
-            }
-
+            model.IntroductoryText = "This screen allows you to create, view and delete your skate log entries.";
+            
             var command = new SkaterLogQuery { Skater = User };
             var commandResponse = await mediator.Send(command);
             var entries = commandResponse.Entries ?? new List<SkateLogEntry>();
@@ -62,6 +54,13 @@ namespace AllInSkateChallenge.Features.Skater.SkateLog
             model.Content.Entries = entries;
             model.Content.DistanceUnit = newEntry?.DistanceUnit ?? DistanceUnit.Miles;
             model.Content.Distance = newEntry?.Distance ?? 0;
+            model.Content.VelocityUnit = newEntry?.VelocityUnit ?? VelocityUnit.MilesPerHour;
+            model.Content.AverageSpeed = newEntry?.AverageSpeed ?? 0;
+            model.Content.TopSpeed = newEntry?.TopSpeed ?? 0;
+            model.Content.ElevationUnit = newEntry?.ElevationUnit ?? DistanceUnit.Feet;
+            model.Content.LowestElevation = newEntry?.LowestElevation ?? 0;
+            model.Content.HighestElevation = newEntry?.HighestElevation ?? 0;
+            model.Content.ElevationGain = newEntry?.ElevationGain ?? 0;
             model.Content.DateSkated = newEntry?.DateSkated;
             model.Content.JourneyName = newEntry?.JourneyName;
             model.Content.RecordExists = saveResponse?.RecordExists ?? false;

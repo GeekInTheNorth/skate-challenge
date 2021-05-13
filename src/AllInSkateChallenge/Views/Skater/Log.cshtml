@@ -8,14 +8,11 @@
 
 <div class="row">
     <div class="col-xl-12">
-        <button type="button" class="btn btn-primary js-add-mileage-entry mt-3 mb-3">+ Create New Mileage Entry</button>
-        @if (Model.IsStravaUser && Model.DisplayStravaNotification)
+        <button type="button" class="btn btn-primary js-add-mileage-entry mt-3 mb-3">+ Log Miles</button>
+        <button type="button" class="btn btn-primary js-add-mileage-entry-full mt-3 mb-3">+ Log Activity</button>
+        @if (Model.IsStravaUser)
         {
-            <a asp-controller="StravaImport" asp-action="Index" class="btn btn-strava" title="Import Activities from Strava"></a>
-        }
-        else if (Model.IsStravaUser && !Model.DisplayStravaNotification)
-        {
-            <button type="button" class="btn btn-strava btn-strava-disabled" name="provider" title="You have no new activities to import from Strava" disabled></button>
+            <a asp-controller="StravaImport" asp-action="Index" class="btn btn-strava" title="Import from Strava"></a>
         }
     </div>
 </div>
@@ -61,16 +58,16 @@
             <div class="col-10 p-2">
                 <table class="table table-striped">
                     <tr>
+                        <th class="border-right">Total Elevation Gain</th>
+                        <td>@entry.ElevationGainInFeet.ToString("F2") Feet</td>
+                    </tr>
+                    <tr>
                         <th class="border-right">Lowest Elevation</th>
                         <td>@entry.LowestElevationInFeet.ToString("F2") Feet</td>
                     </tr>
                     <tr>
                         <th class="border-right">Highest Elevation</th>
                         <td>@entry.HighestElevationInFeet.ToString("F2") Feet</td>
-                    </tr>
-                    <tr>
-                        <th class="border-right">Total Elevation Gain</th>
-                        <td>@entry.ElevationGainInFeet.ToString("F2") Feet</td>
                     </tr>
                     <tr>
                         <th class="border-right">Average Speed</th>
@@ -127,7 +124,7 @@
                 <div class="modal-body">
                     <p>Please enter the details of your skating journey.  This should represent a single journey on skates.</p>
                     <div class="form-group">
-                        <label for="distanceUnit">Miles or Kilometres?</label>
+                        <label for="distanceUnit">Distance Unit</label>
                         @Html.DropDownList(nameof(INewSkaterLogEntry.DistanceUnit), new SelectList(new[] { DistanceUnit.Miles, DistanceUnit.Kilometres }), new { @class = "form-control", aria_describedby = "distanceUnitHelp" })
                         <small id="distanceUnitHelp" class="form-text text-muted">Distance can be logged in miles or kilometres, but will be converted into miles.</small>
                     </div>
@@ -145,6 +142,41 @@
                         <label>Date Skated</label>
                         @Html.TextBox(nameof(INewSkaterLogEntry.DateSkated), Model.Content.DateSkated, new { @type = "date", @class = "form-control", aria_describedby = "dateSkatedHelp", step = "1", min = "2020-11-15", max = DateTime.Today.ToString("yyyy-MM-dd") })
                         <small id="dateSkatedHelp" class="form-text text-muted">Today's date will be used if this field is left blank.</small>
+                    </div>
+                    <div class="form-group js-detail-form">
+                        <label for="velocityUnit">Velocity Unit</label>
+                        @Html.DropDownList(nameof(INewSkaterLogEntry.VelocityUnit), new SelectList(new[] { VelocityUnit.MilesPerHour, VelocityUnit.KilometersPerHour }), new { @class = "form-control", aria_describedby = "velocityUnitHelp" })
+                        <small id="velocityUnitHelp" class="form-text text-muted">Speed can be logged in miles per hour or kilometres per hour, but will be converted into miles.</small>
+                    </div>
+                    <div class="form-group js-detail-form">
+                        <label for="averageSpeed">Average Speed</label>
+                        @Html.TextBox(nameof(INewSkaterLogEntry.AverageSpeed), Model.Content.AverageSpeed, new { @type = "number", @class = "form-control js-detail-form-field", aria_describedby = "averageSpeedHelp", step = "0.01", min = "0", max = "100" })
+                        <small id="averageSpeedHelp" class="form-text text-muted">Partial speeds can be entered by typing a decimal value e.g. 4.5.</small>
+                    </div>
+                    <div class="form-group js-detail-form">
+                        <label for="topSpeed">Top Speed</label>
+                        @Html.TextBox(nameof(INewSkaterLogEntry.TopSpeed), Model.Content.AverageSpeed, new { @type = "number", @class = "form-control js-detail-form-field", aria_describedby = "topSpeedHelp", step = "0.01", min = "0", max = "100" })
+                        <small id="topSpeedHelp" class="form-text text-muted">Partial speeds can be entered by typing a decimal value e.g. 4.5.</small>
+                    </div>
+                    <div class="form-group js-detail-form">
+                        <label for="elevationUnit">Elevation Unit</label>
+                        @Html.DropDownList(nameof(INewSkaterLogEntry.ElevationUnit), new SelectList(new[] { DistanceUnit.Feet, DistanceUnit.Metres }), new { @class = "form-control", aria_describedby = "elevationUnitHelp" })
+                        <small id="elevationUnitHelp" class="form-text text-muted">Elevation can be logged in metres or feet, but will be converted into feet.</small>
+                    </div>
+                    <div class="form-group js-detail-form">
+                        <label for="elevationGain">Total Elevation Gain</label>
+                        @Html.TextBox(nameof(INewSkaterLogEntry.ElevationGain), Model.Content.LowestElevation, new { @type = "number", @class = "form-control js-detail-form-field", aria_describedby = "elevationGainHelp", step = "0.01", min = "0", max = "10000" })
+                        <small id="elevationGainHelp" class="form-text text-muted">The total elevation gain of your journey. Partial elevation can be entered by typing a decimal value e.g. 4.5.</small>
+                    </div>
+                    <div class="form-group js-detail-form">
+                        <label for="lowestElevation">Lowest Elevation</label>
+                        @Html.TextBox(nameof(INewSkaterLogEntry.LowestElevation), Model.Content.LowestElevation, new { @type = "number", @class = "form-control js-detail-form-field", aria_describedby = "lowestElevationHelp", step = "0.01", min = "0", max = "10000" })
+                        <small id="lowestElevationHelp" class="form-text text-muted">The lowest altitude of your journey. Partial elevation can be entered by typing a decimal value e.g. 4.5.</small>
+                    </div>
+                    <div class="form-group js-detail-form">
+                        <label for="highestElevation">Highest Elevation</label>
+                        @Html.TextBox(nameof(INewSkaterLogEntry.HighestElevation), Model.Content.AverageSpeed, new { @type = "number", @class = "form-control js-detail-form-field", aria_describedby = "highestElevationHelp", step = "0.01", min = "0", max = "10000" })
+                        <small id="highestElevationHelp" class="form-text text-muted">The highest altitude of your journey. Partial elevation can be entered by typing a decimal value e.g. 4.5.</small>
                     </div>
                 </div>
                 <div class="modal-footer border-allin-green">
@@ -174,6 +206,13 @@
             });
 
             $(".js-add-mileage-entry").click(function () {
+                $(".js-detail-form").addClass("d-none");
+                $(".js-detail-form-field").val(0);
+                $("#addEntryModal").modal({ keyboard: true, focus: true });
+            });
+
+            $(".js-add-mileage-entry-full").click(function () {
+                $(".js-detail-form").removeClass("d-none");
                 $("#addEntryModal").modal({ keyboard: true, focus: true });
             });
 
