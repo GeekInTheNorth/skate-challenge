@@ -4,6 +4,56 @@
     Layout = "_PageViewModelLayout";
 }
 
+<div class="row">
+    <div class="col-md-12">
+        <div class="card border-allin-green mb-3">
+            <h5 class="card-header bg-allin-green text-dark">Your Summary</h5>
+            <div class="card-body row">
+                <div class="col-sm-4">
+                    <span class="font-weight-bold">Lowest Elevation</span><br />
+                    <span>@Model.Content.Statistics.LowestElevation.ToString("F2") Feet</span>
+                </div>
+                <div class="col-sm-4">
+                    <span class="font-weight-bold">Highest Elevation</span><br />
+                    <span>@Model.Content.Statistics.HighestElevation.ToString("F2") Feet</span>
+                </div>
+                <div class="col-sm-4">
+                    <span class="font-weight-bold">Greatest Elevation Gain</span><br />
+                    <span>@Model.Content.Statistics.GreatestElevationGain.ToString("F2") Feet</span>
+                </div>
+            </div>
+            <div class="card-body row">
+                <div class="col-sm-4">
+                    <span class="font-weight-bold">Shortest Distance</span><br />
+                    <span>@Model.Content.Statistics.ShortestDistance.ToString("F2") Miles</span>
+                </div>
+                <div class="col-sm-4">
+                    <span class="font-weight-bold">Longest Distance</span><br />
+                    <span>@Model.Content.Statistics.LongestDistance.ToString("F2") Miles</span>
+                </div>
+                <div class="col-sm-4">
+                    <span class="font-weight-bold">Total Distance</span><br />
+                    <span>@Model.Content.Statistics.TotalDistance.ToString("F2") Miles</span>
+                </div>
+            </div>
+            <div class="card-body row">
+                <div class="col-sm-4">
+                    <span class="font-weight-bold">Best Average Speed</span><br />
+                    <span>@Model.Content.Statistics.BestAverageSpeed.ToString("F2") MPH</span>
+                </div>
+                <div class="col-sm-4">
+                    <span class="font-weight-bold">Best Top Speed</span><br />
+                    <span>@Model.Content.Statistics.BestTopSpeed.ToString("F2") MPH</span>
+                </div>
+                <div class="col-sm-4">
+                    <span class="font-weight-bold">Number of Sessions</span><br />
+                    <span>@Model.Content.Statistics.NumberOfSessions.ToString("F0") Sessions</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 @if (Model.Content.CheckPointsReached != null && Model.Content.CheckPointsReached.Any())
 {
     var isLeft = false;
@@ -11,7 +61,7 @@
         <div class="timeline-container-header">
             <div class="timeline-content-header card border-allin-green">
                 <h2 class="card-header bg-allin-green text-dark">Distance Travelled</h2>
-                <p class="card-body">You have skated @Model.Content.MilesSkated.ToString("F2") of your goal of @Model.Content.TargetMiles.ToString("F1") miles.</p>
+                <p class="card-body">You have skated @Model.Content.Statistics.TotalDistance.ToString("F2") of your goal of @Model.Content.TargetMiles.ToString("F1") miles.</p>
             </div>
         </div>
 

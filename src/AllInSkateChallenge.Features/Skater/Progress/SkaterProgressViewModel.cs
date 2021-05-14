@@ -6,8 +6,8 @@ namespace AllInSkateChallenge.Features.Skater.Progress
 {
     public class SkaterProgressViewModel
     {
-        public decimal MilesSkated { get; set; }
-        
+        public PersonalStatistics Statistics { get; set; }
+
         public decimal TargetMiles { get; set; }
 
         public List<CheckPointModel> CheckPointsReached { get; set; }
