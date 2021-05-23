@@ -40,19 +40,9 @@ namespace AllInSkateChallenge.Features.Skater.Progress
             var nextCheckPoint = checkPoints.Where(x => x.Distance > totalDistance && x.Distance <= targetCheckPoint.Distance).OrderBy(x => x.Distance).FirstOrDefault();
 
             model.Content.CheckPointsReached = checkPointsReached.ToList();
+            model.Content.MilesSkated = totalDistance;
             model.Content.TargetMiles = targetCheckPoint.Distance;
-            model.Content.Statistics = new PersonalStatistics
-            {
-                BestAverageSpeed = mileageEntries.Max(x => x.AverageSpeedInMph),
-                BestTopSpeed = mileageEntries.Max(x => x.TopSpeedInMph),
-                LowestElevation = mileageEntries.Where(x => x.LowestElevationInFeet != 0).Min(x => x.LowestElevationInFeet),
-                HighestElevation = mileageEntries.Where(x => x.HighestElevationInFeet != 0).Max(x => x.HighestElevationInFeet),
-                GreatestElevationGain = mileageEntries.Max(x => x.ElevationGainInFeet),
-                ShortestDistance = mileageEntries.Min(x => x.DistanceInMiles),
-                LongestDistance = mileageEntries.Max(x => x.DistanceInMiles),
-                TotalDistance = mileageEntries.Sum(x => x.DistanceInMiles),
-                NumberOfSessions = mileageEntries.Count()
-            };
+            model.Content.Entries = mileageEntries;
 
             if (nextCheckPoint != null)
             {
