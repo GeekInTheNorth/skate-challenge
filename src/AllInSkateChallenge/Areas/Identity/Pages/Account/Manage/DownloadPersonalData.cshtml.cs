@@ -59,10 +59,10 @@ namespace AllInSkateChallenge.Areas.Identity.Pages.Account.Manage
             var skateLogs = await _dbContext.SkateLogEntries.Where(x => x.ApplicationUserId.Equals(user.Id)).ToListAsync();
             var stravaEvents = await _dbContext.StravaEvents.Where(x => x.ApplicationUserId.Equals(user.Id)).ToListAsync();
 
-            var model = new 
+            var model = new
             {
-                PersonalDetails = personalData, 
-                SkateLogs = skateLogs?.Select(x => new { x.Logged, x.StravaId, x.DistanceInMiles }).ToList(), 
+                PersonalDetails = personalData,
+                SkateLogs = skateLogs?.Select(x => new { x.Logged, x.Name, x.StravaId, x.DistanceInMiles, x.AverageSpeedInMph, x.TopSpeedInMph, x.LowestElevationInFeet, x.HighestElevationInFeet, x.ElevationGainInFeet }).ToList(),
                 StravaNotifications = stravaEvents?.Select(x => new { x.StravaActivityId, x.Imported }).ToList()
             };
             
