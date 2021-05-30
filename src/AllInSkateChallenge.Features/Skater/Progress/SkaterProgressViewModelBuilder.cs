@@ -42,6 +42,7 @@ namespace AllInSkateChallenge.Features.Skater.Progress
             model.Content.CheckPointsReached = checkPointsReached.ToList();
             model.Content.MilesSkated = totalDistance;
             model.Content.TargetMiles = targetCheckPoint.Distance;
+            model.Content.Entries = mileageEntries;
 
             if (nextCheckPoint != null)
             {

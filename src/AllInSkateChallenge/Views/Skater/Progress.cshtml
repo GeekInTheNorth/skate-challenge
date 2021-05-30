@@ -4,6 +4,8 @@
     Layout = "_PageViewModelLayout";
 }
 
+<vc:personal-statistics mileage-entries="@Model.Content.Entries"></vc:personal-statistics>
+
 @if (Model.Content.CheckPointsReached != null && Model.Content.CheckPointsReached.Any())
 {
     var isLeft = false;

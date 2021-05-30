@@ -1,0 +1,63 @@
+﻿@model AllInSkateChallenge.Features.Skater.PersonalStatistics.PersonalStatisticsViewModel
+
+@if (Model.ShowPersonalStatistics)
+{
+    <div class="personal-statistics row">
+        <div class="col-md-12">
+            <div class="card border-allin-green mb-3">
+                <h5 class="card-header bg-allin-green text-dark">Your Summary</h5>
+                @if (Model.ShowElevations)
+                {
+                    <div class="card-body row py-2">
+                        <div class="col-sm-4">
+                            <span class="font-weight-bold">Lowest Elevation</span><br />
+                            <span>@Model.LowestElevation.ToString("F2") Feet</span>
+                        </div>
+                        <div class="col-sm-4">
+                            <span class="font-weight-bold">Highest Elevation</span><br />
+                            <span>@Model.HighestElevation.ToString("F2") Feet</span>
+                        </div>
+                        <div class="col-sm-4">
+                            <span class="font-weight-bold">Greatest Elevation Gain</span><br />
+                            <span>@Model.GreatestElevationGain.ToString("F2") Feet</span>
+                        </div>
+                    </div>
+                }
+                @if (Model.ShowDistance)
+                {
+                    <div class="card-body row py-2">
+                        <div class="col-sm-4">
+                            <span class="font-weight-bold">Shortest Distance</span><br />
+                            <span>@Model.ShortestDistance.ToString("F2") Miles</span>
+                        </div>
+                        <div class="col-sm-4">
+                            <span class="font-weight-bold">Longest Distance</span><br />
+                            <span>@Model.LongestDistance.ToString("F2") Miles</span>
+                        </div>
+                        <div class="col-sm-4">
+                            <span class="font-weight-bold">Total Distance</span><br />
+                            <span>@Model.TotalDistance.ToString("F2") Miles</span>
+                        </div>
+                    </div>
+                }
+                @if (Model.ShowSpeed)
+                {
+                    <div class="card-body row py-2">
+                        <div class="col-sm-4">
+                            <span class="font-weight-bold">Best Average Speed</span><br />
+                            <span>@Model.BestAverageSpeed.ToString("F2") MPH</span>
+                        </div>
+                        <div class="col-sm-4">
+                            <span class="font-weight-bold">Best Top Speed</span><br />
+                            <span>@Model.BestTopSpeed.ToString("F2") MPH</span>
+                        </div>
+                        <div class="col-sm-4">
+                            <span class="font-weight-bold">Number of Sessions</span><br />
+                            <span>@Model.NumberOfSessions.ToString("F0") Sessions</span>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+}

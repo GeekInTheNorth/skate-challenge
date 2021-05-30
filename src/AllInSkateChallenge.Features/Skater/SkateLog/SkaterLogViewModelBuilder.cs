@@ -51,7 +51,7 @@ namespace AllInSkateChallenge.Features.Skater.SkateLog
             var entries = commandResponse.Entries ?? new List<SkateLogEntry>();
 
             model.Content.TotalMiles = entries.Sum(x => x.DistanceInMiles);
-            model.Content.Entries = entries;
+            model.Content.Entries = entries.OrderByDescending(x => x.Logged).ToList();
             model.Content.DistanceUnit = newEntry?.DistanceUnit ?? DistanceUnit.Miles;
             model.Content.Distance = newEntry?.Distance ?? 0;
             model.Content.VelocityUnit = newEntry?.VelocityUnit ?? VelocityUnit.MilesPerHour;
