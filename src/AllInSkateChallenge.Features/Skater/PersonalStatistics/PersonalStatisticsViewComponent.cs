@@ -12,18 +12,20 @@ namespace AllInSkateChallenge.Features.Skater.PersonalStatistics
     {
         public async Task<IViewComponentResult> InvokeAsync(List<SkateLogEntry> mileageEntries)
         {
-            var model = new PersonalStatisticsViewModel
+            var model = new PersonalStatisticsViewModel();
+
+            if (mileageEntries != null && mileageEntries.Any())
             {
-                BestAverageSpeed = mileageEntries.Max(x => x.AverageSpeedInMph),
-                BestTopSpeed = mileageEntries.Max(x => x.TopSpeedInMph),
-                LowestElevation = mileageEntries.Where(x => x.LowestElevationInFeet != 0).Min(x => x.LowestElevationInFeet),
-                HighestElevation = mileageEntries.Where(x => x.HighestElevationInFeet != 0).Max(x => x.HighestElevationInFeet),
-                GreatestElevationGain = mileageEntries.Max(x => x.ElevationGainInFeet),
-                ShortestDistance = mileageEntries.Min(x => x.DistanceInMiles),
-                LongestDistance = mileageEntries.Max(x => x.DistanceInMiles),
-                TotalDistance = mileageEntries.Sum(x => x.DistanceInMiles),
-                NumberOfSessions = mileageEntries.Count()
-            };
+                model.BestAverageSpeed = mileageEntries.Max(x => x.AverageSpeedInMph);
+                model.BestTopSpeed = mileageEntries.Max(x => x.TopSpeedInMph);
+                model.LowestElevation = mileageEntries.Select(x => x.LowestElevationInFeet).OrderBy(x => x).FirstOrDefault(x => x != 0);
+                model.HighestElevation = mileageEntries.Select(x => x.HighestElevationInFeet).OrderByDescending(x => x).FirstOrDefault(x => x != 0);
+                model.GreatestElevationGain = mileageEntries.Max(x => x.ElevationGainInFeet);
+                model.ShortestDistance = mileageEntries.Min(x => x.DistanceInMiles);
+                model.LongestDistance = mileageEntries.Max(x => x.DistanceInMiles);
+                model.TotalDistance = mileageEntries.Sum(x => x.DistanceInMiles);
+                model.NumberOfSessions = mileageEntries.Count();
+            }
 
             return View("~/Views/Shared/Components/PersonalStatistics/Default.cshtml", model);
         }
