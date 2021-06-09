@@ -40,6 +40,7 @@ namespace AllInSkateChallenge.Features.Statistics.Leaders
 
             return (from longestJourney in longestJourneys
                     join skater in skaters on longestJourney.ApplicationUserId equals skater.Id
+                    where skater.HasPaid
                     select new SkaterStatisticsModel
                     {
                         SkaterName = skater.SkaterName,

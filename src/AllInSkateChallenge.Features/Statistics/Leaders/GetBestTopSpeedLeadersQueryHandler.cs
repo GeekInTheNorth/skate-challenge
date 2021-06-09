@@ -40,6 +40,7 @@ namespace AllInSkateChallenge.Features.Statistics.Leaders
 
             return (from bestTopSpeed in bestTopSpeeds
                     join skater in skaters on bestTopSpeed.ApplicationUserId equals skater.Id
+                    where skater.HasPaid
                     select new SkaterStatisticsModel
                     {
                         SkaterName = skater.SkaterName,
