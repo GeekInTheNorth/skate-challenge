@@ -18,6 +18,7 @@ namespace AllInSkateChallenge
     using AllInSkateChallenge.Features.Skater.SkateLog;
     using AllInSkateChallenge.Features.Skater.StravaImport;
     using AllInSkateChallenge.Features.Statistics;
+    using AllInSkateChallenge.Features.Statistics.Leaders;
     using AllInSkateChallenge.Features.Strava;
     using AllInSkateChallenge.Features.Updates;
 
@@ -124,6 +125,7 @@ namespace AllInSkateChallenge
             services.AddTransient<IEventDetailsViewModelBuilder, EventDetailsViewModelBuilder>();
             services.AddTransient<IErrorViewModelBuilder, ErrorViewModelBuilder>();
             services.AddTransient<IEventStatisticsViewModelBuilder, EventStatisticsViewModelBuilder>();
+            services.AddTransient<IStatisticLeadersViewModelBuilder, StatisticLeadersViewModelBuilder>();
 
             // Data
             services.AddTransient<ICheckPointRepository, CheckPointRepository>();

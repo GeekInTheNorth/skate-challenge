@@ -1,0 +1,53 @@
+﻿@model AllInSkateChallenge.Features.Framework.Models.PageViewModel<AllInSkateChallenge.Features.Statistics.Leaders.StatisticLeadersViewModel>
+
+@{
+    Layout = "_PageViewModelLayout";
+    var position = 0;
+}
+
+@functions {
+
+    string getPositionClass(int position)
+    {
+        switch (position)
+        {
+            case 1:
+                return "leaderboard-position leaderboard-position--first";
+            case 2:
+                return "leaderboard-position leaderboard-position--second";
+            case 3:
+                return "leaderboard-position leaderboard-position--third";
+            default:
+                return "leaderboard-position";
+        }
+    }
+
+}
+
+<div>
+
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Skater</th>
+                <th scope="col">@Model.Content.StatisticTitle</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var skater in Model.Content.Skaters)
+            {
+                position++;
+                <tr>
+                    <td class="align-middle"><span class="@getPositionClass(position)">@position.ToString()</span></td>
+                    <td class="align-middle">
+                        <img src="@skater.SkaterProfile" alt="@skater.SkaterName profile" class="leaderboard-profile" />
+                        @skater.SkaterName
+                    </td>
+                    <td class="align-middle">@skater.Statistic</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>
