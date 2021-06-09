@@ -48,6 +48,13 @@ namespace AllInSkateChallenge.Features.Statistics.Leaders
                     model.DisplayPageTitle = "Skaters with the Best Top Speed";
                     model.Content.StatisticTitle = "Top Speed";
                     break;
+                case StatisticType.LongestDistance:
+                    model.Content.Skaters = await mediator.Send(new GetLongestJourneyLeadersQuery());
+                    model.PageTitle = "Skaters with the Longest Journeys";
+                    model.DisplayPageTitle = "Skaters with the Longest Journeys";
+                    model.IntroductoryText = "Skaters are shown here with the longest distance achieved in a single skate journey.";
+                    model.Content.StatisticTitle = "Distance";
+                    break;
                 default:
                     throw new NotImplementedException($"{statisticType} is not currently supported");
             }

@@ -3,6 +3,7 @@
     public enum StatisticType
     {
         BestAverageSpeed,
-        BestTopSpeed
+        BestTopSpeed,
+        LongestDistance
     }
 }
