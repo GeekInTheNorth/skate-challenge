@@ -4,6 +4,11 @@
     {
         BestAverageSpeed,
         BestTopSpeed,
-        LongestDistance
+        LongestDistance,
+        ShortestDistance,
+        GreatestElevationGain,
+        HighestElevation,
+        LongestTotalJourney,
+        MostJourneys
     }
 }
