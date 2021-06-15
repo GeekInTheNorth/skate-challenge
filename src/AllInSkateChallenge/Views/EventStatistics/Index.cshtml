@@ -1,5 +1,7 @@
 ﻿@model AllInSkateChallenge.Features.Framework.Models.PageViewModel<AllInSkateChallenge.Features.Statistics.EventStatisticsViewModel>
 
+@using AllInSkateChallenge.Features.Statistics.Leaders;
+
 @{
     Layout = "_PageViewModelLayout";
 }
@@ -20,14 +22,19 @@
         <div class="card border-allin-green mb-3">
             <h5 class="card-header bg-allin-green text-dark">Best Top Speed</h5>
             <div class="card-body row">
-                <div class="col-2">
+                <div class="col-2 align-middle">
                     <img src="@Model.Content.BestTopSpeed.SkaterProfile" alt="@Model.Content.BestTopSpeed.SkaterName Profile Image" class="leaderboard-profile" />
                 </div>
-                <div class="col-5 align-middle">
+                <div class="col-4 align-middle">
                     @Model.Content.BestTopSpeed.SkaterName
                 </div>
-                <div class="col-5 align-middle">
+                <div class="col-4 align-middle">
                     @Model.Content.BestTopSpeed.Statistic
+                </div>
+                <div class="col-2 align-middle">
+                    <a class="btn btn-primary btn-sm" asp-controller="StatisticLeaders" asp-action="Index" asp-route-statisticType="@StatisticType.BestTopSpeed.ToString()" title="View Top Speed Leaderboard">
+                        <img src="~/images/open-iconic/list.svg" alt="View Top Speed Leaderboard" />
+                    </a>
                 </div>
             </div>
         </div>
@@ -36,14 +43,19 @@
         <div class="card border-allin-green mb-3">
             <h5 class="card-header bg-allin-green text-dark">Best Average Speed (30 mins or more)</h5>
             <div class="card-body row">
-                <div class="col-2">
+                <div class="col-2 align-middle">
                     <img src="@Model.Content.BestAverageSpeed.SkaterProfile" alt="@Model.Content.BestAverageSpeed.SkaterName Profile Image" class="leaderboard-profile" />
                 </div>
-                <div class="col-5 align-middle">
+                <div class="col-4 align-middle">
                     @Model.Content.BestAverageSpeed.SkaterName
                 </div>
-                <div class="col-5 align-middle">
+                <div class="col-4 align-middle">
                     @Model.Content.BestAverageSpeed.Statistic
+                </div>
+                <div class="col-2 align-middle">
+                    <a class="btn btn-primary btn-sm" asp-controller="StatisticLeaders" asp-action="Index" asp-route-statisticType="@StatisticType.BestAverageSpeed.ToString()" title="View Best Average Speed Leaderboard">
+                        <img src="~/images/open-iconic/list.svg" alt="View Best Average Speed Leaderboard" />
+                    </a>
                 </div>
             </div>
         </div>
@@ -58,11 +70,16 @@
                 <div class="col-2">
                     <img src="@Model.Content.GreatestClimb.SkaterProfile" alt="@Model.Content.GreatestClimb.SkaterName Profile Image" class="leaderboard-profile" />
                 </div>
-                <div class="col-5 align-middle">
+                <div class="col-4 align-middle">
                     @Model.Content.GreatestClimb.SkaterName
                 </div>
-                <div class="col-5 align-middle">
+                <div class="col-4 align-middle">
                     @Model.Content.GreatestClimb.Statistic
+                </div>
+                <div class="col-2 align-middle">
+                    <a class="btn btn-primary btn-sm" asp-controller="StatisticLeaders" asp-action="Index" asp-route-statisticType="@StatisticType.GreatestElevationGain.ToString()" title="View Greatest Climbs Leaderboard">
+                        <img src="~/images/open-iconic/list.svg" alt="View Top Speed Leaderboard" />
+                    </a>
                 </div>
             </div>
         </div>
@@ -74,11 +91,16 @@
                 <div class="col-2">
                     <img src="@Model.Content.SkybornSkater.SkaterProfile" alt="@Model.Content.SkybornSkater.SkaterName Profile Image" class="leaderboard-profile" />
                 </div>
-                <div class="col-5 align-middle">
+                <div class="col-4 align-middle">
                     @Model.Content.SkybornSkater.SkaterName
                 </div>
-                <div class="col-5 align-middle">
+                <div class="col-4 align-middle">
                     @Model.Content.SkybornSkater.Statistic
+                </div>
+                <div class="col-2 align-middle">
+                    <a class="btn btn-primary btn-sm" asp-controller="StatisticLeaders" asp-action="Index" asp-route-statisticType="@StatisticType.HighestElevation.ToString()" title="View Highest Altitude Leaderboard">
+                        <img src="~/images/open-iconic/list.svg" alt="View Top Speed Leaderboard" />
+                    </a>
                 </div>
             </div>
         </div>
@@ -90,14 +112,19 @@
         <div class="card border-allin-green mb-3">
             <h5 class="card-header bg-allin-green text-dark">Longest Journey</h5>
             <div class="card-body row">
-                <div class="col-2">
+                <div class="col-2 align-middle">
                     <img src="@Model.Content.LongestSingleDistance.SkaterProfile" alt="@Model.Content.LongestSingleDistance.SkaterName Profile Image" class="leaderboard-profile" />
                 </div>
-                <div class="col-5 align-middle">
+                <div class="col-4 align-middle">
                     @Model.Content.LongestSingleDistance.SkaterName
                 </div>
-                <div class="col-5 align-middle">
+                <div class="col-4 align-middle">
                     @Model.Content.LongestSingleDistance.Statistic
+                </div>
+                <div class="col-2 align-middle">
+                    <a class="btn btn-primary btn-sm" asp-controller="StatisticLeaders" asp-action="Index" asp-route-statisticType="@StatisticType.LongestDistance.ToString()" title="View Longest Journey Leaderboard">
+                        <img src="~/images/open-iconic/list.svg" alt="View Longest Journey Leaderboard" />
+                    </a>
                 </div>
             </div>
         </div>
@@ -109,11 +136,16 @@
                 <div class="col-2">
                     <img src="@Model.Content.ShortestSingleDistance.SkaterProfile" alt="@Model.Content.ShortestSingleDistance.SkaterName Profile Image" class="leaderboard-profile" />
                 </div>
-                <div class="col-5 align-middle">
+                <div class="col-4 align-middle">
                     @Model.Content.ShortestSingleDistance.SkaterName
                 </div>
-                <div class="col-5 align-middle">
+                <div class="col-4 align-middle">
                     @Model.Content.ShortestSingleDistance.Statistic
+                </div>
+                <div class="col-2 align-middle">
+                    <a class="btn btn-primary btn-sm" asp-controller="StatisticLeaders" asp-action="Index" asp-route-statisticType="@StatisticType.ShortestDistance.ToString()" title="View Shortest Journey Leaderboard">
+                        <img src="~/images/open-iconic/list.svg" alt="View Longest Journey Leaderboard" />
+                    </a>
                 </div>
             </div>
         </div>
@@ -128,11 +160,16 @@
                 <div class="col-2">
                     <img src="@Model.Content.LongestTotalDistance.SkaterProfile" alt="@Model.Content.LongestTotalDistance.SkaterName Profile Image" class="leaderboard-profile" />
                 </div>
-                <div class="col-5 align-middle">
+                <div class="col-4 align-middle">
                     @Model.Content.LongestTotalDistance.SkaterName
                 </div>
-                <div class="col-5 align-middle">
+                <div class="col-4 align-middle">
                     @Model.Content.LongestTotalDistance.Statistic
+                </div>
+                <div class="col-2 align-middle">
+                    <a class="btn btn-primary btn-sm" asp-controller="StatisticLeaders" asp-action="Index" asp-route-statisticType="@StatisticType.LongestTotalJourney.ToString()" title="View Longest Total Distance Leaderboard">
+                        <img src="~/images/open-iconic/list.svg" alt="View Longest Journey Leaderboard" />
+                    </a>
                 </div>
             </div>
         </div>
@@ -144,11 +181,16 @@
                 <div class="col-2">
                     <img src="@Model.Content.MostJourneys.SkaterProfile" alt="@Model.Content.MostJourneys.SkaterName Profile Image" class="leaderboard-profile" />
                 </div>
-                <div class="col-5 align-middle">
+                <div class="col-4 align-middle">
                     @Model.Content.MostJourneys.SkaterName
                 </div>
-                <div class="col-5 align-middle">
+                <div class="col-4 align-middle">
                     @Model.Content.MostJourneys.Statistic
+                </div>
+                <div class="col-2 align-middle">
+                    <a class="btn btn-primary btn-sm" asp-controller="StatisticLeaders" asp-action="Index" asp-route-statisticType="@StatisticType.MostJourneys.ToString()" title="View Most Journeys Leaderboard">
+                        <img src="~/images/open-iconic/list.svg" alt="View Longest Journey Leaderboard" />
+                    </a>
                 </div>
             </div>
         </div>
