@@ -9,8 +9,15 @@
         <p>ALL IN challenges you to join our virtual skate along the Leeds-Liverpool canal (127.5 miles)!   The Leeds Liverpool canal is the longest canal in Britain built as a single waterway and snakes through the northern heartlands of the Industrial Revolution, including right through our very own Bradford! Skate whenever, wherever, and take however long you need.  Track your miles here and share your successes in our <a href="https://www.facebook.com/groups/3257681721008087" target="_blank" rel="noopener noreferrer">Facebook Group</a>. Disclaimer: the actual Leeds-Liverpool canal isn't skateable...  you'll need a boat!</p>
         @if (Model.Content.NumberOfSkaters > 1 && Model.Content.CumulativeMiles > 0)
         {
-            <p class="font-weight-bold">@Model.Content.NumberOfSkaters skaters have now taken up the challenge and skated a collective @Model.Content.CumulativeMiles.ToString("F1") miles.</p>
+            <p class="font-weight-bold">
+                @Model.Content.NumberOfSkaters skaters have now taken up the challenge and skated a collective @Model.Content.CumulativeMiles.ToString("F1") miles.
+                @if (Model.CurrentUser != null)
+                {
+                    <span>Visit the <a class="font-weight-bold" asp-controller="EventStatistics" asp-action="Index" title="Event Statistics">Event Statistics</a> page to see more great achievements by our skaters.</span>
+                }
+            </p>
         }
+
     </div>
 </div>
 
