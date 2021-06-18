@@ -128,7 +128,7 @@ namespace AllInSkateChallenge
             services.AddTransient<IStatisticLeadersViewModelBuilder, StatisticLeadersViewModelBuilder>();
 
             // Data
-            services.AddTransient<ICheckPointRepository, CheckPointRepository>();
+            services.AddSingleton<ICheckPointRepository, CheckPointRepository>();
             
             // Commands & Queries
             services.AddMediatR(typeof(AdminDeleteUserCommand).Assembly);
