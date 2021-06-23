@@ -1,5 +1,6 @@
 ﻿@model AllInSkateChallenge.Features.Framework.Models.PageViewModel<AllInSkateChallenge.Features.Statistics.EventStatisticsViewModel>
 
+@using AllInSkateChallenge.Features.Statistics;
 @using AllInSkateChallenge.Features.Statistics.Leaders;
 
 @{
@@ -272,7 +273,7 @@
     </div>
 </div>
 
-@if (Model.Content.CheckPoints != null && Model.Content.CheckPoints.Any())
+@if (Model.Content.CheckPoints != null && Model.Content.CheckPoints.Any() && Model.Content.PeriodRange == PeriodRange.AllTime)
 {
     <div class="row">
         <div class="col-md-12">
