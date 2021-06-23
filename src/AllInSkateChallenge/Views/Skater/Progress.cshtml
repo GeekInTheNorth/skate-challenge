@@ -49,7 +49,7 @@
                         <p>Distance: @checkPoint.Distance.ToString("F2") miles</p>
                         @if (checkPoint.DateAchieved.HasValue)
                         {
-                            <p>Achieved: @checkPoint.DateAchieved.Value.ToString("g")</p>
+                            <p>Achieved: @checkPoint.DateAchieved.Value.ToString("dd/MM/yyyy HH:mm")</p>
                         }
                         <p>@checkPoint.Description</p>
                     </div>
@@ -101,7 +101,7 @@
                         <p>Distance: @Model.Content.NextCheckPoint.Distance.ToString("F2") miles</p>
                         @if (Model.Content.NextCheckPoint.DateAchieved.HasValue)
                         {
-                            <p>Achieved: @Model.Content.NextCheckPoint.DateAchieved.Value.ToString("g")</p>
+                            <p>Achieved: @Model.Content.NextCheckPoint.DateAchieved.Value.ToString("dd/MM/yyyy HH:mm")</p>
                         }
                     }
                     <p>@Model.Content.NextCheckPoint.Description</p>
