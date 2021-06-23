@@ -4,6 +4,8 @@
 
     public class EventStatisticsViewModel
     {
+        public PeriodRange PeriodRange { get; set; }
+
         public SkaterStatisticsModel LongestTotalDistance { get; set; }
 
         public SkaterStatisticsModel LongestSingleDistance { get; set; }

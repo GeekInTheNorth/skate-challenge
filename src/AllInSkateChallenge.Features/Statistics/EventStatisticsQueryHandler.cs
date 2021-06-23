@@ -39,10 +39,22 @@
 
         public async Task<EventStatisticsQueryResponse> Handle(EventStatisticsQuery request, CancellationToken cancellationToken)
         {
-            var allSessions = await context.SkateLogEntries.Where(x => x.ApplicationUser.HasPaid).ToListAsync(cancellationToken);
+            var allSessionsQuery = context.SkateLogEntries.Where(x => x.ApplicationUser.HasPaid);
+            var doingPeriodRange = request.DateFrom.HasValue && request.DateTo.HasValue;
+            if (doingPeriodRange)
+            {
+                allSessionsQuery = allSessionsQuery.Where(x => x.Logged >= request.DateFrom.Value && x.Logged <= request.DateTo.Value);
+            }
+
+            var allSessions = await allSessionsQuery.ToListAsync(cancellationToken);
             var allSkaters = await context.Users.Where(x => x.HasPaid).ToListAsync(cancellationToken);
             var skaterLogs = allSkaters.Select(x => skaterTargetAnalyser.Analyse(x, allSessions)).Where(x => x.TotalSessions > 0).ToList();
             var allWeeks = GetAllWeeks(allSessions);
+
+            if (doingPeriodRange)
+            {
+                allWeeks = allWeeks.Where(x => x.Item1 <= request.DateTo.Value).ToList();
+            }
 
             return new EventStatisticsQueryResponse
             {

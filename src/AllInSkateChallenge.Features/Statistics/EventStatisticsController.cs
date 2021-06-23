@@ -26,7 +26,23 @@
             var userDetails = await userManager.GetUserAsync(User);
             var model = await viewModelBuilder.WithUser(userDetails).Build();
 
-            return View(model);
+            return View("~/Views/EventStatistics/Index.cshtml", model);
+        }
+
+        public async Task<IActionResult> PreviousMonth()
+        {
+            var userDetails = await userManager.GetUserAsync(User);
+            var model = await viewModelBuilder.WithPeriodRange(PeriodRange.PreviousMonth).WithUser(userDetails).Build();
+
+            return View("~/Views/EventStatistics/Index.cshtml", model);
+        }
+
+        public async Task<IActionResult> ThisMonth()
+        {
+            var userDetails = await userManager.GetUserAsync(User);
+            var model = await viewModelBuilder.WithPeriodRange(PeriodRange.CurrentMonth).WithUser(userDetails).Build();
+
+            return View("~/Views/EventStatistics/Index.cshtml", model);
         }
     }
 }
