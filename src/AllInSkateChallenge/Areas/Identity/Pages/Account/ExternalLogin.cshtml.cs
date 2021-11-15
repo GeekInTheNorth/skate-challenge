@@ -47,6 +47,8 @@ namespace AllInSkateChallenge.Areas.Identity.Pages.Account
         [BindProperty]
         public InputModel Input { get; set; }
 
+        public bool IsRegistrationOver { get; set; }
+
         public string ProviderDisplayName { get; set; }
 
         public string ReturnUrl { get; set; }
@@ -96,6 +98,8 @@ namespace AllInSkateChallenge.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnGetCallbackAsync(string returnUrl = null, string remoteError = null)
         {
+            IsRegistrationOver = await _mediator.Send(new RegistrationAvailabilityQuery());
+
             returnUrl = returnUrl ?? Url.Content("~/");
             if (remoteError != null)
             {
@@ -142,6 +146,8 @@ namespace AllInSkateChallenge.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnPostConfirmationAsync(string returnUrl = null)
         {
+            IsRegistrationOver = await _mediator.Send(new RegistrationAvailabilityQuery());
+
             returnUrl = returnUrl ?? Url.Content("~/");
             // Get the information about the user from the external login provider
             var info = await _signInManager.GetExternalLoginInfoAsync();
@@ -151,7 +157,7 @@ namespace AllInSkateChallenge.Areas.Identity.Pages.Account
                 return RedirectToPage("./Login", new { ReturnUrl = returnUrl });
             }
 
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && !IsRegistrationOver)
             {
                 var user = new ApplicationUser 
                 { 

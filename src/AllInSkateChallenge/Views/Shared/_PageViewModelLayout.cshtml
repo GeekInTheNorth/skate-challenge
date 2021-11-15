@@ -49,6 +49,21 @@
                 </div>
             }
 
+            @if (Model.IsRegistrationOver)
+            {
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    Please note that this event is coming to an end. Registration has now closed and existing skaters have until the 31st December 2021 to complete their challenge.
+                </div>
+            }
+            else
+            {
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    Please note that this event is coming to an end. Registration will end on 21st November 2021 and skaters have until the 31st December 2021 to complete their challenge.
+                </div>
+            }
+
             @if (Model.DisplayStravaNotification)
             {
                 <div class="row js-strava-alert-banner">

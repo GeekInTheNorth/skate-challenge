@@ -22,5 +22,7 @@
         public bool DisplayStravaNotification { get; set; }
 
         public bool IsNoIndexPage { get; set; }
+
+        public bool IsRegistrationOver { get; set; }
     }
 }

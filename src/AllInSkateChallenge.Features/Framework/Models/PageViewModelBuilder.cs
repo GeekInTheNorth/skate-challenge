@@ -4,6 +4,7 @@
     using System.Threading.Tasks;
 
     using AllInSkateChallenge.Features.Data.Entities;
+    using AllInSkateChallenge.Features.Skater.Registration;
 
     using MediatR;
 
@@ -30,13 +31,15 @@
         {
             var query = new UserStateQuery { User = this.User };
             var response = await mediator.Send(query);
+            var isRegistrationOver = await mediator.Send(new RegistrationAvailabilityQuery());
 
             var model = new PageViewModel<T>
             {
                 CurrentUser = this.User,
                 DisplayStravaNotification = response.HasStravaImports,
                 Content = Activator.CreateInstance<T>(),
-                IsNoIndexPage = false
+                IsNoIndexPage = false,
+                IsRegistrationOver = isRegistrationOver
             };
 
             return model;

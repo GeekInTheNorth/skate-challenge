@@ -8,39 +8,50 @@
 <h4 id="external-login-title">Associate your @Model.ProviderDisplayName account.</h4>
 <hr />
 
-<p id="external-login-description" class="text-info">
-    You've successfully authenticated with <strong>@Model.ProviderDisplayName</strong>.
-    Please enter an email address for this site below and click the Register button to finish
-    logging in.
-</p>
+@if (Model.IsRegistrationOver)
+{
+    <p id="external-login-description" class="text-info">
+        You've successfully authenticated with <strong>@Model.ProviderDisplayName</strong>.<br />
+        Your strava account has not been recognised as an existing skater on this site.<br />
+        Registration for this event has been closed as this event will come to an end on the 31st December 2021.<br />
+    </p>
+}
+else
+{
+    <p id="external-login-description" class="text-info">
+        You've successfully authenticated with <strong>@Model.ProviderDisplayName</strong>.
+        Please enter an email address for this site below and click the Register button to finish
+        logging in.
+    </p>
 
-<div>
-    <form asp-page-handler="Confirmation" asp-route-returnUrl="@Model.ReturnUrl" method="post">
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <div class="form-group">
-            <label asp-for="Input.Email"></label>
-            <input asp-for="Input.Email" class="form-control" />
-            <span asp-validation-for="Input.Email" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="Input.Target"></label>
-            <select asp-for="Input.Target" asp-items="Model.SkateTargets" class="form-control"></select>
-            <span asp-validation-for="Input.Target" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label class="align-middle">
-                <input asp-for="Input.AcceptProgressNotifications" style="margin-right: 0.5em;" />Send me emails about my progress in the ALL IN Skate Challenge.
-            </label>
-        </div>
-        <div class="form-group">
-            <label class="align-middle">
-                <input asp-for="Input.AcceptTermsAndConditions" style="margin-right: 0.5em;" /> I agree to the <a asp-controller="EventDetails" asp-action="TermsAndConditions" target="_blank">Terms & Conditions</a> of this event.
-            </label>
-            <span asp-validation-for="Input.AcceptTermsAndConditions" class="text-danger" style="display:block;"></span>
-        </div>
-        <button type="submit" class="btn btn-primary">Register</button>
-    </form>
-</div>
+    <div>
+        <form asp-page-handler="Confirmation" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Input.Email"></label>
+                <input asp-for="Input.Email" class="form-control" />
+                <span asp-validation-for="Input.Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.Target"></label>
+                <select asp-for="Input.Target" asp-items="Model.SkateTargets" class="form-control"></select>
+                <span asp-validation-for="Input.Target" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="align-middle">
+                    <input asp-for="Input.AcceptProgressNotifications" style="margin-right: 0.5em;" />Send me emails about my progress in the ALL IN Skate Challenge.
+                </label>
+            </div>
+            <div class="form-group">
+                <label class="align-middle">
+                    <input asp-for="Input.AcceptTermsAndConditions" style="margin-right: 0.5em;" /> I agree to the <a asp-controller="EventDetails" asp-action="TermsAndConditions" target="_blank">Terms & Conditions</a> of this event.
+                </label>
+                <span asp-validation-for="Input.AcceptTermsAndConditions" class="text-danger" style="display:block;"></span>
+            </div>
+            <button type="submit" class="btn btn-primary">Register</button>
+        </form>
+    </div>
+}
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

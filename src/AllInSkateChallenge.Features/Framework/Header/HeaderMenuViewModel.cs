@@ -9,5 +9,7 @@
         public bool IsLoggedIn { get; set; }
 
         public bool ShowCookieBanner { get; set; }
+
+        public bool IsRegistrationOver { get; set; }
     }
 }
