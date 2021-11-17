@@ -19,5 +19,7 @@
         bool HasPaid { get; }
 
         bool IsNoIndexPage { get; }
+
+        bool IsRegistrationOver { get; }
     }
 }

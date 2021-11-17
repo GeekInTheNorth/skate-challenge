@@ -1,20 +1,24 @@
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
+using AllInSkateChallenge.Features.Data.Entities;
+using AllInSkateChallenge.Features.Data.Static;
+using AllInSkateChallenge.Features.Skater.Registration;
+
+using MediatR;
+
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
-using AllInSkateChallenge.Features.Data.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
-using MediatR;
-using AllInSkateChallenge.Features.Skater.Registration;
-using AllInSkateChallenge.Features.Data.Static;
-using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace AllInSkateChallenge.Areas.Identity.Pages.Account
 {
@@ -43,6 +47,8 @@ namespace AllInSkateChallenge.Areas.Identity.Pages.Account
 
         [BindProperty]
         public InputModel Input { get; set; }
+
+        public bool IsRegistrationOver { get; set; }
 
         public string ReturnUrl { get; set; }
 
@@ -98,6 +104,7 @@ namespace AllInSkateChallenge.Areas.Identity.Pages.Account
             }
 
             Input = new InputModel { Target = SkateTarget.LiverpoolCanningDock };
+            IsRegistrationOver = await _mediator.Send(new RegistrationAvailabilityQuery());
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
@@ -105,6 +112,7 @@ namespace AllInSkateChallenge.Areas.Identity.Pages.Account
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
             returnUrl = returnUrl ?? Url.Content("~/");
+            IsRegistrationOver = await _mediator.Send(new RegistrationAvailabilityQuery());
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
