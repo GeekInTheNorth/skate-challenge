@@ -211,10 +211,12 @@ img.account-profile {
 
 .timeline-container--left {
     left: 0;
+    page-break-after: always;
 }
 
 .timeline-container--right {
     left: 50%;
+    page-break-after: always;
 }
 
 .timeline-container--left::before {
