@@ -26,16 +26,16 @@ jobs:
           include-prerelease: true
 
       - name: Build with dotnet
-        run: dotnet build --configuration Release
+        run: dotnet build src/AllInSkateChallenge.sln --configuration Release
 
       - name: dotnet publish
-        run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/src/AllInSkateChallenge.sln
+        run: dotnet publish src/AllInSkateChallenge.sln -c Release -o ${{env.DOTNET_ROOT}}/AllInSkateChallenge
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
         with:
           name: .net-app
-          path: ${{env.DOTNET_ROOT}}/src/AllInSkateChallenge.sln
+          path: ${{env.DOTNET_ROOT}}/AllInSkateChallenge
 
   deploy:
     runs-on: windows-latest
