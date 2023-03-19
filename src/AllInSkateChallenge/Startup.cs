@@ -161,7 +161,7 @@ namespace AllInSkateChallenge
             app.UseCsp(opt => opt.DefaultSources(s => s.Self())
                                  .ScriptSources(s => s.Self().UnsafeInline().UnsafeEval().CustomSources("https://ajax.aspnetcdn.com", "https://cdn.jsdelivr.net", "https://unpkg.com/vue@2.6.12/dist/vue.js"))
                                  .StyleSources(s => s.Self().UnsafeInline())
-                                 .ConnectSources(s => s.Self().CustomSources("https://allinskatechallengefunctions.azurewebsites.net"))
+                                 .ConnectSources(s => s.Self().CustomSources("https://all-in-skate-challenge-legacy-functions.azurewebsites.net"))
                                  .FrameSources(s => s.None())
                                  .FrameAncestors(s => s.None())
                                  .ImageSources(s => s.Self().CustomSources("data:", "https:", "https://www.gravatar.com")));
