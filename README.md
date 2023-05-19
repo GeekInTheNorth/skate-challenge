@@ -1,3 +1,9 @@
-# all-in-skate-challenge
+# Skate Challenge
 
-A website to support the 127.5 mile virtual skate challenge along the Leeds Liverpool canal.
+A Roller Skate Challenge site.
+
+Challenges to Date
+
+| Organiser | Event | Started | Ended |
+|-----------|-------|---------|-------|
+| ALL IN Community Roller Derby | Leeds Liverpool Canal - 127.5 miles | 11th October 2020 | 31st December 2021 |
