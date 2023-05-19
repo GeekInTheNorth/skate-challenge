@@ -86,7 +86,7 @@ namespace AllInSkateChallenge.Features.Activities
                     var emailTemplate = isFinalCheckpoint ? "~/Views/Email/ChallengeCompleteEmail.cshtml" : "~/Views/Email/SkaterProgressEmail.cshtml";
                     var emailBody = await viewToStringRenderer.RenderPartialToStringAsync(emailTemplate, emailModel);
 
-                    await emailSender.SendEmailAsync(request.Skater.Email, "ALL IN Skate Challenge - Your Progress", emailBody);
+                    await emailSender.SendEmailAsync(request.Skater.Email, "Roller Girl Gang Skate Challenge - Your Progress", emailBody);
                 }
             }
             catch (Exception exception)

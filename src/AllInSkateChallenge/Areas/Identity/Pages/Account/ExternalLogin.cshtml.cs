@@ -68,7 +68,7 @@ namespace AllInSkateChallenge.Areas.Identity.Pages.Account
             [Display(Name = "Your Personal Target")]
             public SkateTarget Target { get; set; }
 
-            [Display(Name = "Send me emails about my progress in the ALL IN Skate Challenge.")]
+            [Display(Name = "Send me emails about my progress in the Roller Girl Gang Skate Challenge.")]
             public bool AcceptProgressNotifications { get; set; }
 
             [Display(Name = "I agree to the Terms & Conditions of this event.")]
