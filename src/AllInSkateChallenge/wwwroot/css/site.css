@@ -128,13 +128,13 @@ img.leaderboard-profile {
 img.hero-banner {
     width: 100%;
     height: auto;
-    border-bottom: #8ABC2D 2px solid;
+    border-bottom: rgb(157,95,235) 2px solid;
 }
 
 div.leeps-liverpool-map-container {
     padding: 0;
     margin: 0;
-    border: 1px solid #8ABC2D;
+    border: 1px solid rgb(157,95,235);
 }
 
 a.leeds-liverpool-map-link{
@@ -148,11 +148,11 @@ a.leeds-liverpool-map-link{
 }
 
 .bg-allin-green {
-    background-color: #8ABC2D;
+    background-color: rgb(157,95,235);
 }
 
 .border-allin-green {
-    border-color: #8ABC2D;
+    border-color: rgb(157,95,235);
 }
 
 .text-dark {
@@ -227,9 +227,9 @@ img.account-profile {
     width: 0;
     z-index: 1;
     right: 30px;
-    border: medium solid #8ABC2D;
+    border: medium solid rgb(157,95,235);
     border-width: 10px 0 10px 10px;
-    border-color: transparent transparent transparent #8ABC2D;
+    border-color: transparent transparent transparent rgb(157,95,235);
 }
 
 .timeline-container--right::before {
@@ -240,9 +240,9 @@ img.account-profile {
     width: 0;
     z-index: 1;
     left: 30px;
-    border: medium solid #8ABC2D;
+    border: medium solid rgb(157,95,235);
     border-width: 10px 10px 10px 0;
-    border-color: transparent #8ABC2D transparent transparent;
+    border-color: transparent rgb(157,95,235) transparent transparent;
 }
 
 .timeline-container--right::after {
@@ -303,9 +303,9 @@ img.account-profile {
 
     .timeline-container::before {
         left: 60px;
-        border: medium solid #8ABC2D;
+        border: medium solid rgb(157,95,235);
         border-width: 10px 10px 10px 0;
-        border-color: transparent #8ABC2D transparent transparent;
+        border-color: transparent rgb(157,95,235) transparent transparent;
         display:none;
     }
 
@@ -340,7 +340,7 @@ img.account-profile {
 
 .side-social-panel {
     position: fixed;
-    border: 1px solid #8ABC2D;
+    border: 1px solid rgb(157,95,235);
     background-color: white;
     top: calc(50vh - 72px);
     margin: 0;
