@@ -332,8 +332,8 @@
                         datasets: [
                             {
                                 label: 'Miles Per Week',
-                                borderColor: '#8ABC2D',
-                                backgroundColor: '#8ABC2D',
+                                borderColor: '#9d5feb',
+                                backgroundColor: '#9d5feb',
                                 fill: false,
                                 data: [
                                     @(string.Join(',', Model.Content.SkateDistances.Select(x => x.Value.ToString("F2"))))
@@ -341,8 +341,8 @@
                             },
                             {
                                 label: 'Journeys Per Week',
-                                borderColor: '#F7BC0C',
-                                backgroundColor: '#F7BC0C',
+                                borderColor: '#9d5feb',
+                                backgroundColor: '#9d5feb',
                                 fill: false,
                                 data: [
                                     @(string.Join(',', Model.Content.SkateSessions.Select(x => x.Value.ToString("F2"))))
@@ -372,8 +372,8 @@
                         labels: ['Strava', 'Manual'],
                         datasets: [
                             {
-                                borderColor: ['#FC4C02', '#8ABC2D'],
-                                backgroundColor: ['#FC4C02', '#8ABC2D'],
+                                borderColor: ['#FC4C02', '#9d5feb'],
+                                backgroundColor: ['#FC4C02', '#9d5feb'],
                                 data: [@Model.Content.MilesByStrava.ToString("F2"), @Model.Content.MilesByManual.ToString("F2")]
                             }
                         ]
@@ -388,8 +388,8 @@
                         labels: ['Strava', 'Manual'],
                         datasets: [
                             {
-                                borderColor: ['#FC4C02', '#8ABC2D'],
-                                backgroundColor: ['#FC4C02', '#8ABC2D'],
+                                borderColor: ['#FC4C02', '#9d5feb'],
+                                backgroundColor: ['#FC4C02', '#9d5feb'],
                                 data: [@Model.Content.JourneysByStrava, @Model.Content.JourneysByManual]
                             }
                         ]
@@ -405,8 +405,8 @@
                         datasets: [
                             {
                                 label: 'Activities by Week Day',
-                                borderColor: ['#8ABC2D', '#8ABC2D', '#8ABC2D', '#8ABC2D', '#8ABC2D', '#8ABC2D', '#8ABC2D'],
-                                backgroundColor: ['#8ABC2D', '#8ABC2D', '#8ABC2D', '#8ABC2D', '#8ABC2D', '#8ABC2D', '#8ABC2D'],
+                                borderColor: ['#9d5feb', '#9d5feb', '#9d5feb', '#9d5feb', '#9d5feb', '#9d5feb', '#9d5feb'],
+                                backgroundColor: ['#9d5feb', '#9d5feb', '#9d5feb', '#9d5feb', '#9d5feb', '#9d5feb', '#9d5feb'],
                                 data: [@(string.Join(',', Model.Content.ActivitiesByDay.OrderBy(x => x.DayOfWeek).Select(x => x.Value.ToString("F2"))))]
                             }
                         ]
@@ -435,8 +435,8 @@
                         datasets: [
                             {
                                 label: 'Miles by Week Day',
-                                borderColor: ['#8ABC2D', '#8ABC2D', '#8ABC2D', '#8ABC2D', '#8ABC2D', '#8ABC2D', '#8ABC2D'],
-                                backgroundColor: ['#8ABC2D', '#8ABC2D', '#8ABC2D', '#8ABC2D', '#8ABC2D', '#8ABC2D', '#8ABC2D'],
+                                borderColor: ['#9d5feb', '#9d5feb', '#9d5feb', '#9d5feb', '#9d5feb', '#9d5feb', '#9d5feb'],
+                                backgroundColor: ['#9d5feb', '#9d5feb', '#9d5feb', '#9d5feb', '#9d5feb', '#9d5feb', '#9d5feb'],
                                 data: [@(string.Join(',', Model.Content.MilesByDay.OrderBy(x => x.DayOfWeek).Select(x => x.Value.ToString("F2"))))]
                             }
                         ]

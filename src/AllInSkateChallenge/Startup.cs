@@ -11,7 +11,6 @@ namespace AllInSkateChallenge
     using AllInSkateChallenge.Features.Framework.Routing;
     using AllInSkateChallenge.Features.Gravatar;
     using AllInSkateChallenge.Features.Home;
-    using AllInSkateChallenge.Features.LeaderBoard;
     using AllInSkateChallenge.Features.Services.BlobStorage;
     using AllInSkateChallenge.Features.Services.Email;
     using AllInSkateChallenge.Features.Skater.Progress;
@@ -20,7 +19,6 @@ namespace AllInSkateChallenge
     using AllInSkateChallenge.Features.Statistics;
     using AllInSkateChallenge.Features.Statistics.Leaders;
     using AllInSkateChallenge.Features.Strava;
-    using AllInSkateChallenge.Features.Updates;
 
     using MediatR;
 
