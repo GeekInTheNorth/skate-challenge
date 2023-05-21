@@ -46,7 +46,7 @@
                         </div>
                     }
                     <div class="card-body">
-                        <p>Distance: @checkPoint.Distance.ToString("F2") miles</p>
+                        <p>Distance: @checkPoint.DistanceInKilometers.ToString("F2") miles</p>
                         @if (checkPoint.DateAchieved.HasValue)
                         {
                             <p>Achieved: @checkPoint.DateAchieved.Value.ToString("dd/MM/yyyy HH:mm")</p>
@@ -96,9 +96,9 @@
                     </div>
                 }
                 <div class="card-body">
-                    @if (Model.Content.NextCheckPoint.Distance != 0)
+                    @if (Model.Content.NextCheckPoint.DistanceInKilometers != 0)
                     {
-                        <p>Distance: @Model.Content.NextCheckPoint.Distance.ToString("F2") miles</p>
+                        <p>Distance: @Model.Content.NextCheckPoint.DistanceInKilometers.ToString("F2") miles</p>
                         @if (Model.Content.NextCheckPoint.DateAchieved.HasValue)
                         {
                             <p>Achieved: @Model.Content.NextCheckPoint.DateAchieved.Value.ToString("dd/MM/yyyy HH:mm")</p>

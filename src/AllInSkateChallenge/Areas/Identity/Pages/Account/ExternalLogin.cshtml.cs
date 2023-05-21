@@ -138,7 +138,7 @@ namespace AllInSkateChallenge.Areas.Identity.Pages.Account
                 Input = new InputModel
                 {
                     Email = info.Principal.FindFirstValue(ClaimTypes.Email),
-                    Target = SkateTarget.LiverpoolCanningDock
+                    Target = SkateTarget.LeedsBradfordAirport
                 };
                 return Page();
             }

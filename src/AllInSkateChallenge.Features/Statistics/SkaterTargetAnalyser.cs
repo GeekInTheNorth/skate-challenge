@@ -21,7 +21,7 @@
             var orderedLog = allSessions.Where(x => x.ApplicationUserId.Equals(skater.Id, System.StringComparison.CurrentCultureIgnoreCase)).OrderBy(x => x.Logged);
             var totalMiles = 0M;
             var totalSessions = 0;
-            var checkPoints = checkPointRepository.Get().Where(x => !x.SkateTarget.Equals(SkateTarget.None)).ToList();
+            var checkPoints = checkPointRepository.Get().Where(x => !x.SkateTarget.Equals(SkateTarget.CornExchange)).ToList();
             var statistics = new SkaterTargetAnalysis
             {
                 Skater = skater,
@@ -35,7 +35,7 @@
 
                 foreach(var checkPoint in checkPoints)
                 {
-                    if (totalMiles >= checkPoint.Distance && !statistics.CheckPointDates.ContainsKey(checkPoint.SkateTarget))
+                    if (totalMiles >= checkPoint.DistanceInMiles && !statistics.CheckPointDates.ContainsKey(checkPoint.SkateTarget))
                     {
                         statistics.CheckPointDates.Add(checkPoint.SkateTarget, session.Logged);
                     }

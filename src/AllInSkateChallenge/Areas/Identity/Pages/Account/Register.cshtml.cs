@@ -103,7 +103,7 @@ namespace AllInSkateChallenge.Areas.Identity.Pages.Account
                 Response.Cookies.Append("FromSkateEverywhere", "true");
             }
 
-            Input = new InputModel { Target = SkateTarget.LiverpoolCanningDock };
+            Input = new InputModel { Target = SkateTarget.LeedsBradfordAirport };
             IsRegistrationOver = await _mediator.Send(new RegistrationAvailabilityQuery());
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();

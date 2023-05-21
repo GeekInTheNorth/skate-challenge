@@ -67,7 +67,7 @@ namespace AllInSkateChallenge.Features.Activities
                 var previousMiles = totalMiles - milesThisSkate;
                 var checkPoints = checkPointRepository.Get().Where(x => x.SkateTarget <= request.Skater.Target).ToList();
                 var targetCheckPoint = checkPoints.Last();
-                var checkPointsReached = checkPoints.Where(x => x.Distance >= previousMiles && x.Distance <= totalMiles).OrderByDescending(x => x.Distance).ToList();
+                var checkPointsReached = checkPoints.Where(x => x.DistanceInKilometers >= previousMiles && x.DistanceInKilometers <= totalMiles).OrderByDescending(x => x.DistanceInKilometers).ToList();
 
                 foreach(var checkPointReached in checkPointsReached)
                 {
@@ -79,7 +79,7 @@ namespace AllInSkateChallenge.Features.Activities
                         Skater = request.Skater,
                         CheckPoint = checkPointReached,
                         TotalMiles = totalMiles,
-                        NextCheckPoint = checkPoints.Where(x => x.Distance > totalMiles).OrderBy(x => x.Distance).FirstOrDefault(),
+                        NextCheckPoint = checkPoints.Where(x => x.DistanceInKilometers > totalMiles).OrderBy(x => x.DistanceInKilometers).FirstOrDefault(),
                         TargetCheckPoint = targetCheckPoint
                     };
 

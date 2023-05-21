@@ -6,7 +6,9 @@ namespace AllInSkateChallenge.Features.Data.Static
     {
         public SkateTarget SkateTarget { get; set; }
 
-        public decimal Distance { get; set; }
+        public decimal DistanceInKilometers { get; set; }
+
+        public decimal DistanceInMiles => DistanceInKilometers * 0.621371M;
 
         public string Title { get; set; }
 

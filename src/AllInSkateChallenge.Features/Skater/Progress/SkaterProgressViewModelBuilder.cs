@@ -39,16 +39,16 @@ namespace AllInSkateChallenge.Features.Skater.Progress
 
             var totalDistance = mileageEntries.Sum(x => x.DistanceInMiles);
             var checkPoints = checkPointRepository.Get();
-            var checkPointsReached = checkPoints.Where(x => x.Distance <= totalDistance).OrderBy(x => x.Distance);
+            var checkPointsReached = checkPoints.Where(x => x.DistanceInKilometers <= totalDistance).OrderBy(x => x.DistanceInKilometers);
             var targetCheckPoint = checkPoints.First(x => x.SkateTarget.Equals(User.Target));
-            var nextCheckPoint = checkPoints.Where(x => x.Distance > totalDistance && x.Distance <= targetCheckPoint.Distance).OrderBy(x => x.Distance).FirstOrDefault();
+            var nextCheckPoint = checkPoints.Where(x => x.DistanceInKilometers > totalDistance && x.DistanceInKilometers <= targetCheckPoint.DistanceInKilometers).OrderBy(x => x.DistanceInKilometers).FirstOrDefault();
 
             var model = await base.Build();
             model.PageTitle = "Your Progress";
             model.DisplayPageTitle = "Your Progress";
             model.IsNoIndexPage = true;
             model.Content.MilesSkated = totalDistance;
-            model.Content.TargetMiles = targetCheckPoint.Distance;
+            model.Content.TargetMiles = targetCheckPoint.DistanceInKilometers;
             model.Content.Entries = mileageEntries;
 
             model.Content.CheckPointsReached =
@@ -58,7 +58,7 @@ namespace AllInSkateChallenge.Features.Skater.Progress
                  select new SkaterProgressCheckPoint
                  {
                      SkateTarget = cp.SkateTarget,
-                     Distance = cp.Distance,
+                     DistanceInKilometers = cp.DistanceInKilometers,
                      Title = cp.Title,
                      Description = cp.Description,
                      Longitude = cp.Longitude,
@@ -72,7 +72,7 @@ namespace AllInSkateChallenge.Features.Skater.Progress
 
             if (nextCheckPoint != null)
             {
-                var distanceToNextCheckpoint = nextCheckPoint.Distance - totalDistance;
+                var distanceToNextCheckpoint = nextCheckPoint.DistanceInKilometers - totalDistance;
                 model.Content.NextCheckPoint = new SkaterProgressCheckPoint
                 {
                     Title = "Your Next Checkpoint",

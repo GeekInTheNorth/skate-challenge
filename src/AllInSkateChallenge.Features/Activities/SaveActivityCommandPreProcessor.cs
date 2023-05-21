@@ -13,6 +13,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
+using static Humanizer.In;
+
 namespace AllInSkateChallenge.Features.Activities
 {
     public class SaveActivityCommandPreProcessor : IRequestPreProcessor<SaveActivityCommand>
@@ -41,7 +43,7 @@ namespace AllInSkateChallenge.Features.Activities
         {
             try
             {
-                if (request.Skater.Target.Equals(SkateTarget.ThereAndBackAgain))
+                if (request.Skater.Target.Equals(SkateTarget.LeedsBradfordAirport))
                 {
                     // No need to update the user's target.
                     return;
@@ -50,7 +52,7 @@ namespace AllInSkateChallenge.Features.Activities
                 var userMiles = await context.SkateLogEntries.Where(x => x.ApplicationUserId.Equals(request.Skater.Id)).SumAsync(x => x.DistanceInMiles, cancellationToken);
                 var targetCheckPoint = checkPointRepository.Get().First(x => x.SkateTarget.Equals(request.Skater.Target));
 
-                if (userMiles > targetCheckPoint.Distance)
+                if (userMiles > targetCheckPoint.DistanceInKilometers)
                 {
                     request.Skater.Target = GetNewTarget(request.Skater.Target);
                     await userManager.UpdateAsync(request.Skater);
@@ -66,24 +68,38 @@ namespace AllInSkateChallenge.Features.Activities
         {
             switch (oldTarget)
             {
-                case SkateTarget.None:
-                case SkateTarget.AireValleyMarina:
-                    return SkateTarget.Saltaire;
-                case SkateTarget.Saltaire:
-                case SkateTarget.BingleyFiveRiseLocks:
-                case SkateTarget.SkiptonCastle:
-                case SkateTarget.EastMartonDoubleArchedBridge:
-                    return SkateTarget.FoulridgeSummit;
-                case SkateTarget.FoulridgeSummit:
-                case SkateTarget.Burnley:
-                case SkateTarget.HalfwayThere:
-                case SkateTarget.BlackburnFlight:
-                case SkateTarget.WiganPier:
-                case SkateTarget.TheScotchPiperInn:
-                    return SkateTarget.LiverpoolCanningDock;
-                case SkateTarget.LiverpoolCanningDock:
-                case SkateTarget.ThereAndBackAgain:
-                    return SkateTarget.ThereAndBackAgain;
+                case SkateTarget.CornExchange:
+                case SkateTarget.SoveriegnSquare:
+                case SkateTarget.GranaryWharf:
+                case SkateTarget.TetleyBreweryWharf:
+                case SkateTarget.LeedsIndustrialMuseum:
+                case SkateTarget.ArmleyPark:
+                case SkateTarget.EllandRoad:
+                case SkateTarget.MiddletonRailway:
+                case SkateTarget.Carlton:
+                    return SkateTarget.TempleNewsamPark;
+                case SkateTarget.TempleNewsamPark:
+                case SkateTarget.LsTen:
+                case SkateTarget.RoyalArmouriesMuseum:
+                case SkateTarget.KirkgateMarket:
+                case SkateTarget.LeedsGrandTheatre:
+                case SkateTarget.MilleniumSquare:
+                case SkateTarget.RamgarhiaSikhSportsCentre:
+                    return SkateTarget.PotternewtonPark;
+                case SkateTarget.PotternewtonPark:
+                case SkateTarget.MeanwoodValleyUrbanFarm:
+                case SkateTarget.YorkshireCricketGround:
+                case SkateTarget.KirkstallAbbey:
+                case SkateTarget.SunnyBankMillsGallery:
+                case SkateTarget.BrownleeCentre:
+                case SkateTarget.GoldenAcrePark:
+                case SkateTarget.EccupReservoir:
+                    return SkateTarget.EmmerdaleTheTour;
+                case SkateTarget.EmmerdaleTheTour:
+                case SkateTarget.HarewoodHouseTrust:
+                case SkateTarget.OtleyChevinForestPark:
+                case SkateTarget.YeadonTarn:
+                    return SkateTarget.LeedsBradfordAirport;
                 default:
                     return oldTarget;
             }

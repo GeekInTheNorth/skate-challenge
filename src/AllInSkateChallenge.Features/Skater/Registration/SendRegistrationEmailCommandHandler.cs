@@ -44,7 +44,7 @@ namespace AllInSkateChallenge.Features.Skater.Registration
         {
             try
             {
-                var startPoint = checkPointRepository.Get().OrderBy(x => x.Distance).FirstOrDefault();
+                var startPoint = checkPointRepository.Get().OrderBy(x => x.DistanceInKilometers).FirstOrDefault();
 
                 var emailModel = new RegistrationEmailModel
                 {

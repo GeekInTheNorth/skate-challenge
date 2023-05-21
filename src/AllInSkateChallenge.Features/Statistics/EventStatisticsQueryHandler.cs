@@ -287,7 +287,7 @@
 
         private IEnumerable<CheckPointStatisticsModel> GetCheckPointStatistics(List<SkaterTargetAnalysis> skaterAnalyses)
         {
-            var checkPoints = checkPointRepository.Get().Where(x => !x.SkateTarget.Equals(SkateTarget.None)).ToList();
+            var checkPoints = checkPointRepository.Get().Where(x => !x.SkateTarget.Equals(SkateTarget.CornExchange)).ToList();
             foreach(var checkPoint in checkPoints)
             {
                 var firstSkater = skaterAnalyses.Where(x => x.CheckPointDates.ContainsKey(checkPoint.SkateTarget))

@@ -30,9 +30,9 @@ namespace AllInSkateChallenge.Test.Statistics
         }
 
         [Test]
-        [TestCase(12.99, false)]
-        [TestCase(13, true)]
-        public void AnalyseLeavesDateReachedSaltaireEmptyWhenMilesAreBelowTheThreshold(decimal distanceInMiles, bool datePopulated)
+        [TestCase(18.20, false)]
+        [TestCase(18.21, true)]
+        public void AnalyseLeavesDateReachedTempleNewsamParkEmptyWhenMilesAreBelowTheThreshold(decimal distanceInMiles, bool datePopulated)
         {
             // Arrange
             var skaterId = Guid.NewGuid().ToString();
@@ -46,13 +46,13 @@ namespace AllInSkateChallenge.Test.Statistics
             var skaterStats = analyser.Analyse(user, miles);
 
             // Assert
-            Assert.That(skaterStats.CheckPointDates.Any(x => x.Key.Equals(SkateTarget.Saltaire)), Is.EqualTo(datePopulated));
+            Assert.That(skaterStats.CheckPointDates.Any(x => x.Key.Equals(SkateTarget.TempleNewsamPark)), Is.EqualTo(datePopulated));
         }
 
         [Test]
-        [TestCase(46.99, false)]
-        [TestCase(47, true)]
-        public void AnalyseLeavesDateReachedFoulridgeEmptyWhenMilesAreBelowTheThreshold(decimal distanceInMiles, bool datePopulated)
+        [TestCase(26.22, false)]
+        [TestCase(26.23, true)]
+        public void AnalyseLeavesDateReachedPotternewtonParkEmptyWhenMilesAreBelowTheThreshold(decimal distanceInMiles, bool datePopulated)
         {
             // Arrange
             var skaterId = Guid.NewGuid().ToString();
@@ -66,13 +66,13 @@ namespace AllInSkateChallenge.Test.Statistics
             var skaterStats = analyser.Analyse(user, miles);
 
             // Assert
-            Assert.That(skaterStats.CheckPointDates.Any(x => x.Key.Equals(SkateTarget.FoulridgeSummit)), Is.EqualTo(datePopulated));
+            Assert.That(skaterStats.CheckPointDates.Any(x => x.Key.Equals(SkateTarget.PotternewtonPark)), Is.EqualTo(datePopulated));
         }
 
         [Test]
-        [TestCase(127.49, false)]
-        [TestCase(127.5, true)]
-        public void AnalyseLeavesDateReachedLiverpoolEmptyWhenMilesAreBelowTheThreshold(decimal distanceInMiles, bool datePopulated)
+        [TestCase(47.9, false)]
+        [TestCase(47.91, true)]
+        public void AnalyseLeavesDateReachedEmmerdaleTheTourEmptyWhenMilesAreBelowTheThreshold(decimal distanceInMiles, bool datePopulated)
         {
             // Arrange
             var skaterId = Guid.NewGuid().ToString();
@@ -86,13 +86,13 @@ namespace AllInSkateChallenge.Test.Statistics
             var skaterStats = analyser.Analyse(user, miles);
 
             // Assert
-            Assert.That(skaterStats.CheckPointDates.Any(x => x.Key.Equals(SkateTarget.LiverpoolCanningDock)), Is.EqualTo(datePopulated));
+            Assert.That(skaterStats.CheckPointDates.Any(x => x.Key.Equals(SkateTarget.EmmerdaleTheTour)), Is.EqualTo(datePopulated));
         }
 
         [Test]
-        [TestCase(254.99, false)]
-        [TestCase(255, true)]
-        public void AnalyseLeavesDateReachedLeedsEmptyWhenMilesAreBelowTheThreshold(decimal distanceInMiles, bool datePopulated)
+        [TestCase(62.13, false)]
+        [TestCase(62.14, true)]
+        public void AnalyseLeavesDateReachedLeedsBradfordAirportEmptyWhenMilesAreBelowTheThreshold(decimal distanceInMiles, bool datePopulated)
         {
             // Arrange
             var skaterId = Guid.NewGuid().ToString();
@@ -106,7 +106,7 @@ namespace AllInSkateChallenge.Test.Statistics
             var skaterStats = analyser.Analyse(user, miles);
 
             // Assert
-            Assert.That(skaterStats.CheckPointDates.Any(x => x.Key.Equals(SkateTarget.ThereAndBackAgain)), Is.EqualTo(datePopulated));
+            Assert.That(skaterStats.CheckPointDates.Any(x => x.Key.Equals(SkateTarget.LeedsBradfordAirport)), Is.EqualTo(datePopulated));
         }
 
         [Test]
@@ -146,20 +146,36 @@ namespace AllInSkateChallenge.Test.Statistics
             var skaterStats = analyser.Analyse(user, miles);
 
             // Assert
-            Assert.That(skaterStats.CheckPointDates.ContainsKey(SkateTarget.None), Is.False);
-            Assert.That(skaterStats.CheckPointDates.ContainsKey(SkateTarget.AireValleyMarina), Is.True);
-            Assert.That(skaterStats.CheckPointDates.ContainsKey(SkateTarget.Saltaire), Is.True);
-            Assert.That(skaterStats.CheckPointDates.ContainsKey(SkateTarget.BingleyFiveRiseLocks), Is.True);
-            Assert.That(skaterStats.CheckPointDates.ContainsKey(SkateTarget.SkiptonCastle), Is.True);
-            Assert.That(skaterStats.CheckPointDates.ContainsKey(SkateTarget.EastMartonDoubleArchedBridge), Is.True);
-            Assert.That(skaterStats.CheckPointDates.ContainsKey(SkateTarget.FoulridgeSummit), Is.True);
-            Assert.That(skaterStats.CheckPointDates.ContainsKey(SkateTarget.Burnley), Is.True);
-            Assert.That(skaterStats.CheckPointDates.ContainsKey(SkateTarget.HalfwayThere), Is.True);
-            Assert.That(skaterStats.CheckPointDates.ContainsKey(SkateTarget.BlackburnFlight), Is.True);
-            Assert.That(skaterStats.CheckPointDates.ContainsKey(SkateTarget.WiganPier), Is.True);
-            Assert.That(skaterStats.CheckPointDates.ContainsKey(SkateTarget.TheScotchPiperInn), Is.True);
-            Assert.That(skaterStats.CheckPointDates.ContainsKey(SkateTarget.LiverpoolCanningDock), Is.True);
-            Assert.That(skaterStats.CheckPointDates.ContainsKey(SkateTarget.ThereAndBackAgain), Is.True);
+            Assert.That(skaterStats.CheckPointDates.ContainsKey(SkateTarget.CornExchange), Is.False);
+            Assert.That(skaterStats.CheckPointDates.ContainsKey(SkateTarget.SoveriegnSquare), Is.True);
+            Assert.That(skaterStats.CheckPointDates.ContainsKey(SkateTarget.GranaryWharf), Is.True);
+            Assert.That(skaterStats.CheckPointDates.ContainsKey(SkateTarget.TetleyBreweryWharf), Is.True);
+            Assert.That(skaterStats.CheckPointDates.ContainsKey(SkateTarget.LeedsIndustrialMuseum), Is.True);
+            Assert.That(skaterStats.CheckPointDates.ContainsKey(SkateTarget.ArmleyPark), Is.True);
+            Assert.That(skaterStats.CheckPointDates.ContainsKey(SkateTarget.EllandRoad), Is.True);
+            Assert.That(skaterStats.CheckPointDates.ContainsKey(SkateTarget.MiddletonRailway), Is.True);
+            Assert.That(skaterStats.CheckPointDates.ContainsKey(SkateTarget.Carlton), Is.True);
+            Assert.That(skaterStats.CheckPointDates.ContainsKey(SkateTarget.TempleNewsamPark), Is.True);
+            Assert.That(skaterStats.CheckPointDates.ContainsKey(SkateTarget.LsTen), Is.True);
+            Assert.That(skaterStats.CheckPointDates.ContainsKey(SkateTarget.RoyalArmouriesMuseum), Is.True);
+            Assert.That(skaterStats.CheckPointDates.ContainsKey(SkateTarget.KirkgateMarket), Is.True);
+            Assert.That(skaterStats.CheckPointDates.ContainsKey(SkateTarget.LeedsGrandTheatre), Is.True);
+            Assert.That(skaterStats.CheckPointDates.ContainsKey(SkateTarget.MilleniumSquare), Is.True);
+            Assert.That(skaterStats.CheckPointDates.ContainsKey(SkateTarget.RamgarhiaSikhSportsCentre), Is.True);
+            Assert.That(skaterStats.CheckPointDates.ContainsKey(SkateTarget.PotternewtonPark), Is.True);
+            Assert.That(skaterStats.CheckPointDates.ContainsKey(SkateTarget.MeanwoodValleyUrbanFarm), Is.True);
+            Assert.That(skaterStats.CheckPointDates.ContainsKey(SkateTarget.YorkshireCricketGround), Is.True);
+            Assert.That(skaterStats.CheckPointDates.ContainsKey(SkateTarget.KirkstallAbbey), Is.True);
+            Assert.That(skaterStats.CheckPointDates.ContainsKey(SkateTarget.SunnyBankMillsGallery), Is.True);
+            Assert.That(skaterStats.CheckPointDates.ContainsKey(SkateTarget.BrownleeCentre), Is.True);
+            Assert.That(skaterStats.CheckPointDates.ContainsKey(SkateTarget.GoldenAcrePark), Is.True);
+            Assert.That(skaterStats.CheckPointDates.ContainsKey(SkateTarget.EccupReservoir), Is.True);
+            Assert.That(skaterStats.CheckPointDates.ContainsKey(SkateTarget.EmmerdaleTheTour), Is.True);
+            Assert.That(skaterStats.CheckPointDates.ContainsKey(SkateTarget.HarewoodHouseTrust), Is.True);
+            Assert.That(skaterStats.CheckPointDates.ContainsKey(SkateTarget.OtleyChevinForestPark), Is.True);
+            Assert.That(skaterStats.CheckPointDates.ContainsKey(SkateTarget.YeadonTarn), Is.True);
+            Assert.That(skaterStats.CheckPointDates.ContainsKey(SkateTarget.LeedsBradfordAirport), Is.True);
+
         }
 
         [Test]
@@ -179,20 +195,35 @@ namespace AllInSkateChallenge.Test.Statistics
             var skaterStats = analyser.Analyse(user, miles);
 
             // Assert
-            Assert.That(skaterStats.CheckPointDates.Count(x => x.Key.Equals(SkateTarget.None)), Is.EqualTo(0));
-            Assert.That(skaterStats.CheckPointDates.Count(x => x.Key.Equals(SkateTarget.AireValleyMarina)), Is.EqualTo(1));
-            Assert.That(skaterStats.CheckPointDates.Count(x => x.Key.Equals(SkateTarget.Saltaire)), Is.EqualTo(1));
-            Assert.That(skaterStats.CheckPointDates.Count(x => x.Key.Equals(SkateTarget.BingleyFiveRiseLocks)), Is.EqualTo(1));
-            Assert.That(skaterStats.CheckPointDates.Count(x => x.Key.Equals(SkateTarget.SkiptonCastle)), Is.EqualTo(1));
-            Assert.That(skaterStats.CheckPointDates.Count(x => x.Key.Equals(SkateTarget.EastMartonDoubleArchedBridge)), Is.EqualTo(1));
-            Assert.That(skaterStats.CheckPointDates.Count(x => x.Key.Equals(SkateTarget.FoulridgeSummit)), Is.EqualTo(1));
-            Assert.That(skaterStats.CheckPointDates.Count(x => x.Key.Equals(SkateTarget.Burnley)), Is.EqualTo(1));
-            Assert.That(skaterStats.CheckPointDates.Count(x => x.Key.Equals(SkateTarget.HalfwayThere)), Is.EqualTo(1));
-            Assert.That(skaterStats.CheckPointDates.Count(x => x.Key.Equals(SkateTarget.BlackburnFlight)), Is.EqualTo(1));
-            Assert.That(skaterStats.CheckPointDates.Count(x => x.Key.Equals(SkateTarget.WiganPier)), Is.EqualTo(1));
-            Assert.That(skaterStats.CheckPointDates.Count(x => x.Key.Equals(SkateTarget.TheScotchPiperInn)), Is.EqualTo(1));
-            Assert.That(skaterStats.CheckPointDates.Count(x => x.Key.Equals(SkateTarget.LiverpoolCanningDock)), Is.EqualTo(1));
-            Assert.That(skaterStats.CheckPointDates.Count(x => x.Key.Equals(SkateTarget.ThereAndBackAgain)), Is.EqualTo(1));
+            Assert.That(skaterStats.CheckPointDates.Count(x => x.Key.Equals(SkateTarget.CornExchange)), Is.EqualTo(0));
+            Assert.That(skaterStats.CheckPointDates.Count(x => x.Key.Equals(SkateTarget.SoveriegnSquare)), Is.EqualTo(1));
+            Assert.That(skaterStats.CheckPointDates.Count(x => x.Key.Equals(SkateTarget.GranaryWharf)), Is.EqualTo(1));
+            Assert.That(skaterStats.CheckPointDates.Count(x => x.Key.Equals(SkateTarget.TetleyBreweryWharf)), Is.EqualTo(1));
+            Assert.That(skaterStats.CheckPointDates.Count(x => x.Key.Equals(SkateTarget.LeedsIndustrialMuseum)), Is.EqualTo(1));
+            Assert.That(skaterStats.CheckPointDates.Count(x => x.Key.Equals(SkateTarget.ArmleyPark)), Is.EqualTo(1));
+            Assert.That(skaterStats.CheckPointDates.Count(x => x.Key.Equals(SkateTarget.EllandRoad)), Is.EqualTo(1));
+            Assert.That(skaterStats.CheckPointDates.Count(x => x.Key.Equals(SkateTarget.MiddletonRailway)), Is.EqualTo(1));
+            Assert.That(skaterStats.CheckPointDates.Count(x => x.Key.Equals(SkateTarget.Carlton)), Is.EqualTo(1));
+            Assert.That(skaterStats.CheckPointDates.Count(x => x.Key.Equals(SkateTarget.TempleNewsamPark)), Is.EqualTo(1));
+            Assert.That(skaterStats.CheckPointDates.Count(x => x.Key.Equals(SkateTarget.LsTen)), Is.EqualTo(1));
+            Assert.That(skaterStats.CheckPointDates.Count(x => x.Key.Equals(SkateTarget.RoyalArmouriesMuseum)), Is.EqualTo(1));
+            Assert.That(skaterStats.CheckPointDates.Count(x => x.Key.Equals(SkateTarget.KirkgateMarket)), Is.EqualTo(1));
+            Assert.That(skaterStats.CheckPointDates.Count(x => x.Key.Equals(SkateTarget.LeedsGrandTheatre)), Is.EqualTo(1));
+            Assert.That(skaterStats.CheckPointDates.Count(x => x.Key.Equals(SkateTarget.MilleniumSquare)), Is.EqualTo(1));
+            Assert.That(skaterStats.CheckPointDates.Count(x => x.Key.Equals(SkateTarget.RamgarhiaSikhSportsCentre)), Is.EqualTo(1));
+            Assert.That(skaterStats.CheckPointDates.Count(x => x.Key.Equals(SkateTarget.PotternewtonPark)), Is.EqualTo(1));
+            Assert.That(skaterStats.CheckPointDates.Count(x => x.Key.Equals(SkateTarget.MeanwoodValleyUrbanFarm)), Is.EqualTo(1));
+            Assert.That(skaterStats.CheckPointDates.Count(x => x.Key.Equals(SkateTarget.YorkshireCricketGround)), Is.EqualTo(1));
+            Assert.That(skaterStats.CheckPointDates.Count(x => x.Key.Equals(SkateTarget.KirkstallAbbey)), Is.EqualTo(1));
+            Assert.That(skaterStats.CheckPointDates.Count(x => x.Key.Equals(SkateTarget.SunnyBankMillsGallery)), Is.EqualTo(1));
+            Assert.That(skaterStats.CheckPointDates.Count(x => x.Key.Equals(SkateTarget.BrownleeCentre)), Is.EqualTo(1));
+            Assert.That(skaterStats.CheckPointDates.Count(x => x.Key.Equals(SkateTarget.GoldenAcrePark)), Is.EqualTo(1));
+            Assert.That(skaterStats.CheckPointDates.Count(x => x.Key.Equals(SkateTarget.EccupReservoir)), Is.EqualTo(1));
+            Assert.That(skaterStats.CheckPointDates.Count(x => x.Key.Equals(SkateTarget.EmmerdaleTheTour)), Is.EqualTo(1));
+            Assert.That(skaterStats.CheckPointDates.Count(x => x.Key.Equals(SkateTarget.HarewoodHouseTrust)), Is.EqualTo(1));
+            Assert.That(skaterStats.CheckPointDates.Count(x => x.Key.Equals(SkateTarget.OtleyChevinForestPark)), Is.EqualTo(1));
+            Assert.That(skaterStats.CheckPointDates.Count(x => x.Key.Equals(SkateTarget.YeadonTarn)), Is.EqualTo(1));
+            Assert.That(skaterStats.CheckPointDates.Count(x => x.Key.Equals(SkateTarget.LeedsBradfordAirport)), Is.EqualTo(1));
         }
     }
 }

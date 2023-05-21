@@ -70,7 +70,7 @@ namespace AllInSkateChallenge.Features.Skater.Registration
                 var callbackUrl = $"/Identity/Account/ConfirmEmail/?userId={request.UserId}&code={code}&returnUrl=%2F";
                 callbackUrl = absoluteUrlHelper.Get(callbackUrl);
 
-                var startPoint = checkPointRepository.Get().OrderBy(x => x.Distance).FirstOrDefault();
+                var startPoint = checkPointRepository.Get().OrderBy(x => x.DistanceInKilometers).FirstOrDefault();
 
                 var emailModel = new RegistrationEmailModel
                 {
