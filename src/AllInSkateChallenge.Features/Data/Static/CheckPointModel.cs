@@ -1,5 +1,7 @@
 ﻿using System.Linq;
 
+using AllInSkateChallenge.Features.Common;
+
 namespace AllInSkateChallenge.Features.Data.Static
 {
     public class CheckPointModel
@@ -8,7 +10,7 @@ namespace AllInSkateChallenge.Features.Data.Static
 
         public decimal DistanceInKilometers { get; set; }
 
-        public decimal DistanceInMiles => DistanceInKilometers * 0.621371M;
+        public decimal DistanceInMiles => Conversion.KilometresToMiles(DistanceInKilometers);
 
         public string Title { get; set; }
 

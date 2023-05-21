@@ -13,7 +13,7 @@
         <div class="timeline-container-header">
             <div class="timeline-content-header card border-allin-green">
                 <h2 class="card-header bg-allin-green text-dark">Distance Travelled</h2>
-                <p class="card-body">You have skated @Model.Content.MilesSkated.ToString("F2") of your goal of @Model.Content.TargetMiles.ToString("F1") miles.</p>
+                <p class="card-body">You have skated @Model.Content.KilometersSkated.ToString("F2") of your goal of @Model.Content.TargetKilometers.ToString("F1") kilometers.</p>
             </div>
         </div>
 
@@ -46,7 +46,7 @@
                         </div>
                     }
                     <div class="card-body">
-                        <p>Distance: @checkPoint.DistanceInKilometers.ToString("F2") miles</p>
+                        <p>Distance: @checkPoint.DistanceInKilometers.ToString("F2") kilometers</p>
                         @if (checkPoint.DateAchieved.HasValue)
                         {
                             <p>Achieved: @checkPoint.DateAchieved.Value.ToString("dd/MM/yyyy HH:mm")</p>
@@ -98,7 +98,7 @@
                 <div class="card-body">
                     @if (Model.Content.NextCheckPoint.DistanceInKilometers != 0)
                     {
-                        <p>Distance: @Model.Content.NextCheckPoint.DistanceInKilometers.ToString("F2") miles</p>
+                        <p>Distance: @Model.Content.NextCheckPoint.DistanceInKilometers.ToString("F2") kilometers</p>
                         @if (Model.Content.NextCheckPoint.DateAchieved.HasValue)
                         {
                             <p>Achieved: @Model.Content.NextCheckPoint.DateAchieved.Value.ToString("dd/MM/yyyy HH:mm")</p>

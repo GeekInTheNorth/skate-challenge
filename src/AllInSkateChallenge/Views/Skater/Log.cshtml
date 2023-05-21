@@ -8,8 +8,8 @@
 
 <div class="row">
     <div class="col-xl-12">
-        <button type="button" class="btn btn-primary js-add-mileage-entry mt-3 mb-3">+ Log Miles</button>
-        <button type="button" class="btn btn-primary js-add-mileage-entry-full mt-3 mb-3">+ Log Activity</button>
+        <button type="button" class="btn btn-primary js-add-mileage-entry mt-3 mb-3">+ Log Activity</button>
+        <button type="button" class="btn btn-primary js-add-mileage-entry-full mt-3 mb-3">+ Log Detailed Activity</button>
         @if (Model.IsStravaUser)
         {
             <a asp-controller="StravaImport" asp-action="Index" class="btn btn-strava" title="Import from Strava"></a>

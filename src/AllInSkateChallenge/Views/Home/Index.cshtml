@@ -8,10 +8,10 @@
     <div class="col-xl-12">
         <p>Roller Girl Gang CIC challenges you to join our virtual skate around our hometown of Leeds and its surrounds!   Leeds is a city in the North of England, with a mixture of urban and rural environments. Let us show you the sights and skate spots of our town.  Skate whenever, wherever, and take however long you need.  Track your miles here and share your successes in our Facebook Group. Disclaimer: Many of the places/routes aren't skateable...  thats why we are inviting you to join us virtually!</p>
 
-        @if (Model.Content.NumberOfSkaters > 1 && Model.Content.CumulativeMiles > 0)
+        @if (Model.Content.NumberOfSkaters > 1 && Model.Content.CumulativeKilometers > 0)
         {
             <p class="font-weight-bold">
-                @Model.Content.NumberOfSkaters skaters have now taken up the challenge and skated a collective @Model.Content.CumulativeMiles.ToString("F1") miles.
+                @Model.Content.NumberOfSkaters skaters have now taken up the challenge and skated a collective @Model.Content.CumulativeKilometers.ToString("F2") kilometers.
                 @if (Model.CurrentUser != null)
                 {
                     <span>Visit the <a class="font-weight-bold" asp-controller="EventStatistics" asp-action="Index" title="Event Statistics">Event Statistics</a> page to see more great achievements by our skaters.</span>
