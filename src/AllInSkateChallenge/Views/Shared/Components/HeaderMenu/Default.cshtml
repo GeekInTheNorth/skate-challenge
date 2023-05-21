@@ -1,8 +1,8 @@
 ﻿@model AllInSkateChallenge.Features.Framework.Header.HeaderMenuViewModel
 
 @{
-    var smallImage = Url.Content("~/images/AllInSkateChallengeBannerSmall.png");
-    var largeImage = Url.Content("~/images/AllInSkateChallengeBanner.png");
+    var smallImage = Url.Content("~/rggeventone/images/banner-mobile.png");
+    var largeImage = Url.Content("~/rggeventone/images/banner-desktop.png");
 }
 
 <header>
@@ -94,6 +94,6 @@
 
     <picture>
         <source media="(orientation: landscape)" srcset="@smallImage 100w, @largeImage 800w" />
-        <img src="@smallImage" alt="All In Community Roller Derby banner." class="hero-banner" />
+        <img src="@smallImage" alt="Roller Girl Gang challenge banner." class="hero-banner" />
     </picture>
 </header>
