@@ -13,8 +13,6 @@ namespace AllInSkateChallenge.Features.Activities
 
         public string LogoUrl { get;  set; }
 
-        public string SponsorLogoUrl { get; set; }
-
         public decimal TotalMiles { get; set; }
 
         public decimal TotalMilesRemaining => TotalMiles >= TargetCheckPoint.DistanceInKilometers ? 0 : TargetCheckPoint.DistanceInKilometers - TotalMiles;

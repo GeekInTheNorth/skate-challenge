@@ -48,11 +48,10 @@ namespace AllInSkateChallenge.Features.Skater.Registration
 
                 var emailModel = new RegistrationEmailModel
                 {
-                    LogoUrl = absoluteUrlHelper.Get("/images/AllInSkateChallengeBannerSmall.png"),
+                    LogoUrl = absoluteUrlHelper.Get("/rggeventone/images/banner-mobile.png"),
                     EmailConfirmationUrl = request.EmailConfirmationUrl,
                     SiteUrl = absoluteUrlHelper.Get("/"),
                     LogMilesUrl = absoluteUrlHelper.Get("/skater/skate-log"),
-                    SponsorLogoUrl = absoluteUrlHelper.Get("/images/SkateEverywhereLogo.png"),
                     StartingPostCard = absoluteUrlHelper.Get(startPoint?.Image),
                     FromSkateEverywhere = request.FromSkateEverywhere
                 };

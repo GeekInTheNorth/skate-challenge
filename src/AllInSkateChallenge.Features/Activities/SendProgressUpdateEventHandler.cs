@@ -74,8 +74,7 @@ namespace AllInSkateChallenge.Features.Activities
                     var isFinalCheckpoint = checkPointReached.SkateTarget.Equals(request.Skater.Target);
                     var emailModel = new SkaterProgressEmailViewModel
                     {
-                        LogoUrl = absoluteUrlHelper.Get("/images/AllInSkateChallengeBannerSmall.png"),
-                        SponsorLogoUrl = absoluteUrlHelper.Get("/images/SkateEverywhereLogo.png"),
+                        LogoUrl = absoluteUrlHelper.Get("/rggeventone/images/banner-mobile.png"),
                         Skater = request.Skater,
                         CheckPoint = checkPointReached,
                         TotalMiles = totalMiles,

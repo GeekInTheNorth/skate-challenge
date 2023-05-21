@@ -10,8 +10,6 @@
 
         public string EmailConfirmationUrl { get; set; }
 
-        public string SponsorLogoUrl { get; set; }
-
         public string StartingPostCard { get; set; }
 
         public bool FromSkateEverywhere { get; set; }
