@@ -1,6 +1,6 @@
 {
-    "name": "ALL IN Skate Challenge",
-    "short_name": "ALL IN Leeds - Liverpool Skate Challenge",
+    "name": "Roller Girl Gang Skate Marathon",
+    "short_name": "Roller Girl Gang - Skate Marathon",
     "icons": [
         {
             "src": "/android-chrome-192x192.png",
@@ -14,6 +14,6 @@
         }
     ],
     "theme_color": "#ffffff",
-    "background_color": "#ffffff",
+    "background_color": "#391E48",
     "display": "standalone"
 }
