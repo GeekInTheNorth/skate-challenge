@@ -10,7 +10,7 @@ namespace AllInSkateChallenge.Features.Skater.Registration
     {
         public Task<bool> Handle(RegistrationAvailabilityQuery request, CancellationToken cancellationToken)
         {
-            var isEventRegistrationOpen = DateTime.Today >= new DateTime(2023, 5, 1);
+            var isEventRegistrationOpen = DateTime.Today >= new DateTime(2023, 12, 30);
 
             return Task.FromResult(isEventRegistrationOpen);
         }
