@@ -9,10 +9,10 @@
 <body style="font-family: Arial, Helvetica, sans-serif; margin: 0; background-color: #9d5feb; padding: 10px;">
     <center>
         <div style="padding: 20px 5% 20px 5%; margin-bottom: 10px; border-radius: 10px; background-color: #FFFFFF; max-width: 600px;">
-            <img src="@Model.LogoUrl" alt="ALL IN Logo" style="width: 100%; max-width: 600px; height: auto;" />
+            <img src="@Model.LogoUrl" alt="Roller Girl Gang Logo" style="width: 100%; max-width: 600px; height: auto;" />
         </div>
         <div style="padding: 20px 5% 20px 5%; margin-bottom: 10px; border-radius: 10px; background-color: #FFFFFF; max-width: 600px;">
-            <h1>Welcome to the Leeds Basin, the starting point of the Leeds-Liverpool Canal ALL IN Skate Challenge!</h1>
+            <h1>Welcome to the Corn Exchange, the home of the Roller Girl Gang shop and the starting point of our virtual Skate Marathon!</h1>
             @if (!string.IsNullOrWhiteSpace(Model.StartingPostCard))
             {
                 <img src="@Model.StartingPostCard" alt="Leeds Basin" style="width: 100%; height: auto;" />
@@ -25,10 +25,11 @@
                     <span>Make sure you have confirmed your email address by visiting this <a href="@Model.EmailConfirmationUrl">Confirmation Page</a></span>
                 </li>
                 <li>
-                    <span>Make sure you've joined our <a href="https://www.facebook.com/groups/3257681721008087/">Facebook Group</a>! This is a great place to share your progress and help celebrate others' successes. You can even add our Facebook frame to let folks know you've taken on the <a href="@Model.SiteUrl">challenge</a>.</span>
+                    <span>Make sure you've joined our <a href="https://www.facebook.com/groups/1112047065922441">Facebook Group</a>! This is a great place to share your progress and help celebrate others' successes.</span>
                 </li>
-
-                <li>Log your <a href="@Model.LogMilesUrl">first miles</a>. Make sure you skate safe! Carry a skate tool with you, let folks know you're out and about, and follow your local COVID guidelines.</li>
+                <li>
+                    <span>Log your <a href="@Model.LogMilesUrl">first miles</a>. Make sure you skate safe! Carry a skate tool with you, let folks know you're out and about.</span>
+                </li>
             </ol>
         </div>
     </center>

@@ -21,7 +21,7 @@ namespace AllInSkateChallenge.Features.Services.Email
         public async Task SendEmailAsync(string email, string subject, string htmlMessage)
         {
             var mimeMessage = new MimeMessage();
-            mimeMessage.From.Add(new MailboxAddress("ALL IN Community Roller Derby", _emailSettings.SenderEmail));
+            mimeMessage.From.Add(new MailboxAddress("Roller Girl Gang Skate Marathon", _emailSettings.SenderEmail));
             mimeMessage.To.Add(new MailboxAddress(email, email));
             mimeMessage.Subject = subject;
             mimeMessage.Body = new TextPart(MimeKit.Text.TextFormat.Html) { Text = htmlMessage };
