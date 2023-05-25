@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -8,7 +7,9 @@ using AllInSkateChallenge.Features.Data.Entities;
 using AllInSkateChallenge.Features.Framework.Models;
 using AllInSkateChallenge.Features.Skater.SkateLog;
 using AllInSkateChallenge.Features.Strava;
+
 using Humanizer;
+
 using MediatR;
 
 namespace AllInSkateChallenge.Features.Skater.StravaImport
@@ -52,12 +53,11 @@ namespace AllInSkateChallenge.Features.Skater.StravaImport
                 return new List<StravaImportActivityViewModel>();
             }
 
-            var allowedTypes = new List<string> { "IceSkate", "InlineSkate", "Skateboard" };
-            
             return stravaActivityListResponse.Activities.Select(x => new StravaImportActivityViewModel
             {
                 ActivityId = x.ActivityId,
-                ActivityType = x.ActivityType?.Humanize(),
+                ActivityType = x.ActivityType,
+                DisplayActivityType = x.ActivityType?.Humanize(),
                 Name = x.Name,
                 Miles = Conversion.MetresToMiles(x.DistanceMetres),
                 LowestElevation = Conversion.MetresToFeet(x.LowestElevationMetres),
@@ -68,7 +68,6 @@ namespace AllInSkateChallenge.Features.Skater.StravaImport
                 StartDate = x.StartDate,
                 EndDate = x.StartDate.AddSeconds(x.ElapsedTime),
                 IsImported = logEntries.Any(y => y.StravaId != null && y.StravaId == x.ActivityId),
-                IsEligableActivity = allowedTypes.Any(y => y.Equals(x.ActivityType, StringComparison.CurrentCultureIgnoreCase)),
                 Duration = x.ElapsedTime
             }).ToList();
         }

@@ -22,6 +22,16 @@
     </div>
 }
 
+@if (!Model.CurrentUser.HasPaid)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        Please note that Roller Girl Gang CIC has either not yet received or not yet processed your Skate Challenge entry fee. You will not be able to import your activities from Strava until this has been processed.
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
+
 @if (Model.Content.Activities != null)
 {
     <div id="activityAlert" class="alert alert-success fade show" role="alert" style="display:none;">
@@ -46,11 +56,11 @@
             @foreach (var activity in Model.Content.Activities)
             {
                 <tr data-activity-id="@activity.ActivityId" data-activity-eligible="@activity.IsEligableActivity" style="@(activity.IsEligableActivity ? "" : "display: none;")">
-                    <td class="align-middle">@activity.ActivityType</td>
+                    <td class="align-middle">@activity.DisplayActivityType</td>
                     <td class="align-middle">@activity.StartDate.ToString("dd/MM/yyyy")</td>
                     <td class="align-middle">@activity.Miles.ToString("F2")</td>
                     <td class="align-middle js-action-column">
-                        @if (!activity.IsImported && activity.IsEligableActivity)
+                        @if (!activity.IsImported && activity.IsEligableActivity && Model.CurrentUser.HasPaid)
                         {
                             <button type="button" class="btn btn-primary js-import-strava" 
                                     data-activity-id="@activity.ActivityId" 
