@@ -18,6 +18,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace AllInSkateChallenge.Features.Strava
 {
@@ -80,7 +81,7 @@ namespace AllInSkateChallenge.Features.Strava
                 var log = new StravaIntegrationLog
                 {
                     Recieved = DateTime.Now,
-                    Body = apiResponse
+                    Body = JValue.Parse(apiResponse).ToString(Formatting.Indented),
                 };
 
                 context.StravaIntegrationLogs.Add(log);
