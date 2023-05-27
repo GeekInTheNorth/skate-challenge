@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -8,11 +9,13 @@ using System.Threading.Tasks;
 using AllInSkateChallenge.Features.Data;
 using AllInSkateChallenge.Features.Data.Entities;
 using AllInSkateChallenge.Features.Strava.Models;
+using AllInSkateChallenge.Features.Strava.Webhook.LogStravaIntegration;
 
 using MediatR;
 
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 using Newtonsoft.Json;
 
@@ -24,10 +27,16 @@ namespace AllInSkateChallenge.Features.Strava
 
         private readonly UserManager<ApplicationUser> userManager;
 
-        public StravaImportPendingImportsQueryHandler(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
+        private readonly ILogger<StravaImportPendingImportsQueryHandler> logger;
+
+        public StravaImportPendingImportsQueryHandler(
+            ApplicationDbContext context, 
+            UserManager<ApplicationUser> userManager, 
+            ILogger<StravaImportPendingImportsQueryHandler> logger)
         {
             this.context = context;
             this.userManager = userManager;
+            this.logger = logger;
         }
 
         public async Task<StravaImportPendingImportsResponse> Handle(StravaPendingImportsQuery request, CancellationToken cancellationToken)
@@ -46,6 +55,7 @@ namespace AllInSkateChallenge.Features.Strava
                     using (var stravaResponse = await httpClient.GetAsync(url))
                     {
                         var apiResponse = await stravaResponse.Content.ReadAsStringAsync();
+                        await SaveEventDataToLog(apiResponse);
 
                         if (stravaResponse.IsSuccessStatusCode)
                         {
@@ -56,6 +66,30 @@ namespace AllInSkateChallenge.Features.Strava
             }
 
             return response;
+        }
+
+        private async Task SaveEventDataToLog(string apiResponse)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(apiResponse))
+                {
+                    return;
+                }
+
+                var log = new StravaIntegrationLog
+                {
+                    Recieved = DateTime.Now,
+                    Body = apiResponse
+                };
+
+                context.StravaIntegrationLogs.Add(log);
+                await context.SaveChangesAsync();
+            }
+            catch (Exception exception)
+            {
+                logger.LogError(exception, "Failed to log strava activity data");
+            }
         }
     }
 }
