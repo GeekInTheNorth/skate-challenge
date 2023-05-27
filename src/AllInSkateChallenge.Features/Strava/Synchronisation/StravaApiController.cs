@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 using AllInSkateChallenge.Features.Activities;
@@ -22,6 +24,10 @@ namespace AllInSkateChallenge.Features.Strava
 
         private readonly UserManager<ApplicationUser> userManager;
 
+        private static readonly string[] EligableActivities = { "IceSkate", "InlineSkate", "Skateboard" };
+
+        private static readonly DateTime EarliestDate = new DateTime(2023, 6, 1, 0, 0, 0);
+
         public StravaSynchronisationApiController(IMediator mediator, UserManager<ApplicationUser> userManager)
         {
             this.mediator = mediator;
@@ -36,10 +42,9 @@ namespace AllInSkateChallenge.Features.Strava
 
             if (queryResponse.Activities != null)
             {
-                var allowedTypes = new List<string> { "IceSkate", "InlineSkate", "Skateboard" };
                 foreach (var activity in queryResponse.Activities)
                 {
-                    if (allowedTypes.Contains(activity.ActivityType))
+                    if (EligableActivities.Contains(activity.ActivityType) && activity.StartDate >= EarliestDate)
                     {
                         await mediator.Send(
                             new SaveActivityCommand 
