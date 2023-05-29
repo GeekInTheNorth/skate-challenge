@@ -1,10 +1,9 @@
-﻿using Newtonsoft.Json;
+﻿namespace AllInSkateChallenge.Features.Strava.Webhook;
 
-namespace AllInSkateChallenge.Features.Strava.Webhook
+using Newtonsoft.Json;
+
+public class SubscriptionResponse
 {
-    public class SubscriptionResponse
-    {
-        [JsonProperty("hub.challenge")]
-        public string HubChallenge { get; set; }
-    }
+    [JsonProperty("hub.challenge")]
+    public string HubChallenge { get; set; }
 }

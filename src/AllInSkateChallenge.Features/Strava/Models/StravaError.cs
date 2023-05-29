@@ -1,16 +1,15 @@
-﻿using Newtonsoft.Json;
+﻿namespace AllInSkateChallenge.Features.Strava.Models;
 
-namespace AllInSkateChallenge.Features.Strava.Models
+using Newtonsoft.Json;
+
+public class StravaError
 {
-    public class StravaError
-    {
-        [JsonProperty("code")]
-        public string Code { get; set; }
+    [JsonProperty("code")]
+    public string Code { get; set; }
 
-        [JsonProperty("field")]
-        public string Field { get; set; }
+    [JsonProperty("field")]
+    public string Field { get; set; }
 
-        [JsonProperty("resource")]
-        public string Resource { get; set; }
-    }
+    [JsonProperty("resource")]
+    public string Resource { get; set; }
 }

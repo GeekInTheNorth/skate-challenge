@@ -19,7 +19,7 @@ namespace AllInSkateChallenge.Features.Activities
             this.context = context;
         }
 
-        public async Task<Unit> Handle(DeleteActivityCommand request, CancellationToken cancellationToken)
+        public async Task Handle(DeleteActivityCommand request, CancellationToken cancellationToken)
         {
             // Clear matching logs
             var logsToDelete = await context.SkateLogEntries.Where(x => x.SkateLogEntryId.Equals(request.MileageEntryId) && x.ApplicationUserId.Equals(request.Skater.Id)).ToListAsync();
@@ -30,8 +30,6 @@ namespace AllInSkateChallenge.Features.Activities
             context.EventStatistics.RemoveRange(statistics);
 
             await context.SaveChangesAsync();
-
-            return Unit.Value;
         }
     }
 }
