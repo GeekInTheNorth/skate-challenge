@@ -150,7 +150,7 @@ else
                     <p>Please enter the details of your skating journey.  This should represent a single journey on skates.</p>
                     <div class="form-group">
                         <label for="distanceUnit">Distance Unit</label>
-                        @Html.DropDownList(nameof(INewSkaterLogEntry.DistanceUnit), new SelectList(new[] { DistanceUnit.Miles, DistanceUnit.Kilometres }), new { @class = "form-control", aria_describedby = "distanceUnitHelp" })
+                        @Html.DropDownList(nameof(INewSkaterLogEntry.DistanceUnit), new SelectList(new[] { DistanceUnit.Kilometres, DistanceUnit.Miles }), new { @class = "form-control", aria_describedby = "distanceUnitHelp" })
                         <small id="distanceUnitHelp" class="form-text text-muted">Distance can be logged in miles or kilometres, but will be converted into miles.</small>
                     </div>
                     <div class="form-group">
@@ -165,12 +165,12 @@ else
                     </div>
                     <div class="form-group">
                         <label>Date Skated</label>
-                        @Html.TextBox(nameof(INewSkaterLogEntry.DateSkated), Model.Content.DateSkated, new { @type = "date", @class = "form-control", aria_describedby = "dateSkatedHelp", step = "1", min = "2023-06-01", max = DateTime.Today.ToString("yyyy-MM-dd") })
+                        @Html.TextBox(nameof(INewSkaterLogEntry.DateSkated), Model.Content.DateSkated, new { @type = "date", @class = "form-control", aria_describedby = "dateSkatedHelp", step = "1", min = "2023-06-01", max = "2024-01-01" })
                         <small id="dateSkatedHelp" class="form-text text-muted">Today's date will be used if this field is left blank.</small>
                     </div>
                     <div class="form-group js-detail-form">
                         <label for="velocityUnit">Velocity Unit</label>
-                        @Html.DropDownList(nameof(INewSkaterLogEntry.VelocityUnit), new SelectList(new[] { VelocityUnit.MilesPerHour, VelocityUnit.KilometersPerHour }), new { @class = "form-control", aria_describedby = "velocityUnitHelp" })
+                        @Html.DropDownList(nameof(INewSkaterLogEntry.VelocityUnit), new SelectList(new[] { VelocityUnit.KilometersPerHour, VelocityUnit.MilesPerHour }), new { @class = "form-control", aria_describedby = "velocityUnitHelp" })
                         <small id="velocityUnitHelp" class="form-text text-muted">Speed can be logged in miles per hour or kilometres per hour, but will be converted into miles.</small>
                     </div>
                     <div class="form-group js-detail-form">
@@ -185,7 +185,7 @@ else
                     </div>
                     <div class="form-group js-detail-form">
                         <label for="elevationUnit">Elevation Unit</label>
-                        @Html.DropDownList(nameof(INewSkaterLogEntry.ElevationUnit), new SelectList(new[] { DistanceUnit.Feet, DistanceUnit.Metres }), new { @class = "form-control", aria_describedby = "elevationUnitHelp" })
+                        @Html.DropDownList(nameof(INewSkaterLogEntry.ElevationUnit), new SelectList(new[] { DistanceUnit.Metres, DistanceUnit.Feet }), new { @class = "form-control", aria_describedby = "elevationUnitHelp" })
                         <small id="elevationUnitHelp" class="form-text text-muted">Elevation can be logged in metres or feet, but will be converted into feet.</small>
                     </div>
                     <div class="form-group js-detail-form">
