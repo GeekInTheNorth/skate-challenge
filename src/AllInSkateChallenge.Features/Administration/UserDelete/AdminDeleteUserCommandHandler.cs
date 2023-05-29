@@ -23,7 +23,7 @@
             this.blobStorageService = blobStorageService;
         }
 
-        public async Task<Unit> Handle(AdminDeleteUserCommand request, CancellationToken cancellationToken)
+        public async Task Handle(AdminDeleteUserCommand request, CancellationToken cancellationToken)
         {
             var user = await userManager.FindByIdAsync(request.UserId);
 
@@ -40,8 +40,6 @@
 
             await blobStorageService.DeleteFile(user.ExternalProfileImage);
             await userManager.DeleteAsync(user);
-
-            return Unit.Value;
         }
     }
 }

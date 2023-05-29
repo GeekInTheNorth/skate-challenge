@@ -31,13 +31,16 @@ namespace AllInSkateChallenge.Features.Strava.Webhook.SaveStravaEvent
             this.logger = logger;
         }
 
-        public async Task<Unit> Handle(SaveStravaEventCommand request, CancellationToken cancellationToken)
+        public async Task Handle(SaveStravaEventCommand request, CancellationToken cancellationToken)
         {
             try
             {
                 var user = await userManager.FindByNameAsync(request.StravaUserId);
 
-                if (user == null) return Unit.Value;
+                if (user == null)
+                {
+                    return;
+                }
 
                 var existingLogEntry = await context.SkateLogEntries.FirstOrDefaultAsync(x => x.ApplicationUserId == user.Id && x.StravaId == request.ActivityId, cancellationToken);
                 var existingEvent = await context.StravaEvents.FirstOrDefaultAsync(x => x.ApplicationUserId == user.Id && x.StravaActivityId == request.ActivityId, cancellationToken);
@@ -53,8 +56,6 @@ namespace AllInSkateChallenge.Features.Strava.Webhook.SaveStravaEvent
             {
                 logger.LogError(exception, "Failed when trying to add an event to a user", request);
             }
-
-            return Unit.Value;
         }
 
         private void HandleEventNotExisting(SaveStravaEventCommand request, ApplicationUser user, SkateLogEntry existingLogEntry, StravaEvent existingStravaEvent)

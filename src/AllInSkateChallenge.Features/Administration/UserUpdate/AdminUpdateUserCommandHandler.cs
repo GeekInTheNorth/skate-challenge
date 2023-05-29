@@ -19,7 +19,7 @@ namespace AllInSkateChallenge.Features.Administration.UserUpdate
             this.userManager = userManager;
         }
 
-        public async Task<Unit> Handle(AdminUpdateUserCommand request, CancellationToken cancellationToken)
+        public async Task Handle(AdminUpdateUserCommand request, CancellationToken cancellationToken)
         {
             var user = await userManager.FindByIdAsync(request.UserId);
 
@@ -31,8 +31,6 @@ namespace AllInSkateChallenge.Features.Administration.UserUpdate
             user.HasPaid = request.HasPaid ?? user.HasPaid;
 
             await userManager.UpdateAsync(user);
-
-            return Unit.Value;
         }
     }
 }

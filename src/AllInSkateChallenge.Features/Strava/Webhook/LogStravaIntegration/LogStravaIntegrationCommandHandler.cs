@@ -1,4 +1,6 @@
-﻿using System;
+﻿namespace AllInSkateChallenge.Features.Strava.Webhook.LogStravaIntegration;
+
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -11,40 +13,35 @@ using Microsoft.Extensions.Logging;
 
 using Newtonsoft.Json;
 
-namespace AllInSkateChallenge.Features.Strava.Webhook.LogStravaIntegration
+public class LogStravaIntegrationCommandHandler : IRequestHandler<LogStravaIntegrationCommand>
 {
-    public class LogStravaIntegrationCommandHandler : IRequestHandler<LogStravaIntegrationCommand>
+    private readonly ApplicationDbContext context;
+
+    private readonly ILogger<LogStravaIntegrationCommandHandler> logger;
+
+    public LogStravaIntegrationCommandHandler(ApplicationDbContext context, ILogger<LogStravaIntegrationCommandHandler> logger)
     {
-        private readonly ApplicationDbContext context;
+        this.context = context;
+        this.logger = logger;
+    }
 
-        private readonly ILogger<LogStravaIntegrationCommandHandler> logger;
-
-        public LogStravaIntegrationCommandHandler(ApplicationDbContext context, ILogger<LogStravaIntegrationCommandHandler> logger)
+    public async Task Handle(LogStravaIntegrationCommand request, CancellationToken cancellationToken)
+    {
+        try
         {
-            this.context = context;
-            this.logger = logger;
+            var serializedEvent = JsonConvert.SerializeObject(request.Event, Formatting.Indented);
+            var log = new StravaIntegrationLog
+            {
+                Recieved = DateTime.Now,
+                Body = serializedEvent
+            };
+
+            context.StravaIntegrationLogs.Add(log);
+            await context.SaveChangesAsync();
         }
-
-        public async Task<Unit> Handle(LogStravaIntegrationCommand request, CancellationToken cancellationToken)
+        catch(Exception exception)
         {
-            try
-            {
-                var serializedEvent = JsonConvert.SerializeObject(request.Event, Formatting.Indented);
-                var log = new StravaIntegrationLog
-                {
-                    Recieved = DateTime.Now,
-                    Body = serializedEvent
-                };
-
-                context.StravaIntegrationLogs.Add(log);
-                await context.SaveChangesAsync();
-            }
-            catch(Exception exception)
-            {
-                logger.LogError(exception, "Failed to log strava webhook event", request.Event);
-            }
-
-            return Unit.Value;
+            logger.LogError(exception, "Failed to log strava webhook event", request.Event);
         }
     }
 }

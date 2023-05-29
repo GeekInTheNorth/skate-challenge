@@ -54,7 +54,7 @@ namespace AllInSkateChallenge.Features.Skater.Registration
             this.logger = logger;
         }
 
-        public async Task<Unit> Handle(ResendRegistrationEmailCommand request, CancellationToken cancellationToken)
+        public async Task Handle(ResendRegistrationEmailCommand request, CancellationToken cancellationToken)
         {
             try
             {
@@ -90,8 +90,6 @@ namespace AllInSkateChallenge.Features.Skater.Registration
             {
                 logger.LogError(exception, "Failed to progress updates when saving mileage entries", request);
             }
-
-            return Unit.Value;
         }
     }
 }
