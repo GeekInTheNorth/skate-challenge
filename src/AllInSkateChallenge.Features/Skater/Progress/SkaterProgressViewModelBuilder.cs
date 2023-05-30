@@ -76,7 +76,7 @@ public class SkaterProgressViewModelBuilder : PageViewModelBuilder<SkaterProgres
             model.Content.NextCheckPoint = new SkaterProgressCheckPoint
             {
                 Title = "Your Next Checkpoint",
-                Description = $"You have to skate a further {distanceToNextCheckpoint:F2} miles to reach {nextCheckPoint.Title}.",
+                Description = $"You have to skate a further {distanceToNextCheckpoint:F2} kilometres to reach {nextCheckPoint.Title}.",
                 Longitude = nextCheckPoint.Longitude,
                 Latitude = nextCheckPoint.Latitude,
                 Url = nextCheckPoint.Url
