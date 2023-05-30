@@ -1,8 +1,7 @@
-﻿using AllInSkateChallenge.Features.Framework.Models;
+﻿namespace AllInSkateChallenge.Features.Skater.Progress;
 
-namespace AllInSkateChallenge.Features.Skater.Progress
+using AllInSkateChallenge.Features.Framework.Models;
+
+public interface ISkaterProgressViewModelBuilder : IPageViewModelBuilder<SkaterProgressViewModel>
 {
-    public interface ISkaterProgressViewModelBuilder : IPageViewModelBuilder<SkaterProgressViewModel>
-    {
-    }
 }

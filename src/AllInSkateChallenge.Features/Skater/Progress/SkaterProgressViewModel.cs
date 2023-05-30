@@ -7,13 +7,13 @@ namespace AllInSkateChallenge.Features.Skater.Progress
 {
     public class SkaterProgressViewModel
     {
-        public decimal MilesSkated { get; set; }
+        public decimal MilesSkated => Conversion.KilometresToMiles(KilometersSkated);
 
-        public decimal TargetMiles { get; set; }
+        public decimal TargetMiles => Conversion.KilometresToMiles(TargetKilometers);
 
-        public decimal KilometersSkated => Conversion.MilesToKilometres(MilesSkated);
+        public decimal KilometersSkated { get; set; }
 
-        public decimal TargetKilometers => Conversion.MilesToKilometres(TargetMiles);
+        public decimal TargetKilometers { get; set; }
 
         public List<SkaterProgressCheckPoint> CheckPointsReached { get; set; }
 
