@@ -57,7 +57,7 @@ else
         <div class="col-1 p-2 bg-dark text-light"></div>
         <div class="col-5 p-2 bg-dark text-light">Journey</div>
         <div class="col-3 p-2 bg-dark text-light">Logged</div>
-        <div class="col-2 p-2 bg-dark text-light">Miles</div>
+        <div class="col-2 p-2 bg-dark text-light">Kilometres</div>
         <div class="col-1 p-2 bg-dark text-light"></div>
     </div>
     @foreach (var entry in Model.Content.Entries)
@@ -71,7 +71,7 @@ else
             </div>
             <div class="col-5 p-2">@entry.Name</div>
             <div class="col-3 p-2">@entry.Logged.ToString("dd/MM/yyyy HH:mm")</div>
-            <div class="col-2 p-2">@entry.DistanceInMiles.ToString("F2")</div>
+            <div class="col-2 p-2">@entry.DistanceInKilometres.ToString("F2")</div>
             <div class="col-1 p-1 align-middle">
                 <button type="button" class="btn btn-sm btn-danger js-delete-mileage-entry" data-entry-id="@entry.SkateLogEntryId">
                   <img src="~/images/open-iconic/trash.svg" alt="Trash" />
@@ -79,39 +79,47 @@ else
             </div>
         </div>
         <div id="detail-@entry.SkateLogEntryId" class="row border-bottom d-none @(darkRow?"bg-light":"bg-white")" data-entry-id="@entry.SkateLogEntryId">
-            <div class="col-1 p-1"></div>
-            <div class="col-10 p-2">
+            <div class="col-12 p-2">
                 <table class="table table-striped">
                     <tr>
+                        <th class="border-right">Total Distance</th>
+                        <td>@entry.DistanceInKilometres.ToString("F2") Kilometres</td>
+                        <td>@entry.DistanceInMiles.ToString("F2") Miles</td>
+                    </tr>
+                    <tr>
                         <th class="border-right">Total Elevation Gain</th>
+                        <td>@entry.ElevationGainInMetres.ToString("F2") Metres</td>
                         <td>@entry.ElevationGainInFeet.ToString("F2") Feet</td>
                     </tr>
                     <tr>
                         <th class="border-right">Lowest Elevation</th>
+                        <td>@entry.LowestElevationInMetres.ToString("F2") Metres</td>
                         <td>@entry.LowestElevationInFeet.ToString("F2") Feet</td>
                     </tr>
                     <tr>
                         <th class="border-right">Highest Elevation</th>
+                        <td>@entry.HighestElevationInMetres.ToString("F2") Metres</td>
                         <td>@entry.HighestElevationInFeet.ToString("F2") Feet</td>
                     </tr>
                     <tr>
                         <th class="border-right">Average Speed</th>
+                        <td>@entry.AverageSpeedInKph.ToString("F2") KPH</td>
                         <td>@entry.AverageSpeedInMph.ToString("F2") MPH</td>
                     </tr>
                     <tr>
                         <th class="border-right">Top Speed</th>
+                        <td>@entry.TopSpeedInKph.ToString("F2") KPH</td>
                         <td>@entry.TopSpeedInMph.ToString("F2") MPH</td>
                     </tr>
                     @if (Model.IsStravaUser)
                     {
                         <tr>
                             <th class="border-right">Logged By</th>
-                            <td>@(string.IsNullOrWhiteSpace(entry.StravaId) ? "User" : "Strava")</td>
+                            <td colspan="2">@(string.IsNullOrWhiteSpace(entry.StravaId) ? "User" : "Strava")</td>
                         </tr>
                     }
                 </table>
             </div>
-            <div class="col-1 p-1"></div>
         </div>
     }
 </div>

@@ -51,7 +51,6 @@ public class SkaterLogViewModelBuilder : PageViewModelBuilder<SkaterLogViewModel
         var commandResponse = await mediator.Send(command);
         var entries = commandResponse.Entries ?? new List<SkateLogEntry>();
 
-        model.Content.TotalMiles = entries.Sum(x => x.DistanceInMiles);
         model.Content.Entries = entries.OrderByDescending(x => x.Logged).ToList();
         model.Content.DistanceUnit = newEntry?.DistanceUnit ?? DistanceUnit.Miles;
         model.Content.Distance = newEntry?.Distance ?? 0;
