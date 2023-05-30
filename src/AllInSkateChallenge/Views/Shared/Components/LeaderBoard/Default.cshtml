@@ -17,7 +17,7 @@
             <tr>
                 <th scope="col">#</th>
                 <th scope="col">Skater</th>
-                <th scope="col">Total Miles</th>
+                <th scope="col">Total Kilometres</th>
             </tr>
         </thead>
         <tbody>
@@ -28,7 +28,7 @@
                         <img v-bind:src="skater.profileImage" v-bind:alt="getProfileAltText(skater.skaterName)" class="leaderboard-profile" />
                         {{skater.skaterName}}
                     </td>
-                    <td class="align-middle">{{skater.totalMiles.toFixed(2)}}</td>
+                    <td class="align-middle">{{skater.totalKilometres.toFixed(2)}}</td>
                 </tr>
             </template>
         </tbody>
