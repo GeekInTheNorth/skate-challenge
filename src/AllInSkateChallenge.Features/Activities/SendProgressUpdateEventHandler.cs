@@ -49,7 +49,7 @@ public class SendProgressUpdateEventHandler : IRequestPostProcessor<SaveActivity
 
     public async Task Process(SaveActivityCommand request, SaveActivityCommandResult response, CancellationToken cancellationToken)
     {
-        // if (!response.WasSuccessful || !request.Skater.AcceptProgressNotifications || !request.Skater.EmailConfirmed) return;
+        if (!response.WasSuccessful || !request.Skater.AcceptProgressNotifications || !request.Skater.EmailConfirmed) return;
 
         try
         {
