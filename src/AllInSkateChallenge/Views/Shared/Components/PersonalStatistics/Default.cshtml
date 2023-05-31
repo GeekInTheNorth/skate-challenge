@@ -11,15 +11,15 @@
                     <div class="card-body row py-2">
                         <div class="col-sm-4">
                             <span class="font-weight-bold">Lowest Elevation</span><br />
-                            <span>@Model.LowestElevation.ToString("F2") Feet</span>
+                            <span>@Model.LowestElevationMetres.ToString("F2") Metres</span>
                         </div>
                         <div class="col-sm-4">
                             <span class="font-weight-bold">Highest Elevation</span><br />
-                            <span>@Model.HighestElevation.ToString("F2") Feet</span>
+                            <span>@Model.HighestElevationMetres.ToString("F2") Metres</span>
                         </div>
                         <div class="col-sm-4">
                             <span class="font-weight-bold">Greatest Elevation Gain</span><br />
-                            <span>@Model.GreatestElevationGain.ToString("F2") Feet</span>
+                            <span>@Model.GreatestElevationGainMetres.ToString("F2") Metres</span>
                         </div>
                     </div>
                 }
@@ -28,15 +28,15 @@
                     <div class="card-body row py-2">
                         <div class="col-sm-4">
                             <span class="font-weight-bold">Shortest Distance</span><br />
-                            <span>@Model.ShortestDistance.ToString("F2") Miles</span>
+                            <span>@Model.ShortestDistanceKilometres.ToString("F2") Kilometres</span>
                         </div>
                         <div class="col-sm-4">
                             <span class="font-weight-bold">Longest Distance</span><br />
-                            <span>@Model.LongestDistance.ToString("F2") Miles</span>
+                            <span>@Model.LongestDistanceKilometres.ToString("F2") Kilometres</span>
                         </div>
                         <div class="col-sm-4">
                             <span class="font-weight-bold">Total Distance</span><br />
-                            <span>@Model.TotalDistance.ToString("F2") Miles</span>
+                            <span>@Model.TotalDistanceKilometres.ToString("F2") Kilometres</span>
                         </div>
                     </div>
                 }
@@ -45,11 +45,11 @@
                     <div class="card-body row py-2">
                         <div class="col-sm-4">
                             <span class="font-weight-bold">Best Average Speed</span><br />
-                            <span>@Model.BestAverageSpeed.ToString("F2") MPH</span>
+                            <span>@Model.BestAverageSpeedKph.ToString("F2") KPH</span>
                         </div>
                         <div class="col-sm-4">
                             <span class="font-weight-bold">Best Top Speed</span><br />
-                            <span>@Model.BestTopSpeed.ToString("F2") MPH</span>
+                            <span>@Model.BestTopSpeedKph.ToString("F2") KPH</span>
                         </div>
                         <div class="col-sm-4">
                             <span class="font-weight-bold">Number of Sessions</span><br />

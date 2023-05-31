@@ -16,14 +16,14 @@ namespace AllInSkateChallenge.Features.Skater.PersonalStatistics
 
             if (mileageEntries != null && mileageEntries.Any())
             {
-                model.BestAverageSpeed = mileageEntries.Max(x => x.AverageSpeedInMph);
-                model.BestTopSpeed = mileageEntries.Max(x => x.TopSpeedInMph);
-                model.LowestElevation = mileageEntries.Select(x => x.LowestElevationInFeet).OrderBy(x => x).FirstOrDefault(x => x != 0);
-                model.HighestElevation = mileageEntries.Select(x => x.HighestElevationInFeet).OrderByDescending(x => x).FirstOrDefault(x => x != 0);
-                model.GreatestElevationGain = mileageEntries.Max(x => x.ElevationGainInFeet);
-                model.ShortestDistance = mileageEntries.Min(x => x.DistanceInMiles);
-                model.LongestDistance = mileageEntries.Max(x => x.DistanceInMiles);
-                model.TotalDistance = mileageEntries.Sum(x => x.DistanceInMiles);
+                model.BestAverageSpeedMph = mileageEntries.Max(x => x.AverageSpeedInMph);
+                model.BestTopSpeedMph = mileageEntries.Max(x => x.TopSpeedInMph);
+                model.LowestElevationFeet = mileageEntries.Select(x => x.LowestElevationInFeet).OrderBy(x => x).FirstOrDefault(x => x != 0);
+                model.HighestElevationFeet = mileageEntries.Select(x => x.HighestElevationInFeet).OrderByDescending(x => x).FirstOrDefault(x => x != 0);
+                model.GreatestElevationGainFeet = mileageEntries.Max(x => x.ElevationGainInFeet);
+                model.ShortestDistanceMiles = mileageEntries.Min(x => x.DistanceInMiles);
+                model.LongestDistanceMiles = mileageEntries.Max(x => x.DistanceInMiles);
+                model.TotalDistanceMiles = mileageEntries.Sum(x => x.DistanceInMiles);
                 model.NumberOfSessions = mileageEntries.Count();
             }
 
