@@ -1,24 +1,23 @@
-﻿using AllInSkateChallenge.Features.Data.Entities;
+﻿namespace AllInSkateChallenge.Features.Activities;
+
+using AllInSkateChallenge.Features.Data.Entities;
 using AllInSkateChallenge.Features.Data.Static;
 
-namespace AllInSkateChallenge.Features.Activities
+public class SkaterProgressEmailViewModel
 {
-    public class SkaterProgressEmailViewModel
-    {
-        public ApplicationUser Skater { get; set; }
+    public ApplicationUser Skater { get; set; }
 
-        public CheckPointModel CheckPoint { get; set; }
+    public CheckPointModel CheckPoint { get; set; }
 
-        public CheckPointModel NextCheckPoint { get; set; }
+    public CheckPointModel NextCheckPoint { get; set; }
 
-        public string LogoUrl { get;  set; }
+    public string LogoUrl { get;  set; }
 
-        public decimal TotalMiles { get; set; }
+    public decimal TotalKilometres { get; set; }
 
-        public decimal TotalMilesRemaining => TotalMiles >= TargetCheckPoint.DistanceInKilometers ? 0 : TargetCheckPoint.DistanceInKilometers - TotalMiles;
+    public decimal TotalKilometresRemaining => TotalKilometres >= TargetCheckPoint.DistanceInKilometers ? 0 : TargetCheckPoint.DistanceInKilometers - TotalKilometres;
 
-        public decimal NextCheckPointMilesRemaining => NextCheckPoint != null ? NextCheckPoint.DistanceInKilometers - TotalMiles : 0;
+    public decimal NextCheckPointKilometresRemaining => NextCheckPoint != null ? NextCheckPoint.DistanceInKilometers - TotalKilometres : 0;
 
-        public CheckPointModel TargetCheckPoint { get; set; }
-    }
+    public CheckPointModel TargetCheckPoint { get; set; }
 }

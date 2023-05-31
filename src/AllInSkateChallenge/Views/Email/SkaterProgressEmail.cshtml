@@ -22,7 +22,7 @@
             {
                 <img src="@Model.CheckPoint.Image" alt="@Model.CheckPoint.Title" style="width: 100%; max-width: 600px; height: auto;" />
             }
-            <p style="text-align: left;">Milestone Distance: @Model.CheckPoint.DistanceInKilometers.ToString("F1") miles</p>
+            <p style="text-align: left;">Milestone Distance: @Model.CheckPoint.DistanceInKilometers.ToString("F1") Kilometres</p>
             <p style="text-align: left;">
                 Links:
                 <a href="http://www.google.com/maps/place/@Model.CheckPoint.Latitude,@Model.CheckPoint.Longitude?zoom=1" target="_blank">Milestone in Google Maps</a>
@@ -42,14 +42,14 @@
         }
         <div style="padding: 20px 5% 20px 5%; margin-bottom: 10px; border-radius: 10px; background-color: #FFFFFF; max-width: 600px;">
             <h2>Your Journey to Date</h2>
-            <p style="text-align: left;">You have skated @Model.TotalMiles.ToString("F1") of your @Model.TargetCheckPoint.DistanceInKilometers.ToString("F1") kilometer goal to skate the Leeds Challenge to @Model.TargetCheckPoint.ToString().</p>
-            <p style="text-align: left;">This means that there is total of @Model.TotalMilesRemaining.ToString("F1") miles remaining on your journey. If this distance feels too great, perhaps you could think about the distance remaining to your next milestone instead?</p>
+            <p style="text-align: left;">You have skated @Model.TotalKilometres.ToString("F1") of your @Model.TargetCheckPoint.DistanceInKilometers.ToString("F1") kilometer goal for the virtual skate marathon.</p>
+            <p style="text-align: left;">This means that there is total of @Model.TotalKilometresRemaining.ToString("F1") kilometres remaining on your journey. If this distance feels too great, perhaps you could think about the distance remaining to your next milestone instead?</p>
         </div>
         @if (Model.NextCheckPoint != null)
         {
             <div style="padding: 20px 5% 20px 5%; margin-bottom: 10px; border-radius: 10px; background-color: #FFFFFF; max-width: 600px;">
                 <h2>Your Next Milestone</h2>
-                <p style="text-align: left;">Your next milestone is at @Model.NextCheckPoint.Title, you need to skate a further @Model.NextCheckPointMilesRemaining.ToString("F1") miles to reach this milestone.  You can do this!</p>
+                <p style="text-align: left;">Your next milestone is at @Model.NextCheckPoint.Title, you need to skate a further @Model.NextCheckPointKilometresRemaining.ToString("F1") kilometres to reach this milestone.  You can do this!</p>
             </div>
         }
     </center>
