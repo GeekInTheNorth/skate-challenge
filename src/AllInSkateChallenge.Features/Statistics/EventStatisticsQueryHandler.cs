@@ -239,6 +239,11 @@
             }
 
             var bestAverageSpeed = allSessions.Where(x => x.Duration >= 1800).OrderByDescending(x => x.AverageSpeedInMph).FirstOrDefault();
+            if (bestAverageSpeed == null)
+            {
+                return null;
+            }
+
             var skater = allSkaters.FirstOrDefault(x => x.Id.Equals(bestAverageSpeed.ApplicationUserId, StringComparison.CurrentCultureIgnoreCase));
 
             return new SkaterStatisticsModel
