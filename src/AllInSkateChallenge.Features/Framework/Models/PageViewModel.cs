@@ -1,28 +1,31 @@
-﻿namespace AllInSkateChallenge.Features.Framework.Models
+﻿namespace AllInSkateChallenge.Features.Framework.Models;
+
+using AllInSkateChallenge.Features.Data.Entities;
+
+public class PageViewModel<T> : IPageViewModel
+    where T : class
 {
-    using AllInSkateChallenge.Features.Data.Entities;
+    public T Content { get; set; }
 
-    public class PageViewModel<T> : IPageViewModel
-        where T : class
-    {
-        public T Content { get; set; }
+    public string PageTitle { get; set; }
 
-        public string PageTitle { get; set; }
+    public string DisplayPageTitle { get; set; }
 
-        public string DisplayPageTitle { get; set; }
+    public string IntroductoryText { get; set; }
 
-        public string IntroductoryText { get; set; }
+    public ApplicationUser CurrentUser { get; set; }
 
-        public ApplicationUser CurrentUser { get; set; }
+    public bool IsStravaUser => CurrentUser?.IsStravaAccount ?? false;
 
-        public bool IsStravaUser => CurrentUser?.IsStravaAccount ?? false;
+    public bool IsStravaAuthenticated { get; set; }
 
-        public bool HasPaid => CurrentUser?.HasPaid ?? false;
+    public string StravaId { get; set; }
 
-        public bool DisplayStravaNotification { get; set; }
+    public bool HasPaid => CurrentUser?.HasPaid ?? false;
 
-        public bool IsNoIndexPage { get; set; }
+    public bool DisplayStravaNotification { get; set; }
 
-        public bool IsRegistrationOver { get; set; }
-    }
+    public bool IsNoIndexPage { get; set; }
+
+    public bool IsRegistrationOver { get; set; }
 }

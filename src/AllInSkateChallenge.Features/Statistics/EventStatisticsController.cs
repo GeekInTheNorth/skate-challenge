@@ -1,48 +1,48 @@
-﻿namespace AllInSkateChallenge.Features.Statistics
+﻿namespace AllInSkateChallenge.Features.Statistics;
+
+using System.Threading.Tasks;
+
+using AllInSkateChallenge.Features.Data.Entities;
+using AllInSkateChallenge.Features.Strava.User;
+
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+
+[Authorize]
+public class EventStatisticsController : Controller
 {
-    using System.Threading.Tasks;
+    private readonly IEventStatisticsViewModelBuilder viewModelBuilder;
 
-    using AllInSkateChallenge.Features.Data.Entities;
+    private readonly UserManager<ApplicationUser> userManager;
 
-    using Microsoft.AspNetCore.Authorization;
-    using Microsoft.AspNetCore.Identity;
-    using Microsoft.AspNetCore.Mvc;
-
-    [Authorize]
-    public class EventStatisticsController : Controller
+    public EventStatisticsController(IEventStatisticsViewModelBuilder viewModelBuilder, UserManager<ApplicationUser> userManager)
     {
-        private readonly IEventStatisticsViewModelBuilder viewModelBuilder;
+        this.viewModelBuilder = viewModelBuilder;
+        this.userManager = userManager;
+    }
 
-        private readonly UserManager<ApplicationUser> userManager;
+    public async Task<IActionResult> Index()
+    {
+        var userDetails = await userManager.GetStravaDetails(User);
+        var model = await viewModelBuilder.WithUser(userDetails).Build();
 
-        public EventStatisticsController(IEventStatisticsViewModelBuilder viewModelBuilder, UserManager<ApplicationUser> userManager)
-        {
-            this.viewModelBuilder = viewModelBuilder;
-            this.userManager = userManager;
-        }
+        return View("~/Views/EventStatistics/Index.cshtml", model);
+    }
 
-        public async Task<IActionResult> Index()
-        {
-            var userDetails = await userManager.GetUserAsync(User);
-            var model = await viewModelBuilder.WithUser(userDetails).Build();
+    public async Task<IActionResult> PreviousMonth()
+    {
+        var userDetails = await userManager.GetStravaDetails(User);
+        var model = await viewModelBuilder.WithPeriodRange(PeriodRange.PreviousMonth).WithUser(userDetails).Build();
 
-            return View("~/Views/EventStatistics/Index.cshtml", model);
-        }
+        return View("~/Views/EventStatistics/Index.cshtml", model);
+    }
 
-        public async Task<IActionResult> PreviousMonth()
-        {
-            var userDetails = await userManager.GetUserAsync(User);
-            var model = await viewModelBuilder.WithPeriodRange(PeriodRange.PreviousMonth).WithUser(userDetails).Build();
+    public async Task<IActionResult> ThisMonth()
+    {
+        var userDetails = await userManager.GetStravaDetails(User);
+        var model = await viewModelBuilder.WithPeriodRange(PeriodRange.CurrentMonth).WithUser(userDetails).Build();
 
-            return View("~/Views/EventStatistics/Index.cshtml", model);
-        }
-
-        public async Task<IActionResult> ThisMonth()
-        {
-            var userDetails = await userManager.GetUserAsync(User);
-            var model = await viewModelBuilder.WithPeriodRange(PeriodRange.CurrentMonth).WithUser(userDetails).Build();
-
-            return View("~/Views/EventStatistics/Index.cshtml", model);
-        }
+        return View("~/Views/EventStatistics/Index.cshtml", model);
     }
 }

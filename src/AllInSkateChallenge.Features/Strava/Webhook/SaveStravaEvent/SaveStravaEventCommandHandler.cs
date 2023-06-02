@@ -35,7 +35,11 @@ namespace AllInSkateChallenge.Features.Strava.Webhook.SaveStravaEvent
         {
             try
             {
-                var user = await userManager.FindByNameAsync(request.StravaUserId);
+                var user = await userManager.FindByLoginAsync(StravaConstants.ProviderName, request.StravaUserId);
+                if (user == null)
+                {
+                    user = await userManager.FindByNameAsync(request.StravaUserId);
+                }
 
                 if (user == null)
                 {

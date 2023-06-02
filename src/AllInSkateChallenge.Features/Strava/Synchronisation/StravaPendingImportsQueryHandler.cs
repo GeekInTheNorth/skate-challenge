@@ -21,18 +21,18 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-public class StravaImportPendingImportsQueryHandler : IRequestHandler<StravaPendingImportsQuery, StravaImportPendingImportsResponse>
+public class StravaPendingImportsQueryHandler : IRequestHandler<StravaPendingImportsQuery, StravaImportPendingImportsResponse>
 {
     private readonly ApplicationDbContext context;
 
     private readonly UserManager<ApplicationUser> userManager;
 
-    private readonly ILogger<StravaImportPendingImportsQueryHandler> logger;
+    private readonly ILogger<StravaPendingImportsQueryHandler> logger;
 
-    public StravaImportPendingImportsQueryHandler(
+    public StravaPendingImportsQueryHandler(
         ApplicationDbContext context, 
         UserManager<ApplicationUser> userManager, 
-        ILogger<StravaImportPendingImportsQueryHandler> logger)
+        ILogger<StravaPendingImportsQueryHandler> logger)
     {
         this.context = context;
         this.userManager = userManager;

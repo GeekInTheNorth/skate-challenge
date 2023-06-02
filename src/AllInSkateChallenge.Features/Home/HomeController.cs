@@ -1,31 +1,31 @@
-﻿using System.Threading.Tasks;
+﻿namespace AllInSkateChallenge.Features.Home;
+
+using System.Threading.Tasks;
 
 using AllInSkateChallenge.Features.Data.Entities;
+using AllInSkateChallenge.Features.Strava.User;
 
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
-namespace AllInSkateChallenge.Features.Home
+public class HomeController : Controller
 {
-    public class HomeController : Controller
+    private readonly IHomePageViewModelBuilder viewModelBuilder;
+
+    private readonly UserManager<ApplicationUser> userManager;
+
+    public HomeController(IHomePageViewModelBuilder viewModelBuilder, UserManager<ApplicationUser> userManager)
     {
-        private readonly IHomePageViewModelBuilder viewModelBuilder;
+        this.viewModelBuilder = viewModelBuilder;
+        this.userManager = userManager;
+    }
 
-        private readonly UserManager<ApplicationUser> userManager;
+    public async Task<IActionResult> Index()
+    {
+        var stravaDetails = await userManager.GetStravaDetails(User);
 
-        public HomeController(IHomePageViewModelBuilder viewModelBuilder, UserManager<ApplicationUser> userManager)
-        {
-            this.viewModelBuilder = viewModelBuilder;
-            this.userManager = userManager;
-        }
+        var model = await viewModelBuilder.WithUser(stravaDetails).Build();
 
-        public async Task<IActionResult> Index()
-        {
-            var skater = await userManager.GetUserAsync(User);
-
-            var model = await viewModelBuilder.WithUser(skater).Build();
-
-            return View(model);
-        }
+        return View(model);
     }
 }

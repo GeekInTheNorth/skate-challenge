@@ -65,8 +65,17 @@
                 </div>
             }
 *@
-
-            @if (Model.DisplayStravaNotification)
+            @if (Model.DisplayStravaNotification && !Model.IsStravaAuthenticated)
+            {
+                <div class="row js-strava-alert-banner">
+                    <div class="col-xl-12">
+                        <div class="alert alert-primary" role="alert">
+                            Strava has notified us that you have new activity updates, but in order for us to access the activity details you must log in using Strava.
+                        </div>
+                    </div>
+                </div>
+            }
+            else if (Model.DisplayStravaNotification)
             {
                 <div class="row js-strava-alert-banner">
                     <div class="col-xl-12">
@@ -113,7 +122,7 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
     @RenderSection("Scripts", required: false)
 
-    @if (Model.DisplayStravaNotification && Model.HasPaid)
+    @if (Model.DisplayStravaNotification && Model.HasPaid && Model.IsStravaAuthenticated)
     {
         <script>
             $(document).ready(function () { processStravaUpdates(); });

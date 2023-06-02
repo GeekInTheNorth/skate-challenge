@@ -1,48 +1,63 @@
-﻿namespace AllInSkateChallenge.Features.Framework.Models
+﻿namespace AllInSkateChallenge.Features.Framework.Models;
+
+using System;
+using System.Threading.Tasks;
+
+using AllInSkateChallenge.Features.Data.Entities;
+using AllInSkateChallenge.Features.Skater.Registration;
+using AllInSkateChallenge.Features.Strava.User;
+
+using MediatR;
+
+public class PageViewModelBuilder<T> : IPageViewModelBuilder<T>
+    where T : class
 {
-    using System;
-    using System.Threading.Tasks;
+    private readonly IMediator mediator;
 
-    using AllInSkateChallenge.Features.Data.Entities;
-    using AllInSkateChallenge.Features.Skater.Registration;
+    protected ApplicationUser User;
 
-    using MediatR;
+    protected bool IsStravaAuthenticated;
 
-    public class PageViewModelBuilder<T> : IPageViewModelBuilder<T>
-        where T : class
+    protected string StravaId;
+
+    public PageViewModelBuilder(IMediator mediator)
     {
-        private readonly IMediator mediator;
+        this.mediator = mediator;
+    }
 
-        protected ApplicationUser User;
+    public IPageViewModelBuilder<T> WithUser(ApplicationUser user)
+    {
+        User = user;
 
-        public PageViewModelBuilder(IMediator mediator)
+        return this;
+    }
+
+    public IPageViewModelBuilder<T> WithUser(StavaDetails user)
+    {
+        User = user?.User;
+        IsStravaAuthenticated = user?.IsStravaAuthenticated ?? false;
+        StravaId = user?.StravaId;
+
+        return this;
+    }
+
+    public virtual async Task<PageViewModel<T>> Build()
+    {
+        var query = new UserStateQuery { User = this.User };
+        var response = await mediator.Send(query);
+        var isRegistrationOver = await mediator.Send(new RegistrationAvailabilityQuery());
+
+        var model = new PageViewModel<T>
         {
-            this.mediator = mediator;
-        }
+            CurrentUser = this.User,
+            IsStravaAuthenticated = this.IsStravaAuthenticated,
+            StravaId = this.StravaId,
+            DisplayStravaNotification = response.HasStravaImports,
+            Content = Activator.CreateInstance<T>(),
+            IsNoIndexPage = false,
+            IsRegistrationOver = isRegistrationOver
+        };
 
-        public IPageViewModelBuilder<T> WithUser(ApplicationUser user)
-        {
-            User = user;
-
-            return this;
-        }
-
-        public virtual async Task<PageViewModel<T>> Build()
-        {
-            var query = new UserStateQuery { User = this.User };
-            var response = await mediator.Send(query);
-            var isRegistrationOver = await mediator.Send(new RegistrationAvailabilityQuery());
-
-            var model = new PageViewModel<T>
-            {
-                CurrentUser = this.User,
-                DisplayStravaNotification = response.HasStravaImports,
-                Content = Activator.CreateInstance<T>(),
-                IsNoIndexPage = false,
-                IsRegistrationOver = isRegistrationOver
-            };
-
-            return model;
-        }
+        return model;
     }
 }

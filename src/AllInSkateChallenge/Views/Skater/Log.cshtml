@@ -12,9 +12,13 @@
         <div class="col-xl-12">
             <button type="button" class="btn btn-primary js-add-mileage-entry mt-3 mb-3">+ Log Activity</button>
             <button type="button" class="btn btn-primary js-add-mileage-entry-full mt-3 mb-3">+ Log Detailed Activity</button>
-            @if (Model.IsStravaUser)
+            @if (Model.IsStravaAuthenticated)
             {
                 <a asp-controller="StravaImport" asp-action="Index" class="btn btn-strava" title="Import from Strava"></a>
+            }
+            else if (Model.IsStravaUser)
+            {
+                <button type="button" class="btn btn-strava-disabled" title="Import from Strava"></button>
             }
         </div>
     </div>
@@ -111,7 +115,7 @@ else
                         <td>@entry.TopSpeedInKph.ToString("F2") KPH</td>
                         <td>@entry.TopSpeedInMph.ToString("F2") MPH</td>
                     </tr>
-                    @if (Model.IsStravaUser)
+                    @if (Model.IsStravaAuthenticated)
                     {
                         <tr>
                             <th class="border-right">Logged By</th>

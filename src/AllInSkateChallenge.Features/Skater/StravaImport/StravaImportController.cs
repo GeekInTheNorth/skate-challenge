@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 
 using AllInSkateChallenge.Features.Activities;
 using AllInSkateChallenge.Features.Data.Entities;
+using AllInSkateChallenge.Features.Strava.User;
 
 using MediatR;
 
@@ -34,10 +35,10 @@ namespace AllInSkateChallenge.Features.Skater.StravaImport
         [Route("skater/skate-log/strava-import")]
         public async Task<IActionResult> Index()
         {
-            var user = await userManager.GetUserAsync(User);
+            var user = await userManager.GetStravaDetails(User);
 
             // Only strava users should be able to get here
-            if (!user.IsStravaAccount)
+            if (!user.IsStravaAuthenticated)
             {
                 return Redirect("/");
             }
@@ -61,8 +62,8 @@ namespace AllInSkateChallenge.Features.Skater.StravaImport
             decimal topSpeed,
             int duration)
         {
-            var user = await userManager.GetUserAsync(User);
-            if (user == null || !user.IsStravaAccount)
+            var stravaDetails = await userManager.GetStravaDetails(User);
+            if (stravaDetails == null || !stravaDetails.IsStravaAuthenticated)
             {
                 return Forbid();
             }
@@ -74,7 +75,7 @@ namespace AllInSkateChallenge.Features.Skater.StravaImport
 
             var saveCommand = new SaveActivityCommand 
             { 
-                Skater = user, 
+                Skater = stravaDetails.User, 
                 Distance = miles, 
                 DistanceUnit = DistanceUnit.Miles, 
                 StartDate = logged, 
@@ -102,13 +103,13 @@ namespace AllInSkateChallenge.Features.Skater.StravaImport
         [Route("skater/skate-log/strava-import/ignore")]
         public async Task<ActionResult<IgnoreActivitiesCommandResponse>> Ignore(IgnoreActivitiesCommand command)
         {
-            var user = await userManager.GetUserAsync(User);
-            if (user == null || !user.IsStravaAccount)
+            var user = await userManager.GetStravaDetails(User);
+            if (user == null || !user.IsStravaAuthenticated)
             {
                 return Forbid();
             }
 
-            command.Skater = user;
+            command.Skater = user.User;
 
             return await mediator.Send(command);
         }
