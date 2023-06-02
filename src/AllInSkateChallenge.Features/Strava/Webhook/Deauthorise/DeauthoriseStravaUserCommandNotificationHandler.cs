@@ -43,7 +43,7 @@
                 response.LogoUrl = absoluteUrlHelper.Get("/rggeventone/images/banner-desktop.png");
                 var emailBody = await viewToStringRenderer.RenderPartialToStringAsync("~/Views/Email/DeAuthoriseEmail.cshtml", response);
 
-                await emailSender.SendEmailAsync(response.UserDetails.Email, "Roller Girl Gang Skate Challenge", emailBody);
+                await emailSender.SendEmailAsync(response.UserDetails.Email, "Roller Girl Gang Virtual Skate Marathon", emailBody);
             }
             catch(Exception exception)
             {

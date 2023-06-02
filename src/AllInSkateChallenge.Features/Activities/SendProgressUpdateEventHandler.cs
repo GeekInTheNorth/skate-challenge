@@ -76,7 +76,7 @@ public class SendProgressUpdateEventHandler : IRequestPostProcessor<SaveActivity
                 var emailTemplate = isFinalCheckpoint ? "~/Views/Email/ChallengeCompleteEmail.cshtml" : "~/Views/Email/SkaterProgressEmail.cshtml";
                 var emailBody = await viewToStringRenderer.RenderPartialToStringAsync(emailTemplate, emailModel);
 
-                await emailSender.SendEmailAsync(request.Skater.Email, "Roller Girl Gang Skate Challenge - Your Progress", emailBody);
+                await emailSender.SendEmailAsync(request.Skater.Email, "Roller Girl Gang Virtual Skate Marathon - Your Progress", emailBody);
             }
         }
         catch (Exception exception)

@@ -84,7 +84,7 @@ namespace AllInSkateChallenge.Features.Skater.Registration
 
                 var emailBody = await viewToStringRenderer.RenderPartialToStringAsync("~/Views/Email/RegistrationEmail.cshtml", emailModel);
 
-                await emailSender.SendEmailAsync(user.Email, "Roller Girl Gang Skate Challenge Registration", emailBody);
+                await emailSender.SendEmailAsync(user.Email, "Roller Girl Gang Virtual Skate Marathon Registration", emailBody);
             }
             catch (Exception exception)
             {

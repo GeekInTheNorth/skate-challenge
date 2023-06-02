@@ -1,4 +1,5 @@
 @page
+@using AllInSkateChallenge.Features.Strava;
 @model LoginModel
 
 @{
@@ -62,7 +63,7 @@
                     <div class="card-header bg-allin-green text-dark">Log in with @provider.Name</div>
                     <div class="card-body">
                         <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
-                            @if (provider.Name.Equals("strava", System.StringComparison.CurrentCultureIgnoreCase))
+                            @if (provider.Name.Equals(StravaConstants.ProviderName, System.StringComparison.CurrentCultureIgnoreCase))
                             {
                                 <p class="card-text">If you are prompted to give the application access to Strava, then ensure that you tick options to allow the application to read activity data if you want to import your activities.</p>
                                 <p class="card-text">If you are using third party authentication to access Strava, then strava will pass this authentication request onto that third party provider.</p>

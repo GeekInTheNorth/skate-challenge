@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using AllInSkateChallenge.Features.Data.Entities;
 using AllInSkateChallenge.Features.Data.Static;
 using AllInSkateChallenge.Features.Skater.Registration;
+using AllInSkateChallenge.Features.Strava;
 
 using MediatR;
 
@@ -68,7 +69,7 @@ namespace AllInSkateChallenge.Areas.Identity.Pages.Account
             [Display(Name = "Your Personal Target")]
             public SkateTarget Target { get; set; }
 
-            [Display(Name = "Send me emails about my progress in the Roller Girl Gang Skate Challenge.")]
+            [Display(Name = "Send me emails about my progress in the Roller Girl Gang Virtual Skate Marathon.")]
             public bool AcceptProgressNotifications { get; set; }
 
             [Display(Name = "I agree to the Terms & Conditions of this event.")]
@@ -163,7 +164,7 @@ namespace AllInSkateChallenge.Areas.Identity.Pages.Account
                 { 
                     UserName = Input.Email, 
                     Email = Input.Email, 
-                    IsStravaAccount = info.LoginProvider.Equals("Strava", System.StringComparison.CurrentCultureIgnoreCase),
+                    IsStravaAccount = info.LoginProvider.Equals(StravaConstants.ProviderName, System.StringComparison.CurrentCultureIgnoreCase),
                     AcceptProgressNotifications = Input.AcceptProgressNotifications,
                     Target = Input.Target
                 };

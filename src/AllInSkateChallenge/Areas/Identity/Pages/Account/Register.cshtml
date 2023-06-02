@@ -1,4 +1,5 @@
 @page
+@using AllInSkateChallenge.Features.Strava;
 @model RegisterModel
 @{
     ViewData["Title"] = "Register";
@@ -8,7 +9,7 @@
 <div class="row">
     <div class="col-xl-12">
         <div class="text-center">
-            <h1>Register for the Roller Girl Gang Skate Challenge</h1>
+            <h1>Register for the Roller Girl Gang Virtual Skate Marathon</h1>
         </div>
     </div>
 </div>
@@ -65,7 +66,7 @@ else
                         </div>
                         <div class="form-group">
                             <label class="align-middle">
-                                <input asp-for="Input.AcceptProgressNotifications" style="margin-right: 0.5em;" />Send me emails about my progress in the Roller Girl Gang Skate Challenge.
+                                <input asp-for="Input.AcceptProgressNotifications" style="margin-right: 0.5em;" />Send me emails about my progress in the Roller Girl Gang Virtual Skate Marathon.
                             </label>
                         </div>
                         <div class="form-group">
@@ -84,7 +85,7 @@ else
                     <div class="card-header bg-allin-green text-dark">Register with @provider.Name</div>
                     <div class="card-body">
                         <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
-                            @if (provider.Name.Equals("strava", System.StringComparison.CurrentCultureIgnoreCase))
+                            @if (provider.Name.Equals(StravaConstants.ProviderName, System.StringComparison.CurrentCultureIgnoreCase))
                             {
                                 <p class="card-text">When you are prompted to give the application access to Strava, ensure that you tick options to allow the application to read activity data if you want to import your skate activities.</p>
                                 <p class="card-text">If you are using third party authentication to access Strava, then strava will pass this authentication request onto that third party provider.</p>
