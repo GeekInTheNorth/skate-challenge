@@ -211,7 +211,7 @@
                         Total Distance:
                     </div>
                     <div class="col-5 align-middle">
-                        @Model.Content.TotalMiles.ToString("F2") miles
+                        @Model.Content.TotalKilometres.ToString("F2") kilometres
                     </div>
                 </div>
                 <div class="row">
@@ -241,7 +241,7 @@
 <div class="row">
     <div class="col-md-6">
         <div class="card border-allin-green mb-3">
-            <h5 class="card-header bg-allin-green text-dark">Miles by Source</h5>
+            <h5 class="card-header bg-allin-green text-dark">Kilometres by Source</h5>
             <div class="card-body">
                 <canvas id="milesBySourceChart" style="height: 400px;"></canvas>
             </div>
@@ -268,7 +268,7 @@
     </div>
     <div class="col-md-6">
         <div class="card border-allin-green mb-3">
-            <h5 class="card-header bg-allin-green text-dark">Miles By Week Day</h5>
+            <h5 class="card-header bg-allin-green text-dark">Kilometres By Week Day</h5>
             <div class="card-body">
                 <canvas id="milesByDayChart" style="height: 400px;"></canvas>
             </div>
@@ -334,7 +334,7 @@
                             @Html.Raw(string.Join(',', Model.Content.SkateDistances.Select(x => $"'{x.Date:dd/MM/yy}'")))],
                         datasets: [
                             {
-                                label: 'Miles Per Week',
+                                label: 'Kilometres Per Week',
                                 borderColor: '#9d5feb',
                                 backgroundColor: '#9d5feb',
                                 fill: false,
@@ -377,7 +377,7 @@
                             {
                                 borderColor: ['#FC4C02', '#9d5feb'],
                                 backgroundColor: ['#FC4C02', '#9d5feb'],
-                                data: [@Model.Content.MilesByStrava.ToString("F2"), @Model.Content.MilesByManual.ToString("F2")]
+                                data: [@Model.Content.KilometresByStrava.ToString("F2"), @Model.Content.KilometresByManual.ToString("F2")]
                             }
                         ]
                     }
@@ -437,10 +437,10 @@
                         labels: [ 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday' ],
                         datasets: [
                             {
-                                label: 'Miles by Week Day',
+                                label: 'Kilometres by Week Day',
                                 borderColor: ['#9d5feb', '#9d5feb', '#9d5feb', '#9d5feb', '#9d5feb', '#9d5feb', '#9d5feb'],
                                 backgroundColor: ['#9d5feb', '#9d5feb', '#9d5feb', '#9d5feb', '#9d5feb', '#9d5feb', '#9d5feb'],
-                                data: [@(string.Join(',', Model.Content.MilesByDay.OrderBy(x => x.DayOfWeek).Select(x => x.Value.ToString("F2"))))]
+                                data: [@(string.Join(',', Model.Content.KilometresByDay.OrderBy(x => x.DayOfWeek).Select(x => x.Value.ToString("F2"))))]
                             }
                         ]
                     },

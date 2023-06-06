@@ -1,83 +1,82 @@
-﻿namespace AllInSkateChallenge.Features.Statistics
+﻿namespace AllInSkateChallenge.Features.Statistics;
+
+using System;
+using System.Threading.Tasks;
+
+using AllInSkateChallenge.Features.Framework.Models;
+
+using MediatR;
+
+public class EventStatisticsViewModelBuilder : PageViewModelBuilder<EventStatisticsViewModel>, IEventStatisticsViewModelBuilder
 {
-    using System;
-    using System.Threading.Tasks;
+    private readonly IMediator mediator;
 
-    using AllInSkateChallenge.Features.Framework.Models;
+    private PeriodRange periodRange;
 
-    using MediatR;
-
-    public class EventStatisticsViewModelBuilder : PageViewModelBuilder<EventStatisticsViewModel>, IEventStatisticsViewModelBuilder
+    public EventStatisticsViewModelBuilder(IMediator mediator) : base(mediator)
     {
-        private readonly IMediator mediator;
+        this.mediator = mediator;
+        periodRange = PeriodRange.AllTime;
+    }
 
-        private PeriodRange periodRange;
+    public override async Task<PageViewModel<EventStatisticsViewModel>> Build()
+    {
+        var model = await base.Build();
+        var query = new EventStatisticsQuery();
 
-        public EventStatisticsViewModelBuilder(IMediator mediator) : base(mediator)
+        switch (periodRange)
         {
-            this.mediator = mediator;
-            periodRange = PeriodRange.AllTime;
+            case PeriodRange.PreviousMonth:
+                var previousMonth = DateTime.Today.AddMonths(-1);
+                query.DateFrom = new DateTime(previousMonth.Year, previousMonth.Month, 1);
+                query.DateTo = query.DateFrom.Value.AddMonths(1).AddMilliseconds(-1);
+                model.PageTitle = "Event Statistics - Last Month";
+                model.DisplayPageTitle = "Event Statistics - Last Month";
+                model.IntroductoryText = $"The following statistics are based entirely on journeys made by our skaters in the previous calendar month ({previousMonth:Y})";
+                break;
+            case PeriodRange.CurrentMonth:
+                query.DateFrom = new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1);
+                query.DateTo = DateTime.UtcNow;
+                model.PageTitle = "Event Statistics - Current Month";
+                model.DisplayPageTitle = "Event Statistics - Current Month";
+                model.IntroductoryText = $"The following statistics are based entirely on journeys made by our skaters in the current calendar month ({DateTime.Today:Y})";
+                break;
+            default:
+                model.PageTitle = "Event Statistics";
+                model.DisplayPageTitle = "Event Statistics";
+                break;
         }
 
-        public override async Task<PageViewModel<EventStatisticsViewModel>> Build()
-        {
-            var model = await base.Build();
-            var query = new EventStatisticsQuery();
+        var result = await mediator.Send(query);
 
-            switch (periodRange)
-            {
-                case PeriodRange.PreviousMonth:
-                    var previousMonth = DateTime.Today.AddMonths(-1);
-                    query.DateFrom = new DateTime(previousMonth.Year, previousMonth.Month, 1);
-                    query.DateTo = query.DateFrom.Value.AddMonths(1).AddMilliseconds(-1);
-                    model.PageTitle = "Event Statistics - Last Month";
-                    model.DisplayPageTitle = "Event Statistics - Last Month";
-                    model.IntroductoryText = $"The following statistics are based entirely on journeys made by our skaters in the previous calendar month ({previousMonth:Y})";
-                    break;
-                case PeriodRange.CurrentMonth:
-                    query.DateFrom = new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1);
-                    query.DateTo = DateTime.UtcNow;
-                    model.PageTitle = "Event Statistics - Current Month";
-                    model.DisplayPageTitle = "Event Statistics - Current Month";
-                    model.IntroductoryText = $"The following statistics are based entirely on journeys made by our skaters in the current calendar month ({DateTime.Today:Y})";
-                    break;
-                default:
-                    model.PageTitle = "Event Statistics";
-                    model.DisplayPageTitle = "Event Statistics";
-                    break;
-            }
+        model.Content.PeriodRange = periodRange;
+        model.Content.LongestTotalDistance = result.LongestTotalDistance;
+        model.Content.LongestSingleDistance = result.LongestSingleDistance;
+        model.Content.ShortestSingleDistance = result.ShortestSingleDistance;
+        model.Content.MostJourneys = result.MostJourneys;
+        model.Content.SkateDistances = result.SkateDistances;
+        model.Content.SkateSessions = result.SkateSessions;
+        model.Content.BestTopSpeed = result.BestTopSpeed;
+        model.Content.BestAverageSpeed = result.BestAverageSpeed;
+        model.Content.GreatestClimb = result.GreatestClimb;
+        model.Content.SkybornSkater = result.SkybornSkater;
+        model.Content.ActivitiesByDay = result.ActivitiesByDay;
+        model.Content.KilometresByDay = result.KilometresByDay;
+        model.Content.TotalKilometres = result.TotalKilometres;
+        model.Content.TotalSkateSessions = result.TotalSkateSessions;
+        model.Content.KilometresByManual = result.KilometresByManual;
+        model.Content.KilometresByStrava = result.KilometresByStrava;
+        model.Content.JourneysByManual = result.JourneysByManual;
+        model.Content.JourneysByStrava = result.JourneysByStrava;
+        model.Content.CheckPoints = result.CheckPoints;
 
-            var result = await mediator.Send(query);
+        return model;
+    }
 
-            model.Content.PeriodRange = periodRange;
-            model.Content.LongestTotalDistance = result.LongestTotalDistance;
-            model.Content.LongestSingleDistance = result.LongestSingleDistance;
-            model.Content.ShortestSingleDistance = result.ShortestSingleDistance;
-            model.Content.MostJourneys = result.MostJourneys;
-            model.Content.SkateDistances = result.SkateDistances;
-            model.Content.SkateSessions = result.SkateSessions;
-            model.Content.BestTopSpeed = result.BestTopSpeed;
-            model.Content.BestAverageSpeed = result.BestAverageSpeed;
-            model.Content.GreatestClimb = result.GreatestClimb;
-            model.Content.SkybornSkater = result.SkybornSkater;
-            model.Content.ActivitiesByDay = result.ActivitiesByDay;
-            model.Content.MilesByDay = result.MilesByDay;
-            model.Content.TotalMiles = result.TotalMiles;
-            model.Content.TotalSkateSessions = result.TotalSkateSessions;
-            model.Content.MilesByManual = result.MilesByManual;
-            model.Content.MilesByStrava = result.MilesByStrava;
-            model.Content.JourneysByManual = result.JourneysByManual;
-            model.Content.JourneysByStrava = result.JourneysByStrava;
-            model.Content.CheckPoints = result.CheckPoints;
+    public IPageViewModelBuilder<EventStatisticsViewModel> WithPeriodRange(PeriodRange periodRange)
+    {
+        this.periodRange = periodRange;
 
-            return model;
-        }
-
-        public IPageViewModelBuilder<EventStatisticsViewModel> WithPeriodRange(PeriodRange periodRange)
-        {
-            this.periodRange = periodRange;
-
-            return this;
-        }
+        return this;
     }
 }
