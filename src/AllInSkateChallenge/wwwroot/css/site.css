@@ -12,10 +12,22 @@ a {
     color: #0366d6;
 }
 
-.btn-primary {
+/*.btn-primary {
     color: #fff;
     background-color: #1b6ec2;
     border-color: #1861ac;
+}*/
+
+*.btn-rgg {
+    color: #fff;
+    background-color: rgb(157,95,235);
+    border-color: rgb(157,95,235);
+}
+
+*.btn-rgg:hover {
+    color: #fff;
+    background-color: rgb(141,85,211);
+    border-color: rgb(141,85,211);
 }
 
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {

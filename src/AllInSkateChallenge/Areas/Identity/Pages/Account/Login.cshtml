@@ -67,6 +67,14 @@
                             {
                                 <p class="card-text">If you are prompted to give the application access to Strava, then ensure that you tick options to allow the application to read activity data if you want to import your activities.</p>
                                 <p class="card-text">If you are using third party authentication to access Strava, then strava will pass this authentication request onto that third party provider.</p>
+                                <div class="form-group">
+                                    <div class="checkbox">
+                                        <label for="Strava_RememberMe">
+                                            <input type="checkbox" id="Strava_RememberMe" name="rememberStrava" value="true">
+                                            Remember me?
+                                        </label>
+                                    </div>
+                                </div>
                                 <button type="submit" class="btn-strava" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account"></button>
                             }
                             else

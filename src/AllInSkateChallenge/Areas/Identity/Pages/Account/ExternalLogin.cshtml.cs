@@ -89,15 +89,18 @@ namespace AllInSkateChallenge.Areas.Identity.Pages.Account
             return RedirectToPage("./Login");
         }
 
-        public IActionResult OnPost(string provider, string returnUrl = null)
+        public IActionResult OnPost(
+            [FromForm] string provider, 
+            [FromForm] bool rememberStrava = false, 
+            [FromQuery] string returnUrl = null)
         {
             // Request a redirect to the external login provider.
-            var redirectUrl = Url.Page("./ExternalLogin", pageHandler: "Callback", values: new { returnUrl });
+            var redirectUrl = Url.Page("./ExternalLogin", pageHandler: "Callback", values: new { returnUrl, rememberStrava });
             var properties = _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
             return new ChallengeResult(provider, properties);
         }
 
-        public async Task<IActionResult> OnGetCallbackAsync(string returnUrl = null, string remoteError = null)
+        public async Task<IActionResult> OnGetCallbackAsync(string returnUrl = null, string remoteError = null, bool rememberStrava = false)
         {
             IsRegistrationOver = await _mediator.Send(new RegistrationAvailabilityQuery());
 
@@ -115,7 +118,7 @@ namespace AllInSkateChallenge.Areas.Identity.Pages.Account
             }
 
             // Sign in the user with this external login provider if the user already has a login.
-            var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false, bypassTwoFactor : true);
+            var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: rememberStrava, bypassTwoFactor : true);
             if (result.Succeeded)
             {
                 var applicationUser = await _userManager.FindByLoginAsync(info.LoginProvider, info.ProviderKey);

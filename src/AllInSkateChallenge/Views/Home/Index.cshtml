@@ -34,7 +34,8 @@
                     <p class="card-text">We are charging a minimum fee of £7.50 to take part in the challenge- this helps support our community programmes like the Roll Forward Project, and keep meet ups and roll outs free.</p>
                     <form id="external-account" asp-area="Identity" asp-page="/Account/ExternalLogin" method="post" class="form-horizontal">
                         <a class="btn btn-primary" asp-area="Identity" asp-page="/Account/Register">Register as a new challenger</a>
-                        <button type="submit" class="btn btn-strava" name="provider" value="Strava" title="Log in using your strava account"></button>
+                        <button type="submit" class="btn btn-strava" name="provider" value="Strava" title="Register using your strava account"></button>
+                        <a class="btn btn-rgg" asp-area="Identity" asp-page="/Account/Login">Already Registered? Log In!</a>
                     </form>
                 </div>
             </div>
