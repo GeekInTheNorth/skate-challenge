@@ -19,6 +19,7 @@
 <form asp-controller="UserAdministration" asp-action="Index" method="get">
     <div class="input-group mb-3">
         <input name="searchText" type="text" class="form-control" placeholder="Skater's Name or Email" aria-label="Skater's Name or Email" aria-describedby="search-button" value="@Model.SearchText">
+        <select name="paidStatus" asp-items="@Model.PaidStates" class="form-control" aria-label="Paid Status" aria-describedby="search-button"></select>
         <select name="sortOrder" asp-items="@Model.SortOrders" class="form-control" aria-label="Sort Order" aria-describedby="search-button"></select>
         <div class="input-group-append">
             <button class="btn btn-primary" type="submit" id="search-button">Search</button>

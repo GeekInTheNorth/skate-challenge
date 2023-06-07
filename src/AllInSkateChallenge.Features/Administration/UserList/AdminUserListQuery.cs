@@ -1,20 +1,14 @@
-﻿using MediatR;
+﻿namespace AllInSkateChallenge.Features.Administration.UserList;
 
-namespace AllInSkateChallenge.Features.Administration.UserList
+using MediatR;
+
+public class AdminUserListQuery : IRequest<AdminUserListQueryResponse>
 {
-    public class AdminUserListQuery : IRequest<AdminUserListQueryResponse>
-    {
-        public string SearchText { get; set; }
+    public string SearchText { get; set; }
 
-        public int Page { get; set; }
+    public int Page { get; set; }
 
-        public SortOrder SortOrder { get; set; }
-    }
+    public SortOrder SortOrder { get; set; }
 
-    public enum SortOrder
-    {
-        AtoZ,
-        ZtoA,
-        LatestFirst
-    }
+    public PaidStatus PaidStatus { get; set; }
 }
