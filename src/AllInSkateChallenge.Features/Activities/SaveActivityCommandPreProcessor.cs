@@ -43,7 +43,7 @@ namespace AllInSkateChallenge.Features.Activities
         {
             try
             {
-                if (request.Skater.Target.Equals(SkateTarget.LeedsBradfordAirport))
+                if (request.Skater.Target.Equals(SkateTarget.ThereAndBackAgain))
                 {
                     // No need to update the user's target.
                     return;
@@ -64,7 +64,7 @@ namespace AllInSkateChallenge.Features.Activities
             }
         }
 
-        public SkateTarget GetNewTarget(SkateTarget oldTarget)
+        public static SkateTarget GetNewTarget(SkateTarget oldTarget)
         {
             switch (oldTarget)
             {
@@ -100,6 +100,8 @@ namespace AllInSkateChallenge.Features.Activities
                 case SkateTarget.OtleyChevinForestPark:
                 case SkateTarget.YeadonTarn:
                     return SkateTarget.LeedsBradfordAirport;
+                case SkateTarget.LeedsBradfordAirport:
+                    return SkateTarget.ThereAndBackAgain;
                 default:
                     return oldTarget;
             }

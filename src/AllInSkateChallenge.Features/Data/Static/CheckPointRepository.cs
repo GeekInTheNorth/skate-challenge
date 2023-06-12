@@ -37,8 +37,8 @@ namespace AllInSkateChallenge.Features.Data.Static
                     DistanceInKilometers = 0.9M,
                     Title = "Sovereign Square",
                     Description = "Yay! you made it to the first stop! This is Sovereign Square- It's a fab space to skate, jam, picnic and hang out during the Summer.",
-                    Longitude = -1.60677M,
-                    Latitude = 53.82076M,
+                    Longitude = -1.544647M,
+                    Latitude = 53.793662M,
                     Image = absoluteUrlHelper.Get("/rggeventone/checkpoint-photo/sovereign-square.jpg"),
                     DigitalBadge = absoluteUrlHelper.Get("/rggeventone/checkpoint-badge/soverign-square-teal.jpg"),
                     Url = "https://www.tripadvisor.co.uk/Attraction_Review-g186411-d23485244-Reviews-Sovereign_Square-Leeds_West_Yorkshire_England.html"
@@ -61,8 +61,8 @@ namespace AllInSkateChallenge.Features.Data.Static
                     DistanceInKilometers = 2.3M,
                     Title = "Tetley Brewery Warf",
                     Description  = "We've travelled along the River to Tetley Brewery Wharf, formally the headquarters of the Tetley Brewery, this majestic building now houses an art gallery and also a nice cafe.",
-                    Longitude = -1.838214M,
-                    Latitude = 53.856368M,
+                    Longitude = -1.53727M,
+                    Latitude = 53.79391M,
                     Image = absoluteUrlHelper.Get("/rggeventone/checkpoint-photo/tetley-brewery.jpg"),
                     DigitalBadge = absoluteUrlHelper.Get("/rggeventone/checkpoint-badge/tetley-teal.jpg"),
                     Url = "https://thetetley.org/"
@@ -365,6 +365,18 @@ namespace AllInSkateChallenge.Features.Data.Static
                     Image = absoluteUrlHelper.Get("/rggeventone/checkpoint-photo/leeds-bradford-airport.jpg"),
                     DigitalBadge = absoluteUrlHelper.Get("/rggeventone/checkpoint-badge/leeds-bradford-airport-purple.jpg"),
                     Url = "https://www.leedsbradfordairport.co.uk/"
+                },
+                new CheckPointModel
+                {
+                    SkateTarget = SkateTarget.ThereAndBackAgain,
+                    DistanceInKilometers = 200,
+                    Title = "There and Back Again!",
+                    Description = "Ey Up! Welcome back to the Roller Girl Gang shop!  We are amazed at how far you have travelled on skates.  The Roller Girl Gang shop is our favourite place to get all our skate gear (obvs!)  The shop is situated in the beautiful historic Corn Exchange building. Built in 1861 for trading corn, the building is now home to a number of independent businesses.",
+                    Longitude = -1.54022M,
+                    Latitude = 53.79609M,
+                    Image = absoluteUrlHelper.Get("/rggeventone/checkpoint-photo/roller-girl-gang.jpg"),
+                    DigitalBadge = absoluteUrlHelper.Get("/rggeventone/checkpoint-badge/corn-exchange-rgg-purple.jpg"),
+                    Url = "https://en.wikipedia.org/wiki/Leeds_Corn_Exchange"
                 }
             };
         }
@@ -376,7 +388,8 @@ namespace AllInSkateChallenge.Features.Data.Static
                 new SelectListItem { Text = "Temple Newsam Park (Half Marathon)", Value = SkateTarget.TempleNewsamPark.ToString("F") },
                 new SelectListItem { Text = "Potternewton Park (Full Marathon)", Value = SkateTarget.PotternewtonPark.ToString("F") },
                 new SelectListItem { Text = "Emmerdale The Tour (One & Half Marathons)", Value = SkateTarget.EmmerdaleTheTour.ToString("F") },
-                new SelectListItem { Text = "Leeds Bradford Airport (100KM)", Value = SkateTarget.LeedsBradfordAirport.ToString("F") }
+                new SelectListItem { Text = "Leeds Bradford Airport (100KM)", Value = SkateTarget.LeedsBradfordAirport.ToString("F") },
+                new SelectListItem { Text = "There and Back Again (200KM)", Value = SkateTarget.ThereAndBackAgain.ToString("F") }
             };
         }
     }
