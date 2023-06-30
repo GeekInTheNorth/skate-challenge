@@ -1,6 +1,7 @@
 ﻿namespace AllInSkateChallenge.Features.Statistics;
 
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 using AllInSkateChallenge.Features.Framework.Models;
@@ -54,21 +55,21 @@ public class EventStatisticsViewModelBuilder : PageViewModelBuilder<EventStatist
         model.Content.LongestSingleDistance = result.LongestSingleDistance;
         model.Content.ShortestSingleDistance = result.ShortestSingleDistance;
         model.Content.MostJourneys = result.MostJourneys;
-        model.Content.SkateDistances = result.SkateDistances;
-        model.Content.SkateSessions = result.SkateSessions;
+        model.Content.SkateDistances = result.SkateDistances ?? new List<StatisticsItemModel>(0);
+        model.Content.SkateSessions = result.SkateSessions ?? new List<StatisticsItemModel>(0);
         model.Content.BestTopSpeed = result.BestTopSpeed;
         model.Content.BestAverageSpeed = result.BestAverageSpeed;
         model.Content.GreatestClimb = result.GreatestClimb;
         model.Content.SkybornSkater = result.SkybornSkater;
-        model.Content.ActivitiesByDay = result.ActivitiesByDay;
-        model.Content.KilometresByDay = result.KilometresByDay;
+        model.Content.ActivitiesByDay = result.ActivitiesByDay ?? new List<StatisticsDayItemModel>(0);
+        model.Content.KilometresByDay = result.KilometresByDay ?? new List<StatisticsDayItemModel>(0);
         model.Content.TotalKilometres = result.TotalKilometres;
         model.Content.TotalSkateSessions = result.TotalSkateSessions;
         model.Content.KilometresByManual = result.KilometresByManual;
         model.Content.KilometresByStrava = result.KilometresByStrava;
         model.Content.JourneysByManual = result.JourneysByManual;
         model.Content.JourneysByStrava = result.JourneysByStrava;
-        model.Content.CheckPoints = result.CheckPoints;
+        model.Content.CheckPoints = result.CheckPoints ?? new List<CheckPointStatisticsModel>(0);
 
         return model;
     }

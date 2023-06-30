@@ -48,6 +48,11 @@ public class EventStatisticsQueryHandler : IRequestHandler<EventStatisticsQuery,
         }
 
         var allSessions = await allSessionsQuery.ToListAsync(cancellationToken);
+        if (!allSessions.Any())
+        {
+            return new EventStatisticsQueryResponse();
+        }
+
         var allSkaters = await context.Users.Where(x => x.HasPaid).ToListAsync(cancellationToken);
         var skaterLogs = allSkaters.Select(x => skaterTargetAnalyser.Analyse(x, allSessions)).Where(x => x.TotalSessions > 0).ToList();
         var allWeeks = GetAllWeeks(allSessions);
