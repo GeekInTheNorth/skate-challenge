@@ -4,11 +4,11 @@ using MediatR;
 
 public class AdminUserListQuery : IRequest<AdminUserListQueryResponse>
 {
-    public string SearchText { get; set; }
+    public string UserFilter { get; set; }
 
-    public int Page { get; set; }
+    public PaidStatus PaidFilter { get; set; }
 
-    public SortOrder SortOrder { get; set; }
+    public SortOrder FilterOrder { get; set; }
 
-    public PaidStatus PaidStatus { get; set; }
+    public int FilterPage { get; set; }
 }

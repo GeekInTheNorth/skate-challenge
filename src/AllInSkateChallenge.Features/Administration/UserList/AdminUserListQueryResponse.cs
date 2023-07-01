@@ -8,8 +8,6 @@ public class AdminUserListQueryResponse
 {
     public List<AdminUserModel> Users { get; set; }
 
-    public string SearchText { get; set; }
-
     public int TotalUsers { get; set; }
 
     public int CurrentPage { get; set; }
@@ -19,4 +17,10 @@ public class AdminUserListQueryResponse
     public List<SelectListItem> SortOrders { get; set; }
 
     public List<SelectListItem> PaidStates { get; set; }
+
+    public string UserFilter { get; set; }
+
+    public PaidStatus PaidFilter { get; set; }
+
+    public SortOrder FilterOrder { get; set; }
 }

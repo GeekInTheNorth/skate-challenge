@@ -34,12 +34,12 @@ public class AdminUserListQueryHandler : IRequestHandler<AdminUserListQuery, Adm
         var admins = await userManager.GetUsersInRoleAsync("Administrator");
 
         var query = userManager.Users;
-        if (!string.IsNullOrWhiteSpace(request.SearchText))
+        if (!string.IsNullOrWhiteSpace(request.UserFilter))
         {
-            query = query.Where(x => x.SkaterName.Contains(request.SearchText) || x.Email.Contains(request.SearchText));
+            query = query.Where(x => x.SkaterName.Contains(request.UserFilter) || x.Email.Contains(request.UserFilter));
         }
 
-        switch (request.PaidStatus)
+        switch (request.PaidFilter)
         {
             case PaidStatus.Paid:
                 query = query.Where(x => x.HasPaid == true);
@@ -51,9 +51,9 @@ public class AdminUserListQueryHandler : IRequestHandler<AdminUserListQuery, Adm
 
         var totalUsers = query.Count();
         var pageSize = 10;
-        var skip = (request.Page - 1) * pageSize;
+        var skip = (request.FilterPage - 1) * pageSize;
 
-        switch (request.SortOrder)
+        switch (request.FilterOrder)
         {
             case SortOrder.AtoZ:
                 query = query.OrderBy(x => x.SkaterName);
@@ -77,21 +77,23 @@ public class AdminUserListQueryHandler : IRequestHandler<AdminUserListQuery, Adm
         return new AdminUserListQueryResponse
         {
             TotalUsers = totalUsers,
-            CurrentPage = request.Page,
+            CurrentPage = request.FilterPage,
             MaxPages = (int)Math.Ceiling((decimal)totalUsers / pageSize),
             Users = ConvertUsers(users, admins, activitySummaries),
-            SearchText = request.SearchText,
+            UserFilter = request.UserFilter,
+            PaidFilter = request.PaidFilter,
+            FilterOrder = request.FilterOrder,
             SortOrders = new List<SelectListItem>
             {
-                new SelectListItem { Text = "A to Z", Value = SortOrder.AtoZ.ToString(), Selected = SortOrder.AtoZ.Equals(request.SortOrder) },
-                new SelectListItem { Text = "Z to A", Value = SortOrder.ZtoA.ToString(), Selected = SortOrder.ZtoA.Equals(request.SortOrder) },
-                new SelectListItem { Text = "Latest Registered", Value = SortOrder.LatestFirst.ToString(), Selected = SortOrder.LatestFirst.Equals(request.SortOrder) }
+                new SelectListItem { Text = "A to Z", Value = SortOrder.AtoZ.ToString(), Selected = SortOrder.AtoZ.Equals(request.FilterOrder) },
+                new SelectListItem { Text = "Z to A", Value = SortOrder.ZtoA.ToString(), Selected = SortOrder.ZtoA.Equals(request.FilterOrder) },
+                new SelectListItem { Text = "Latest Registered", Value = SortOrder.LatestFirst.ToString(), Selected = SortOrder.LatestFirst.Equals(request.FilterOrder) }
             },
             PaidStates = new List<SelectListItem>
             {
-                new SelectListItem { Text = "All Skaters", Value = PaidStatus.Any.ToString(), Selected = PaidStatus.Any.Equals(request.PaidStatus) },
-                new SelectListItem { Text = "Paid Skaters", Value = PaidStatus.Paid.ToString(), Selected = PaidStatus.Paid.Equals(request.PaidStatus) },
-                new SelectListItem { Text = "Unpaid Skaters", Value = PaidStatus.NotPaid.ToString(), Selected = PaidStatus.NotPaid.Equals(request.PaidStatus) },
+                new SelectListItem { Text = "All Skaters", Value = PaidStatus.Any.ToString(), Selected = PaidStatus.Any.Equals(request.PaidFilter) },
+                new SelectListItem { Text = "Paid Skaters", Value = PaidStatus.Paid.ToString(), Selected = PaidStatus.Paid.Equals(request.PaidFilter) },
+                new SelectListItem { Text = "Unpaid Skaters", Value = PaidStatus.NotPaid.ToString(), Selected = PaidStatus.NotPaid.Equals(request.PaidFilter) },
             }
         };
     }

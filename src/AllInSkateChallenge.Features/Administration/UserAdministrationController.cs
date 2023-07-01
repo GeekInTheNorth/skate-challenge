@@ -30,20 +30,34 @@ public class UserAdministrationController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> Index(string searchText, int page = 1, SortOrder sortOrder = SortOrder.AtoZ, PaidStatus paidStatus = PaidStatus.Any)
+    public async Task<IActionResult> Index(string userFilter, PaidStatus paidFilter = PaidStatus.Any, SortOrder filterOrder = SortOrder.AtoZ, int filterPage = 1)
     {
-        var query = new AdminUserListQuery { SearchText = searchText, Page = page, SortOrder = sortOrder, PaidStatus = paidStatus };
+        var query = new AdminUserListQuery
+        {
+            UserFilter = userFilter,
+            PaidFilter = paidFilter,
+            FilterOrder = filterOrder,
+            FilterPage = filterPage
+        };
         var result = await mediator.Send(query);
 
         return View("~/Views/UserAdministration/Index.cshtml", result);
     }
 
     [HttpGet]
-    public async Task<IActionResult> UserDetail(string userId, string userFilter)
+    public async Task<IActionResult> UserDetail(string userId, string userFilter, PaidStatus paidFilter = PaidStatus.Any, SortOrder filterOrder = SortOrder.AtoZ, int filterPage = 1)
     {
         try
         {
-            var command = new UserDetailQuery { UserId = userId, UserFilter = userFilter };
+            var command = new UserDetailQuery
+            {
+                UserId = userId,
+                UserFilter = userFilter,
+                PaidFilter = paidFilter,
+                FilterOrder = filterOrder,
+                FilterPage = filterPage
+            };
+            
             var response = await mediator.Send(command);
 
             return View("~/Views/UserAdministration/UserDetails.cshtml", response);
