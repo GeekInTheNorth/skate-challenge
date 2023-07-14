@@ -1,4 +1,5 @@
-﻿@model AllInSkateChallenge.Features.Administration.UserDetail.UserDetailQueryResponse
+﻿@using AllInSkateChallenge.Features.Extensions;
+@model AllInSkateChallenge.Features.Administration.UserDetail.UserDetailQueryResponse
 
 @{
     ViewData["Title"] = "User Administration";
@@ -62,6 +63,12 @@
                 {
                     <button type="button" class="btn btn-secondary btn-sm ml-3 js-toggle-user-paid-status" data-user-id="@Model.User.Id" data-user-name="@Model.User.SkaterName" data-has-paid="@Model.User.HasPaid">Set as UnPaid</button>
                 }
+            </td>
+        </tr>
+        <tr>
+            <th>Current Target</th>
+            <td>
+                @Model.User.Target.GetDisplayName()
             </td>
         </tr>
     </tbody>
