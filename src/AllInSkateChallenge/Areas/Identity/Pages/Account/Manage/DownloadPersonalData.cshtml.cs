@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 using AllInSkateChallenge.Features.Data;
 using AllInSkateChallenge.Features.Data.Entities;
-
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -66,7 +66,7 @@ namespace AllInSkateChallenge.Areas.Identity.Pages.Account.Manage
                 StravaNotifications = stravaEvents?.Select(x => new { x.StravaActivityId, x.Imported }).ToList()
             };
             
-            Response.Headers.Add("Content-Disposition", "attachment; filename=PersonalData.json");
+            Response.Headers.Append("Content-Disposition", "attachment; filename=PersonalData.json");
             return new FileContentResult(JsonSerializer.SerializeToUtf8Bytes(model), "application/json");
         }
     }

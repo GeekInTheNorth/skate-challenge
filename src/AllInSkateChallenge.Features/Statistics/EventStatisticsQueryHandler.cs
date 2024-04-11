@@ -9,14 +9,14 @@ using System.Threading.Tasks;
 using AllInSkateChallenge.Features.Common;
 using AllInSkateChallenge.Features.Data;
 using AllInSkateChallenge.Features.Data.Entities;
-using AllInSkateChallenge.Features.Data.Static;
+using AllInSkateChallenge.Features.Data.Kontent;
 using AllInSkateChallenge.Features.Gravatar;
 
 using MediatR;
 
 using Microsoft.EntityFrameworkCore;
 
-public class EventStatisticsQueryHandler : IRequestHandler<EventStatisticsQuery, EventStatisticsQueryResponse>
+public sealed class EventStatisticsQueryHandler : IRequestHandler<EventStatisticsQuery, EventStatisticsQueryResponse>
 {
     private readonly ApplicationDbContext context;
 
@@ -298,7 +298,7 @@ public class EventStatisticsQueryHandler : IRequestHandler<EventStatisticsQuery,
 
     private IEnumerable<CheckPointStatisticsModel> GetCheckPointStatistics(List<SkaterTargetAnalysis> skaterAnalyses)
     {
-        var checkPoints = checkPointRepository.Get().Where(x => !x.SkateTarget.Equals(SkateTarget.CornExchange)).ToList();
+        var checkPoints = checkPointRepository.Get().Skip(1).ToList();
         foreach(var checkPoint in checkPoints)
         {
             var firstSkater = skaterAnalyses.Where(x => x.CheckPointDates.ContainsKey(checkPoint.SkateTarget))

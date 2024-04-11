@@ -1,11 +1,9 @@
 ﻿using System;
+using AllInSkateChallenge.Features.Data.Kontent;
 
-using AllInSkateChallenge.Features.Data.Static;
+namespace AllInSkateChallenge.Features.Skater.Progress;
 
-namespace AllInSkateChallenge.Features.Skater.Progress
+public class SkaterProgressCheckPoint : CheckPointModel
 {
-    public class SkaterProgressCheckPoint : CheckPointModel
-    {
-        public DateTime? DateAchieved { get; set; }
-    }
+    public DateTime? DateAchieved { get; set; }
 }

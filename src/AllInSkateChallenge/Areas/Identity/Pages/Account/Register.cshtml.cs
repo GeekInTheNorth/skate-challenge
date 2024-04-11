@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -6,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using AllInSkateChallenge.Features.Data.Entities;
-using AllInSkateChallenge.Features.Data.Static;
+using AllInSkateChallenge.Features.Data.Kontent;
 using AllInSkateChallenge.Features.Skater.Registration;
 
 using MediatR;
@@ -79,7 +78,7 @@ namespace AllInSkateChallenge.Areas.Identity.Pages.Account
             public string ConfirmPassword { get; set; }
 
             [Display(Name = "Your Personal Target")]
-            public SkateTarget Target { get; set; }
+            public int Target { get; set; }
 
             [Display(Name = "Send me emails about my progress in the Roller Girl Gang Virtual Skate Marathon.")]
             public bool AcceptProgressNotifications { get; set; }
@@ -103,7 +102,7 @@ namespace AllInSkateChallenge.Areas.Identity.Pages.Account
                 Response.Cookies.Append("FromSkateEverywhere", "true");
             }
 
-            Input = new InputModel { Target = SkateTarget.LeedsBradfordAirport };
+            Input = new InputModel { Target = _checkPointRepository.GetGoalCheckpoints().LastOrDefault()?.SkateTarget ?? 0 };
             IsRegistrationOver = await _mediator.Send(new RegistrationAvailabilityQuery());
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 using AllInSkateChallenge.Features.Common;
 using AllInSkateChallenge.Features.Data;
-using AllInSkateChallenge.Features.Data.Static;
+using AllInSkateChallenge.Features.Data.Kontent;
 using AllInSkateChallenge.Features.Framework.Routing;
 using AllInSkateChallenge.Features.Services.Email;
 using AllInSkateChallenge.Features.Skater;
@@ -81,7 +81,7 @@ public class SendProgressUpdateEventHandler : IRequestPostProcessor<SaveActivity
         }
         catch (Exception exception)
         {
-            logger.LogError(exception, "Failed to progress updates when saving mileage entries", request);
+            logger.LogError(exception, "Failed to progress updates when saving mileage entries");
         }
     }
 

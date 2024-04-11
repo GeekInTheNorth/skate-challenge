@@ -1,4 +1,5 @@
-﻿@model AllInSkateChallenge.Features.Framework.Models.PageViewModel<AllInSkateChallenge.Features.Skater.Progress.SkaterProgressViewModel>
+﻿@using AllInSkateChallenge.Features.Skater.PersonalStatistics
+@model AllInSkateChallenge.Features.Framework.Models.PageViewModel<AllInSkateChallenge.Features.Skater.Progress.SkaterProgressViewModel>
 
 @{
     Layout = "_PageViewModelLayout";
@@ -61,9 +62,9 @@
                                 <li><a href="@checkPoint.DigitalBadge" download="@checkPoint.DigitalBadgeName" class="timeline-link">Download the Checkpoint Badge</a></li>
                             }
                             <li><a href="http://www.google.com/maps/place/@checkPoint.Latitude,@checkPoint.Longitude?zoom=1" target="_blank" class="timeline-link">See it on the Map</a></li>
-                            @if (!string.IsNullOrWhiteSpace(checkPoint.Url))
+                            @foreach(var link in checkPoint.Links)
                             {
-                                <li><a href="@checkPoint.Url" target="_blank" class="timeline-link">Find out more</a></li>
+                                <li><a href="@link.Url" target="_blank" class="timeline-link" title="@link.Title">@link.Title</a></li>
                             }
                         </ul>
                     </div>
@@ -118,9 +119,9 @@
                             <li><a href="@Model.Content.NextCheckPoint.FinisherDigitalBadge" download="@Model.Content.NextCheckPoint.FinisherDigitalBadgeName" class="timeline-link">Download the Finisher Badge</a></li>
                         }
                         <li><a href="http://www.google.com/maps/place/@Model.Content.NextCheckPoint.Latitude,@Model.Content.NextCheckPoint.Longitude?zoom=1" target="_blank" class="timeline-link">See it on the Map</a></li>
-                        @if (!string.IsNullOrWhiteSpace(Model.Content.NextCheckPoint.Url))
+                        @foreach (var link in Model.Content.NextCheckPoint.Links)
                         {
-                            <li><a href="@Model.Content.NextCheckPoint.Url" target="_blank" class="timeline-link">Find out more</a></li>
+                            <li><a href="@link.Url" target="_blank" class="timeline-link" title="@link.Title">@link.Title</a></li>
                         }
                     </ul>
                 </div>

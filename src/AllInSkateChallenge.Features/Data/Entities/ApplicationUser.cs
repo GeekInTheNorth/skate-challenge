@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 
-using AllInSkateChallenge.Features.Data.Static;
-
 using Microsoft.AspNetCore.Identity;
 
 namespace AllInSkateChallenge.Features.Data.Entities
@@ -32,7 +30,7 @@ namespace AllInSkateChallenge.Features.Data.Entities
         public DateTime DateRegistered { get; set; }
 
         [PersonalData]
-        public SkateTarget Target { get; set; }
+        public int Target { get; set; }
 
         public string GetDisplaySkaterName()
         {

@@ -1,10 +1,8 @@
 ﻿namespace AllInSkateChallenge.Features.Statistics
 {
-    using AllInSkateChallenge.Features.Data.Static;
-
     public class CheckPointStatisticsModel
     {
-        public SkateTarget Target { get; set; }
+        public int Target { get; set; }
 
         public string CheckPointName { get; set; }
 

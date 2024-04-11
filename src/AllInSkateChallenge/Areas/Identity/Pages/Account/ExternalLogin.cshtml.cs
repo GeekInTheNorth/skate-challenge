@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using AllInSkateChallenge.Features.Data.Entities;
-using AllInSkateChallenge.Features.Data.Static;
+using AllInSkateChallenge.Features.Data.Kontent;
 using AllInSkateChallenge.Features.Skater.Registration;
 using AllInSkateChallenge.Features.Strava;
 
@@ -67,7 +67,7 @@ namespace AllInSkateChallenge.Areas.Identity.Pages.Account
             public string Email { get; set; }
 
             [Display(Name = "Your Personal Target")]
-            public SkateTarget Target { get; set; }
+            public int Target { get; set; }
 
             [Display(Name = "Send me emails about my progress in the Roller Girl Gang Virtual Skate Marathon.")]
             public bool AcceptProgressNotifications { get; set; }
@@ -142,7 +142,7 @@ namespace AllInSkateChallenge.Areas.Identity.Pages.Account
                 Input = new InputModel
                 {
                     Email = info.Principal.FindFirstValue(ClaimTypes.Email),
-                    Target = SkateTarget.LeedsBradfordAirport
+                    Target = _checkPointRepository.GetGoalCheckpoints().LastOrDefault()?.SkateTarget ?? 0
                 };
                 return Page();
             }

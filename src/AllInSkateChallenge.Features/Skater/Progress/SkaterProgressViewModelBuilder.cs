@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 using AllInSkateChallenge.Features.Data.Entities;
-using AllInSkateChallenge.Features.Data.Static;
+using AllInSkateChallenge.Features.Data.Kontent;
 using AllInSkateChallenge.Features.Framework.Models;
 using AllInSkateChallenge.Features.Skater.SkateLog;
 using AllInSkateChallenge.Features.Statistics;
@@ -63,7 +63,7 @@ public class SkaterProgressViewModelBuilder : PageViewModelBuilder<SkaterProgres
                  Description = cp.Description,
                  Longitude = cp.Longitude,
                  Latitude = cp.Latitude,
-                 Url = cp.Url,
+                 Links = cp.Links,
                  Image = cp.Image,
                  DigitalBadge = cp.DigitalBadge,
                  FinisherDigitalBadge = cp.FinisherDigitalBadge,
@@ -79,7 +79,7 @@ public class SkaterProgressViewModelBuilder : PageViewModelBuilder<SkaterProgres
                 Description = $"You have to skate a further {distanceToNextCheckpoint:F2} kilometres to reach {nextCheckPoint.Title}.",
                 Longitude = nextCheckPoint.Longitude,
                 Latitude = nextCheckPoint.Latitude,
-                Url = nextCheckPoint.Url
+                Links = nextCheckPoint.Links
             };
         }
         else

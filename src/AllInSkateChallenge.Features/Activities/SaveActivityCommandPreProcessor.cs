@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 using AllInSkateChallenge.Features.Data;
 using AllInSkateChallenge.Features.Data.Entities;
-using AllInSkateChallenge.Features.Data.Static;
+using AllInSkateChallenge.Features.Data.Kontent;
 
 using MediatR.Pipeline;
 
@@ -41,12 +41,6 @@ public class SaveActivityCommandPreProcessor : IRequestPreProcessor<SaveActivity
     {
         try
         {
-            if (request.Skater.Target.Equals(SkateTarget.ThereAndBackAgain))
-            {
-                // No need to update the user's target.
-                return;
-            }
-
             var userMiles = await context.SkateLogEntries.Where(x => x.ApplicationUserId.Equals(request.Skater.Id)).SumAsync(x => x.DistanceInMiles, cancellationToken);
             var targetCheckPoint = checkPointRepository.Get().First(x => x.SkateTarget.Equals(request.Skater.Target));
 
@@ -62,46 +56,13 @@ public class SaveActivityCommandPreProcessor : IRequestPreProcessor<SaveActivity
         }
     }
 
-    public static SkateTarget GetNewTarget(SkateTarget oldTarget)
+    public int GetNewTarget(int oldTarget)
     {
-        switch (oldTarget)
-        {
-            case SkateTarget.CornExchange:
-            case SkateTarget.SoveriegnSquare:
-            case SkateTarget.GranaryWharf:
-            case SkateTarget.TetleyBreweryWharf:
-            case SkateTarget.LeedsIndustrialMuseum:
-            case SkateTarget.ArmleyPark:
-            case SkateTarget.EllandRoad:
-            case SkateTarget.MiddletonRailway:
-            case SkateTarget.Carlton:
-                return SkateTarget.TempleNewsamPark;
-            case SkateTarget.TempleNewsamPark:
-            case SkateTarget.LsTen:
-            case SkateTarget.RoyalArmouriesMuseum:
-            case SkateTarget.KirkgateMarket:
-            case SkateTarget.LeedsGrandTheatre:
-            case SkateTarget.MilleniumSquare:
-            case SkateTarget.RamgarhiaSikhSportsCentre:
-                return SkateTarget.PotternewtonPark;
-            case SkateTarget.PotternewtonPark:
-            case SkateTarget.MeanwoodValleyUrbanFarm:
-            case SkateTarget.YorkshireCricketGround:
-            case SkateTarget.KirkstallAbbey:
-            case SkateTarget.SunnyBankMillsGallery:
-            case SkateTarget.BrownleeCentre:
-            case SkateTarget.GoldenAcrePark:
-            case SkateTarget.EccupReservoir:
-                return SkateTarget.EmmerdaleTheTour;
-            case SkateTarget.EmmerdaleTheTour:
-            case SkateTarget.HarewoodHouseTrust:
-            case SkateTarget.OtleyChevinForestPark:
-            case SkateTarget.YeadonTarn:
-                return SkateTarget.LeedsBradfordAirport;
-            case SkateTarget.LeedsBradfordAirport:
-                return SkateTarget.ThereAndBackAgain;
-            default:
-                return oldTarget;
-        }
+        var targets = checkPointRepository.GetGoalCheckpoints();
+
+        var nextTarget = targets.FirstOrDefault(x => x.SkateTarget > oldTarget) ??
+                         targets.LastOrDefault();
+
+        return nextTarget?.SkateTarget ?? oldTarget;
     }
 }

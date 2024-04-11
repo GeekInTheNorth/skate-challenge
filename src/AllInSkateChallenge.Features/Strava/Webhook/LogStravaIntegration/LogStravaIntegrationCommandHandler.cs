@@ -41,7 +41,7 @@ public class LogStravaIntegrationCommandHandler : IRequestHandler<LogStravaInteg
         }
         catch(Exception exception)
         {
-            logger.LogError(exception, "Failed to log strava webhook event", request.Event);
+            logger.LogError(exception, "Failed to log strava webhook event.");
         }
     }
 }

@@ -4,7 +4,7 @@ using System;
 
 using AllInSkateChallenge.Features.Data;
 using AllInSkateChallenge.Features.Data.Entities;
-using AllInSkateChallenge.Features.Data.Static;
+using AllInSkateChallenge.Features.Data.Kontent;
 using AllInSkateChallenge.Features.Error;
 using AllInSkateChallenge.Features.EventDetails;
 using AllInSkateChallenge.Features.Framework.Routing;
@@ -18,6 +18,10 @@ using AllInSkateChallenge.Features.Skater.StravaImport;
 using AllInSkateChallenge.Features.Statistics;
 using AllInSkateChallenge.Features.Statistics.Leaders;
 using AllInSkateChallenge.Features.Strava;
+
+using Kontent.Ai.Delivery;
+using Kontent.Ai.Delivery.Abstractions;
+using Kontent.Ai.Delivery.Extensions;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -43,20 +47,21 @@ public class Startup
     public void ConfigureServices(IServiceCollection services)
     {
         services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
         services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
-        services.AddAuthentication()
-                .AddStrava(options => 
-                { 
-                    options.ClientId = Configuration["Strava:ClientId"]; 
-                    options.ClientSecret = Configuration["Strava:ClientSecret"]; 
-                    options.SaveTokens = true;
-                    options.Scope.Add("read");
-                    options.Scope.Add("activity:read");
-                    options.Scope.Add("activity:read_all");
-                });
+        // services.AddAuthentication()
+        //         .AddStrava(options => 
+        //         { 
+        //             options.ClientId = Configuration["Strava:ClientId"]; 
+        //             options.ClientSecret = Configuration["Strava:ClientSecret"]; 
+        //             options.SaveTokens = true;
+        //             options.Scope.Add("read");
+        //             options.Scope.Add("activity:read");
+        //             options.Scope.Add("activity:read_all");
+        //         });
 
         services.AddControllersWithViews().AddNewtonsoftJson();
         services.AddRazorPages();
@@ -94,6 +99,11 @@ public class Startup
             options.SlidingExpiration = true;
         });
 
+        // Kontent
+        services.AddDeliveryClient(Configuration);
+        services.AddHttpClient<IDeliveryHttpClient, DeliveryHttpClient>();
+        services.AddTransient<ITypeProvider, CustomTypeProvider>();
+
         // Route Helping
         services.Configure<RouteSettings>(options => Configuration.GetSection("RouteSettings").Bind(options));
         services.AddSingleton<IAbsoluteUrlHelper, AbsoluteUrlHelper>();
@@ -123,7 +133,7 @@ public class Startup
         services.AddTransient<IStatisticLeadersViewModelBuilder, StatisticLeadersViewModelBuilder>();
 
         // Data
-        services.AddSingleton<ICheckPointRepository, CheckPointRepository>();
+        services.AddSingleton<ICheckPointRepository, KontentCheckPointRepository>();
         
         // Commands & Queries
         services.AddMediatR(options =>
@@ -187,5 +197,9 @@ public class Startup
                 pattern: "{controller=Home}/{action=Index}/{id?}");
             endpoints.MapRazorPages();
         });
+
+        using var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope();
+        var context = serviceScope.ServiceProvider.GetService<ApplicationDbContext>();
+        context?.Database.Migrate();
     }
 }

@@ -8,7 +8,7 @@ using AllInSkateChallenge.Features.Strava.User;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
-public class HomeController : Controller
+public sealed class HomeController : Controller
 {
     private readonly IHomePageViewModelBuilder viewModelBuilder;
 

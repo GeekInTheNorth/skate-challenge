@@ -1,5 +1,4 @@
-﻿@using AllInSkateChallenge.Features.Data.Static;
-@model AllInSkateChallenge.Features.Activities.SkaterProgressEmailViewModel
+﻿@model AllInSkateChallenge.Features.Activities.SkaterProgressEmailViewModel
 
 <!DOCTYPE html>
 <html>
@@ -25,11 +24,13 @@
             <p style="text-align: left;">Milestone Distance: @Model.CheckPoint.DistanceInKilometers.ToString("F1") kilometres</p>
             <p style="text-align: left;">
                 Links:
-                <a href="http://www.google.com/maps/place/@Model.CheckPoint.Latitude,@Model.CheckPoint.Longitude?zoom=1" target="_blank">Milestone in Google Maps</a>
-                @if (!string.IsNullOrWhiteSpace(Model.CheckPoint.Url))
-                {
-                    <a href="@Model.CheckPoint.Url" target="_blank">Milestone Website</a>
-                }
+                <ul>
+                    <li><a href="http://www.google.com/maps/place/@Model.CheckPoint.Latitude,@Model.CheckPoint.Longitude?zoom=1" target="_blank">Milestone in Google Maps</a></li>
+                    @foreach (var link in Model.CheckPoint.Links)
+                    {
+                        <li><a href="@link.Url" target="_blank">@link.Title</a></li>
+                    }
+                </ul>
             </p>
         </div>
         <div style="padding: 20px 5% 20px 5%; margin-bottom: 10px; border-radius: 10px; background-color: #FFFFFF; max-width: 600px;">

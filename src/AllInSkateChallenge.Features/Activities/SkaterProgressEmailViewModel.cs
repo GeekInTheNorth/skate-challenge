@@ -1,7 +1,7 @@
 ﻿namespace AllInSkateChallenge.Features.Activities;
 
 using AllInSkateChallenge.Features.Data.Entities;
-using AllInSkateChallenge.Features.Data.Static;
+using AllInSkateChallenge.Features.Data.Kontent;
 
 public class SkaterProgressEmailViewModel
 {

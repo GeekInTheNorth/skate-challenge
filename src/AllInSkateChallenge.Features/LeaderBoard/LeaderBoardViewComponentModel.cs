@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
 
-using AllInSkateChallenge.Features.Data.Static;
-
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace AllInSkateChallenge.Features.LeaderBoard
@@ -10,7 +8,7 @@ namespace AllInSkateChallenge.Features.LeaderBoard
     {
         public bool ShowFilter { get; set; }
 
-        public SkateTarget FilterValue { get; set; }
+        public int FilterValue { get; set; }
 
         public List<SelectListItem> FilterItems { get; set; }
 

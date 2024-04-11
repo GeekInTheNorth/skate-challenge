@@ -1,5 +1,5 @@
 ﻿using AllInSkateChallenge.Features.Data.Entities;
-using AllInSkateChallenge.Features.Data.Static;
+using AllInSkateChallenge.Features.Data.Kontent;
 using AllInSkateChallenge.Features.Framework.Routing;
 
 using Microsoft.AspNetCore.Mvc;

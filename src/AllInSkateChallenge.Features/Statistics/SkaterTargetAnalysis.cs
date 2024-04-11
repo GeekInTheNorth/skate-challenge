@@ -4,7 +4,6 @@
     using System.Collections.Generic;
 
     using AllInSkateChallenge.Features.Data.Entities;
-    using AllInSkateChallenge.Features.Data.Static;
 
     public class SkaterTargetAnalysis
     {
@@ -14,9 +13,9 @@
 
         public decimal TotalMiles { get; set; }
 
-        public Dictionary<SkateTarget, DateTime> CheckPointDates { get; set; }
+        public Dictionary<int, DateTime> CheckPointDates { get; set; }
 
-        public DateTime? GetMileStoneDate(SkateTarget target)
+        public DateTime? GetMileStoneDate(int target)
         {
             if (CheckPointDates?.ContainsKey(target) ?? false)
             {

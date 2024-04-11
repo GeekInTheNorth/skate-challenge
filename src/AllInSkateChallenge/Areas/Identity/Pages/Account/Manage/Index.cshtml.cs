@@ -6,7 +6,7 @@ namespace AllInSkateChallenge.Areas.Identity.Pages.Account.Manage
     using System.Threading.Tasks;
 
     using AllInSkateChallenge.Features.Data.Entities;
-    using AllInSkateChallenge.Features.Data.Static;
+    using AllInSkateChallenge.Features.Data.Kontent;
     using AllInSkateChallenge.Features.Gravatar;
     using AllInSkateChallenge.Features.Services.BlobStorage;
     using AllInSkateChallenge.Features.Validators;
@@ -134,7 +134,7 @@ namespace AllInSkateChallenge.Areas.Identity.Pages.Account.Manage
             public string SkaterName { get; set; }
 
             [Display(Name = "Your Personal Target")]
-            public SkateTarget Target { get; set; }
+            public int Target { get; set; }
 
             [Display(Name = "Send me emails about my progress in the Roller Girl Gang Virtual Skate Marathon.")]
             public bool AcceptProgressNotifications { get; set; }
