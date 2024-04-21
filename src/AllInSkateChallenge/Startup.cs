@@ -2,6 +2,7 @@ namespace AllInSkateChallenge;
 
 using System;
 
+using AllInSkateChallenge.Features.Common;
 using AllInSkateChallenge.Features.Data;
 using AllInSkateChallenge.Features.Data.Entities;
 using AllInSkateChallenge.Features.Data.Kontent;
@@ -52,16 +53,16 @@ public class Startup
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
-        // services.AddAuthentication()
-        //         .AddStrava(options => 
-        //         { 
-        //             options.ClientId = Configuration["Strava:ClientId"]; 
-        //             options.ClientSecret = Configuration["Strava:ClientSecret"]; 
-        //             options.SaveTokens = true;
-        //             options.Scope.Add("read");
-        //             options.Scope.Add("activity:read");
-        //             options.Scope.Add("activity:read_all");
-        //         });
+        services.AddAuthentication()
+                .AddStrava(options => 
+                { 
+                    options.ClientId = Configuration["Strava:ClientId"]; 
+                    options.ClientSecret = Configuration["Strava:ClientSecret"]; 
+                    options.SaveTokens = true;
+                    options.Scope.Add("read");
+                    options.Scope.Add("activity:read");
+                    options.Scope.Add("activity:read_all");
+                });
 
         services.AddControllersWithViews().AddNewtonsoftJson();
         services.AddRazorPages();
@@ -120,6 +121,13 @@ public class Startup
         // Strava
         services.Configure<StravaSettings>(options => Configuration.GetSection("Strava").Bind(options));
         services.AddTransient<IStravaService, StravaService>();
+
+        // Challenge Settings
+        services.Configure<ChallengeSettings>(configure =>
+        {
+            configure.SendPlayerCheckpointEmail = Configuration.GetSection(nameof(ChallengeSettings)).GetValue<bool>(nameof(ChallengeSettings.SendPlayerCheckpointEmail));
+            configure.ChallengeMode = Enum.Parse<ChallengeMode>(Configuration.GetSection(nameof(ChallengeSettings)).GetValue<string>(nameof(ChallengeSettings.ChallengeMode)));
+        });
 
         // Page Model Builders
         services.AddTransient<IGravatarResolver, GravatarResolver>();
