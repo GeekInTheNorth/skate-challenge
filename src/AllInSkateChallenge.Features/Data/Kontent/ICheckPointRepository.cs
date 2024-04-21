@@ -1,14 +1,14 @@
 ﻿using System.Collections.Generic;
+
 using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace AllInSkateChallenge.Features.Data.Kontent
+namespace AllInSkateChallenge.Features.Data.Kontent;
+
+public interface ICheckPointRepository
 {
-    public interface ICheckPointRepository
-    {
-        List<CheckPointModel> Get();
+    List<CheckPointModel> Get();
 
-        List<SelectListItem> GetSelectList();
+    List<SelectListItem> GetSelectList();
 
-        List<CheckPointModel> GetGoalCheckpoints();
-    }
+    List<CheckPointModel> GetGoalCheckpoints();
 }

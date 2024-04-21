@@ -16,6 +16,7 @@ using AllInSkateChallenge.Features.Services.Email;
 using AllInSkateChallenge.Features.Skater.Progress;
 using AllInSkateChallenge.Features.Skater.SkateLog;
 using AllInSkateChallenge.Features.Skater.StravaImport;
+using AllInSkateChallenge.Features.SkateTeam;
 using AllInSkateChallenge.Features.Statistics;
 using AllInSkateChallenge.Features.Statistics.Leaders;
 using AllInSkateChallenge.Features.Strava;
@@ -141,8 +142,9 @@ public class Startup
         services.AddTransient<IStatisticLeadersViewModelBuilder, StatisticLeadersViewModelBuilder>();
 
         // Data
-        services.AddSingleton<ICheckPointRepository, KontentCheckPointRepository>();
-        
+        services.AddScoped<ICheckPointRepository, CheckPointRepository>();
+        services.AddScoped<ISkateTeamRepository, SkateTeamRepository>();
+
         // Commands & Queries
         services.AddMediatR(options =>
         {

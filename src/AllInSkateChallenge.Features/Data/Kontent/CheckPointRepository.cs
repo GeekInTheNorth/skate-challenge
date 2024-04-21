@@ -1,6 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+
+using AllInSkateChallenge.Features.Extensions;
 
 using Kontent.Ai.Delivery.Abstractions;
 
@@ -8,15 +9,13 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace AllInSkateChallenge.Features.Data.Kontent;
 
-public sealed class KontentCheckPointRepository : ICheckPointRepository
+public sealed class CheckPointRepository : ICheckPointRepository
 {
     private readonly IDeliveryClient _deliveryClient;
 
-    private string[] BooleanValues = { "Yes", "True" };
-
     private List<CheckPointModel> _checkPoints;
 
-    public KontentCheckPointRepository(IDeliveryClient deliveryClient)
+    public CheckPointRepository(IDeliveryClient deliveryClient)
     {
         _deliveryClient = deliveryClient;
     }
@@ -42,10 +41,10 @@ public sealed class KontentCheckPointRepository : ICheckPointRepository
                                       Latitude = cp.Latitude,
                                       Longitude = cp.Longitude,
                                       Links = GetLinks(cp).ToList(),
-                                      Image = GetAssetUrl(cp.Image),
-                                      AllImages = GetAssetUrls(cp.Image).ToList(),
-                                      DigitalBadge = GetAssetUrl(cp.DigitalBadge),
-                                      IsEndPoint = GetBool(cp.IsPersonalTarget)
+                                      Image = cp.Image.GetSingleUrl(),
+                                      AllImages = cp.Image.GetAllUrls().ToList(),
+                                      DigitalBadge = cp.DigitalBadge.GetSingleUrl(),
+                                      IsEndPoint = cp.IsPersonalTarget.GetBoolean()
                                   }).ToList();
 
         _checkPoints.Last().IsEndPoint = true;
@@ -61,29 +60,6 @@ public sealed class KontentCheckPointRepository : ICheckPointRepository
     public List<CheckPointModel> GetGoalCheckpoints()
     {
         return Get().Where(x => x.IsEndPoint).ToList();
-    }
-
-    private static string GetAssetUrl(IEnumerable<IAsset> assets)
-    {
-        var asset = assets?.FirstOrDefault();
-
-        return asset?.Url;
-    }
-
-    private static IEnumerable<string> GetAssetUrls(IEnumerable<IAsset> assets)
-    {
-        if (assets is null)
-        {
-            yield break;
-        }
-
-        foreach(var asset in assets)
-        {
-            if (!string.IsNullOrWhiteSpace(asset.Url))
-            {
-                yield return asset.Url;
-            }
-        }
     }
 
     private static IEnumerable<CheckPointUrl> GetLinks(CheckpointData checkpointData)
@@ -107,15 +83,5 @@ public sealed class KontentCheckPointRepository : ICheckPointRepository
         {
             yield return new CheckPointUrl { Title = checkpointData.CommunityUrlThreeTitle, Url = checkpointData.CommunityUrlThree };
         }
-    }
-    
-    private bool GetBool(IEnumerable<IMultipleChoiceOption> options)
-    {
-        if (options is null)
-        {
-            return false;
-        }
-
-        return options.Any(x => BooleanValues.Any(y => y.Equals(x.Codename, StringComparison.OrdinalIgnoreCase)));
     }
 }
