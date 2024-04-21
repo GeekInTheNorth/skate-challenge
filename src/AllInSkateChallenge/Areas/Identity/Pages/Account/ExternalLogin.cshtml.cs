@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
+using AllInSkateChallenge.Features.Common;
 using AllInSkateChallenge.Features.Data.Entities;
 using AllInSkateChallenge.Features.Data.Kontent;
 using AllInSkateChallenge.Features.Skater.Registration;
@@ -19,6 +20,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace AllInSkateChallenge.Areas.Identity.Pages.Account
 {
@@ -30,19 +32,22 @@ namespace AllInSkateChallenge.Areas.Identity.Pages.Account
         private readonly ILogger<ExternalLoginModel> _logger;
         private readonly IMediator _mediator;
         private readonly ICheckPointRepository _checkPointRepository;
+        private readonly ChallengeSettings _challengeSettings;
 
         public ExternalLoginModel(
             SignInManager<ApplicationUser> signInManager,
             UserManager<ApplicationUser> userManager,
             ILogger<ExternalLoginModel> logger,
-            IMediator mediator, 
-            ICheckPointRepository checkPointRepository)
+            IMediator mediator,
+            ICheckPointRepository checkPointRepository,
+            IOptions<ChallengeSettings> challengeSettings)
         {
             _signInManager = signInManager;
             _userManager = userManager;
             _logger = logger;
             _mediator = mediator;
             _checkPointRepository = checkPointRepository;
+            _challengeSettings = challengeSettings.Value;
         }
 
         [BindProperty]
@@ -58,6 +63,8 @@ namespace AllInSkateChallenge.Areas.Identity.Pages.Account
         public string ErrorMessage { get; set; }
 
         public IList<SelectListItem> SkateTargets => _checkPointRepository.GetSelectList();
+
+        public bool IsTeamEvent => _challengeSettings.ChallengeMode == ChallengeMode.Team;
 
         public class InputModel : IValidatableObject
         {

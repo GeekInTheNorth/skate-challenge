@@ -3,8 +3,10 @@ namespace AllInSkateChallenge.Areas.Identity.Pages.Account.Manage
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.IO;
+    using System.Linq;
     using System.Threading.Tasks;
 
+    using AllInSkateChallenge.Features.Common;
     using AllInSkateChallenge.Features.Data.Entities;
     using AllInSkateChallenge.Features.Data.Kontent;
     using AllInSkateChallenge.Features.Gravatar;
@@ -16,6 +18,7 @@ namespace AllInSkateChallenge.Areas.Identity.Pages.Account.Manage
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.RazorPages;
     using Microsoft.AspNetCore.Mvc.Rendering;
+    using Microsoft.Extensions.Options;
 
     public partial class IndexModel : PageModel
     {
@@ -24,19 +27,22 @@ namespace AllInSkateChallenge.Areas.Identity.Pages.Account.Manage
         private readonly ICheckPointRepository checkPointRepository;
         private readonly IGravatarResolver gravatarResolver;
         private readonly IBlobStorageService blobStorageService;
+        private readonly ChallengeSettings challengeSettings;
 
         public IndexModel(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             ICheckPointRepository checkPointRepository, 
             IGravatarResolver gravatarResolver,
-            IBlobStorageService blobStorageService)
+            IBlobStorageService blobStorageService,
+            IOptions<ChallengeSettings> challengeSettings)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
             this.checkPointRepository = checkPointRepository;
             this.gravatarResolver = gravatarResolver;
             this.blobStorageService = blobStorageService;
+            this.challengeSettings = challengeSettings.Value;
         }
 
         public string Username { get; set; }
@@ -51,6 +57,8 @@ namespace AllInSkateChallenge.Areas.Identity.Pages.Account.Manage
         public InputModel Input { get; set; }
 
         public IList<SelectListItem> SkateTargets => checkPointRepository.GetSelectList();
+
+        public bool IsTeamEvent => challengeSettings.ChallengeMode == ChallengeMode.Team;
 
         public async Task<IActionResult> OnGetAsync()
         {
@@ -97,6 +105,11 @@ namespace AllInSkateChallenge.Areas.Identity.Pages.Account.Manage
             user.AcceptProgressNotifications = Input.AcceptProgressNotifications;
             user.Target = Input.Target;
 
+            if (IsTeamEvent)
+            {
+                user.Target = checkPointRepository.GetGoalCheckpoints().LastOrDefault()?.SkateTarget ?? Input.Target;
+            }
+
             var saveResult = await userManager.UpdateAsync(user);
             if (!saveResult.Succeeded)
             {
@@ -116,12 +129,17 @@ namespace AllInSkateChallenge.Areas.Identity.Pages.Account.Manage
             ProfileImage = user.ExternalProfileImage;
 
             Input = new InputModel
-                        {
-                            GravatarUrl = gravatarResolver.GetGravatarUrl(user.Email),
-                            SkaterName = user.SkaterName,
-                            AcceptProgressNotifications = user.AcceptProgressNotifications,
-                            Target = user.Target
-                        };
+            {
+                GravatarUrl = gravatarResolver.GetGravatarUrl(user.Email),
+                SkaterName = user.SkaterName,
+                AcceptProgressNotifications = user.AcceptProgressNotifications,
+                Target = user.Target
+            };
+
+            if (IsTeamEvent)
+            {
+                Input.Target = checkPointRepository.GetGoalCheckpoints().LastOrDefault()?.SkateTarget ?? Input.Target;
+            }
         }
 
         public class InputModel

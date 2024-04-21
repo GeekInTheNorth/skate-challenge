@@ -32,11 +32,18 @@ else
                 <input asp-for="Input.Email" class="form-control" />
                 <span asp-validation-for="Input.Email" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Input.Target"></label>
-                <select asp-for="Input.Target" asp-items="Model.SkateTargets" class="form-control"></select>
-                <span asp-validation-for="Input.Target" class="text-danger"></span>
-            </div>
+            @if (Model.IsTeamEvent)
+            {
+                <input asp-for="Input.Target" type="hidden" />
+            }
+            else
+            {
+                <div class="form-group">
+                    <label asp-for="Input.Target"></label>
+                    <select asp-for="Input.Target" asp-items="Model.SkateTargets" class="form-control"></select>
+                    <span asp-validation-for="Input.Target" class="text-danger"></span>
+                </div>
+            }
             <div class="form-group">
                 <label class="align-middle">
                     <input asp-for="Input.AcceptProgressNotifications" style="margin-right: 0.5em;" />Send me emails about my progress in the Roller Girl Gang Virtual Skate Marathon.
