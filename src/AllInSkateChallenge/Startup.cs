@@ -176,7 +176,7 @@ public class Startup
         app.UseCsp(opt => opt.DefaultSources(s => s.None())
                              .ScriptSources(s => s.Self().UnsafeInline().UnsafeEval().CustomSources("https://ajax.aspnetcdn.com", "https://cdn.jsdelivr.net", "https://unpkg.com/vue@2.6.12/dist/vue.js", "https://*.azure.com"))
                              .StyleSources(s => s.Self().UnsafeInline())
-                             .ConnectSources(s => s.Self().CustomSources("https://rggskatemarathonfunctions.azurewebsites.net", "https://*.azure.com"))
+                             .ConnectSources(s => s.Self().CustomSources("https://rggskatechallengefunctions.azurewebsites.net", "https://*.azure.com"))
                              .ImageSources(s => s.Self().CustomSources("data:", "https:", "https://www.gravatar.com"))
                              .ManifestSources(s => s.Self()));
 
