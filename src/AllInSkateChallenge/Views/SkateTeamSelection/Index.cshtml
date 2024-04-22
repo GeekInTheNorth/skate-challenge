@@ -1,0 +1,26 @@
+﻿@using AllInSkateChallenge.Features.SkateTeam
+@model List<SkateTeamModel>
+
+@if (Model is { Count: >0 })
+{
+    <h1>Select Your Skate Team</h1>
+
+    <form id="teamSelectForm" method="post" asp-controller="SkateTeamSelection" asp-action="Select" asp-antiforgery="true">
+        <div class="row">
+            @foreach(var team in Model)
+            {
+                <div class="col-12 col-lg-4">
+                    <div class="card">
+                        <img src="@team.Logo" class="card-img-top" alt="@team.Name">
+                        <div class="card-body">
+                            <h5 class="card-title">@team.Name</h5>
+                            <div class="card-text">@Html.Raw(team.RichDescription)</div>
+                            <button type="submit" class="btn btn-primary" name="skateTeam" value="@team.Id">Select This Team</button>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </form>
+    
+}

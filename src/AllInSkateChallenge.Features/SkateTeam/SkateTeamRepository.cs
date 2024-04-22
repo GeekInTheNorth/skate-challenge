@@ -31,7 +31,7 @@ public class SkateTeamRepository(IDeliveryClient deliveryClient, UserManager<App
             .OrderBy(x => x.UrlSlug)
             .Select((x, index) => new SkateTeamModel
             {
-                Id = index,
+                Id = index + 1,
                 Name = x.TeamName,
                 Logo = x.TeamLogo.GetSingleUrl(),
                 PlainDescription = x.TeamDescriptionPlain,

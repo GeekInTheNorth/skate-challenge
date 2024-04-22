@@ -1,13 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30413.136
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34728.123
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AllInSkateChallenge", "AllInSkateChallenge\AllInSkateChallenge.csproj", "{AB127882-4938-44FC-B0EB-B3AFF1C1A2CC}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AllInSkateChallenge.Test", "AllInSkateChallenge.Test\AllInSkateChallenge.Test.csproj", "{231868D5-02ED-492E-BA2D-55317BFEF15F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AllInSkateChallenge.Features", "AllInSkateChallenge.Features\AllInSkateChallenge.Features.csproj", "{E4394434-ED56-4863-A5DD-E4CDF2102BC5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AllInSkateChallenge.Features", "AllInSkateChallenge.Features\AllInSkateChallenge.Features.csproj", "{E4394434-ED56-4863-A5DD-E4CDF2102BC5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
