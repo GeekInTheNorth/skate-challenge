@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 
 using AllInSkateChallenge.Features.Activities;
 using AllInSkateChallenge.Features.Data.Entities;
+using AllInSkateChallenge.Features.SkateTeam;
 using AllInSkateChallenge.Features.Strava.User;
 
 using MediatR;
@@ -14,25 +15,13 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 [Authorize]
-public class SkaterLogController : Controller
+public sealed class SkaterLogController(
+    UserManager<ApplicationUser> userManager,
+    ISkaterLogViewModelBuilder viewModelBuilder,
+    IMediator mediator) : Controller
 {
-    private readonly UserManager<ApplicationUser> userManager;
-
-    private readonly ISkaterLogViewModelBuilder viewModelBuilder;
-
-    private readonly IMediator mediator;
-
-    public SkaterLogController(
-        UserManager<ApplicationUser> userManager,
-        ISkaterLogViewModelBuilder viewModelBuilder,
-        IMediator mediator)
-    {
-        this.userManager = userManager;
-        this.viewModelBuilder = viewModelBuilder;
-        this.mediator = mediator;
-    }
-
     [Route("skater/skate-log")]
+    [ServiceFilter(typeof(SkateTeamActionFilter))]
     public async Task<IActionResult> Index()
     {
         var user = await userManager.GetStravaDetails(User);

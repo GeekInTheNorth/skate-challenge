@@ -3,6 +3,7 @@
 using System.Threading.Tasks;
 
 using AllInSkateChallenge.Features.Data.Entities;
+using AllInSkateChallenge.Features.SkateTeam;
 using AllInSkateChallenge.Features.Strava.User;
 
 using Microsoft.AspNetCore.Authorization;
@@ -10,18 +11,11 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 [Authorize]
-public class EventStatisticsController : Controller
+public sealed class EventStatisticsController(
+    IEventStatisticsViewModelBuilder viewModelBuilder, 
+    UserManager<ApplicationUser> userManager) : Controller
 {
-    private readonly IEventStatisticsViewModelBuilder viewModelBuilder;
-
-    private readonly UserManager<ApplicationUser> userManager;
-
-    public EventStatisticsController(IEventStatisticsViewModelBuilder viewModelBuilder, UserManager<ApplicationUser> userManager)
-    {
-        this.viewModelBuilder = viewModelBuilder;
-        this.userManager = userManager;
-    }
-
+    [ServiceFilter(typeof(SkateTeamActionFilter))]
     public async Task<IActionResult> Index()
     {
         var userDetails = await userManager.GetStravaDetails(User);
@@ -30,6 +24,7 @@ public class EventStatisticsController : Controller
         return View("~/Views/EventStatistics/Index.cshtml", model);
     }
 
+    [ServiceFilter(typeof(SkateTeamActionFilter))]
     public async Task<IActionResult> PreviousMonth()
     {
         var userDetails = await userManager.GetStravaDetails(User);
@@ -38,6 +33,7 @@ public class EventStatisticsController : Controller
         return View("~/Views/EventStatistics/Index.cshtml", model);
     }
 
+    [ServiceFilter(typeof(SkateTeamActionFilter))]
     public async Task<IActionResult> ThisMonth()
     {
         var userDetails = await userManager.GetStravaDetails(User);

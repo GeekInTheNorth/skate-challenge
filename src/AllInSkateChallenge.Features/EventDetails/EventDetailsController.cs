@@ -3,25 +3,19 @@
 using System.Threading.Tasks;
 
 using AllInSkateChallenge.Features.Data.Entities;
+using AllInSkateChallenge.Features.SkateTeam;
 using AllInSkateChallenge.Features.Strava.User;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
-public class EventDetailsController : Controller
+public sealed class EventDetailsController(
+    IEventDetailsViewModelBuilder viewModelBuilder, 
+    UserManager<ApplicationUser> userManager) : Controller
 {
-    private readonly IEventDetailsViewModelBuilder viewModelBuilder;
-
-    private readonly UserManager<ApplicationUser> userManager;
-
-    public EventDetailsController(IEventDetailsViewModelBuilder viewModelBuilder, UserManager<ApplicationUser> userManager)
-    {
-        this.viewModelBuilder = viewModelBuilder;
-        this.userManager = userManager;
-    }
-
     [Route("FAQ")]
+    [ServiceFilter(typeof(SkateTeamActionFilter))]
     public async Task<IActionResult> Faq()
     {
         var user = await userManager.GetStravaDetails(User);
@@ -31,6 +25,7 @@ public class EventDetailsController : Controller
     }
 
     [Route("TermsAndConditions")]
+    [ServiceFilter(typeof(SkateTeamActionFilter))]
     public async Task<IActionResult> TermsAndConditions()
     {
         var user = await userManager.GetStravaDetails(User);
@@ -41,6 +36,7 @@ public class EventDetailsController : Controller
 
     [Authorize]
     [Route("LeaderBoard")]
+    [ServiceFilter(typeof(SkateTeamActionFilter))]
     public async Task<IActionResult> LeaderBoard()
     {
         var user = await userManager.GetStravaDetails(User);
@@ -52,6 +48,7 @@ public class EventDetailsController : Controller
 
     [Authorize]
     [Route("LatestUpdates")]
+    [ServiceFilter(typeof(SkateTeamActionFilter))]
     public async Task<IActionResult> LatestUpdates()
     {
         var user = await userManager.GetStravaDetails(User);

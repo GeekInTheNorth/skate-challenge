@@ -145,6 +145,9 @@ public class Startup
         services.AddScoped<ICheckPointRepository, CheckPointRepository>();
         services.AddScoped<ISkateTeamRepository, SkateTeamRepository>();
 
+        // Actions
+        services.AddScoped<SkateTeamActionFilter>();
+
         // Commands & Queries
         services.AddMediatR(options =>
         {

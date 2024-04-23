@@ -14,6 +14,7 @@ public sealed class HomeController(
     ISkateTeamRepository skateTeamRepository, 
     UserManager<ApplicationUser> userManager) : Controller
 {
+    [ServiceFilter(typeof(SkateTeamActionFilter))]
     public async Task<IActionResult> Index()
     {
         var stravaDetails = await userManager.GetStravaDetails(User);

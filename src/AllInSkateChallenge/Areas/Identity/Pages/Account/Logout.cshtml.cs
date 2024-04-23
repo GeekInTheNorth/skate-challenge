@@ -1,42 +1,49 @@
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+
 using AllInSkateChallenge.Features.Data.Entities;
+
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 
-namespace AllInSkateChallenge.Areas.Identity.Pages.Account
+namespace AllInSkateChallenge.Areas.Identity.Pages.Account;
+
+[AllowAnonymous]
+[IgnoreAntiforgeryToken]
+public class LogoutModel : PageModel
 {
-    [AllowAnonymous]
-    [IgnoreAntiforgeryToken]
-    public class LogoutModel : PageModel
+    private readonly SignInManager<ApplicationUser> _signInManager;
+    private readonly ILogger<LogoutModel> _logger;
+
+    public LogoutModel(SignInManager<ApplicationUser> signInManager, ILogger<LogoutModel> logger)
     {
-        private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly ILogger<LogoutModel> _logger;
+        _signInManager = signInManager;
+        _logger = logger;
+    }
 
-        public LogoutModel(SignInManager<ApplicationUser> signInManager, ILogger<LogoutModel> logger)
+    public void OnGet()
+    {
+    }
+
+    public async Task<IActionResult> OnPost(string returnUrl = null)
+    {
+        await _signInManager.SignOutAsync();
+        
+        if (Request.Cookies.ContainsKey("SkateTeam"))
         {
-            _signInManager = signInManager;
-            _logger = logger;
+            Response.Cookies.Delete("SkateTeam");
         }
 
-        public void OnGet()
+        _logger.LogInformation("User logged out.");
+        if (returnUrl != null)
         {
+            return LocalRedirect(returnUrl);
         }
-
-        public async Task<IActionResult> OnPost(string returnUrl = null)
+        else
         {
-            await _signInManager.SignOutAsync();
-            _logger.LogInformation("User logged out.");
-            if (returnUrl != null)
-            {
-                return LocalRedirect(returnUrl);
-            }
-            else
-            {
-                return RedirectToPage();
-            }
+            return RedirectToPage();
         }
     }
 }

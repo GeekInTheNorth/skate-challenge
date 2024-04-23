@@ -3,7 +3,9 @@
 
 @if (Model is { Count: >0 })
 {
-    <h1>Select Your Skate Team</h1>
+    <div class="row mb-3">
+        <h1>Select Your Skate Team</h1>
+    </div>
 
     <form id="teamSelectForm" method="post" asp-controller="SkateTeamSelection" asp-action="Select" asp-antiforgery="true">
         <div class="row">
@@ -11,10 +13,14 @@
             {
                 <div class="col-12 col-lg-4">
                     <div class="card">
-                        <img src="@team.Logo" class="card-img-top" alt="@team.Name">
+                        @if (!string.IsNullOrWhiteSpace(team.Logo))
+                        {
+                            <img src="@team.Logo" class="card-img-top" alt="@team.Name">
+                        }
                         <div class="card-body">
                             <h5 class="card-title">@team.Name</h5>
-                            <div class="card-text">@Html.Raw(team.RichDescription)</div>
+                            <div class="card-text mb-3">@Html.Raw(team.RichDescription)</div>
+                            <div class="card-text mb-3">This team currently has @team.TeamMembers members.</div>
                             <button type="submit" class="btn btn-primary" name="skateTeam" value="@team.Id">Select This Team</button>
                         </div>
                     </div>
