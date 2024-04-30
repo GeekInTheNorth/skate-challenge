@@ -15,6 +15,7 @@ using AllInSkateChallenge.Features.Gravatar;
 using MediatR;
 
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 
 public sealed class EventStatisticsQueryHandler : IRequestHandler<EventStatisticsQuery, EventStatisticsQueryResponse>
 {
@@ -26,16 +27,20 @@ public sealed class EventStatisticsQueryHandler : IRequestHandler<EventStatistic
 
     private readonly ICheckPointRepository checkPointRepository;
 
+    private readonly ChallengeSettings settings;
+
     public EventStatisticsQueryHandler(
         ApplicationDbContext context,
         IGravatarResolver gravatarResolver,
         ISkaterTargetAnalyser skaterTargetAnalyser, 
-        ICheckPointRepository checkPointRepository)
+        ICheckPointRepository checkPointRepository,
+        IOptions<ChallengeSettings> options)
     {
         this.context = context;
         this.gravatarResolver = gravatarResolver;
         this.skaterTargetAnalyser = skaterTargetAnalyser;
         this.checkPointRepository = checkPointRepository;
+        this.settings = options.Value;
     }
 
     public async Task<EventStatisticsQueryResponse> Handle(EventStatisticsQuery request, CancellationToken cancellationToken)
@@ -54,12 +59,18 @@ public sealed class EventStatisticsQueryHandler : IRequestHandler<EventStatistic
         }
 
         var allSkaters = await context.Users.Where(x => x.HasPaid).ToListAsync(cancellationToken);
-        var skaterLogs = allSkaters.Select(x => skaterTargetAnalyser.Analyse(x, allSessions)).Where(x => x.TotalSessions > 0).ToList();
         var allWeeks = GetAllWeeks(allSessions);
 
         if (doingPeriodRange)
         {
             allWeeks = allWeeks.Where(x => x.Item1 <= request.DateTo.Value).ToList();
+        }
+
+        var checkPoints = new List<CheckPointStatisticsModel>();
+        if (settings.ChallengeMode == ChallengeMode.Individual)
+        {
+            var skaterLogs = allSkaters.Select(x => skaterTargetAnalyser.Analyse(x, allSessions)).Where(x => x.TotalSessions > 0).ToList();
+            checkPoints.AddRange(GetCheckPointStatistics(skaterLogs));
         }
 
         return new EventStatisticsQueryResponse
@@ -80,7 +91,7 @@ public sealed class EventStatisticsQueryHandler : IRequestHandler<EventStatistic
             JourneysByManual = allSessions.Count(x => string.IsNullOrWhiteSpace(x.StravaId)),
             SkateDistances = GetKilometresPerWeek(allSessions, allWeeks).ToList(),
             SkateSessions = GetSessionsPerWeek(allSessions, allWeeks).ToList(),
-            CheckPoints = GetCheckPointStatistics(skaterLogs).ToList(),
+            CheckPoints = checkPoints,
             ActivitiesByDay = GetActivitiesPerWeekDay(allSessions).ToList(),
             KilometresByDay = GetDistancePerWeekDay(allSessions).ToList()
         };
@@ -298,6 +309,11 @@ public sealed class EventStatisticsQueryHandler : IRequestHandler<EventStatistic
 
     private IEnumerable<CheckPointStatisticsModel> GetCheckPointStatistics(List<SkaterTargetAnalysis> skaterAnalyses)
     {
+        if (settings.ChallengeMode == ChallengeMode.Team)
+        {
+            yield break;
+        }
+
         var checkPoints = checkPointRepository.Get().Skip(1).ToList();
         foreach(var checkPoint in checkPoints)
         {
