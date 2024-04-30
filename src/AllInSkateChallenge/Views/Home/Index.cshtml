@@ -52,17 +52,23 @@
         <div class="col-xl-6 mb-3">
             <h2>Leader Board</h2>
             <vc:leader-board user="@Model.CurrentUser" show-filter="false" limit="10"></vc:leader-board>
-            <div class="text-center">
-                <a asp-controller="EventDetails" asp-action="LeaderBoard" class="btn btn-primary">See All Leader Boards</a>
-            </div>
+            @if (Model.Content.ShowLeaderBoardButton)
+            {
+                <div class="text-center">
+                    <a asp-controller="EventDetails" asp-action="LeaderBoard" class="btn btn-primary">See All Leader Boards</a>
+                </div>
+            }
         </div>
 
         <div class="col-xl-6 mb-3">
             <h2>Latest Journeys</h2>
             <vc:latest-updates take="10" skip="0" show-load-more="false" show-journey-name="false"></vc:latest-updates>
-            <div class="text-center">
-                <a asp-controller="EventDetails" asp-action="LatestUpdates" class="btn btn-primary">See All Updates</a>
-            </div>
+            @if (Model.Content.ShowAllUpdatesButton)
+            {
+                <div class="text-center">
+                    <a asp-controller="EventDetails" asp-action="LatestUpdates" class="btn btn-primary">See All Updates</a>
+                </div>
+            }
         </div>
     }
 </div>
