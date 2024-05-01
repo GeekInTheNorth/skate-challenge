@@ -14,6 +14,9 @@ public sealed class CustomTypeProvider : ITypeProvider
         } else if (contentType.IsAssignableFrom(typeof(SkateTeamData)))
         {
             return "skate_team";
+        } else if (contentType.IsAssignableFrom(typeof(HomePageData)))
+        {
+            return "home_page";
         }
 
         throw new NotImplementedException();
@@ -25,6 +28,7 @@ public sealed class CustomTypeProvider : ITypeProvider
         {
             "checkpoint" => typeof(CheckpointData),
             "skate_team" => typeof(SkateTeamData),
+            "home_page" => typeof(HomePageData),
             _ => throw new NotImplementedException(),
         };
     }

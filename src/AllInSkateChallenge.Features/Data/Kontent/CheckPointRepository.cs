@@ -9,16 +9,9 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace AllInSkateChallenge.Features.Data.Kontent;
 
-public sealed class CheckPointRepository : ICheckPointRepository
+public sealed class CheckPointRepository(IDeliveryClient deliveryClient) : ICheckPointRepository
 {
-    private readonly IDeliveryClient _deliveryClient;
-
     private List<CheckPointModel> _checkPoints;
-
-    public CheckPointRepository(IDeliveryClient deliveryClient)
-    {
-        _deliveryClient = deliveryClient;
-    }
 
     public List<CheckPointModel> Get()
     {
@@ -27,25 +20,25 @@ public sealed class CheckPointRepository : ICheckPointRepository
             return _checkPoints;
         }
 
-        var response = _deliveryClient.GetItemsAsync<CheckpointData>().GetAwaiter().GetResult();
+        var response = deliveryClient.GetItemsAsync<CheckpointData>().GetAwaiter().GetResult();
 
         _checkPoints = response.Items
-                                  .OrderBy(x => x.DistanceFromStart)
-                                  .ThenBy(x => x.Title)
-                                  .Select((cp, index) => new CheckPointModel
-                                  {
-                                      SkateTarget = index,
-                                      DistanceInKilometers = cp.DistanceFromStart,
-                                      Title = cp.Title,
-                                      Description = cp.Description,
-                                      Latitude = cp.Latitude,
-                                      Longitude = cp.Longitude,
-                                      Links = GetLinks(cp).ToList(),
-                                      Image = cp.Image.GetSingleUrl(),
-                                      AllImages = cp.Image.GetAllUrls().ToList(),
-                                      DigitalBadge = cp.DigitalBadge.GetSingleUrl(),
-                                      IsEndPoint = cp.IsPersonalTarget.GetBoolean()
-                                  }).ToList();
+                               .OrderBy(x => x.DistanceFromStart)
+                               .ThenBy(x => x.Title)
+                               .Select((cp, index) => new CheckPointModel
+                               {
+                                   SkateTarget = index,
+                                   DistanceInKilometers = cp.DistanceFromStart,
+                                   Title = cp.Title,
+                                   Description = cp.Description,
+                                   Latitude = cp.Latitude,
+                                   Longitude = cp.Longitude,
+                                   Links = GetLinks(cp).ToList(),
+                                   Image = cp.Image.GetSingleUrl(),
+                                   AllImages = cp.Image.GetAllUrls().ToList(),
+                                   DigitalBadge = cp.DigitalBadge.GetSingleUrl(),
+                                   IsEndPoint = cp.IsPersonalTarget.GetBoolean()
+                               }).ToList();
 
         _checkPoints.Last().IsEndPoint = true;
 

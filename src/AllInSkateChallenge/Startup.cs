@@ -23,6 +23,8 @@ using AllInSkateChallenge.Features.Strava;
 
 using Kontent.Ai.Delivery;
 using Kontent.Ai.Delivery.Abstractions;
+using Kontent.Ai.Delivery.Caching;
+using Kontent.Ai.Delivery.Caching.Extensions;
 using Kontent.Ai.Delivery.Extensions;
 
 using Microsoft.AspNetCore.Builder;
@@ -106,6 +108,13 @@ public class Startup
         services.AddHttpClient<IDeliveryHttpClient, DeliveryHttpClient>();
         services.AddTransient<ITypeProvider, CustomTypeProvider>();
 
+        services.AddDeliveryClientCache(new DeliveryCacheOptions
+        {
+            CacheType = CacheTypeEnum.Memory,
+            StaleContentExpiration = TimeSpan.FromSeconds(30),
+            DefaultExpiration = TimeSpan.FromMinutes(15)
+        });
+
         // Route Helping
         services.Configure<RouteSettings>(options => Configuration.GetSection("RouteSettings").Bind(options));
         services.AddSingleton<IAbsoluteUrlHelper, AbsoluteUrlHelper>();
@@ -144,6 +153,7 @@ public class Startup
         // Data
         services.AddScoped<ICheckPointRepository, CheckPointRepository>();
         services.AddScoped<ISkateTeamRepository, SkateTeamRepository>();
+        services.AddScoped<IHomePageRepository, HomePageRepository>();
 
         // Actions
         services.AddScoped<SkateTeamActionFilter>();
