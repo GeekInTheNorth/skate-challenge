@@ -4,6 +4,8 @@ using AllInSkateChallenge.Features.Common;
 
 public class PersonalStatisticsViewModel
 {
+    public string Title { get; set; }
+
     public decimal LongestDistanceMiles { get; set; }
 
     public decimal LongestDistanceKilometres => Conversion.MilesToKilometres(LongestDistanceMiles);

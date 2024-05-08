@@ -9,9 +9,12 @@ namespace AllInSkateChallenge.Features.Skater.PersonalStatistics;
 
 public class PersonalStatisticsViewComponent : ViewComponent
 {
-    public IViewComponentResult Invoke(List<SkateLogEntry> mileageEntries)
+    public IViewComponentResult Invoke(List<SkateLogEntry> mileageEntries, string title)
     {
-        var model = new PersonalStatisticsViewModel();
+        var model = new PersonalStatisticsViewModel
+        {
+            Title = title ?? "Your Personal Summary"
+        };
 
         if (mileageEntries != null && mileageEntries.Any())
         {

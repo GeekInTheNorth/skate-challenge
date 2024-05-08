@@ -1,0 +1,15 @@
+﻿@using AllInSkateChallenge.Features.SkateTeam.Progress
+@using AllInSkateChallenge.Features.Framework.Models
+
+@model PageViewModel<TeamProgressViewModel>
+
+@{
+    Layout = "_PageViewModelLayout";
+}
+
+@if(Model.Content.SkateTeam is not null)
+{
+    <vc:personal-statistics mileage-entries="@Model.Content.UserEntries" title="@Model.Content.SkateTeam.Name Summary"></vc:personal-statistics>
+}
+
+<vc:personal-statistics mileage-entries="@Model.Content.UserEntries" title="Your Personal Summary"></vc:personal-statistics>

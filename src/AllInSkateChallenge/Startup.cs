@@ -17,6 +17,7 @@ using AllInSkateChallenge.Features.Skater.Progress;
 using AllInSkateChallenge.Features.Skater.SkateLog;
 using AllInSkateChallenge.Features.Skater.StravaImport;
 using AllInSkateChallenge.Features.SkateTeam;
+using AllInSkateChallenge.Features.SkateTeam.Progress;
 using AllInSkateChallenge.Features.Statistics;
 using AllInSkateChallenge.Features.Statistics.Leaders;
 using AllInSkateChallenge.Features.Strava;
@@ -149,6 +150,7 @@ public class Startup
         services.AddTransient<IErrorViewModelBuilder, ErrorViewModelBuilder>();
         services.AddTransient<IEventStatisticsViewModelBuilder, EventStatisticsViewModelBuilder>();
         services.AddTransient<IStatisticLeadersViewModelBuilder, StatisticLeadersViewModelBuilder>();
+        services.AddTransient<ITeamProgressViewModelBuilder, TeamProgressViewModelBuilder>();
 
         // Data
         services.AddScoped<ICheckPointRepository, CheckPointRepository>();

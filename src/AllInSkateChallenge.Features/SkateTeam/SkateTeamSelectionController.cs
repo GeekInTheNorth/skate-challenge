@@ -26,7 +26,7 @@ public sealed class SkateTeamSelectionController (
         
         var teams = await skateTeamRepository.GetAsync();
 
-        return View(teams);
+        return View("~/Views/SkateTeam/Selection.cshtml", teams);
     }
 
     [HttpPost]

@@ -5,7 +5,7 @@
     Layout = "_PageViewModelLayout";
 }
 
-<vc:personal-statistics mileage-entries="@Model.Content.Entries"></vc:personal-statistics>
+<vc:personal-statistics mileage-entries="@Model.Content.Entries" title="Your Personal Summary"></vc:personal-statistics>
 
 @if (Model.Content.CheckPointsReached != null && Model.Content.CheckPointsReached.Any())
 {
