@@ -18,19 +18,18 @@ public sealed class HomeController(
     public async Task<IActionResult> Index()
     {
         var stravaDetails = await userManager.GetStravaDetails(User);
-
         var model = await viewModelBuilder.WithUser(stravaDetails).Build();
 
-        if (User.Identity.IsAuthenticated)
-        { 
-            if (!User.IsInRole("Administrator"))
-            {
-                var user = await userManager.GetUserAsync(User);
-                await userManager.AddToRoleAsync(user, "Administrator");
-            }
-        }
+        // if (User.Identity.IsAuthenticated)
+        // { 
+        //     if (!User.IsInRole("Administrator"))
+        //     {
+        //         var user = await userManager.GetUserAsync(User);
+        //         await userManager.AddToRoleAsync(user, "Administrator");
+        //     }
+        // }
 
-        var teams = await skateTeamRepository.GetAsync();
+        // var teams = await skateTeamRepository.GetAsync();
 
         return View(model);
     }
