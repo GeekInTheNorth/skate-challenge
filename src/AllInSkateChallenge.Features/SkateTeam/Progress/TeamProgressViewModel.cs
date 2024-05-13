@@ -14,4 +14,6 @@ public sealed class TeamProgressViewModel
     public List<CheckPointModel> CheckpointsReached { get; internal set; }
 
     public SkateTeamModel SkateTeam { get; internal set; }
+
+    public List<string> TeamMembers { get; internal set; }
 }

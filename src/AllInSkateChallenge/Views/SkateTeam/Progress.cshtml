@@ -7,9 +7,31 @@
     Layout = "_PageViewModelLayout";
 }
 
+@if (!string.IsNullOrWhiteSpace(Model.Content.SkateTeam?.Logo))
+{
+    <div class="card mb-3 border-allin-green">
+        <div class="row g-0">
+            <div class="col-md-4">
+                <img src="@Model.Content.SkateTeam.Logo" class="img-fluid rounded-start" alt="@Model.Content.SkateTeam.Name Logo">
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    @Html.Raw(Model.Content.SkateTeam.RichDescription)
+                    @if (Model.Content.TeamMembers is { Count: > 1 })
+                    {
+                        <p>@Model.Content.SkateTeam.Name has the following active team members:</p>
+                        <p>@string.Join(" • ", Model.Content.TeamMembers)</p>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
 @if(Model.Content.SkateTeam is not null)
 {
-    <vc:personal-statistics mileage-entries="@Model.Content.UserEntries" title="@Model.Content.SkateTeam.Name Summary"></vc:personal-statistics>
+    <vc:personal-statistics mileage-entries="@Model.Content.TeamEntries" title="@Model.Content.SkateTeam.Name Summary"></vc:personal-statistics>
 }
 
 <vc:personal-statistics mileage-entries="@Model.Content.UserEntries" title="Your Personal Summary"></vc:personal-statistics>

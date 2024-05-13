@@ -7,5 +7,7 @@ namespace AllInSkateChallenge.Features.Skater.SkateLog
     public class SkaterLogQuery : IRequest<SkaterLogQueryResponse>
     {
         public ApplicationUser Skater { get; set; }
+
+        public bool IncludeTeam { get; set; }
     }
 }
