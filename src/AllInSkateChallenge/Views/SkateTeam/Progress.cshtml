@@ -29,9 +29,135 @@
 }
 
 
-@if(Model.Content.SkateTeam is not null)
+@if (Model.Content.SkateTeam is not null && Model.Content.TeamEntries is { Count: >0 })
 {
     <vc:personal-statistics mileage-entries="@Model.Content.TeamEntries" title="@Model.Content.SkateTeam.Name Summary"></vc:personal-statistics>
 }
 
-<vc:personal-statistics mileage-entries="@Model.Content.UserEntries" title="Your Personal Summary"></vc:personal-statistics>
+@if (Model.Content.UserEntries is { Count: >0 })
+{
+    <vc:personal-statistics mileage-entries="@Model.Content.UserEntries" title="My Contribution"></vc:personal-statistics>
+}
+
+@if (Model.Content.CheckPointsReached is { Count: >0 })
+{
+    var isLeft = false;
+    <div class="timeline">
+        <div class="timeline-container-header">
+            <div class="timeline-content-header card border-allin-green">
+                <h2 class="card-header bg-allin-green text-dark">Distance Travelled</h2>
+                <p class="card-body">@Model.Content.SkateTeam.Name have collectively skated @Model.Content.KilometersSkated.ToString("F2") of their goal of @Model.Content.TargetKilometers.ToString("F1") kilometers.</p>
+            </div>
+        </div>
+
+        @foreach (var checkPoint in Model.Content.CheckPointsReached)
+        {
+            isLeft = !isLeft;
+            var alignmentClass = isLeft ? "timeline-container--left" : "timeline-container--right";
+            <div class="timeline-container @alignmentClass">
+                <div class="timeline-content card border-allin-green">
+                    <h3 class="card-header text-dark bg-allin-green">@checkPoint.Title</h3>
+                    @if (!string.IsNullOrWhiteSpace(checkPoint.DigitalBadge) && string.IsNullOrWhiteSpace(checkPoint.FinisherDigitalBadge))
+                    {
+                        <img src="@checkPoint.DigitalBadge" class="img-fluid timeline-badge" alt="@checkPoint.Title" />
+                    }
+                    @if (!string.IsNullOrWhiteSpace(checkPoint.DigitalBadge) && !string.IsNullOrWhiteSpace(checkPoint.FinisherDigitalBadge))
+                    {
+                        <div id="digitalBadgeCarousel" class="carousel slide" data-ride="carousel">
+                            <ol class="carousel-indicators">
+                                <li data-target="#digitalBadgeCarousel" data-slide-to="0" class="active"></li>
+                                <li data-target="#digitalBadgeCarousel" data-slide-to="1"></li>
+                            </ol>
+                            <div class="carousel-inner">
+                                <div class="carousel-item active">
+                                    <img src="@checkPoint.DigitalBadge" class="d-block w-100 timeline-badge" alt="@checkPoint.Title">
+                                </div>
+                                <div class="carousel-item">
+                                    <img src="@checkPoint.FinisherDigitalBadge" class="d-block w-100 timeline-badge" alt="Finisher's Badge">
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    <div class="card-body">
+                        <p>Distance: @checkPoint.DistanceInKilometers.ToString("F2") kilometers</p>
+@*                         @if (checkPoint.DateAchieved.HasValue)
+                        {
+                            <p>Achieved: @checkPoint.DateAchieved.Value.ToString("dd/MM/yyyy")</p>
+                        } *@
+                        <p>@checkPoint.Description</p>
+                    </div>
+                    <div class="card-footer text-dark bg-allin-green">
+                        <p>Links:</p>
+                        <ul>
+                            @if (!string.IsNullOrWhiteSpace(checkPoint.DigitalBadge))
+                            {
+                                <li><a href="@checkPoint.DigitalBadge" download="@checkPoint.DigitalBadgeName" class="timeline-link">Download the Checkpoint Badge</a></li>
+                            }
+                            <li><a href="http://www.google.com/maps/place/@checkPoint.Latitude,@checkPoint.Longitude?zoom=1" target="_blank" class="timeline-link">See it on the Map</a></li>
+                            @foreach (var link in checkPoint.Links)
+                            {
+                                <li><a href="@link.Url" target="_blank" class="timeline-link" title="@link.Title">@link.Title</a></li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        }
+
+        <div class="timeline-container-header">
+            <div class="timeline-content-header card border-allin-green">
+                <h3 class="card-header text-dark bg-allin-green">@Model.Content.NextCheckPoint.Title</h3>
+                @if (!string.IsNullOrWhiteSpace(Model.Content.NextCheckPoint.DigitalBadge) && string.IsNullOrWhiteSpace(Model.Content.NextCheckPoint.FinisherDigitalBadge))
+                {
+                    <img src="@Model.Content.NextCheckPoint.DigitalBadge" class="img-fluid timeline-badge" alt="@Model.Content.NextCheckPoint.Title" />
+                }
+                @if (!string.IsNullOrWhiteSpace(Model.Content.NextCheckPoint.DigitalBadge) && !string.IsNullOrWhiteSpace(Model.Content.NextCheckPoint.FinisherDigitalBadge))
+                {
+                    <div id="digitalBadgeCarousel" class="carousel slide" data-ride="carousel">
+                        <ol class="carousel-indicators">
+                            <li data-target="#digitalBadgeCarousel" data-slide-to="0" class="active"></li>
+                            <li data-target="#digitalBadgeCarousel" data-slide-to="1"></li>
+                        </ol>
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <img src="@Model.Content.NextCheckPoint.DigitalBadge" class="d-block w-100 timeline-badge" alt="@Model.Content.NextCheckPoint.Title">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="@Model.Content.NextCheckPoint.FinisherDigitalBadge" class="d-block w-100 timeline-badge" alt="Finisher's Badge">
+                            </div>
+                        </div>
+                    </div>
+                }
+                <div class="card-body">
+                    @if (Model.Content.NextCheckPoint.DistanceInKilometers != 0)
+                    {
+                        <p>Distance: @Model.Content.NextCheckPoint.DistanceInKilometers.ToString("F2") kilometers</p>
+@*                         @if (Model.Content.NextCheckPoint.DateAchieved.HasValue)
+                        {
+                            <p>Achieved: @Model.Content.NextCheckPoint.DateAchieved.Value.ToString("dd/MM/yyyy HH:mm")</p>
+                        } *@
+                    }
+                    <p>@Model.Content.NextCheckPoint.Description</p>
+                </div>
+                <div class="card-footer text-dark bg-allin-green">
+                    <p>Links:</p>
+                    <ul>
+                        @if (!string.IsNullOrWhiteSpace(Model.Content.NextCheckPoint.DigitalBadge))
+                        {
+                            <li><a href="@Model.Content.NextCheckPoint.DigitalBadge" download="@Model.Content.NextCheckPoint.DigitalBadgeName" class="timeline-link">Download the Checkpoint Badge</a></li>
+                        }
+                        @if (!string.IsNullOrWhiteSpace(Model.Content.NextCheckPoint.FinisherDigitalBadge))
+                        {
+                            <li><a href="@Model.Content.NextCheckPoint.FinisherDigitalBadge" download="@Model.Content.NextCheckPoint.FinisherDigitalBadgeName" class="timeline-link">Download the Finisher Badge</a></li>
+                        }
+                        <li><a href="http://www.google.com/maps/place/@Model.Content.NextCheckPoint.Latitude,@Model.Content.NextCheckPoint.Longitude?zoom=1" target="_blank" class="timeline-link">See it on the Map</a></li>
+                        @foreach (var link in Model.Content.NextCheckPoint.Links)
+                        {
+                            <li><a href="@link.Url" target="_blank" class="timeline-link" title="@link.Title">@link.Title</a></li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+}

@@ -35,7 +35,6 @@ public sealed class TeamProgressViewModelBuilder(ICheckPointRepository checkPoin
         model.IsNoIndexPage = true;
         model.Content.UserEntries = commandResponse.Entries ?? [];
         model.Content.TeamEntries = commandResponse.TeamEntries ?? [];
-        model.Content.CheckpointsReached = checkPointRepository.GetGoalCheckpoints();
 
         var teams = await skateTeamRepository.GetAsync();
         var skatersTeam = teams.FirstOrDefault(x => x.Id == User.Team);
@@ -45,6 +44,12 @@ public sealed class TeamProgressViewModelBuilder(ICheckPointRepository checkPoin
             model.DisplayPageTitle = $"{skatersTeam.Name}";
             model.Content.SkateTeam = skatersTeam;
         }
+
+        var allCheckpoints = checkPointRepository.Get();
+        model.Content.KilometersSkated = model.Content.TeamEntries.Sum(x => x.DistanceInKilometres);
+        model.Content.TargetKilometers = allCheckpoints.Max(x => x.DistanceInKilometers);
+        model.Content.CheckPointsReached = allCheckpoints.Where(x => x.DistanceInKilometers <= model.Content.KilometersSkated).ToList();
+        model.Content.NextCheckPoint = allCheckpoints.OrderBy(x => x.DistanceInKilometers).FirstOrDefault(x => x.DistanceInKilometers > model.Content.KilometersSkated);
 
         model.Content.TeamMembers = await userManager.Users.Where(x => x.Team == User.Team && x.HasPaid).OrderBy(x => x.SkaterName).Select(x => x.SkaterName).ToListAsync();
 
