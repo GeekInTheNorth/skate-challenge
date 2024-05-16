@@ -16,40 +16,38 @@ using MediatR.Pipeline;
 
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
-public class SendProgressUpdateEventHandler : IRequestPostProcessor<SaveActivityCommand, SaveActivityCommandResult>
+public class SendProgressUpdateEventHandler(
+    ApplicationDbContext context,
+    ICheckPointRepository checkPointRepository,
+    IViewToStringRenderer viewToStringRenderer,
+    IAbsoluteUrlHelper absoluteUrlHelper,
+    IEmailSender emailSender,
+    IOptions<ChallengeSettings> challengeSettings,
+    ILogger<SaveActivityCommandHandler> logger)
+    : IRequestPostProcessor<SaveActivityCommand, SaveActivityCommandResult>
 {
-    private readonly ApplicationDbContext context;
+    private readonly ApplicationDbContext context = context;
 
-    private readonly ICheckPointRepository checkPointRepository;
+    private readonly ICheckPointRepository checkPointRepository = checkPointRepository;
 
-    private readonly IViewToStringRenderer viewToStringRenderer;
+    private readonly IViewToStringRenderer viewToStringRenderer = viewToStringRenderer;
 
-    private readonly IAbsoluteUrlHelper absoluteUrlHelper;
+    private readonly IAbsoluteUrlHelper absoluteUrlHelper = absoluteUrlHelper;
 
-    private readonly IEmailSender emailSender;
+    private readonly IEmailSender emailSender = emailSender;
 
-    private readonly ILogger<SaveActivityCommandHandler> logger;
+    private readonly ChallengeSettings settings = challengeSettings.Value;
 
-    public SendProgressUpdateEventHandler(
-        ApplicationDbContext context,
-        ICheckPointRepository checkPointRepository,
-        IViewToStringRenderer viewToStringRenderer,
-        IAbsoluteUrlHelper absoluteUrlHelper,
-        IEmailSender emailSender, 
-        ILogger<SaveActivityCommandHandler> logger)
-    {
-        this.context = context;
-        this.checkPointRepository = checkPointRepository;
-        this.viewToStringRenderer = viewToStringRenderer;
-        this.absoluteUrlHelper = absoluteUrlHelper;
-        this.emailSender = emailSender;
-        this.logger = logger;
-    }
+    private readonly ILogger<SaveActivityCommandHandler> logger = logger;
 
     public async Task Process(SaveActivityCommand request, SaveActivityCommandResult response, CancellationToken cancellationToken)
     {
-        if (!response.WasSuccessful || !request.Skater.AcceptProgressNotifications || !request.Skater.EmailConfirmed) return;
+        if (!response.WasSuccessful || 
+            !request.Skater.AcceptProgressNotifications || 
+            !request.Skater.EmailConfirmed || 
+            settings.ChallengeMode == ChallengeMode.Team) return;
 
         try
         {

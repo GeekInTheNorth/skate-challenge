@@ -2,6 +2,7 @@ namespace AllInSkateChallenge;
 
 using System;
 
+using AllInSkateChallenge.Features.Activities;
 using AllInSkateChallenge.Features.Common;
 using AllInSkateChallenge.Features.Data;
 using AllInSkateChallenge.Features.Data.Entities;
@@ -21,6 +22,7 @@ using AllInSkateChallenge.Features.SkateTeam.Progress;
 using AllInSkateChallenge.Features.Statistics;
 using AllInSkateChallenge.Features.Statistics.Leaders;
 using AllInSkateChallenge.Features.Strava;
+using AllInSkateChallenge.Features.Strava.Webhook.Deauthorise;
 
 using Kontent.Ai.Delivery;
 using Kontent.Ai.Delivery.Abstractions;
@@ -164,6 +166,10 @@ public class Startup
         services.AddMediatR(options =>
         {
             options.RegisterServicesFromAssemblyContaining(typeof(StravaPendingImportsQuery));
+            options.AddRequestPreProcessor<SaveActivityCommandPreProcessor>();
+            options.AddRequestPostProcessor<SendProgressUpdateEventHandler>();
+            options.AddRequestPostProcessor<StoreEventStatisticsQueryResultPostProcessor>();
+            options.AddRequestPostProcessor<DeauthoriseStravaUserCommandNotificationHandler>();
         });
 
         // Misc
