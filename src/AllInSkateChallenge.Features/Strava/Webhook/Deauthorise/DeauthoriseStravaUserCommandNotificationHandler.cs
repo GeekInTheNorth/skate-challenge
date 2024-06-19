@@ -40,7 +40,7 @@ public class DeauthoriseStravaUserCommandNotificationHandler : IRequestPostProce
 
         try
         {
-            response.LogoUrl = absoluteUrlHelper.Get("/rggeventone/images/banner-desktop.png");
+            response.LogoUrl = absoluteUrlHelper.Get("/rggeventtwo/images/banner-desktop.png");
             var emailBody = await viewToStringRenderer.RenderPartialToStringAsync("~/Views/Email/DeAuthoriseEmail.cshtml", response);
 
             await emailSender.SendEmailAsync(response.UserDetails.Email, "Roller Girl Gang Virtual Skate Marathon", emailBody);

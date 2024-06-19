@@ -63,7 +63,7 @@ public class SendProgressUpdateEventHandler(
                 var isFinalCheckpoint = checkPointReached.SkateTarget.Equals(request.Skater.Target);
                 var emailModel = new SkaterProgressEmailViewModel
                 {
-                    LogoUrl = absoluteUrlHelper.Get("/rggeventone/images/banner-mobile.png"),
+                    LogoUrl = absoluteUrlHelper.Get("/rggeventtwo/images/banner-mobile.png"),
                     Skater = request.Skater,
                     CheckPoint = checkPointReached,
                     TotalKilometres = totalKilometres,

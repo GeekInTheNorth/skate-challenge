@@ -47,7 +47,7 @@ public class SendRegistrationEmailCommandHandler : IRequestHandler<SendRegistrat
 
             var emailModel = new RegistrationEmailModel
             {
-                LogoUrl = absoluteUrlHelper.Get("/rggeventone/images/banner-mobile.png"),
+                LogoUrl = absoluteUrlHelper.Get("/rggeventtwo/images/banner-mobile.png"),
                 EmailConfirmationUrl = request.EmailConfirmationUrl,
                 SiteUrl = absoluteUrlHelper.Get("/"),
                 LogMilesUrl = absoluteUrlHelper.Get("/skater/skate-log"),
