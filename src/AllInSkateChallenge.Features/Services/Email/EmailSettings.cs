@@ -2,6 +2,8 @@
 {
     public class EmailSettings
     {
+        public string CommResourceConnectionString { get; set; }
+
         public string SenderEmail { get; set; }
 
         public string SmtpServer { get; set; }

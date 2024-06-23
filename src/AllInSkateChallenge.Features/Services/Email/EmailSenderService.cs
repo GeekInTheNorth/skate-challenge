@@ -1,4 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
+
+using Azure.Communication.Email;
 
 using MailKit.Net.Smtp;
 
@@ -20,6 +23,18 @@ namespace AllInSkateChallenge.Features.Services.Email
 
         public async Task SendEmailAsync(string email, string subject, string htmlMessage)
         {
+            if (string.IsNullOrWhiteSpace(_emailSettings.CommResourceConnectionString))
+            {
+                await SendStandardEmailAsync(email, subject, htmlMessage);
+            }
+            else
+            {
+                await SendCommResourceEmailAsync(email, subject, htmlMessage);
+            }
+        }
+
+        private async Task SendStandardEmailAsync(string email, string subject, string htmlMessage)
+        {
             var mimeMessage = new MimeMessage();
             mimeMessage.From.Add(new MailboxAddress("Roller Girl Gang Skate Marathon", _emailSettings.SenderEmail));
             mimeMessage.To.Add(new MailboxAddress(email, email));
@@ -32,6 +47,24 @@ namespace AllInSkateChallenge.Features.Services.Email
                 await smtpClient.AuthenticateAsync(_emailSettings.UserName, _emailSettings.Password);
                 await smtpClient.SendAsync(mimeMessage);
                 await smtpClient.DisconnectAsync(true);
+            }
+        }
+
+        private async Task SendCommResourceEmailAsync(string email, string subject, string htmlMessage)
+        {
+            try
+            {
+                var emailClient = new EmailClient(_emailSettings.CommResourceConnectionString);
+                var result = await emailClient.SendAsync(
+                    Azure.WaitUntil.Started,
+                    _emailSettings.SenderEmail,
+                    email,
+                    subject,
+                    htmlMessage);
+            }
+            catch (Exception)
+            {
+                // Log the exception
             }
         }
     }

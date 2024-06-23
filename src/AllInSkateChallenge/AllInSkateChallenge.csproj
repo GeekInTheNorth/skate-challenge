@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <PackageReference Include="AspNet.Security.OAuth.Strava" Version="8.0.0" />
+    <PackageReference Include="Azure.Communication.Email" Version="1.0.1" />
     <PackageReference Include="Azure.Storage.Blobs" Version="12.19.1" />
     <PackageReference Include="Kontent.Ai.Delivery" Version="18.1.0" />
     <PackageReference Include="Kontent.Ai.Delivery.Caching" Version="18.1.0" />
