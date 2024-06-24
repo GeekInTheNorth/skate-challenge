@@ -7,7 +7,7 @@ namespace AllInSkateChallenge.Features.Skater.StravaImport
     {
         private static readonly string[] EligableActivities = { "IceSkate", "InlineSkate", "Skateboard" };
 
-        private static readonly DateTime EarliestDate = new DateTime(2023, 6, 1, 0, 0, 0);
+        private static readonly DateTime EarliestDate = new DateTime(2024, 6, 21, 0, 0, 0);
 
         public string ActivityId { get; set; }
 
