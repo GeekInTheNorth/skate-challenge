@@ -1,19 +1,22 @@
 ﻿@using AllInSkateChallenge.Features.SkateTeam
 @model List<SkateTeamModel>
 
-@if (Model is { Count: >0 })
+@if (Model is { Count: 1 })
 {
     <div class="row mb-3">
         <div class="col-12 text-center">
-            <h1>Select Your Skate Team</h1>
+            <h1>Meet Your Skate Team</h1>
         </div>
     </div>
 
     <form id="teamSelectForm" method="post" asp-controller="SkateTeamSelection" asp-action="Select" asp-antiforgery="true">
         <div class="row">
-            @foreach(var team in Model)
+
+            <div class="col-12 col-lg-3"></div>
+
+            @foreach (var team in Model)
             {
-                <div class="col-12 col-lg-4">
+                <div class="col-12 col-lg-6">
                     <div class="card">
                         @if (!string.IsNullOrWhiteSpace(team.Logo))
                         {
@@ -23,12 +26,18 @@
                             <h5 class="card-title">@team.Name</h5>
                             <div class="card-text mb-3">@Html.Raw(team.RichDescription)</div>
                             <div class="card-text mb-3">This team currently has @team.TeamMembers members.</div>
-                            <button type="submit" class="btn btn-primary" name="skateTeam" value="@team.Id">Select This Team</button>
+                            <button type="submit" class="btn btn-primary" name="skateTeam" value="@team.Id">Get Started With Your Team</button>
                         </div>
                     </div>
                 </div>
             }
+
+            @if (Model.Count == 1)
+            {
+                <div class="col-12 col-lg-3"></div>
+            }
+
         </div>
     </form>
-    
+
 }

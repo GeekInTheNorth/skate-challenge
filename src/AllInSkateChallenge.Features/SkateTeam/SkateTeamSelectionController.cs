@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 using AllInSkateChallenge.Features.Data.Entities;
@@ -25,6 +26,13 @@ public sealed class SkateTeamSelectionController (
         }
         
         var teams = await skateTeamRepository.GetAsync();
+
+        if (DateTime.Today >= new DateTime(2024, 7, 1))
+        {
+            teams = teams.OrderBy(x => x.TeamMembers).Take(1).ToList();
+
+            return View("~/Views/SkateTeam/JoinTeam.cshtml", teams);
+        }
 
         return View("~/Views/SkateTeam/Selection.cshtml", teams);
     }
